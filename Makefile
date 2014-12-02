@@ -1,4 +1,4 @@
-JS: src/util.js test/test-util.js
+JS: src/util.js test/test-unique.js test/test-stats.js
 .PHONY: JS
 
 COFFEE_ARGS = -c # use -cm for debugging; -c otherwise
