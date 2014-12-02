@@ -24,3 +24,13 @@ QUnit.test "stats", (assert) ->
     assert.deepEqual( sd_by_group(grp, val), exp_sd, "SDs")
     assert.deepEqual( count_groups(grp, val), exp_count, "counts")
     assert.deepEqual( ci_by_group(grp, val), exp_ci, "CIs")
+
+    assert.equal( median(null), null, "median of null")
+    assert.equal( median([null]), null, "median of null")
+    assert.equal( median([null, null]), null, "median of null")
+    assert.equal( median([]), null, "median of null")
+
+    assert.equal( median([1, 2, 1.5, 88, 2.5]), 2, "median (1)")
+    assert.equal( median([1, 2, 1.5, 2.5]), 1.75, "median (2)")
+    assert.equal( median([1, null, 2, 1.5, 88, 2.5, null]), 2, "median w/ nulls (1)")
+    assert.equal( median([1, null, 2, 1.5, 2.5, null]), 1.75, "median w/ nulls (2)")
