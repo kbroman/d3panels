@@ -1,4 +1,4 @@
-JS: src/util.js test/test-unique.js test/test-stats.js test/test-formatAxis.js test/test-pullVarAsArray.js
+JS: src/util.js test/test-unique.js test/test-stats.js test/test-formatAxis.js test/test-pullVarAsArray.js test/test-expand2vector.js
 .PHONY: JS
 
 COFFEE_ARGS = -c # use -cm for debugging; -c otherwise
