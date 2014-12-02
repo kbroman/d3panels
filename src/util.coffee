@@ -76,21 +76,21 @@ matrixMin = (mat) ->
     result = mat[0][0]
     for i of mat
         for j of mat[i]
-            result = mat[i][j] if result > mat[i][j]
+            result = mat[i][j] if mat[i][j]? and result > mat[i][j]
     result
 
 matrixMax = (mat) ->
     result = mat[0][0]
     for i of mat
         for j of mat[i]
-            result = mat[i][j] if result < mat[i][j]
+            result = mat[i][j] if mat[i][j]? and result < mat[i][j]
     result
 
 matrixMaxAbs = (mat) ->
     result = Math.abs(mat[0][0])
     for i of mat
         for j of mat[i]
-            result = Math.abs(mat[i][j]) if result < Math.abs(mat[i][j])
+            result = Math.abs(mat[i][j]) if mat[i][j]? and result < Math.abs(mat[i][j])
     result
 
 matrixExtent = (mat) -> [matrixMin(mat), matrixMax(mat)]
