@@ -3,4 +3,4 @@ QUnit.test "test unique", (assert) ->
     output = unique(input)
     expected = [5, 6, 7]
 
-    assert.ok( _.isEqual( output , expected), "unique() passed")
+    assert.deepEqual( output , expected)
