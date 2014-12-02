@@ -1,4 +1,4 @@
-QUnit.test "test stats", (assert) ->
+QUnit.test "stats", (assert) ->
     val = [1.0, 2.0, 3.0, -Math.sqrt(2), Math.sqrt(2)]
     grp = [1,   1,   1,   2,   2]
     exp_mean = {"1":2.0, "2":0.0}
