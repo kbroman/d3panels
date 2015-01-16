@@ -11,9 +11,10 @@ out as a separate repository.)
 
 There are other libraries with similar goals that are of more general
 use (e.g., [C3.js](http://c3js.org) and
-[d3.Chart](http://misoproject.com/d3-chart/)), but I wanted charts
-that were a bit _less_ general and flexible, but rather more specific
-to my particular applications (and style).
+[d3.Chart](http://misoproject.com/d3-chart/); see
+[this list of javascript chart libraries](http://blog.webkid.io/javascript-chart-libraries/)),
+but I wanted charts that were a bit _less_ general and flexible, but
+rather more specific to my particular applications (and style).
 
 
 #### License
