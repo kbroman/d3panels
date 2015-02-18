@@ -18,6 +18,77 @@ unique = (x) ->
 pullVarAsArray = (data, variable) ->
     (data[i][variable] for i of data)
 
+# reorganize lod/pos by chromosome
+# lodvarname==null    -> case for multiple LOD columns (lodheatmap)
+# lodvarname provided -> case for one LOD column (lodchart)
+reorgLodData = (data, lodvarname=null) ->
+    data.posByChr = {}
+    data.lodByChr = {}
+
+    for chr,i in data.chrnames
+        data.posByChr[chr] = []
+        data.lodByChr[chr] = []
+        for pos,j in data.pos
+            if data.chr[j] == chr
+                data.posByChr[chr].push(pos)
+                data.lodnames = [data.lodnames] unless Array.isArray(data.lodnames)
+                lodval = (data[lodcolumn][j] for lodcolumn in data.lodnames)
+                data.lodByChr[chr].push(lodval)
+
+    if lodvarname?
+        data.markers = []
+        for marker,i in data.markernames
+            if marker != ""
+                data.markers.push({name:marker, chr:data.chr[i], pos:data.pos[i], lod:data[lodvarname][i]})
+
+    data
+
+# calculate chromosome start/end + scales, for heat map
+chrscales = (data, width, chrGap, leftMargin, pad4heatmap) ->
+    # start and end of chromosome positions
+    chrStart = []
+    chrEnd = []
+    chrLength = []
+    totalChrLength = 0
+    maxd = 0
+    for chr in data.chrnames
+        d = maxdiff(data.posByChr[chr])
+        maxd = d if d > maxd
+
+        rng = d3.extent(data.posByChr[chr])
+        chrStart.push(rng[0])
+        chrEnd.push(rng[1])
+        L = rng[1] - rng[0]
+        chrLength.push(L)
+        totalChrLength += L
+
+    # adjust lengths for heatmap
+    if pad4heatmap
+        data.recwidth = maxd
+        chrStart = chrStart.map (x) -> x-maxd/2
+        chrEnd = chrEnd.map (x) -> x+maxd/2
+        chrLength = chrLength.map (x) -> x+maxd
+        totalChrLength += (chrLength.length*maxd)
+
+    # break up x axis into chromosomes by length, with gaps
+    data.chrStart = []
+    data.chrEnd = []
+    cur = leftMargin
+    cur += chrGap/2 unless pad4heatmap
+    data.xscale = {}
+    for chr,i in data.chrnames
+        data.chrStart.push(cur)
+        w = Math.round((width-chrGap*(data.chrnames.length-pad4heatmap))/totalChrLength*chrLength[i])
+        data.chrEnd.push(cur + w)
+        cur = data.chrEnd[i] + chrGap
+        # x-axis scales, by chromosome
+        data.xscale[chr] = d3.scale.linear()
+                             .domain([chrStart[i], chrEnd[i]])
+                             .range([data.chrStart[i], data.chrEnd[i]])
+
+    # return data with new stuff added
+    data
+
 # Select a set of categorical colors
 # ngroup is positive integer
 # palette = "dark" or "pastel"
@@ -27,6 +98,7 @@ selectGroupColors = (ngroup, palette) ->
     if palette == "dark"
         return ["slateblue"] if ngroup == 1
         return ["MediumVioletRed", "slateblue"] if ngroup == 2
+        return ["MediumVioletRed", "MediumSeaGreen", "slateblue"] if ngroup == 3
         return colorbrewer.Set1[ngroup] if ngroup <= 9
         return d3.scale.category20().range()[0...ngroup]
     else
@@ -61,6 +133,31 @@ median = (x) ->
         return x[(n-1)/2]
     (x[n/2] + x[(n/2)-1])/2
 
+# given a vector of x's, return hash with values to left and right, and the differences
+getLeftRight = (x) ->
+    n = x.length
+    x.sort( (a,b) -> a-b )
+
+    xdif = []
+    result = {}
+    for v in x
+        result[v] = {}
+
+    for i in [1...n]
+        xdif.push(x[i]-x[i-1])
+        result[x[i]].left = x[i-1]
+    for i in [0...(n-1)]
+        result[x[i]].right = x[i+1]
+
+    xdif = median(xdif)
+    result.mediandiff = xdif
+
+    result[x[0]].left = x[0]-xdif
+    result[x[n-1]].right = x[n-1]+xdif
+    result.extent = [x[0]-xdif/2, x[n-1]+xdif/2]
+
+    result
+
 # maximum difference between adjacent values in a vector
 maxdiff = (x) ->
     return null if x.length < 2
@@ -76,21 +173,21 @@ matrixMin = (mat) ->
     result = mat[0][0]
     for i of mat
         for j of mat[i]
-            result = mat[i][j] if mat[i][j]? and result > mat[i][j]
+            result = mat[i][j] if !(result?) or (result > mat[i][j] and mat[i][j]?)
     result
 
 matrixMax = (mat) ->
     result = mat[0][0]
     for i of mat
         for j of mat[i]
-            result = mat[i][j] if mat[i][j]? and result < mat[i][j]
+            result = mat[i][j] if !(result?) or (result < mat[i][j] and mat[i][j]?)
     result
 
 matrixMaxAbs = (mat) ->
     result = Math.abs(mat[0][0])
     for i of mat
         for j of mat[i]
-            result = Math.abs(mat[i][j]) if mat[i][j]? and result < Math.abs(mat[i][j])
+            result = Math.abs(mat[i][j]) if !(result?) or (result < Math.abs(mat[i][j]) and mat[i][j]?)
     result
 
 matrixExtent = (mat) -> [matrixMin(mat), matrixMax(mat)]
