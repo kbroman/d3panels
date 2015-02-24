@@ -76,7 +76,7 @@ svg.d3panels line.x.axis.grid {
 svg.qtlcharts line.y.axis.grid {
     stroke: white;
 }
-svg.d3panesl line.y.axis.grid {
+svg.d3panels line.y.axis.grid {
     stroke: white;
 }
 
