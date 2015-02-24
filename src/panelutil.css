@@ -3,8 +3,17 @@ svg.qtlcharts {
     font-family: sans-serif;
     font-size: 11pt;
 }
+svg.d3panels {
+    font-family: sans-serif;
+    font-size: 11pt;
+}
 
 svg.qtlcharts .title text {
+    dominant-baseline: middle;
+    fill: #0074D9;
+    text-anchor: middle;
+}
+svg.d3panels .title text {
     dominant-baseline: middle;
     fill: #0074D9;
     text-anchor: middle;
@@ -14,8 +23,16 @@ svg.qtlcharts .y.axis text {
     dominant-baseline: middle;
     text-anchor: end;
 }
+svg.d3panels .y.axis text {
+    dominant-baseline: middle;
+    text-anchor: end;
+}
 
 svg.qtlcharts .y.axis text.title {
+    text-anchor: middle;
+    fill: slateblue;
+}
+svg.d3panels .y.axis text.title {
     text-anchor: middle;
     fill: slateblue;
 }
@@ -24,12 +41,24 @@ svg.qtlcharts .x.axis text {
     dominant-baseline: hanging;
     text-anchor: middle;
 }
+svg.d3panels .x.axis text {
+    dominant-baseline: hanging;
+    text-anchor: middle;
+}
 
 svg.qtlcharts .x.axis text.title {
     fill: slateblue;
 }
+svg.d3panels .x.axis text.title {
+    fill: slateblue;
+}
 
 svg.qtlcharts line.axis.grid {
+    fill: none;
+    stroke-width: 1;
+    pointer-events: none;
+}
+svg.d3panels line.axis.grid {
     fill: none;
     stroke-width: 1;
     pointer-events: none;
@@ -39,12 +68,23 @@ svg.qtlcharts line.x.axis.grid {
     stroke: rgb(200, 200, 200);
     stroke-width: 3;
 }
+svg.d3panels line.x.axis.grid {
+    stroke: rgb(200, 200, 200);
+    stroke-width: 3;
+}
 
 svg.qtlcharts line.y.axis.grid {
     stroke: white;
 }
+svg.d3panesl line.y.axis.grid {
+    stroke: white;
+}
 
 svg.qtlcharts .extent {
+    fill: #cac;
+    opacity: 0.3;
+}
+svg.d3panels .extent {
     fill: #cac;
     opacity: 0.3;
 }
@@ -53,8 +93,16 @@ svg.qtlcharts circle.selected {
     fill: hotpink;
     opacity: 1;
 }
+svg.d3panels circle.selected {
+    fill: hotpink;
+    opacity: 1;
+}
 
 svg.qtlcharts a {
+    color: #08c;
+    text-decoration: none;
+}
+svg.d3panels a {
     color: #08c;
     text-decoration: none;
 }
@@ -63,6 +111,29 @@ svg.qtlcharts a:hover {
     color: #333;
     text-decoration: underline;
 }
+svg.d3panels a:hover {
+    color: #333;
+    text-decoration: underline;
+}
+
+svg.qtlcharts text.crosstab {
+    dominant-baseline: middle;
+    text-anchor: end;
+}
+svg.d3panels text.crosstab {
+    dominant-baseline: middle;
+    text-anchor: end;
+}
+
+svg.qtlcharts text.crosstabtitle {
+    dominant-baseline: middle;
+    text-anchor: center;
+}
+svg.d3panels text.crosstabtitle {
+    dominant-baseline: middle;
+    text-anchor: center;
+}
+
 
 
 /* figure captions */
@@ -94,16 +165,6 @@ div.error p {
     font-size: 16pt;
     font-weight: bold;
     padding: 5px;
-}
-
-svg.qtlcharts text.crosstab {
-    dominant-baseline: middle;
-    text-anchor: end;
-}
-
-svg.qtlcharts text.crosstabtitle {
-    dominant-baseline: middle;
-    text-anchor: center;
 }
 
 div.searchbox {
