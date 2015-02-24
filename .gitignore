@@ -1,6 +1,5 @@
 test/*.js
 src/*.js
-src/*/*.js
-src/*/test/*.js
 *.Rout
-*.json
+test/*/*.json
+test/*/*.js
