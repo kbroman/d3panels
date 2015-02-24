@@ -17,7 +17,7 @@ d3.json "data.json", (data) ->
                            .height(h)
                            .width(w)
                            .margin(margin)
-  
+
     d3.select("div#chart1")
       .datum({data:data})
       .call(mychart)
@@ -36,12 +36,13 @@ d3.json "data.json", (data) ->
     yvar = [0, 0, 1]
     xshift = [0, halfw, halfw]
     yshift = [0, 0, halfh]
-  
+
     svg = d3.select("div#chart2")
             .append("svg")
+            .attr("class", "d3panels")
             .attr("height", totalh)
             .attr("width", totalw)
-  
+
     mychart = []
     chart = []
     for i in [0..2]
@@ -55,18 +56,18 @@ d3.json "data.json", (data) ->
                                   .xlab("X#{xvar[i]+1}")
                                   .ylab("X#{yvar[i]+1}")
                                   .title("X#{yvar[i]+1} vs. X#{xvar[i]+1}")
-  
+
         chart[i] = svg.append("g").attr("id", "chart#{i}")
                       .attr("transform", "translate(#{xshift[i]},#{yshift[i]})")
         chart[i].datum({data:data}).call(mychart[i])
-  
+
     brush = []
     brushstart = (i) ->
         () ->
             for j in [0..2]
                 chart[j].call(brush[j].clear()) if j != i
             svg.selectAll("circle").attr("opacity", 0.6).classed("selected", false)
-  
+
     brushmove = (i) ->
         () ->
             svg.selectAll("circle").classed("selected", false)
@@ -80,19 +81,19 @@ d3.json "data.json", (data) ->
                                                            e[0][1] <= cy and cy <= e[1][1]
                                               svg.selectAll("circle.pt#{j}").classed("selected", true) if selected
                                               selected)
-  
+
     brushend = () ->
         svg.selectAll("circle").attr("opacity", 1)
-  
+
     xscale = d3.scale.linear().domain([margin.left,margin.left+w]).range([margin.left,margin.left+w])
     yscale = d3.scale.linear().domain([margin.top,margin.top+h]).range([margin.top,margin.top+h])
-  
+
     for i in [0..2]
         brush[i] = d3.svg.brush().x(xscale).y(yscale)
                          .on("brushstart", brushstart(i))
                          .on("brush", brushmove(i))
                          .on("brushend", brushend)
-  
+
         chart[i].call(brush[i])
 
 
@@ -109,7 +110,7 @@ d3.json "data.json", (data) ->
                              .xNA({handle:true, force:true, width:15, gap:10})
                              .yNA({handle:true, force:true, width:15, gap:10})
                              .title("X1 vs X2")
-  
+
     mychart02 = scatterplot().xvar(2)
                              .yvar(0)
                              .height(h)
@@ -128,29 +129,30 @@ d3.json "data.json", (data) ->
                              .ylab("X2")
                              .xNA({handle:false, force:false, width:15, gap:10})
                              .title("X2 vs X3")
-  
+
     svg = d3.select("div#chart3")
             .append("svg")
+            .attr("class", "d3panels")
             .attr("height", totalh)
             .attr("width", totalw)
-  
+
     chart01 = svg.append("g").attr("id", "chart01")
-  
+
     chart02 = svg.append("g").attr("id", "chart02")
                  .attr("transform", "translate(#{halfw}, 0)")
-  
+
     chart12 = svg.append("g").attr("id", "chart12")
                  .attr("transform", "translate(#{halfw}, #{halfh})")
-  
+
     chart01.datum({data:data})
       .call(mychart01)
-  
+
     chart02.datum({data:data})
       .call(mychart02)
-  
+
     chart12.datum({data:data})
       .call(mychart12)
-  
+
     [mychart01, mychart02, mychart12].forEach (chart) ->
         chart.pointsSelect()
              .on "mouseover", (d,i) ->
@@ -202,5 +204,3 @@ d3.json "data.json", (data) ->
                                d3.select(this).attr("r", mychart.pointsize()*3)
            .on "mouseout", (d) ->
                                d3.select(this).attr("r", mychart.pointsize())
-
-

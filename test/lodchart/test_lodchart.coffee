@@ -56,6 +56,7 @@ d3.json "data.json", (data) ->
 
     svg = d3.select("div#bottomchart")
             .append("svg")
+            .attr("class", "d3panels")
             .attr("height", totalh)
             .attr("width", totalw)
 
