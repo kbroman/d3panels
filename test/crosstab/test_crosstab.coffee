@@ -5,7 +5,7 @@ d3.json "data.json", (data) ->
     markers = ["D1M430", "D1M318"]
     mychart = crosstab()
 
-    data2pass = 
+    data2pass =
             x: data.geno[markers[0]]
             y: data.geno[markers[1]]
             xcat: data.genocat[data.chrtype[markers[0]]]
@@ -22,7 +22,7 @@ d3.json "data.json", (data) ->
     markers = ["DXM64", "DXM66"]
     mychart = crosstab()
 
-    data2pass = 
+    data2pass =
             x: data.geno[markers[0]]
             y: data.geno[markers[1]]
             xcat: data.genocat[data.chrtype[markers[0]]]
@@ -39,7 +39,7 @@ d3.json "data.json", (data) ->
     markers = ["D1M430", "DXM64"]
     mychart = crosstab()
 
-    data2pass = 
+    data2pass =
             x: data.geno[markers[0]]
             y: data.geno[markers[1]]
             xcat: data.genocat[data.chrtype[markers[0]]]
@@ -50,5 +50,3 @@ d3.json "data.json", (data) ->
     d3.select("div#chart3")
       .datum(data2pass)
       .call(mychart)
-
-
