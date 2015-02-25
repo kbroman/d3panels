@@ -1,6 +1,5 @@
 ## To Do list
 
-0. Makefile: coffee -> js and R -> json for panels
 1. Write tests for all of those utility functions
 2. frame function (basic background + axes)
 3. frame_with_missing (frame but with separate areas for missing values)
