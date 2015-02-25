@@ -13,4 +13,4 @@ eff <- t(apply(p, 2, function(x, y) lm(y~x)$coef[2,], as.matrix(grav$pheno)))
 # convert to signed LOD scores
 out[,-(1:2)] <- out[,-(1:2)] * ((eff > 0)*2-1)
 
-cat(qtlcharts:::scanone2json(out), file="data.json")
+cat(RJSONIO::toJSON(qtlcharts:::convert_scanone(out)), file="data.json")

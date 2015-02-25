@@ -5,4 +5,4 @@ library(qtlcharts)
 data(hyper)
 map <- pull.map(hyper)
 
-cat(qtlcharts:::map2json(map), file="data.json")
+cat(RJSONIO::toJSON(qtlcharts:::convert_map(map)), file="data.json")

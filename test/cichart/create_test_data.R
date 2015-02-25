@@ -14,5 +14,4 @@ dat <- list(means=means,
             high=hi,
             categories=paste0(1:k))
 
-library(jsonlite)
-cat(jsonlite::toJSON(dat), file="data.json")
+cat(RJSONIO::toJSON(dat), file="data.json")
