@@ -1,4 +1,4 @@
-### d3panels: Basic D3-based graphic panels
+### [d3panels](http://kbroman.org/d3panels): Basic D3-based graphic panels
 
 [Karl W Broman](http://kbroman.org)
 
@@ -12,6 +12,8 @@ use (e.g., [C3.js](http://c3js.org) and
 [this list of javascript chart libraries](http://blog.webkid.io/javascript-chart-libraries/)),
 but I wanted charts that were a bit _less_ general and flexible, but
 rather more specific to my particular applications (and style).
+
+For snapshots and live tests, see <http://kbroman.org/d3panels>.
 
 
 #### License
