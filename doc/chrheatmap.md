@@ -6,10 +6,10 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_chrheatmap.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/chrheatmap/test/test_chrheatmap.coffee).
+For an illustration of its use, see [`test_chrheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/chrheatmap/test_chrheatmap.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/chrheatmap/test).
+[here](http://kbroman.org/d3panels/assets/chrheatmap/test).
 
 Here are all of the options:
 
@@ -40,7 +40,7 @@ mychart = chrheatmap().pixelPerCell(3)                                         #
   `chrnames` contains the chromosome names for the `C` chromosomes, `labels` are labels for
   each cell (same on x- and y-axis).
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/qtlcharts/assets/panels/chrheatmap/test/data.json).
+  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/chrheatmap/test/data.json).
 
 
 #### Additional accessors

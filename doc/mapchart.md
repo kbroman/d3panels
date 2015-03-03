@@ -5,10 +5,10 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_mapchart.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/dotchart/test/test_dotchart.coffee).
+For an illustration of its use, see [`test_mapchart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/dotchart/test_dotchart.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/mapchart/test).
+[here](http://kbroman.org/d3panels/assets/mapchart/test).
 
 Here are all of the options:
 
@@ -34,8 +34,8 @@ mychart = mapchart().width(400)                                              # i
 
 #### Organization of data
 
-The data is a hash with two components: 
-  
+The data is a hash with two components:
+
 - `"chr"`, an ordered list of chromosomes, like
     `["1", "2", "3", ..., "X"]`
 - `"map"`, a hash with components being chromosomes, each of which
@@ -44,7 +44,7 @@ The data is a hash with two components:
       {"1": {"D1Mit1:0, "D1Mit2: 19.7, ..., D1Mit8: 100.3},
        "2": {"D2Mit1:0, "D2Mit5: 7.8, ..., "D2Mit10: 110}}, ..., }
 
-Here's an example dataset: [`data.json`](http://kbroman.org/qtlcharts/assets/panels/mapchart/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/mapchart/test/data.json).
 
 #### Additional accessors
 

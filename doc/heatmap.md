@@ -5,10 +5,10 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_heatmap.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/heatmap/test/test_heatmap.coffee).
+For an illustration of its use, see [`test_heatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/heatmap/test_heatmap.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/heatmap/test).
+[here](http://kbroman.org/d3panels/assets/heatmap/test).
 
 Here are all of the options:
 
@@ -43,7 +43,7 @@ mychart = heatmap().width(400)                                              # in
   like `{x:[x1, ..., xn], y:[y1, ..., ym], z:[[z11, ..., z1n], ...,
   [zm1, ..., zmn]]}`
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/qtlcharts/assets/panels/heatmap/test/data.json).
+  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/heatmap/test/data.json).
 
 
 #### Additional accessors

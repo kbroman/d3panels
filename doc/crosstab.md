@@ -1,15 +1,15 @@
 ### Reusable crosstab panel
 
 A reusable chart (a table, really) for making a cross-tabulation for
-two variables, 
+two variables,
 following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_crosstab.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/chrheatmap/test/test_chrheatmap.coffee).
+For an illustration of its use, see [`test_crosstab.coffee`](https://github.com/kbroman/d3panels/blob/master/test/chrheatmap/test_chrheatmap.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/crosstab/test).
+[here](http://kbroman.org/d3panels/assets/crosstab/test).
 
 Here are all of the options:
 
@@ -37,7 +37,7 @@ mychart = crosstab().cellHeight(30)                                            #
   `xlabel` and `ylabel` are character strings for the column and row
   headings, respectively.
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/qtlcharts/assets/panels/crosstab/test/data.json).
+  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/crosstab/test/data.json).
 
 
 #### Additional accessors

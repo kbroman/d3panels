@@ -4,10 +4,10 @@ A reusable chart for making a CI chart (plot of estimates and confidence interva
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_cichart.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/cichart/test/test_cichart.coffee).
+For an illustration of its use, see [`test_cichart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/cichart/test_cichart.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/cichart/test).
+[here](http://kbroman.org/d3panels/assets/cichart/test).
 
 Here are all of the options:
 
@@ -38,7 +38,7 @@ mychart = cichart().xvar("x")                                               # va
 
 We expect `{means, low, high, categories}`, each a vector of common
 length. Here's an example:
-[`data.json`](http://kbroman.org/qtlcharts/assets/panels/cichart/test/data.json).
+[`data.json`](http://kbroman.org/d3panels/assets/cichart/test/data.json).
 
 #### Additional accessors
 

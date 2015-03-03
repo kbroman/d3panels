@@ -5,10 +5,10 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_lodheatmap.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/lodheatmap/test/test_lodheatmap.coffee).
+For an illustration of its use, see [`test_lodheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/lodheatmap/test_lodheatmap.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/lodheatmap/test).
+[here](http://kbroman.org/d3panels/assets/lodheatmap/test).
 
 Here are all of the options:
 
@@ -48,7 +48,7 @@ The data is organized as for the [lodchart panel](../lodchart):  a hash with a n
 - `"markernames"` vector of marker names, of length `n`. Pseudomarkers
   should have an empty string (`""`).
 
-Here's an example dataset: [`data.json`](http://kbroman.org/qtlcharts/assets/panels/lodheatmap/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/lodheatmap/test/data.json).
 
 
 #### Additional accessors

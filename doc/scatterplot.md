@@ -5,11 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_scatterplot.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/scatterplot/test/test_scatterplot.coffee).
+For an illustration of its use, see [`test_scatterplot.coffee`](https://github.com/kbroman/d3panels/blob/master/test/scatterplot/test/test_scatterplot.coffee).
 
 Add see it in action
-[here](http://kbroman.org/qtlcharts/assets/panels/scatterplot/test),
-including an [example with brushing](http://kbroman.org/qtlcharts/assets/panels/scatterplot/test/index.html#ex2).
+[here](http://kbroman.org/d3panels/assets/scatterplot/test),
+including an [example with brushing](http://kbroman.org/d3panels/assets/scatterplot/test/index.html#ex2).
 
 Here are all of the options:
 
