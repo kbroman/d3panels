@@ -5,9 +5,11 @@ across a genome, following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [test_lodchart.coffee](https://github.com/kbroman/qtlcharts/blob/master/inst/panels/lodchart/test/test_lodchart.coffee).
+The source code is in [`lodchart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/lodchart.coffee).
 
-Add see it in action [here](http://kbroman.org/qtlcharts/assets/panels/lodchart/test).
+For an illustration of its use, see [test_lodchart.coffee](https://github.com/kbroman/d3panels/blob/master/test/lodchart/test_lodchart.coffee).
+
+Add see it in action [here](http://kbroman.org/d3panels/assets/lodchart/test).
 
 Here are all of the options:
 
@@ -49,7 +51,7 @@ The data is a hash with a number of components:
 - `"markernames"` vector of marker names, of length `n`. Pseudomarkers
   should have an empty string (`""`).
 
-Here's an example dataset: [`data.json`](http://kbroman.org/qtlcharts/assets/panels/lodchart/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/lodchart/test/data.json).
 
 #### Additional accessors:
 
