@@ -26,7 +26,7 @@ Click on a panel for a corresponding interactive illustration.
 <table class="wide">
 <tr>
   <td class="left">
-    <a href="../assetsdotchart/test">
+    <a href="../assets/dotchart/test">
         <img src="../assets/pics/dotchart.png" alt="dotchart example" title="dotchart example"/>
     </a>
   </td>
