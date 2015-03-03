@@ -4,3 +4,4 @@ src/*.js
 test/*/*.json
 test/*/*.js
 libs/
+Web/
