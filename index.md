@@ -26,61 +26,61 @@ Click on a panel for a corresponding interactive illustration.
 <table class="wide">
 <tr>
   <td class="left">
-    <a href="../assets/dotchart/test">
-        <img src="../assets/pics/dotchart.png" alt="dotchart example" title="dotchart example"/>
+    <a href="assets/dotchart/test">
+        <img src="assets/pics/dotchart.png" alt="dotchart example" title="dotchart example"/>
     </a>
   </td>
   <td class="right">
-    <a href="../assets/cichart/test">
-        <img src="../assets/pics/cichart.png" alt="cichart example" title="cichart example"/>
+    <a href="assets/cichart/test">
+        <img src="assets/pics/cichart.png" alt="cichart example" title="cichart example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="../assets/scatterplot/test">
-        <img src="../assets/pics/scatterplot.png" alt="scatterplot example" title="scatterplot example"/>
+    <a href="assets/scatterplot/test">
+        <img src="assets/pics/scatterplot.png" alt="scatterplot example" title="scatterplot example"/>
     </a>
   </td>
   <td class="right">
-    <a href="../assets/heatmap/test">
-        <img src="../assets/pics/heatmap.png" alt="heatmap example" title="heatmap example"/>
+    <a href="assets/heatmap/test">
+        <img src="assets/pics/heatmap.png" alt="heatmap example" title="heatmap example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="../assets/lodchart/test">
-        <img src="../assets/pics/lodchart.png" alt="lodchart example" title="lodchart example"/>
+    <a href="assets/lodchart/test">
+        <img src="assets/pics/lodchart.png" alt="lodchart example" title="lodchart example"/>
     </a>
   </td>
   <td class="right">
-    <a href="../assets/lodheatmap/test">
-        <img src="../assets/pics/lodheatmap.png" alt="lodheatmap example" title="lodheatmap example"/>
+    <a href="assets/lodheatmap/test">
+        <img src="assets/pics/lodheatmap.png" alt="lodheatmap example" title="lodheatmap example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="../assets/curvechart/test">
-        <img src="../assets/pics/curvechart.png" alt="curvechart example" title="curvechart example"/>
+    <a href="assets/curvechart/test">
+        <img src="assets/pics/curvechart.png" alt="curvechart example" title="curvechart example"/>
     </a>
   </td>
   <td class="right">
-    <a href="../assets/mapchart/test">
-        <img src="../assets/pics/mapchart.png" alt="mapchart example" title="mapchart example"/>
+    <a href="assets/mapchart/test">
+        <img src="assets/pics/mapchart.png" alt="mapchart example" title="mapchart example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="../assets/chrheatmap/test">
-        <img src="../assets/pics/chrheatmap.png" alt="chrheatmap example" title="chrheatmap example"/>
+    <a href="assets/chrheatmap/test">
+        <img src="assets/pics/chrheatmap.png" alt="chrheatmap example" title="chrheatmap example"/>
     </a>
   </td>
   <td class="right">
-    <a href="../assets/crosstab/test">
-        <img src="../assets/pics/crosstab.png" alt="crosstab example" title="crosstab example"/>
+    <a href="assets/crosstab/test">
+        <img src="assets/pics/crosstab.png" alt="crosstab example" title="crosstab example"/>
     </a>
   </td>
 </tr>
