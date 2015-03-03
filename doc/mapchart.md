@@ -5,9 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [`test_mapchart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/dotchart/test_dotchart.coffee).
+The source code is in [`mapchart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/mapchart.coffee).
 
-Add see it in action
+For an illustration of its use, see [`test_mapchart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/mapchart/test_mapchart.coffee).
+
+And see it in action
 [here](http://kbroman.org/d3panels/assets/mapchart/test).
 
 Here are all of the options:

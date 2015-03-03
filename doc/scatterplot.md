@@ -5,9 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [`test_scatterplot.coffee`](https://github.com/kbroman/d3panels/blob/master/test/scatterplot/test/test_scatterplot.coffee).
+The source code is in [`scatterplot.coffee`](https://github.com/kbroman/d3panels/blob/master/src/scatterplot.coffee).
 
-Add see it in action
+For an illustration of its use, see [`test_scatterplot.coffee`](https://github.com/kbroman/d3panels/blob/master/test/scatterplot/test_scatterplot.coffee).
+
+And see it in action
 [here](http://kbroman.org/d3panels/assets/scatterplot/test),
 including an [example with brushing](http://kbroman.org/d3panels/assets/scatterplot/test/index.html#ex2).
 
@@ -40,26 +42,29 @@ mychart = scatterplot().xvar("x")                                               
                        .dataByInd(true)                                         # is data organized by individual?
 ```
 
-Treatment of missing values through `xNA` and `yNA`:
+#### Treatment of missing values through `xNA` and `yNA`:
 
     handle: if true, plot missing values in separated area; if false, omit missing values
     force:  force handle==true (with separate area for missing values) even if there are no missing values
     width:  width of space reserved for missing values
     gap:    gap between space for missing values and the main panel
 
-Organization of data:
+#### Organization of data:
 
-  The input data should have a component `data` that contains the
-  values to be plotted.  If `dataByInd == true` (the default), we
-  expect this data to be like `[[x1,y1], [x2,y2], ..., [xn,yn]]`
-  Alternatively, if `dataByInd == false` we expect this data to be
-  like `[[x1,x2, ..., xn], [y1,y2, ..., yn]]`
+The input data should have a component `data` that contains the
+values to be plotted.  If `dataByInd == true` (the default), we
+expect this data to be like `[[x1,y1], [x2,y2], ..., [xn,yn]]`
+Alternatively, if `dataByInd == false` we expect this data to be
+like `[[x1,x2, ..., xn], [y1,y2, ..., yn]]`
 
-  The input can include a component `indID` for individual IDs
-  (viewable with tool tips) and a component `group` taking values 1,
-  2, ..., defining groups to be colored differently.
+The input can include a component `indID` for individual IDs
+(viewable with tool tips) and a component `group` taking values 1,
+2, ..., defining groups to be colored differently.
 
-Additional accessors:
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/scatterplot/test/data.json).
+
+
+#### Additional accessors:
 
 ```coffeescript
 # x-axis scale

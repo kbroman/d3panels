@@ -6,9 +6,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
-For an illustration of its use, see [`test_crosstab.coffee`](https://github.com/kbroman/d3panels/blob/master/test/chrheatmap/test_chrheatmap.coffee).
+The source code is in [`crosstab.coffee`](https://github.com/kbroman/d3panels/blob/master/src/crosstab.coffee).
 
-Add see it in action
+For an illustration of its use, see [`test_crosstab.coffee`](https://github.com/kbroman/d3panels/blob/master/test/crosstab/test_crosstab.coffee).
+
+And see it in action
 [here](http://kbroman.org/d3panels/assets/crosstab/test).
 
 Here are all of the options:
@@ -27,19 +29,19 @@ mychart = crosstab().cellHeight(30)                                            #
 
 #### Organization of data
 
-  The data should be of the form `{x: [x1, x2, ..., xn], y:
-  [y1, y2, ..., yn], xcat: [xcat1, ..., xcatp], ycat:
-  [ycat1, ..., ycatq], xlabel: "column heading", ylabel: "row heading"}`
-  where the `x`'s take values in {0, 1, ..., p-1} and the
-  `y`'s take values in {0, 1, ..., q-1}, and `xcat` and `ycat` are
-  each vectors of character strings.  We assume that the last element
-  of each of `xcat` and `ycat` corresponds to missing values.
-  `xlabel` and `ylabel` are character strings for the column and row
-  headings, respectively.
+The data should be of the form `{x: [x1, x2, ..., xn], y:
+[y1, y2, ..., yn], xcat: [xcat1, ..., xcatp], ycat:
+[ycat1, ..., ycatq], xlabel: "column heading", ylabel: "row heading"}`
+where the `x`'s take values in {0, 1, ..., p-1} and the
+`y`'s take values in {0, 1, ..., q-1}, and `xcat` and `ycat` are
+each vectors of character strings.  We assume that the last element
+of each of `xcat` and `ycat` corresponds to missing values.
+`xlabel` and `ylabel` are character strings for the column and row
+headings, respectively.
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/crosstab/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/crosstab/test/data.json).
 
 
 #### Additional accessors
 
-  There are no additional accessors at this point.
+There are no additional accessors at this point.

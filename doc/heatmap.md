@@ -5,9 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
+The source code is in [`heatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/src/heatmap.coffee).
+
 For an illustration of its use, see [`test_heatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/heatmap/test_heatmap.coffee).
 
-Add see it in action
+And see it in action
 [here](http://kbroman.org/d3panels/assets/heatmap/test).
 
 Here are all of the options:
@@ -37,13 +39,13 @@ mychart = heatmap().width(400)                                              # in
 
 #### Organization of data
 
-  If `dataByCell == true`, we expect the data to be like `[{x:x, y:y, z:z}]
+If `dataByCell == true`, we expect the data to be like `[{x:x, y:y, z:z}]
 
-  Alternatively, if `dataByCell == false` we expect the data to be
-  like `{x:[x1, ..., xn], y:[y1, ..., ym], z:[[z11, ..., z1n], ...,
-  [zm1, ..., zmn]]}`
+Alternatively, if `dataByCell == false` we expect the data to be
+like `{x:[x1, ..., xn], y:[y1, ..., ym], z:[[z11, ..., z1n], ...,
+[zm1, ..., zmn]]}`
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/heatmap/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/heatmap/test/data.json).
 
 
 #### Additional accessors

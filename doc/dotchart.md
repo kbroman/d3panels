@@ -5,9 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
+The source code is in [`dotchart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/dotchart.coffee).
+
 For an illustration of its use, see [`test_dotchart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/dotchart/test_dotchart.coffee).
 
-Add see it in action
+And see it in action
 [here](http://kbroman.org/d3panels/assets/dotchart/test).
 
 Here are all of the options:
@@ -54,11 +56,11 @@ mychart = dotchart().xvar("x")                                               # v
 
 #### Organization of data
 
-  If `dataByInd == true` (the default), we expect the data to be like `[[x1,y1], [x2,y2], ..., [xn,yn]]`
+If `dataByInd == true` (the default), we expect the data to be like `[[x1,y1], [x2,y2], ..., [xn,yn]]`
 
-  Alternatively, if `dataByInd == false` we expect the data to be like `[[x1,x2, ..., xn], [y1,y2, ..., yn]]`
+Alternatively, if `dataByInd == false` we expect the data to be like `[[x1,x2, ..., xn], [y1,y2, ..., yn]]`
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/dotchart/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/dotchart/test/data.json).
 
 #### Additional accessors
 

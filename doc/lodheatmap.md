@@ -5,9 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
+The source code is in [`lodheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/src/lodheatmap.coffee).
+
 For an illustration of its use, see [`test_lodheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/lodheatmap/test_lodheatmap.coffee).
 
-Add see it in action
+And see it in action
 [here](http://kbroman.org/d3panels/assets/lodheatmap/test).
 
 Here are all of the options:
@@ -35,7 +37,7 @@ mychart = lodheatmap().width(1200)                                             #
 
 #### Organization of data
 
-The data is organized as for the [lodchart panel](../lodchart):  a hash with a number of components:
+The data is organized as for the [lodchart panel](lodchart.md):  a hash with a number of components:
 
 - `"chrnames`" is an ordered list of chromosome names
 - `"lodnames"` is an ordered list of the names of LOD score columns

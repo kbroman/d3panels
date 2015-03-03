@@ -5,9 +5,11 @@ following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
+The source code is in [`curvechart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/curvechart.coffee).
+
 For an illustration of its use, see [`test_curvechart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/curvechart/test_curvechart.coffee).
 
-Add see it in action
+And see it in action
 [here](http://kbroman.org/d3panels/assets/curvechart/test).
 
 Here are all of the options:
@@ -38,13 +40,13 @@ mychart = cichart().width(800)                                              # in
 
 #### Organization of data
 
-  If `commonX == true` (the default), we expect the data to be like `{x:[x1, x2, ..., xt], data:[[y11, y12, .. y1t]...[yn1, .. ynt]]}`.
+If `commonX == true` (the default), we expect the data to be like `{x:[x1, x2, ..., xt], data:[[y11, y12, .. y1t]...[yn1, .. ynt]]}`.
 
-  Alternatively, if `commonX == false` we expect the data to be like `{data:[{x:[x(1,1), ..., x(1,t1)],y:[y(1,1), ..., y(1,t[1])}, ...]}`
+Alternatively, if `commonX == false` we expect the data to be like `{data:[{x:[x(1,1), ..., x(1,t1)],y:[y(1,1), ..., y(1,t[1])}, ...]}`
 
-  The data can also contain a vector `groups` with length equal to the number of individuals, taking values in `(1, 2, ..., k)`, for specifying colors.
+The data can also contain a vector `groups` with length equal to the number of individuals, taking values in `(1, 2, ..., k)`, for specifying colors.
 
-  Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/curvechart/test/data.json).
+Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/curvechart/test/data.json).
 
 #### Additional accessors
 

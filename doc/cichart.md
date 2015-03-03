@@ -4,9 +4,11 @@ A reusable chart for making a CI chart (plot of estimates and confidence interva
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 
+The source code is in [`cichart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/cichart.coffee).
+
 For an illustration of its use, see [`test_cichart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/cichart/test_cichart.coffee).
 
-Add see it in action
+And see it in action
 [here](http://kbroman.org/d3panels/assets/cichart/test).
 
 Here are all of the options:
