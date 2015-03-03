@@ -26,60 +26,60 @@ Click on a panel for a corresponding interactive illustration.
 <table class="wide">
 <tr>
   <td class="left">
-    <a href="assets/dotchart/test">
+    <a href="assets/test/dotchart">
         <img src="assets/pics/dotchart.png" alt="dotchart example" title="dotchart example"/>
     </a>
   </td>
   <td class="right">
-    <a href="assets/cichart/test">
+    <a href="assets/test/cichart">
         <img src="assets/pics/cichart.png" alt="cichart example" title="cichart example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="assets/scatterplot/test">
+    <a href="assets/test/scatterplot">
         <img src="assets/pics/scatterplot.png" alt="scatterplot example" title="scatterplot example"/>
     </a>
   </td>
   <td class="right">
-    <a href="assets/heatmap/test">
+    <a href="assets/test/heatmap">
         <img src="assets/pics/heatmap.png" alt="heatmap example" title="heatmap example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="assets/lodchart/test">
+    <a href="assets/test/lodchart">
         <img src="assets/pics/lodchart.png" alt="lodchart example" title="lodchart example"/>
     </a>
   </td>
   <td class="right">
-    <a href="assets/lodheatmap/test">
+    <a href="assets/test/lodheatmap">
         <img src="assets/pics/lodheatmap.png" alt="lodheatmap example" title="lodheatmap example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="assets/curvechart/test">
+    <a href="assets/test/curvechart">
         <img src="assets/pics/curvechart.png" alt="curvechart example" title="curvechart example"/>
     </a>
   </td>
   <td class="right">
-    <a href="assets/mapchart/test">
+    <a href="assets/test/mapchart">
         <img src="assets/pics/mapchart.png" alt="mapchart example" title="mapchart example"/>
     </a>
   </td>
 </tr>
 <tr>
   <td class="left">
-    <a href="assets/chrheatmap/test">
+    <a href="assets/test/chrheatmap">
         <img src="assets/pics/chrheatmap.png" alt="chrheatmap example" title="chrheatmap example"/>
     </a>
   </td>
   <td class="right">
-    <a href="assets/crosstab/test">
+    <a href="assets/test/crosstab">
         <img src="assets/pics/crosstab.png" alt="crosstab example" title="crosstab example"/>
     </a>
   </td>
