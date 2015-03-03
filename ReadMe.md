@@ -3,11 +3,8 @@
 [Karl W Broman](http://kbroman.org)
 
 This is a set of basic [D3](http://d3js.org)-based graphic panels, to
-be combined into larger multi-panel charts.
-
-(I'm going to re-implement the panels in my
-[R/qtlcharts](http://kbroman.org/qtlcharts) package and separate them
-out as a separate repository.)
+be combined into larger multi-panel charts.  They were developed for
+the [R/qtlcharts](http://kbroman.org/qtlcharts) package.
 
 There are other libraries with similar goals that are of more general
 use (e.g., [C3.js](http://c3js.org) and
