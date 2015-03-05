@@ -5,7 +5,7 @@
   "authors": [
     "Karl Broman <kbroman@gmail.com>"
   ],
-  "description": "d3-based graphic panels",
+  "description": "D3-based graphics panels",
   "main": "d3panels.js",
   "keywords": [
     "graphics"
