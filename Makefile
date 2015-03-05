@@ -1,7 +1,7 @@
-all: JS tests testdata
-.PHONY: all JS tests testdata
+all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css
+.PHONY: all js tests testdata
 
-JS: src/panelutil.js \
+JS= src/panelutil.js \
 	src/chrheatmap.js \
 	src/cichart.js \
 	src/crosstab.js \
@@ -12,6 +12,7 @@ JS: src/panelutil.js \
 	src/lodheatmap.js \
 	src/mapchart.js \
 	src/scatterplot.js
+js: $(JS)
 
 tests: test/test-unique.js test/test-stats.js \
 	   test/test-formatAxis.js test/test-pullVarAsArray.js \
@@ -54,3 +55,15 @@ test/%/%.js: test/%/%.coffee
 
 test/%/data.json: test/%/create_test_data.R
 	cd $(@D);R CMD BATCH --no-save $(<F)
+
+d3panels.js: $(JS)
+	cat $(JS) > $@
+
+d3panels.css: src/panelutil.css
+	cp $< $@
+
+d3panels.min.js: $(JS)
+	uglifyjs $(JS) -o $@
+
+d3panels.min.css: src/panelutil.css
+	uglifycss $< > $@
