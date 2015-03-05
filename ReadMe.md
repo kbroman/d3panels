@@ -1,8 +1,8 @@
-### [d3panels](http://kbroman.org/d3panels): Basic D3-based graphic panels
+### [d3panels](http://kbroman.org/d3panels): D3-based graphic panels
 
 [Karl W Broman](http://kbroman.org)
 
-This is a set of basic [D3](http://d3js.org)-based graphic panels, to
+This is a set of [D3](http://d3js.org)-based graphic panels, to
 be combined into larger multi-panel charts.  They were developed for
 the [R/qtlcharts](http://kbroman.org/qtlcharts) package.
 
