@@ -9,7 +9,7 @@
   "main": [
         "src/chrheatmap.js",
         "src/cichart.js",
-        "src/crosstab.js"
+        "src/crosstab.js",
         "src/curvechart.js",
         "src/dotchart.js",
         "src/heatmap.js",
