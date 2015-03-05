@@ -1,11 +1,11 @@
 ---
 layout: page
 title: d3panels
-tagline: Reusable graphic panels
-description: A set of D3-based reusable graphic panels that form the basis for the visualizations in R/qtlcharts.
+tagline: D3-based graphics panels
+description: A set of D3-based graphics panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
-This is a set of reuseable graphics panels, following
+This is a set of [D3](http://d3js.org)-based graphics panels, following
 [Mike Bostock](http://bost.ocks.org/mike)'s
 [Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
 They were developed the basis for visualizations in the
