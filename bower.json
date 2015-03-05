@@ -1,10 +1,15 @@
 {
-    "name": "d3panels",
-    "version: "0.5.1",
-    "main": [
+  "name": "d3panels",
+  "version": "0.5.1",
+  "homepage": "https://github.com/kbroman/d3panels",
+  "authors": [
+    "Karl Broman <kbroman@gmail.com>"
+  ],
+  "description": "d3-based graphic panels",
+  "main": [
         "src/chrheatmap.js",
         "src/cichart.js",
-        "src/crosstab.js",
+        "src/crosstab.js"
         "src/curvechart.js",
         "src/dotchart.js",
         "src/heatmap.js",
@@ -15,20 +20,17 @@
         "src/panelutil.js",
         "src/scatterplot.js"
     ],
-    "ignore": [
-        ".git",
-        ".gitignore",
+  "keywords": [
+    "graphics"
+  ],
+  "license": "MIT",
+  "ignore": [
+        "**/.*",
         "Makefile",
         "ToDo.md",
         "Web",
         "doc",
         "libs",
-        "src/*.coffee",
-        "test",
-    ],
-    "dependencies": {
-        "d3": "3.5.4",
-        "colorbrewer": "1.0.0",
-        "d3-tip", "0.6.6"
-    }
+        "test"
+  ]
 }
