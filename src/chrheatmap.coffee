@@ -10,7 +10,6 @@ chrheatmap = () ->
     nullcolor = "#e6e6e6"
     bordercolor = "black"
     colors = ["slateblue", "white", "crimson"]
-    colorhilit = "violetred"
     title = ""
     xlab = ""
     ylab = ""
@@ -20,7 +19,6 @@ chrheatmap = () ->
     zscale = d3.scale.linear()
     oneAtTop = false
     hover = true
-    hilitOppositeCell = true
     cellSelect = null
 
     ## the main function
@@ -177,7 +175,6 @@ chrheatmap = () ->
             svg.call(celltip)
 
             cells = g.append("g").attr("id", "cells")
-            cellID = {} # to contain link to opposite size cell
             cellSelect =
                 cells.selectAll("empty")
                      .data(data.cells)
@@ -187,24 +184,16 @@ chrheatmap = () ->
                      .attr("y", (d) -> d.y)
                      .attr("width", pixelPerCell)
                      .attr("height", pixelPerCell)
-                     .attr("class", (d,i) ->
-                                        cellID[d.i] = {} unless cellID[d.i]?
-                                        cellID[d.i][d.j] = "rect.cell#{i}"
-                                        "cell#{i}")
+                     .attr("class", (d,i) -> "cell#{i}")
                      .attr("fill", (d) -> if d.z? then zscale(d.z) else nullcolor)
                      .attr("stroke", "none")
-                     .attr("stroke-width", "2")
+                     .attr("stroke-width", "1")
                      .on("mouseover.paneltip", (d) ->
-                                                   d3.select(this).attr("stroke", colorhilit)
-                                                   celltip.show(d) if hover
-                                                   if hilitOppositeCell and cellID?[d.j]? and cellID[d.j][d.i]?
-                                                       svg.select(cellID[d.j][d.i]).attr("stroke", colorhilit))
-                     .on("mouseout.paneltip", (d) ->
+                                                   d3.select(this).attr("stroke", "black")
+                                                   celltip.show(d) if hover)
+                     .on("mouseout.paneltip", () ->
                                                    d3.select(this).attr("stroke", "none")
-                                                   celltip.hide() if hover
-                                                   if hilitOppositeCell and cellID?[d.j]? and cellID[d.j][d.i]?
-                                                       svg.select(cellID[d.j][d.i]).attr("stroke", "none"))
-
+                                                   celltip.hide() if hover)
 
             # box
             g.append("rect")
@@ -262,11 +251,6 @@ chrheatmap = () ->
                       colors = value
                       chart
 
-    chart.colorhilit = (value) ->
-                      return colorhilit if !arguments.length
-                      colorhilit = value
-                      chart
-
     chart.title = (value) ->
                       return title if !arguments.length
                       title = value
@@ -305,11 +289,6 @@ chrheatmap = () ->
     chart.hover = (value) ->
                       return hover if !arguments.length
                       hover = value
-                      chart
-
-    chart.hilitOppositeCell = (value) ->
-                      return hilitOppositeCell if !arguments.length
-                      hilitOppositeCell = value
                       chart
 
     chart.zscale = () ->
