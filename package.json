@@ -1,0 +1,11 @@
+{
+    "name":        "d3panels",
+    "version:      "0.5.1",
+    "description": "D3-based graphic panels",
+    "author":      {
+        "name": "Karl Broman",
+        "url": "http://kbroman.org"
+    },
+    "homepage":    "http://kbroman.org/d3panels",
+    "license":     "MIT"
+}

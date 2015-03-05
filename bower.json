@@ -1,0 +1,34 @@
+{
+    "name":        "d3panels",
+    "version:      "0.5.1",
+    "main": [
+        "src/chrheatmap.js",
+        "src/cichart.js",
+        "src/crosstab.js",
+        "src/curvechart.js",
+        "src/dotchart.js",
+        "src/heatmap.js",
+        "src/lodchart.js",
+        "src/lodheatmap.js",
+        "src/mapchart.js",
+        "src/panelutil.css",
+        "src/panelutil.js",
+        "src/scatterplot.js"
+    ],
+    "ignore": [
+        ".git",
+        ".gitignore",
+        "Makefile",
+        "ToDo.md",
+        "Web",
+        "doc",
+        "libs"
+        "src/*.coffee",
+        "test",
+    ],
+    "dependencies": {
+        "d3": "3.5.4",
+        "colorbrewer": "1.0.0",
+        "d3-tip", "0.6.6"
+    }
+}
