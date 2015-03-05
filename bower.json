@@ -6,20 +6,7 @@
     "Karl Broman <kbroman@gmail.com>"
   ],
   "description": "d3-based graphic panels",
-  "main": "src/panelutil.css",
-  "scripts": [
-        "src/chrheatmap.js",
-        "src/cichart.js",
-        "src/crosstab.js",
-        "src/curvechart.js",
-        "src/dotchart.js",
-        "src/heatmap.js",
-        "src/lodchart.js",
-        "src/lodheatmap.js",
-        "src/mapchart.js",
-        "src/panelutil.js",
-        "src/scatterplot.js"
-    ],
+  "main": "d3panels.js",
   "keywords": [
     "graphics"
   ],
@@ -31,7 +18,7 @@
         "Web",
         "doc",
         "libs",
-        "test",
-        "src/*.coffee"
+        "src",
+        "test"
   ]
 }
