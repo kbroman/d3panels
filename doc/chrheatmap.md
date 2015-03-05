@@ -23,6 +23,7 @@ mychart = chrheatmap().pixelPerCell(3)                                         #
                       .rectcolor("#e6e6e6")                                    # background rectangle color
                       .nullcolor("#e6e6e6")                                    # color for pixels with null values
                       .colors(["slateblue", "white", "crimson"]                # colors
+                      .colorhilit("violetred")                                 # color around pixel when highlighted
                       .zlim(null)                                              # z-axis limits
                       .title("")                                               # panel title
                       .xlab("X")                                               # x-axis label
@@ -31,6 +32,7 @@ mychart = chrheatmap().pixelPerCell(3)                                         #
                       .zthresh(null)                                           # plot cells with z >= zthresh or <= -zthresh
                       .oneAtTop(false)                                         # whether chromosome 1 should be at top (and left) vs bottom (and left)
                       .hover(true)                                             # whether to include mouseover/mouseout with default info
+                      .hilitOppositeCell(true)                                 # highlight the corresponding cell on the opposite side when hovering
 ```
 
 #### Organization of data
