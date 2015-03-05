@@ -196,15 +196,14 @@ chrheatmap = () ->
                      .attr("stroke-width", "2")
                      .on("mouseover.paneltip", (d) ->
                                                    d3.select(this).attr("stroke", colorhilit)
-                                                   if hilitOppositeCell
-                                                       svg.select(cellID[d.j][d.i]).attr("stroke", colorhilit)
-                                                   celltip.show(d) if hover)
+                                                   celltip.show(d) if hover
+                                                   if hilitOppositeCell and cellID?[d.j]? and cellID[d.j][d.i]?
+                                                       svg.select(cellID[d.j][d.i]).attr("stroke", colorhilit))
                      .on("mouseout.paneltip", (d) ->
                                                    d3.select(this).attr("stroke", "none")
-                                                   if hilitOppositeCell
-                                                       svg.select(cellID[d.j][d.i]).attr("stroke", "none")
-                                                   celltip.hide() if hover)
-
+                                                   celltip.hide() if hover
+                                                   if hilitOppositeCell and cellID?[d.j]? and cellID[d.j][d.i]?
+                                                       svg.select(cellID[d.j][d.i]).attr("stroke", "none"))
 
 
             # box
