@@ -34,7 +34,7 @@ assets/libs/d3/%: ../libs/d3/%
 
 d3-tip: assets/libs/d3-tip/LICENSE \
 		assets/libs/d3-tip/README.md \
-		assets/libs/d3-tip/index.js
+		assets/libs/d3-tip/index-min.js
 
 assets/libs/d3-tip/%: ../libs/d3-tip/%
 	cp $< $(@D)/
