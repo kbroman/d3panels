@@ -2,7 +2,7 @@
 var scatterplot;
 
 scatterplot = function() {
-  var axispos, chart, dataByInd, height, indtip, margin, nxticks, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, title, titlepos, width, xNA, xlab, xlim, xscale, xticks, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
+  var axispos, chart, dataByInd, height, indtip, margin, nxticks, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xNA, xlab, xlim, xscale, xticks, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
   width = 800;
   height = 500;
   margin = {
@@ -53,6 +53,7 @@ scatterplot = function() {
   dataByInd = true;
   svg = null;
   indtip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var g, gEnter, group, i, indID, j, na_value, ngroup, panelheight, paneloffset, panelwidth, points, ref, ref1, ref2, results, titlegrp, x, xaxis, xrange, xs, y, yaxis, yrange, ys;
@@ -221,7 +222,7 @@ scatterplot = function() {
       if (yNA.handle) {
         yaxis.append("text").attr("x", margin.left - axispos.ylabel).attr("y", margin.top + height - yNA.width / 2).text("N/A");
       }
-      indtip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {
+      indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
         return indID[i];
       }).direction('e').offset([0, 10]);
       svg.call(indtip);
@@ -418,6 +419,13 @@ scatterplot = function() {
       return yNA;
     }
     yNA = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

@@ -2,7 +2,7 @@
 var mapchart;
 
 mapchart = function() {
-  var axispos, chart, height, linecolor, linecolorhilit, linewidth, margin, markerSelect, martip, nyticks, rectcolor, rotate_ylab, svg, tickwidth, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, height, linecolor, linecolorhilit, linewidth, margin, markerSelect, martip, nyticks, rectcolor, rotate_ylab, svg, tickwidth, tipclass, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 1000;
   height = 600;
   margin = {
@@ -36,6 +36,7 @@ mapchart = function() {
   markerSelect = null;
   svg = null;
   martip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var chr, g, gEnter, i, j, len, len1, mar, marker, markernames, markerpos, markers, pos, ref, ref1, titlegrp, xaxis, xrange, yaxis, yextentByChr, ymax, ymin, yrange;
@@ -141,7 +142,7 @@ mapchart = function() {
       }).attr("y2", function(d) {
         return yscale(yextentByChr[d][1]);
       }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).style("pointer-events", "none");
-      martip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      martip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         pos = d3.format(".1f")(markerpos[d].pos);
         return d + " (" + pos + ")";
       }).direction('e').offset([0, 10]);
@@ -303,6 +304,13 @@ mapchart = function() {
       return rotate_ylab;
     }
     rotate_ylab = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

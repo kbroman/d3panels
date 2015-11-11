@@ -2,7 +2,7 @@
 var cichart;
 
 cichart = function() {
-  var axispos, chart, height, margin, nyticks, rectcolor, rotate_ylab, segcolor, segstrokewidth, segwidth, svg, tip, title, titlepos, vertsegcolor, width, xcatlabels, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, height, margin, nyticks, rectcolor, rotate_ylab, segcolor, segstrokewidth, segwidth, svg, tip, tipclass, title, titlepos, vertsegcolor, width, xcatlabels, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 400;
   height = 500;
   margin = {
@@ -36,6 +36,7 @@ cichart = function() {
   yscale = d3.scale.linear();
   svg = null;
   tip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var categories, g, gEnter, high, low, means, segments, titlegrp, xaxis, xrange, yaxis, yrange, ys;
@@ -97,7 +98,7 @@ cichart = function() {
         return formatAxis(yticks)(d);
       });
       yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      tip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {
+      tip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
         var f, index;
         index = i % means.length;
         f = formatAxis([low[index], means[index]], 1);
@@ -264,6 +265,13 @@ cichart = function() {
       return rotate_ylab;
     }
     rotate_ylab = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

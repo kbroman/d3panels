@@ -2,7 +2,7 @@
 var heatmap;
 
 heatmap = function() {
-  var axispos, cellSelect, celltip, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, svg, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
+  var axispos, cellSelect, celltip, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
   width = 400;
   height = 500;
   margin = {
@@ -40,6 +40,7 @@ heatmap = function() {
   dataByCell = false;
   svg = null;
   celltip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var cell, cells, g, gEnter, i, j, k, len, nx, ny, ref, titlegrp, xLR, xaxis, xrange, yLR, yaxis, yrange, zmax, zmin;
@@ -184,7 +185,7 @@ heatmap = function() {
         return formatAxis(yticks)(d);
       });
       yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      celltip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         var x, y, z;
         x = formatAxis(data.x)(d.x);
         y = formatAxis(data.y)(d.y);
@@ -364,6 +365,13 @@ heatmap = function() {
       return zlim;
     }
     zlim = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.xscale = function() {

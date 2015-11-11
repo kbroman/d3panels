@@ -2,7 +2,7 @@
 var curvechart;
 
 curvechart = function() {
-  var axispos, chart, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
+  var axispos, chart, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
   width = 800;
   height = 500;
   margin = {
@@ -40,6 +40,7 @@ curvechart = function() {
   commonX = true;
   svg = null;
   indtip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var curve, curves, g, gEnter, group, i, indID, ind_data, j, k, l, lastpoint, len, ngroup, points, pointsg, ref, ref1, ref2, ref3, results, titlegrp, tmp, v, xaxis, xrange, xs, yaxis, yrange, ys;
@@ -169,7 +170,7 @@ curvechart = function() {
         return formatAxis(yticks)(d);
       });
       yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      indtip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         return indID[d];
       }).direction('e').offset([0, 10]);
       svg.call(indtip);
@@ -370,6 +371,13 @@ curvechart = function() {
       return rotate_ylab;
     }
     rotate_ylab = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

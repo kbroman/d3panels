@@ -2,7 +2,7 @@
 var abs, calc_crosstab, chrscales, ci_by_group, colSums, count_groups, d3panels, displayError, expand2vector, forceAsArray, formatAxis, getLeftRight, log10, log2, matrixExtent, matrixMax, matrixMaxAbs, matrixMin, maxdiff, mean_by_group, median, missing2null, pullVarAsArray, reorgLodData, rowSums, sd_by_group, selectGroupColors, sumArray, transpose, unique;
 
 d3panels = {
-  version: "0.6.2"
+  version: "0.6.3"
 };
 
 formatAxis = function(d, extra_digits) {

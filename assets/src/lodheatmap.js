@@ -2,7 +2,7 @@
 var lodheatmap;
 
 lodheatmap = function() {
-  var axispos, cellSelect, celltip, chart, chrGap, colors, height, lod_labels, margin, nullcolor, nyticks, quantScale, rectcolor, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, yscale, yticks, zlim, zscale, zthresh;
+  var axispos, cellSelect, celltip, chart, chrGap, colors, height, lod_labels, margin, nullcolor, nyticks, quantScale, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xscale, ylab, yscale, yticks, zlim, zscale, zthresh;
   width = 1200;
   height = 600;
   margin = {
@@ -38,6 +38,7 @@ lodheatmap = function() {
   cellSelect = null;
   svg = null;
   celltip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var cells, chr, extent, g, gEnter, i, j, k, l, len, len1, len2, len3, len4, lod, lodcol, m, n, nlod, o, pos, quant_y_scale, rectHeight, ref, ref1, ref2, ref3, ref4, titlegrp, xLR, xaxis, yaxis, zmax, zmin;
@@ -140,7 +141,7 @@ lodheatmap = function() {
           return d;
         }).attr("opacity", 0);
       }
-      celltip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         var p, z;
         z = d3.format(".2f")(Math.abs(d.z));
         p = d3.format(".1f")(d.pos);
@@ -313,6 +314,13 @@ lodheatmap = function() {
       return lod_labels;
     }
     lod_labels = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.xscale = function() {

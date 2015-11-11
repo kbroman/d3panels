@@ -3,7 +3,7 @@ var dotchart,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 dotchart = function() {
-  var axispos, chart, dataByInd, height, indtip, margin, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, title, titlepos, width, xcategories, xcatlabels, xjitter, xlab, xscale, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
+  var axispos, chart, dataByInd, height, indtip, margin, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xcategories, xcatlabels, xjitter, xlab, xscale, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
   width = 400;
   height = 500;
   margin = {
@@ -48,6 +48,7 @@ dotchart = function() {
   dataByInd = true;
   svg = null;
   indtip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var g, gEnter, indID, j, na_value, panelheight, points, ref, ref1, results, titlegrp, v, w, x, xaxis, xrange, xv, y, yaxis, yrange, ys;
@@ -191,7 +192,7 @@ dotchart = function() {
       if (yNA.handle) {
         yaxis.append("text").attr("x", margin.left - axispos.ylabel).attr("y", margin.top + height - yNA.width / 2).text("N/A");
       }
-      indtip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {
+      indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
         return indID[i];
       }).direction('e').offset([0, 10]);
       svg.call(indtip);
@@ -374,6 +375,13 @@ dotchart = function() {
       return yNA;
     }
     yNA = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

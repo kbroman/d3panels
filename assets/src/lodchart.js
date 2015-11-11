@@ -2,7 +2,7 @@
 var lodchart;
 
 lodchart = function() {
-  var axispos, chart, chrGap, chrSelect, darkrect, height, lightrect, linecolor, linewidth, lodcurve, lodvarname, margin, markerSelect, markertip, nyticks, pad4heatmap, pointcolor, pointsAtMarkers, pointsize, pointstroke, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, chrGap, chrSelect, darkrect, height, lightrect, linecolor, linewidth, lodcurve, lodvarname, margin, markerSelect, markertip, nyticks, pad4heatmap, pointcolor, pointsAtMarkers, pointsize, pointstroke, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 800;
   height = 500;
   margin = {
@@ -44,6 +44,7 @@ lodchart = function() {
   pointsAtMarkers = true;
   svg = null;
   markertip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var bigpointsize, chr, curves, g, gEnter, hiddenpoints, j, len, lodvarnum, markerpoints, ref, ref1, titlegrp, x, xaxis, yaxis;
@@ -146,7 +147,7 @@ lodchart = function() {
       }
       if (pointsAtMarkers) {
         hiddenpoints = g.append("g").attr("id", "markerpoints_hidden");
-        markertip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+        markertip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
           return [d.name, " LOD = " + (d3.format('.2f')(d.lod))];
         }).direction("e").offset([0, 10]);
         svg.call(markertip);
@@ -338,6 +339,13 @@ lodchart = function() {
       return pointsAtMarkers;
     }
     pointsAtMarkers = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

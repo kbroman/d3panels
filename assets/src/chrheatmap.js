@@ -2,7 +2,7 @@
 var chrheatmap;
 
 chrheatmap = function() {
-  var axispos, bordercolor, cellSelect, celltip, chart, chrGap, colors, hover, margin, nullcolor, oneAtTop, pixelPerCell, rectcolor, rotate_ylab, svg, title, titlepos, xlab, ylab, zlim, zscale, zthresh;
+  var axispos, bordercolor, cellSelect, celltip, chart, chrGap, colors, hover, margin, nullcolor, oneAtTop, pixelPerCell, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, xlab, ylab, zlim, zscale, zthresh;
   pixelPerCell = 3;
   chrGap = 4;
   margin = {
@@ -34,6 +34,7 @@ chrheatmap = function() {
   cellSelect = null;
   svg = null;
   celltip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var cell, cells, chrborders, cur, g, gEnter, height, i, j, k, l, len, nchr, nm, nx, ny, ref, ref1, titlegrp, totmar, val, width, x, xCellStart, xChrBorder, xaxis, yCellStart, yChrBorder, yaxis, zmax, zmin;
@@ -199,7 +200,7 @@ chrheatmap = function() {
       }).attr("x", margin.left - axispos.ylabel).text(function(d) {
         return d;
       });
-      celltip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         return data.labels[d.i] + ", " + data.labels[d.j] + " &rarr; " + (formatAxis(data.allz)(d.z));
       }).direction('e').offset([0, 10]);
       svg.call(celltip);
@@ -347,6 +348,13 @@ chrheatmap = function() {
       return hover;
     }
     hover = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.zscale = function() {
