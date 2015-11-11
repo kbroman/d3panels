@@ -326,5 +326,10 @@ heatmap = () ->
     chart.cellSelect = () ->
                       return cellSelect
 
+    chart.remove = () ->
+                      svg.remove()
+                      celltip.remove()
+                      return null
+
     # return the chart function
     chart

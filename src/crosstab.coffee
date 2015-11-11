@@ -267,5 +267,9 @@ crosstab = () ->
                       fontsize = value
                       chart
 
+    chart.remove = () ->
+                      svg.remove()
+                      return null
+
     # return the chart function
     chart

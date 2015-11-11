@@ -359,5 +359,10 @@ lodchart = () ->
     chart.chrSelect = () ->
                       return chrSelect
 
+    chart.remove = () ->
+                      svg.remove()
+                      markertip.remove()
+                      return null
+
     # return the chart function
     chart

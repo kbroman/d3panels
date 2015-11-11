@@ -284,5 +284,10 @@ mapchart = () ->
     chart.markerSelect = () ->
                       return markerSelect
 
+    chart.remove = () ->
+                      svg.remove()
+                      martip.remove()
+                      return null
+
     # return the chart function
     chart

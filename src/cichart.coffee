@@ -282,5 +282,10 @@ cichart = () ->
     chart.xscale = () ->
                        return xscale
 
+    chart.remove = () ->
+                      svg.remove()
+                      tip.remove()
+                      return null
+
     # return the chart function
     chart

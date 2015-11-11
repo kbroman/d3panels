@@ -358,5 +358,10 @@ dotchart = () ->
     chart.pointsSelect = () ->
                       return pointsSelect
 
+    chart.remove = () ->
+                      svg.remove()
+                      indtip.remove()
+                      return null
+
     # return the chart function
     chart

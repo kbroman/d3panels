@@ -343,5 +343,10 @@ curvechart = () ->
     chart.curvesSelect = () ->
                       return curvesSelect
 
+    chart.remove = () ->
+                      svg.remove()
+                      indtip.remove()
+                      return null
+
     # return the chart function
     chart
