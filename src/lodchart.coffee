@@ -29,6 +29,8 @@ lodchart = () ->
     markerSelect = null
     chrSelect = null
     pointsAtMarkers = true
+    svg = null
+    markertip = null
 
     ## the main function
     chart = (selection) ->
@@ -361,7 +363,7 @@ lodchart = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      markertip.remove()
+                      markertip.destroy()
                       return null
 
     # return the chart function

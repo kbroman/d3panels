@@ -25,6 +25,8 @@ curvechart = () ->
     xscale = d3.scale.linear()
     curvesSelect = null
     commonX = true
+    svg = null
+    indtip = null
 
     ## the main function
     chart = (selection) ->
@@ -345,7 +347,7 @@ curvechart = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      indtip.remove()
+                      indtip.destroy()
                       return null
 
     # return the chart function

@@ -24,6 +24,8 @@ lodheatmap = () ->
     yscale = d3.scale.linear()
     zscale = d3.scale.linear()
     cellSelect = null
+    svg = null
+    celltip = null
 
     ## the main function
     chart = (selection) ->
@@ -300,7 +302,7 @@ lodheatmap = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      celltip.remove()
+                      celltip.destroy()
                       return null
 
     # return the chart function

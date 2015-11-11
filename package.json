@@ -1,6 +1,6 @@
 {
     "name": "d3panels",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "description": "D3-based graphics panels",
     "authors": [
         "Karl Broman <kbroman@gmail.com>"

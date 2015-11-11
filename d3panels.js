@@ -2,7 +2,7 @@
 var abs, calc_crosstab, chrscales, ci_by_group, colSums, count_groups, d3panels, displayError, expand2vector, forceAsArray, formatAxis, getLeftRight, log10, log2, matrixExtent, matrixMax, matrixMaxAbs, matrixMin, maxdiff, mean_by_group, median, missing2null, pullVarAsArray, reorgLodData, rowSums, sd_by_group, selectGroupColors, sumArray, transpose, unique;
 
 d3panels = {
-  version: "0.6.1"
+  version: "0.6.2"
 };
 
 formatAxis = function(d, extra_digits) {
@@ -608,7 +608,7 @@ ci_by_group = function(g, y, m) {
 var chrheatmap;
 
 chrheatmap = function() {
-  var axispos, bordercolor, cellSelect, chart, chrGap, colors, hover, margin, nullcolor, oneAtTop, pixelPerCell, rectcolor, rotate_ylab, title, titlepos, xlab, ylab, zlim, zscale, zthresh;
+  var axispos, bordercolor, cellSelect, celltip, chart, chrGap, colors, hover, margin, nullcolor, oneAtTop, pixelPerCell, rectcolor, rotate_ylab, svg, title, titlepos, xlab, ylab, zlim, zscale, zthresh;
   pixelPerCell = 3;
   chrGap = 4;
   margin = {
@@ -638,9 +638,11 @@ chrheatmap = function() {
   oneAtTop = false;
   hover = true;
   cellSelect = null;
+  svg = null;
+  celltip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var cell, cells, celltip, chrborders, cur, g, gEnter, height, i, j, k, l, len, nchr, nm, nx, ny, ref, ref1, svg, titlegrp, totmar, val, width, x, xCellStart, xChrBorder, xaxis, yCellStart, yChrBorder, yaxis, zmax, zmin;
+      var cell, cells, chrborders, cur, g, gEnter, height, i, j, k, l, len, nchr, nm, nx, ny, ref, ref1, titlegrp, totmar, val, width, x, xCellStart, xChrBorder, xaxis, yCellStart, yChrBorder, yaxis, zmax, zmin;
       ny = data.z.length;
       nx = (function() {
         var k, len, ref, results;
@@ -961,7 +963,7 @@ chrheatmap = function() {
   };
   chart.remove = function() {
     svg.remove();
-    celltip.remove();
+    celltip.destroy();
     return null;
   };
   return chart;
@@ -970,7 +972,7 @@ chrheatmap = function() {
 var cichart;
 
 cichart = function() {
-  var axispos, chart, height, margin, nyticks, rectcolor, rotate_ylab, segcolor, segstrokewidth, segwidth, title, titlepos, vertsegcolor, width, xcatlabels, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, height, margin, nyticks, rectcolor, rotate_ylab, segcolor, segstrokewidth, segwidth, svg, tip, title, titlepos, vertsegcolor, width, xcatlabels, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 400;
   height = 500;
   margin = {
@@ -1002,9 +1004,11 @@ cichart = function() {
   rotate_ylab = null;
   xscale = d3.scale.ordinal();
   yscale = d3.scale.linear();
+  svg = null;
+  tip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var categories, g, gEnter, high, low, means, segments, svg, tip, titlegrp, xaxis, xrange, yaxis, yrange, ys;
+      var categories, g, gEnter, high, low, means, segments, titlegrp, xaxis, xrange, yaxis, yrange, ys;
       means = data.means;
       low = data.low;
       high = data.high;
@@ -1240,7 +1244,7 @@ cichart = function() {
   };
   chart.remove = function() {
     svg.remove();
-    tip.remove();
+    tip.destroy();
     return null;
   };
   return chart;
@@ -1249,7 +1253,7 @@ cichart = function() {
 var crosstab;
 
 crosstab = function() {
-  var bordercolor, cellHeight, cellPad, cellWidth, chart, fontsize, hilitcolor, margin, rectcolor, title, titlepos;
+  var bordercolor, cellHeight, cellPad, cellWidth, chart, fontsize, hilitcolor, margin, rectcolor, svg, title, titlepos;
   cellHeight = 30;
   cellWidth = 80;
   cellPad = 20;
@@ -1265,9 +1269,10 @@ crosstab = function() {
   rectcolor = "#e6e6e6";
   hilitcolor = "#e9cfec";
   bordercolor = "black";
+  svg = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var borders, cell, cells, collab, colrect, denom, g, gEnter, height, i, j, k, l, m, n, ncol, nrow, o, rect, ref, ref1, ref2, ref3, ref4, ref5, results, results1, rowlab, rowrect, svg, tab, titles, values, width, xscale, yscale;
+      var borders, cell, cells, collab, colrect, denom, g, gEnter, height, i, j, k, l, m, n, ncol, nrow, o, rect, ref, ref1, ref2, ref3, ref4, ref5, results, results1, rowlab, rowrect, tab, titles, values, width, xscale, yscale;
       n = data.x.length;
       if (data.y.length !== n) {
         displayError("data.x.length [" + data.x.length + "] != data.y.length [" + data.y.length + "]");
@@ -1494,7 +1499,7 @@ crosstab = function() {
 var curvechart;
 
 curvechart = function() {
-  var axispos, chart, commonX, curvesSelect, height, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
+  var axispos, chart, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
   width = 800;
   height = 500;
   margin = {
@@ -1530,9 +1535,11 @@ curvechart = function() {
   xscale = d3.scale.linear();
   curvesSelect = null;
   commonX = true;
+  svg = null;
+  indtip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var curve, curves, g, gEnter, group, i, indID, ind_data, indtip, j, k, l, lastpoint, len, ngroup, points, pointsg, ref, ref1, ref2, ref3, results, svg, titlegrp, tmp, v, xaxis, xrange, xs, yaxis, yrange, ys;
+      var curve, curves, g, gEnter, group, i, indID, ind_data, j, k, l, lastpoint, len, ngroup, points, pointsg, ref, ref1, ref2, ref3, results, titlegrp, tmp, v, xaxis, xrange, xs, yaxis, yrange, ys;
       indID = (ref = data != null ? data.indID : void 0) != null ? ref : null;
       indID = indID != null ? indID : (function() {
         results = [];
@@ -1873,7 +1880,7 @@ curvechart = function() {
   };
   chart.remove = function() {
     svg.remove();
-    indtip.remove();
+    indtip.destroy();
     return null;
   };
   return chart;
@@ -1883,7 +1890,7 @@ var dotchart,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 dotchart = function() {
-  var axispos, chart, dataByInd, height, margin, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, title, titlepos, width, xcategories, xcatlabels, xjitter, xlab, xscale, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
+  var axispos, chart, dataByInd, height, indtip, margin, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, title, titlepos, width, xcategories, xcatlabels, xjitter, xlab, xscale, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
   width = 400;
   height = 500;
   margin = {
@@ -1926,9 +1933,11 @@ dotchart = function() {
   yvar = 1;
   pointsSelect = null;
   dataByInd = true;
+  svg = null;
+  indtip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var g, gEnter, indID, indtip, j, na_value, panelheight, points, ref, ref1, results, svg, titlegrp, v, w, x, xaxis, xrange, xv, y, yaxis, yrange, ys;
+      var g, gEnter, indID, j, na_value, panelheight, points, ref, ref1, results, titlegrp, v, w, x, xaxis, xrange, xv, y, yaxis, yrange, ys;
       if (dataByInd) {
         x = data.map(function(d) {
           return d[xvar];
@@ -2265,7 +2274,7 @@ dotchart = function() {
   };
   chart.remove = function() {
     svg.remove();
-    indtip.remove();
+    indtip.destroy();
     return null;
   };
   return chart;
@@ -2274,7 +2283,7 @@ dotchart = function() {
 var heatmap;
 
 heatmap = function() {
-  var axispos, cellSelect, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
+  var axispos, cellSelect, celltip, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, svg, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
   width = 400;
   height = 500;
   margin = {
@@ -2310,9 +2319,11 @@ heatmap = function() {
   zscale = d3.scale.linear();
   cellSelect = null;
   dataByCell = false;
+  svg = null;
+  celltip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var cell, cells, celltip, g, gEnter, i, j, k, len, nx, ny, ref, svg, titlegrp, xLR, xaxis, xrange, yLR, yaxis, yrange, zmax, zmin;
+      var cell, cells, g, gEnter, i, j, k, len, nx, ny, ref, titlegrp, xLR, xaxis, xrange, yLR, yaxis, yrange, zmax, zmin;
       if (dataByCell) {
         data.x = (function() {
           var k, len, ref, results;
@@ -2650,7 +2661,7 @@ heatmap = function() {
   };
   chart.remove = function() {
     svg.remove();
-    celltip.remove();
+    celltip.destroy();
     return null;
   };
   return chart;
@@ -2659,7 +2670,7 @@ heatmap = function() {
 var lodchart;
 
 lodchart = function() {
-  var axispos, chart, chrGap, chrSelect, darkrect, height, lightrect, linecolor, linewidth, lodcurve, lodvarname, margin, markerSelect, nyticks, pad4heatmap, pointcolor, pointsAtMarkers, pointsize, pointstroke, rotate_ylab, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, chrGap, chrSelect, darkrect, height, lightrect, linecolor, linewidth, lodcurve, lodvarname, margin, markerSelect, markertip, nyticks, pad4heatmap, pointcolor, pointsAtMarkers, pointsize, pointstroke, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 800;
   height = 500;
   margin = {
@@ -2699,9 +2710,11 @@ lodchart = function() {
   markerSelect = null;
   chrSelect = null;
   pointsAtMarkers = true;
+  svg = null;
+  markertip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var bigpointsize, chr, curves, g, gEnter, hiddenpoints, j, len, lodvarnum, markerpoints, markertip, ref, ref1, svg, titlegrp, x, xaxis, yaxis;
+      var bigpointsize, chr, curves, g, gEnter, hiddenpoints, j, len, lodvarnum, markerpoints, ref, ref1, titlegrp, x, xaxis, yaxis;
       data.chrnames = forceAsArray(data.chrnames);
       data.lodnames = forceAsArray(data.lodnames);
       lodvarname = lodvarname != null ? lodvarname : data.lodnames[0];
@@ -3012,7 +3025,7 @@ lodchart = function() {
   };
   chart.remove = function() {
     svg.remove();
-    markertip.remove();
+    markertip.destroy();
     return null;
   };
   return chart;
@@ -3021,7 +3034,7 @@ lodchart = function() {
 var lodheatmap;
 
 lodheatmap = function() {
-  var axispos, cellSelect, chart, chrGap, colors, height, lod_labels, margin, nullcolor, nyticks, quantScale, rectcolor, rotate_ylab, title, titlepos, width, xlab, xscale, ylab, yscale, yticks, zlim, zscale, zthresh;
+  var axispos, cellSelect, celltip, chart, chrGap, colors, height, lod_labels, margin, nullcolor, nyticks, quantScale, rectcolor, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, yscale, yticks, zlim, zscale, zthresh;
   width = 1200;
   height = 600;
   margin = {
@@ -3055,9 +3068,11 @@ lodheatmap = function() {
   yscale = d3.scale.linear();
   zscale = d3.scale.linear();
   cellSelect = null;
+  svg = null;
+  celltip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var cells, celltip, chr, extent, g, gEnter, i, j, k, l, len, len1, len2, len3, len4, lod, lodcol, m, n, nlod, o, pos, quant_y_scale, rectHeight, ref, ref1, ref2, ref3, ref4, svg, titlegrp, xLR, xaxis, yaxis, zmax, zmin;
+      var cells, chr, extent, g, gEnter, i, j, k, l, len, len1, len2, len3, len4, lod, lodcol, m, n, nlod, o, pos, quant_y_scale, rectHeight, ref, ref1, ref2, ref3, ref4, titlegrp, xLR, xaxis, yaxis, zmax, zmin;
       data = reorgLodData(data);
       data = chrscales(data, width, chrGap, margin.left, true);
       xscale = data.xscale;
@@ -3346,7 +3361,7 @@ lodheatmap = function() {
   };
   chart.remove = function() {
     svg.remove();
-    celltip.remove();
+    celltip.destroy();
     return null;
   };
   return chart;
@@ -3355,7 +3370,7 @@ lodheatmap = function() {
 var mapchart;
 
 mapchart = function() {
-  var axispos, chart, height, linecolor, linecolorhilit, linewidth, margin, markerSelect, nyticks, rectcolor, rotate_ylab, tickwidth, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, height, linecolor, linecolorhilit, linewidth, margin, markerSelect, martip, nyticks, rectcolor, rotate_ylab, svg, tickwidth, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 1000;
   height = 600;
   margin = {
@@ -3387,9 +3402,11 @@ mapchart = function() {
   xscale = d3.scale.ordinal();
   yscale = d3.scale.linear();
   markerSelect = null;
+  svg = null;
+  martip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var chr, g, gEnter, i, j, len, len1, mar, marker, markernames, markerpos, markers, martip, pos, ref, ref1, svg, titlegrp, xaxis, xrange, yaxis, yextentByChr, ymax, ymin, yrange;
+      var chr, g, gEnter, i, j, len, len1, mar, marker, markernames, markerpos, markers, pos, ref, ref1, titlegrp, xaxis, xrange, yaxis, yextentByChr, ymax, ymin, yrange;
       if (sumArray((function() {
         var i, len, ref, results;
         ref = data.chr;
@@ -3667,7 +3684,7 @@ mapchart = function() {
   };
   chart.remove = function() {
     svg.remove();
-    martip.remove();
+    martip.destroy();
     return null;
   };
   return chart;
@@ -3676,7 +3693,7 @@ mapchart = function() {
 var scatterplot;
 
 scatterplot = function() {
-  var axispos, chart, dataByInd, height, margin, nxticks, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, title, titlepos, width, xNA, xlab, xlim, xscale, xticks, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
+  var axispos, chart, dataByInd, height, indtip, margin, nxticks, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, title, titlepos, width, xNA, xlab, xlim, xscale, xticks, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
   width = 800;
   height = 500;
   margin = {
@@ -3725,9 +3742,11 @@ scatterplot = function() {
   yvar = 1;
   pointsSelect = null;
   dataByInd = true;
+  svg = null;
+  indtip = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var g, gEnter, group, i, indID, indtip, j, na_value, ngroup, panelheight, paneloffset, panelwidth, points, ref, ref1, ref2, results, svg, titlegrp, x, xaxis, xrange, xs, y, yaxis, yrange, ys;
+      var g, gEnter, group, i, indID, j, na_value, ngroup, panelheight, paneloffset, panelwidth, points, ref, ref1, ref2, results, titlegrp, x, xaxis, xrange, xs, y, yaxis, yrange, ys;
       if (dataByInd) {
         x = data.data.map(function(d) {
           return d[xvar];
@@ -4103,7 +4122,7 @@ scatterplot = function() {
   };
   chart.remove = function() {
     svg.remove();
-    indtip.remove();
+    indtip.destroy();
     return null;
   };
   return chart;

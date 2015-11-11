@@ -11,6 +11,7 @@ crosstab = () ->
     rectcolor = "#e6e6e6"
     hilitcolor = "#e9cfec"
     bordercolor = "black"
+    svg = null
 
     ## the main function
     chart = (selection) ->

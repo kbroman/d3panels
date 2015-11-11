@@ -20,6 +20,8 @@ chrheatmap = () ->
     oneAtTop = false
     hover = true
     cellSelect = null
+    svg = null
+    celltip = null
 
     ## the main function
     chart = (selection) ->
@@ -299,7 +301,7 @@ chrheatmap = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      celltip.remove()
+                      celltip.destroy()
                       return null
 
     # return the chart function

@@ -27,6 +27,8 @@ dotchart = () ->
     yvar = 1
     pointsSelect = null
     dataByInd = true
+    svg = null
+    indtip = null
 
     ## the main function
     chart = (selection) ->
@@ -360,7 +362,7 @@ dotchart = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      indtip.remove()
+                      indtip.destroy()
                       return null
 
     # return the chart function

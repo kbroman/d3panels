@@ -1,7 +1,7 @@
 # A variety of utility functions used by the different panel functions
 
 d3panels =
-    version: "0.6.1"
+    version: "0.6.2"
 
 # determine rounding of axis labels
 formatAxis = (d, extra_digits=0) ->

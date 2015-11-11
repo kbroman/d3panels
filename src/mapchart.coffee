@@ -21,6 +21,8 @@ mapchart = () ->
     xscale = d3.scale.ordinal()
     yscale = d3.scale.linear()
     markerSelect = null
+    svg = null
+    martip = null
 
     ## the main function
     chart = (selection) ->
@@ -286,7 +288,7 @@ mapchart = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      martip.remove()
+                      martip.destroy()
                       return null
 
     # return the chart function

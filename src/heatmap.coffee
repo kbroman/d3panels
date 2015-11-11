@@ -26,6 +26,8 @@ heatmap = () ->
     zscale = d3.scale.linear()
     cellSelect = null
     dataByCell = false
+    svg = null
+    celltip = null
 
     ## the main function
     chart = (selection) ->
@@ -328,7 +330,7 @@ heatmap = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      celltip.remove()
+                      celltip.destroy()
                       return null
 
     # return the chart function

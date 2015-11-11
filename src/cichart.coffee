@@ -21,6 +21,8 @@ cichart = () ->
     rotate_ylab = null
     xscale = d3.scale.ordinal()
     yscale = d3.scale.linear()
+    svg = null
+    tip = null
 
     ## the main function
     chart = (selection) ->
@@ -284,7 +286,7 @@ cichart = () ->
 
     chart.remove = () ->
                       svg.remove()
-                      tip.remove()
+                      tip.destroy()
                       return null
 
     # return the chart function
