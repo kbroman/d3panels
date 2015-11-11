@@ -23,6 +23,7 @@ cichart = () ->
     yscale = d3.scale.linear()
     svg = null
     tip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -137,7 +138,7 @@ cichart = () ->
                  .attr("transform", if rotate_ylab then "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})" else "")
 
             tip = d3.tip()
-                       .attr('class', 'd3-tip')
+                       .attr('class', "d3-tip #{tipclass}")
                        .html((d,i) ->
                           index = i % means.length
                           f = formatAxis([low[index],means[index]], 1)
@@ -277,6 +278,11 @@ cichart = () ->
                        return rotate_ylab if !arguments.length
                        rotate_ylab = value
                        chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
+                      chart
 
     chart.yscale = () ->
                        return yscale

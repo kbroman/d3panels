@@ -31,6 +31,7 @@ lodchart = () ->
     pointsAtMarkers = true
     svg = null
     markertip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -182,7 +183,7 @@ lodchart = () ->
                 hiddenpoints = g.append("g").attr("id", "markerpoints_hidden")
 
                 markertip = d3.tip()
-                              .attr('class', 'd3-tip')
+                              .attr('class', "d3-tip #{tipclass}")
                               .html((d) ->
                                          [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
                               .direction("e")
@@ -344,6 +345,11 @@ lodchart = () ->
     chart.pointsAtMarkers = (value) ->
                       return pointsAtMarkers unless arguments.length
                       pointsAtMarkers = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.yscale = () ->

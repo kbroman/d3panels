@@ -26,6 +26,7 @@ lodheatmap = () ->
     cellSelect = null
     svg = null
     celltip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -146,7 +147,7 @@ lodheatmap = () ->
                      .attr("opacity", 0)
 
             celltip = d3.tip()
-                       .attr('class', 'd3-tip')
+                       .attr('class', "d3-tip #{tipclass}")
                        .html((d) ->
                                  z = d3.format(".2f")(Math.abs(d.z))
                                  p = d3.format(".1f")(d.pos)
@@ -286,6 +287,11 @@ lodheatmap = () ->
     chart.lod_labels = (value) ->
                       return lod_labels if !arguments.length
                       lod_labels = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.xscale = () ->

@@ -23,6 +23,7 @@ mapchart = () ->
     markerSelect = null
     svg = null
     martip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -145,7 +146,7 @@ mapchart = () ->
              .style("pointer-events", "none")
 
             martip = d3.tip()
-                       .attr('class', 'd3-tip')
+                       .attr('class', "d3-tip #{tipclass}")
                        .html((d) ->
                           pos = d3.format(".1f")(markerpos[d].pos)
                           "#{d} (#{pos})")
@@ -275,6 +276,11 @@ mapchart = () ->
     chart.rotate_ylab = (value) ->
                       return rotate_ylab if !arguments.length
                       rotate_ylab = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.yscale = () ->

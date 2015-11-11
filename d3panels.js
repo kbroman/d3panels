@@ -2,7 +2,7 @@
 var abs, calc_crosstab, chrscales, ci_by_group, colSums, count_groups, d3panels, displayError, expand2vector, forceAsArray, formatAxis, getLeftRight, log10, log2, matrixExtent, matrixMax, matrixMaxAbs, matrixMin, maxdiff, mean_by_group, median, missing2null, pullVarAsArray, reorgLodData, rowSums, sd_by_group, selectGroupColors, sumArray, transpose, unique;
 
 d3panels = {
-  version: "0.6.2"
+  version: "0.6.3"
 };
 
 formatAxis = function(d, extra_digits) {
@@ -608,7 +608,7 @@ ci_by_group = function(g, y, m) {
 var chrheatmap;
 
 chrheatmap = function() {
-  var axispos, bordercolor, cellSelect, celltip, chart, chrGap, colors, hover, margin, nullcolor, oneAtTop, pixelPerCell, rectcolor, rotate_ylab, svg, title, titlepos, xlab, ylab, zlim, zscale, zthresh;
+  var axispos, bordercolor, cellSelect, celltip, chart, chrGap, colors, hover, margin, nullcolor, oneAtTop, pixelPerCell, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, xlab, ylab, zlim, zscale, zthresh;
   pixelPerCell = 3;
   chrGap = 4;
   margin = {
@@ -640,6 +640,7 @@ chrheatmap = function() {
   cellSelect = null;
   svg = null;
   celltip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var cell, cells, chrborders, cur, g, gEnter, height, i, j, k, l, len, nchr, nm, nx, ny, ref, ref1, titlegrp, totmar, val, width, x, xCellStart, xChrBorder, xaxis, yCellStart, yChrBorder, yaxis, zmax, zmin;
@@ -805,7 +806,7 @@ chrheatmap = function() {
       }).attr("x", margin.left - axispos.ylabel).text(function(d) {
         return d;
       });
-      celltip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         return data.labels[d.i] + ", " + data.labels[d.j] + " &rarr; " + (formatAxis(data.allz)(d.z));
       }).direction('e').offset([0, 10]);
       svg.call(celltip);
@@ -955,6 +956,13 @@ chrheatmap = function() {
     hover = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.zscale = function() {
     return zscale;
   };
@@ -972,7 +980,7 @@ chrheatmap = function() {
 var cichart;
 
 cichart = function() {
-  var axispos, chart, height, margin, nyticks, rectcolor, rotate_ylab, segcolor, segstrokewidth, segwidth, svg, tip, title, titlepos, vertsegcolor, width, xcatlabels, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, height, margin, nyticks, rectcolor, rotate_ylab, segcolor, segstrokewidth, segwidth, svg, tip, tipclass, title, titlepos, vertsegcolor, width, xcatlabels, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 400;
   height = 500;
   margin = {
@@ -1006,6 +1014,7 @@ cichart = function() {
   yscale = d3.scale.linear();
   svg = null;
   tip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var categories, g, gEnter, high, low, means, segments, titlegrp, xaxis, xrange, yaxis, yrange, ys;
@@ -1067,7 +1076,7 @@ cichart = function() {
         return formatAxis(yticks)(d);
       });
       yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      tip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {
+      tip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
         var f, index;
         index = i % means.length;
         f = formatAxis([low[index], means[index]], 1);
@@ -1234,6 +1243,13 @@ cichart = function() {
       return rotate_ylab;
     }
     rotate_ylab = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {
@@ -1499,7 +1515,7 @@ crosstab = function() {
 var curvechart;
 
 curvechart = function() {
-  var axispos, chart, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
+  var axispos, chart, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
   width = 800;
   height = 500;
   margin = {
@@ -1537,6 +1553,7 @@ curvechart = function() {
   commonX = true;
   svg = null;
   indtip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var curve, curves, g, gEnter, group, i, indID, ind_data, j, k, l, lastpoint, len, ngroup, points, pointsg, ref, ref1, ref2, ref3, results, titlegrp, tmp, v, xaxis, xrange, xs, yaxis, yrange, ys;
@@ -1666,7 +1683,7 @@ curvechart = function() {
         return formatAxis(yticks)(d);
       });
       yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      indtip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         return indID[d];
       }).direction('e').offset([0, 10]);
       svg.call(indtip);
@@ -1869,6 +1886,13 @@ curvechart = function() {
     rotate_ylab = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.yscale = function() {
     return yscale;
   };
@@ -1890,7 +1914,7 @@ var dotchart,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 dotchart = function() {
-  var axispos, chart, dataByInd, height, indtip, margin, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, title, titlepos, width, xcategories, xcatlabels, xjitter, xlab, xscale, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
+  var axispos, chart, dataByInd, height, indtip, margin, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xcategories, xcatlabels, xjitter, xlab, xscale, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
   width = 400;
   height = 500;
   margin = {
@@ -1935,6 +1959,7 @@ dotchart = function() {
   dataByInd = true;
   svg = null;
   indtip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var g, gEnter, indID, j, na_value, panelheight, points, ref, ref1, results, titlegrp, v, w, x, xaxis, xrange, xv, y, yaxis, yrange, ys;
@@ -2078,7 +2103,7 @@ dotchart = function() {
       if (yNA.handle) {
         yaxis.append("text").attr("x", margin.left - axispos.ylabel).attr("y", margin.top + height - yNA.width / 2).text("N/A");
       }
-      indtip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {
+      indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
         return indID[i];
       }).direction('e').offset([0, 10]);
       svg.call(indtip);
@@ -2263,6 +2288,13 @@ dotchart = function() {
     yNA = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.yscale = function() {
     return yscale;
   };
@@ -2283,7 +2315,7 @@ dotchart = function() {
 var heatmap;
 
 heatmap = function() {
-  var axispos, cellSelect, celltip, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, svg, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
+  var axispos, cellSelect, celltip, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
   width = 400;
   height = 500;
   margin = {
@@ -2321,6 +2353,7 @@ heatmap = function() {
   dataByCell = false;
   svg = null;
   celltip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var cell, cells, g, gEnter, i, j, k, len, nx, ny, ref, titlegrp, xLR, xaxis, xrange, yLR, yaxis, yrange, zmax, zmin;
@@ -2465,7 +2498,7 @@ heatmap = function() {
         return formatAxis(yticks)(d);
       });
       yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      celltip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         var x, y, z;
         x = formatAxis(data.x)(d.x);
         y = formatAxis(data.y)(d.y);
@@ -2647,6 +2680,13 @@ heatmap = function() {
     zlim = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.xscale = function() {
     return xscale;
   };
@@ -2670,7 +2710,7 @@ heatmap = function() {
 var lodchart;
 
 lodchart = function() {
-  var axispos, chart, chrGap, chrSelect, darkrect, height, lightrect, linecolor, linewidth, lodcurve, lodvarname, margin, markerSelect, markertip, nyticks, pad4heatmap, pointcolor, pointsAtMarkers, pointsize, pointstroke, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, chrGap, chrSelect, darkrect, height, lightrect, linecolor, linewidth, lodcurve, lodvarname, margin, markerSelect, markertip, nyticks, pad4heatmap, pointcolor, pointsAtMarkers, pointsize, pointstroke, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 800;
   height = 500;
   margin = {
@@ -2712,6 +2752,7 @@ lodchart = function() {
   pointsAtMarkers = true;
   svg = null;
   markertip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var bigpointsize, chr, curves, g, gEnter, hiddenpoints, j, len, lodvarnum, markerpoints, ref, ref1, titlegrp, x, xaxis, yaxis;
@@ -2814,7 +2855,7 @@ lodchart = function() {
       }
       if (pointsAtMarkers) {
         hiddenpoints = g.append("g").attr("id", "markerpoints_hidden");
-        markertip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+        markertip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
           return [d.name, " LOD = " + (d3.format('.2f')(d.lod))];
         }).direction("e").offset([0, 10]);
         svg.call(markertip);
@@ -3008,6 +3049,13 @@ lodchart = function() {
     pointsAtMarkers = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.yscale = function() {
     return yscale;
   };
@@ -3034,7 +3082,7 @@ lodchart = function() {
 var lodheatmap;
 
 lodheatmap = function() {
-  var axispos, cellSelect, celltip, chart, chrGap, colors, height, lod_labels, margin, nullcolor, nyticks, quantScale, rectcolor, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, yscale, yticks, zlim, zscale, zthresh;
+  var axispos, cellSelect, celltip, chart, chrGap, colors, height, lod_labels, margin, nullcolor, nyticks, quantScale, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xscale, ylab, yscale, yticks, zlim, zscale, zthresh;
   width = 1200;
   height = 600;
   margin = {
@@ -3070,6 +3118,7 @@ lodheatmap = function() {
   cellSelect = null;
   svg = null;
   celltip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var cells, chr, extent, g, gEnter, i, j, k, l, len, len1, len2, len3, len4, lod, lodcol, m, n, nlod, o, pos, quant_y_scale, rectHeight, ref, ref1, ref2, ref3, ref4, titlegrp, xLR, xaxis, yaxis, zmax, zmin;
@@ -3172,7 +3221,7 @@ lodheatmap = function() {
           return d;
         }).attr("opacity", 0);
       }
-      celltip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         var p, z;
         z = d3.format(".2f")(Math.abs(d.z));
         p = d3.format(".1f")(d.pos);
@@ -3347,6 +3396,13 @@ lodheatmap = function() {
     lod_labels = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.xscale = function() {
     return xscale;
   };
@@ -3370,7 +3426,7 @@ lodheatmap = function() {
 var mapchart;
 
 mapchart = function() {
-  var axispos, chart, height, linecolor, linecolorhilit, linewidth, margin, markerSelect, martip, nyticks, rectcolor, rotate_ylab, svg, tickwidth, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
+  var axispos, chart, height, linecolor, linecolorhilit, linewidth, margin, markerSelect, martip, nyticks, rectcolor, rotate_ylab, svg, tickwidth, tipclass, title, titlepos, width, xlab, xscale, ylab, ylim, yscale, yticks;
   width = 1000;
   height = 600;
   margin = {
@@ -3404,6 +3460,7 @@ mapchart = function() {
   markerSelect = null;
   svg = null;
   martip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var chr, g, gEnter, i, j, len, len1, mar, marker, markernames, markerpos, markers, pos, ref, ref1, titlegrp, xaxis, xrange, yaxis, yextentByChr, ymax, ymin, yrange;
@@ -3509,7 +3566,7 @@ mapchart = function() {
       }).attr("y2", function(d) {
         return yscale(yextentByChr[d][1]);
       }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).style("pointer-events", "none");
-      martip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      martip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
         pos = d3.format(".1f")(markerpos[d].pos);
         return d + " (" + pos + ")";
       }).direction('e').offset([0, 10]);
@@ -3673,6 +3730,13 @@ mapchart = function() {
     rotate_ylab = value;
     return chart;
   };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
+    return chart;
+  };
   chart.yscale = function() {
     return yscale;
   };
@@ -3693,7 +3757,7 @@ mapchart = function() {
 var scatterplot;
 
 scatterplot = function() {
-  var axispos, chart, dataByInd, height, indtip, margin, nxticks, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, title, titlepos, width, xNA, xlab, xlim, xscale, xticks, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
+  var axispos, chart, dataByInd, height, indtip, margin, nxticks, nyticks, pointcolor, pointsSelect, pointsize, pointstroke, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xNA, xlab, xlim, xscale, xticks, xvar, yNA, ylab, ylim, yscale, yticks, yvar;
   width = 800;
   height = 500;
   margin = {
@@ -3744,6 +3808,7 @@ scatterplot = function() {
   dataByInd = true;
   svg = null;
   indtip = null;
+  tipclass = "";
   chart = function(selection) {
     return selection.each(function(data) {
       var g, gEnter, group, i, indID, j, na_value, ngroup, panelheight, paneloffset, panelwidth, points, ref, ref1, ref2, results, titlegrp, x, xaxis, xrange, xs, y, yaxis, yrange, ys;
@@ -3912,7 +3977,7 @@ scatterplot = function() {
       if (yNA.handle) {
         yaxis.append("text").attr("x", margin.left - axispos.ylabel).attr("y", margin.top + height - yNA.width / 2).text("N/A");
       }
-      indtip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {
+      indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
         return indID[i];
       }).direction('e').offset([0, 10]);
       svg.call(indtip);
@@ -4109,6 +4174,13 @@ scatterplot = function() {
       return yNA;
     }
     yNA = value;
+    return chart;
+  };
+  chart.tipclass = function(value) {
+    if (!arguments.length) {
+      return tipclass;
+    }
+    tipclass = value;
     return chart;
   };
   chart.yscale = function() {

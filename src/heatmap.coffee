@@ -28,6 +28,7 @@ heatmap = () ->
     dataByCell = false
     svg = null
     celltip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -169,7 +170,7 @@ heatmap = () ->
                  .attr("transform", if rotate_ylab then "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})" else "")
 
             celltip = d3.tip()
-                        .attr('class', 'd3-tip')
+                        .attr('class', "d3-tip #{tipclass}")
                         .html((d) ->
                                 x = formatAxis(data.x)(d.x)
                                 y = formatAxis(data.y)(d.y)
@@ -314,6 +315,11 @@ heatmap = () ->
     chart.zlim = (value) ->
                       return zlim if !arguments.length
                       zlim = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.xscale = () ->

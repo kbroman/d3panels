@@ -22,6 +22,7 @@ chrheatmap = () ->
     cellSelect = null
     svg = null
     celltip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -169,7 +170,7 @@ chrheatmap = () ->
                  .text((d) -> d)
 
             celltip = d3.tip()
-                        .attr('class', 'd3-tip')
+                        .attr('class', "d3-tip #{tipclass}")
                         .html((d) ->
                                 "#{data.labels[d.i]}, #{data.labels[d.j]} &rarr; #{formatAxis(data.allz)(d.z)}")
                         .direction('e')
@@ -291,6 +292,11 @@ chrheatmap = () ->
     chart.hover = (value) ->
                       return hover if !arguments.length
                       hover = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.zscale = () ->

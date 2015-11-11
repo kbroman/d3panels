@@ -27,6 +27,7 @@ curvechart = () ->
     commonX = true
     svg = null
     indtip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -173,7 +174,7 @@ curvechart = () ->
                  .attr("transform", if rotate_ylab then "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})" else "")
 
             indtip = d3.tip()
-                       .attr('class', 'd3-tip')
+                       .attr('class', "d3-tip #{tipclass}")
                        .html((d) -> indID[d])
                        .direction('e')
                        .offset([0,10])
@@ -334,6 +335,11 @@ curvechart = () ->
     chart.rotate_ylab = (value) ->
                       return rotate_ylab if !arguments.length
                       rotate_ylab = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.yscale = () ->

@@ -29,6 +29,7 @@ dotchart = () ->
     dataByInd = true
     svg = null
     indtip = null
+    tipclass = ""
 
     ## the main function
     chart = (selection) ->
@@ -191,7 +192,7 @@ dotchart = () ->
                      .text("N/A")
 
             indtip = d3.tip()
-                       .attr('class', 'd3-tip')
+                       .attr('class', "d3-tip #{tipclass}")
                        .html((d,i) -> indID[i])
                        .direction('e')
                        .offset([0,10])
@@ -349,6 +350,11 @@ dotchart = () ->
     chart.yNA = (value) ->
                       return yNA if !arguments.length
                       yNA = value
+                      chart
+
+    chart.tipclass = (value) ->
+                      return tipclass if !arguments.length
+                      tipclass = value
                       chart
 
     chart.yscale = () ->
