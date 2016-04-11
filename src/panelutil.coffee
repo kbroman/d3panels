@@ -1,15 +1,23 @@
 # A variety of utility functions used by the different panel functions
 
 d3panels =
-    version: "0.6.3"
+    version: "1.0.0"
 
 # determine rounding of axis labels
 formatAxis = (d, extra_digits=0) ->
-    d = d[1] - d[0]
-    ndig = Math.floor( log10(d) )
+
+    # gap between values
+    gap = if d[0]? then d[1]-d[0] else d[2] - d[1] # allow first value to be NULL
+
+    # turn gap into number of digits
+    ndig = Math.floor( log10(gap) )
     ndig = 0 if ndig > 0
     ndig = Math.abs(ndig) + extra_digits
-    d3.format(".#{ndig}f")
+
+    # function to return
+    (val) ->
+        return d3.format(".#{ndig}f")(val) if val? and val != "NA"
+        "NA"
 
 # unique values of array (ignore nulls)
 unique = (x) ->

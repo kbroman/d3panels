@@ -2,21 +2,26 @@
 var abs, calc_crosstab, chrscales, ci_by_group, colSums, count_groups, d3panels, displayError, expand2vector, forceAsArray, formatAxis, getLeftRight, log10, log2, matrixExtent, matrixMax, matrixMaxAbs, matrixMin, maxdiff, mean_by_group, median, missing2null, pullVarAsArray, reorgLodData, rowSums, sd_by_group, selectGroupColors, sumArray, transpose, unique;
 
 d3panels = {
-  version: "0.6.3"
+  version: "1.0.0"
 };
 
 formatAxis = function(d, extra_digits) {
-  var ndig;
+  var gap, ndig;
   if (extra_digits == null) {
     extra_digits = 0;
   }
-  d = d[1] - d[0];
-  ndig = Math.floor(log10(d));
+  gap = d[0] != null ? d[1] - d[0] : d[2] - d[1];
+  ndig = Math.floor(log10(gap));
   if (ndig > 0) {
     ndig = 0;
   }
   ndig = Math.abs(ndig) + extra_digits;
-  return d3.format("." + ndig + "f");
+  return function(val) {
+    if ((val != null) && val !== "NA") {
+      return d3.format("." + ndig + "f")(val);
+    }
+    return "NA";
+  };
 };
 
 unique = function(x) {
@@ -980,7 +985,7 @@ chrheatmap = function() {
 var frame;
 
 frame = function(chartOpts) {
-  var axispos, boxcolor, boxwidth, chart, height, hlines, margin, nxticks, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, vlines, width, xNA, xNA_size, xlab, xlim, xscale, xticks, yNA, yNA_size, ylab, ylim, yscale, yticks;
+  var axispos, boxcolor, boxwidth, chart, height, hlineOpts, hlines, margin, nxticks, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, vlineOpts, vlines, width, xNA, xNA_size, xlab, xlabels, xlim, xscale, xscale_wnull, xticks, yNA, yNA_size, ylab, ylabels, ylim, yscale, yscale_wnull, yticks;
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 800;
   height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 500;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
@@ -992,7 +997,7 @@ frame = function(chartOpts) {
   };
   axispos = (ref3 = chartOpts != null ? chartOpts.axispos : void 0) != null ? ref3 : {
     xtitle: 25,
-    ytitle: 30,
+    ytitle: 45,
     xlabel: 5,
     ylabel: 5
   };
@@ -1012,7 +1017,7 @@ frame = function(chartOpts) {
     gap: 10
   };
   xlim = (ref13 = chartOpts != null ? chartOpts.xlim : void 0) != null ? ref13 : [0, 1];
-  ylim = (ref14 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref14 : [0, 1];
+  ylim = (ref14 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref14 : [0, 1];
   nxticks = (ref15 = chartOpts != null ? chartOpts.nxticks : void 0) != null ? ref15 : 5;
   xticks = (ref16 = chartOpts != null ? chartOpts.xticks : void 0) != null ? ref16 : null;
   nyticks = (ref17 = chartOpts != null ? chartOpts.nyticks : void 0) != null ? ref17 : 5;
@@ -1020,21 +1025,27 @@ frame = function(chartOpts) {
   rectcolor = (ref19 = chartOpts != null ? chartOpts.rectcolor : void 0) != null ? ref19 : "#e6e6e6";
   boxcolor = (ref20 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref20 : "black";
   boxwidth = (ref21 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref21 : 1;
-  vlines = (ref22 = chartOpts != null ? chartOpts.vlines : void 0) != null ? ref22 : {
+  vlineOpts = (ref22 = chartOpts != null ? chartOpts.vlineOpts : void 0) != null ? ref22 : {
     color: "white",
-    width: 1
+    width: 2
   };
-  hlines = (ref23 = chartOpts != null ? chartOpts.hlines : void 0) != null ? ref23 : {
+  hlineOpts = (ref23 = chartOpts != null ? chartOpts.hlineOpts : void 0) != null ? ref23 : {
     color: "white",
-    width: 1
+    width: 2
   };
   v_over_h = (ref24 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref24 : false;
-  yscale = d3.scale.linear();
-  xscale = d3.scale.linear();
+  yscale = null;
+  xscale = null;
+  xscale_wnull = null;
+  yscale_wnull = null;
+  vlines = null;
+  hlines = null;
+  xlabels = null;
+  ylabels = null;
   svg = null;
   chart = function(selection) {
     return selection.each(function(data) {
-      var boxes, g, gEnter, i, inner_height, inner_width, na_value, plot_height, plot_width, results, x, xrange, xs, y, ylabpos_x, ylabpos_y, yrange, ys;
+      var boxes, g, gEnter, i, inner_height, inner_width, plot_height, plot_width, results, xNA_xpos, xaxis, xrange, xticklab, yNA_ypos, yaxis, ylabpos_x, ylabpos_y, yrange, yticklab;
       svg = d3.select(this).selectAll("svg").data([data]);
       gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g");
       svg.attr("width", width).attr("height", height).attr("class", "d3panels");
@@ -1050,6 +1061,8 @@ frame = function(chartOpts) {
           top: [margin.top, margin.top, height - (margin.bottom + yNA_size.width), height - (margin.bottom + yNA_size.width)],
           height: [inner_height, inner_height, yNA_size.width, yNA_size.width]
         };
+        xNA_xpos = margin.left + xNA_size.width / 2;
+        yNA_ypos = height - margin.bottom - yNA_size.width / 2;
       } else if (xNA) {
         inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap);
         inner_height = height - (margin.top + margin.bottom);
@@ -1059,6 +1072,8 @@ frame = function(chartOpts) {
           top: [margin.top, margin.top],
           height: [inner_height, inner_height]
         };
+        xNA_xpos = margin.left + xNA_size.width / 2;
+        yNA_ypos = -5000;
       } else if (yNA) {
         inner_width = width - (margin.right + margin.left);
         inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap);
@@ -1068,6 +1083,8 @@ frame = function(chartOpts) {
           top: [margin.top, height - (margin.bottom + yNA_size.width)],
           height: [inner_height, yNA_size.width]
         };
+        xNA_xpos = -5000;
+        yNA_ypos = height - margin.bottom - yNA_size.width / 2;
       } else {
         inner_width = width - (margin.right + margin.left);
         inner_height = height - (margin.top + margin.bottom);
@@ -1077,45 +1094,73 @@ frame = function(chartOpts) {
           top: [margin.top],
           height: [inner_height]
         };
+        xNA_xpos = -5000;
+        yNA_ypos = -5000;
       }
       xrange = [boxes.left[0], boxes.left[0] + boxes.width[0]];
-      yrange = [boxes.top[0], boxes.top[0] + boxes.height[0]];
+      yrange = [boxes.top[0] + boxes.height[0], boxes.top[0]];
       for (i in boxes.left) {
         g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", rectcolor).attr("stroke", "none");
       }
       g.append("g").attr("class", "title").append("text").text(title).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", titlepos);
       rotate_ylab = rotate_ylab != null ? rotate_ylab : ylab.length > 1;
-      g.append("g").attr("class", "x axis").append("text").text(xlab).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", plot_height + margin.top + axispos.xtitle);
+      if (v_over_h) {
+        yaxis = g.append("g").attr("class", "y axis");
+        xaxis = g.append("g").attr("class", "x axis");
+      } else {
+        xaxis = g.append("g").attr("class", "x axis");
+        yaxis = g.append("g").attr("class", "y axis");
+      }
+      xaxis.append("text").attr("class", "title").text(xlab).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", plot_height + margin.top + axispos.xtitle);
       ylabpos_y = (height - margin.top - margin.bottom) / 2 + margin.top;
       ylabpos_x = margin.left - axispos.ytitle;
-      g.append("g").attr("class", "y axis").append("text").text(ylab).attr("y", ylabpos_y).attr("x", ylabpos_x).attr("transform", rotate_ylab ? "rotate(270," + ylabpos_x + "," + ylabpos_y + ")" : "");
-      xscale.domain(xlim).range(xrange);
-      yscale.domain(ylim).range(yrange);
-      xs = d3.scale.linear().domain(xlim).range(xrange);
-      ys = d3.scale.linear().domain(ylim).range(yrange);
-      na_value = d3.min(xlim.concat(ylim)) - 1;
-      if (xNA.handle) {
-        xscale.domain([na_value].concat(xlim)).range([margin.left + xNA.width / 2].concat(xrange));
-        x = x.map(function(e) {
-          if (e != null) {
-            return e;
-          } else {
-            return na_value;
-          }
-        });
+      yaxis.append("text").attr("class", "title").text(ylab).attr("y", ylabpos_y).attr("x", ylabpos_x).attr("transform", rotate_ylab ? "rotate(270," + ylabpos_x + "," + ylabpos_y + ")" : "");
+      xscale = d3.scale.linear().domain(xlim).range(xrange);
+      yscale = d3.scale.linear().domain(ylim).range(yrange);
+      xscale_wnull = function(val) {
+        if (val == null) {
+          return xNA_xpos;
+        }
+        return xscale(val);
+      };
+      yscale_wnull = function(val) {
+        if (val == null) {
+          return yNA_ypos;
+        }
+        return yscale(val);
+      };
+      xticks = xticks != null ? xticks : xscale.ticks(nxticks);
+      xticklab = xticks;
+      if (xNA) {
+        xticklab = ["NA"].concat(xticks);
+        xticks = [null].concat(xticks);
       }
-      if (yNA.handle) {
-        yscale.domain([na_value].concat(ylim)).range([height + margin.top - yNA.width / 2].concat(yrange));
-        y = y.map(function(e) {
-          if (e != null) {
-            return e;
-          } else {
-            return na_value;
-          }
-        });
+      yticks = yticks != null ? yticks : yscale.ticks(nyticks);
+      yticklab = yticks;
+      if (yNA) {
+        yticklab = ["NA"].concat(yticks);
+        yticks = [null].concat(yticks);
       }
-      xticks = xticks != null ? xticks : xs.ticks(nxticks);
-      yticks = yticks != null ? yticks : ys.ticks(nyticks);
+      hlines = yaxis.selectAll("empty").data(yticks).enter().append("line").attr("y1", function(d) {
+        return yscale_wnull(d);
+      }).attr("y2", function(d) {
+        return yscale_wnull(d);
+      }).attr("x1", xrange[0]).attr("x2", xrange[1]).attr("fill", "none").attr("stroke", hlineOpts.color).attr("stroke-width", hlineOpts.width);
+      vlines = xaxis.selectAll("empty").data(xticks).enter().append("line").attr("x1", function(d) {
+        return xscale_wnull(d);
+      }).attr("x2", function(d) {
+        return xscale_wnull(d);
+      }).attr("y1", yrange[0]).attr("y2", yrange[1]).attr("fill", "none").attr("stroke", vlineOpts.color).attr("stroke-width", vlineOpts.width);
+      xlabels = xaxis.selectAll("empty").data(xticklab).enter().append("text").attr("x", function(d, i) {
+        return xscale_wnull(xticks[i]);
+      }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
+        return formatAxis(xticks)(d);
+      });
+      ylabels = yaxis.selectAll("empty").data(yticklab).enter().append("text").attr("y", function(d, i) {
+        return yscale_wnull(yticks[i]);
+      }).attr("x", margin.left - axispos.ylabel).text(function(d, i) {
+        return formatAxis(yticks)(d);
+      });
       results = [];
       for (i in boxes.left) {
         results.push(g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth));
@@ -1123,11 +1168,23 @@ frame = function(chartOpts) {
       return results;
     });
   };
-  chart.yscale = function() {
-    return yscale;
-  };
   chart.xscale = function() {
-    return xscale;
+    return xscale_wnull;
+  };
+  chart.yscale = function() {
+    return yscale_wnull;
+  };
+  chart.vlines = function() {
+    return vlines;
+  };
+  chart.hlines = function() {
+    return hlines;
+  };
+  chart.xlabels = function() {
+    return xlabels;
+  };
+  chart.ylabels = function() {
+    return ylabels;
   };
   chart.remove = function() {
     svg.remove();
