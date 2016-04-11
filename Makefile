@@ -3,6 +3,7 @@ all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css
 
 JS= src/panelutil.js \
 	src/chrheatmap.js \
+	src/frame.js \
 	src/cichart.js \
 	src/crosstab.js \
 	src/curvechart.js \
@@ -28,7 +29,8 @@ tests: test/test-unique.js test/test-stats.js \
 	   test/lodchart/test_lodchart.js \
 	   test/lodheatmap/test_lodheatmap.js \
 	   test/mapchart/test_mapchart.js \
-	   test/scatterplot/test_scatterplot.js
+	   test/scatterplot/test_scatterplot.js \
+	   test/frame/test_frame.js
 
 testdata: test/chrheatmap/data.json \
 		  test/cichart/data.json \
