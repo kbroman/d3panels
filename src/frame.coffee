@@ -20,8 +20,10 @@ frame = (chartOpts) ->
     ylim = chartOpts?.ylim ? [0,1] # y-axis limits
     nxticks = chartOpts?.nxticks ? 5  # no. ticks on x-axis
     xticks = chartOpts?.xticks ? null # vector of tick positions on x-axis
+    xticklab = chartOpts?.xticklab ? null # vector of x-axis tick labels
     nyticks = chartOpts?.nyticks ? 5  # no. ticks on y-axis
     yticks = chartOpts?.yticks ? null # vector of tick positions on y-axis
+    yticklab = chartOpts?.yticklab ? null # vector of y-axis tick labels
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
@@ -129,18 +131,18 @@ frame = (chartOpts) ->
             # add X axis values + vlines
             # if xticks not provided, use nxticks to choose pretty ones
             xticks = xticks ? xscale.ticks(nxticks)
-            xticklab = xticks
-            if xNA
-                xticklab = ["NA"].concat(xticks)
-                xticks = [null].concat(xticks)
+            unless xticklab? and xticklab.length == xticks.length
+                xticklab = (formatAxis(xticks)(d) for d in xticks)
+            xticks = [null].concat(xticks)
+            xticklab = ["NA"].concat(xticklab)
 
             # add Y axis values + hlines
-            # if xticks not provided, use nxticks to choose pretty ones
+            # if yticks not provided, use nyticks to choose pretty ones
             yticks = yticks ? yscale.ticks(nyticks)
-            yticklab = yticks
-            if yNA
-                yticklab = ["NA"].concat(yticks)
-                yticks = [null].concat(yticks)
+            unless yticklab? and yticklab.length == yticks.length
+                yticklab = (formatAxis(yticks)(d) for d in yticks)
+            yticks = [null].concat(yticks)
+            yticklab = ["NA"].concat(yticklab)
 
             # do hlines first
             hlines = yaxis.append("g").attr("id", "hlines")
@@ -186,7 +188,7 @@ frame = (chartOpts) ->
                        .append("text")
                        .attr("x", (d,i) -> xscale_wnull(xticks[i]))
                        .attr("y", height - margin.bottom + axispos.xlabel)
-                       .text((d) -> formatAxis(xticks)(d))
+                       .text((d) -> d)
             ylabels = yaxis.append("g").attr("id", "ylabels")
                        .selectAll("empty")
                        .data(yticklab)
@@ -194,7 +196,7 @@ frame = (chartOpts) ->
                        .append("text")
                        .attr("y", (d,i) -> yscale_wnull(yticks[i]))
                        .attr("x", margin.left - axispos.ylabel)
-                       .text((d,i) -> formatAxis(yticks)(d))
+                       .text((d) -> d)
 
             # background rectangle boxes
             for i of boxes.left
