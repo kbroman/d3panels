@@ -1,12 +1,12 @@
 # illustration of use of the cichart function
 
 # Example 1: simplest use
-mychart1 = frame({title:"No NAs"})
+mychart1 = panelframe({title:"No NAs"})
 d3.select("div#chart1")
   .call(mychart1)
 
 # Example 2: xNA box, and thicker hlines (underneath vlines)
-mychart2 = frame({
+mychart2 = panelframe({
     xNA:true,
     title:"X-axis NAs",
     ylim:[0.5,3.5],
@@ -21,7 +21,7 @@ d3.select("div#chart2")
   .call(mychart2)
 
 # Example 3: yNA box and thicker vlines
-mychart3 = frame({
+mychart3 = panelframe({
     yNA:true,
     title:"Y-axis NAs",
     vlineOpts:
@@ -35,7 +35,7 @@ d3.select("div#chart3")
   .call(mychart3)
 
 # Example 4: both xNA and yNA boxes, no vertical lines
-mychart4 = frame({
+mychart4 = panelframe({
     xNA:true,
     yNA:true,
     title:"X- and Y-axis NAs",
@@ -46,7 +46,7 @@ d3.select("div#chart4")
   .call(mychart4)
 
 # Example 5: both xNA and yNA boxes, dark lines
-mychart5 = frame({
+mychart5 = panelframe({
     xNA:true,
     yNA:true,
     title:"X- and Y-axis NAs + dark grid",
