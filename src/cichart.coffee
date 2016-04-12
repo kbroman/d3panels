@@ -3,7 +3,7 @@
 cichart = (chartOpts) ->
     # chartOpts start
     xcatlabels = chartOpts?.xcatlabels ? null # category labels
-    segwidth = chartOpts?.segwidth ? 0.2 # segment width as proportion of distance between categories
+    segwidth = chartOpts?.segwidth ? 0.4 # segment width as proportion of distance between categories
     segcolor = chartOpts?.segcolor ? "slateblue" # color for segments
     segstrokewidth = chartOpts?.segstrokewidth ? "3" # stroke width for segments
     vertsegcolor = chartOpts?.vertsegcolor ? "slateblue" # color for vertical segments
@@ -22,30 +22,30 @@ cichart = (chartOpts) ->
     tip = null
 
     ## the main function
-    chart = (selection, data) ->  # {means, low, high} each vectors
+    chart = (selection, data) ->  # {mean, low, high} each vectors
 
         # input:
-        means = data.means
+        mean = data.mean
         low = data.low
         high = data.high
-        ncat = means.length
+        ncat = mean.length
         if ncat != low.length
-            displayError("low.length [#{low.length}] != means.length [#{ncat}]")
+            displayError("low.length [#{low.length}] != mean.length [#{ncat}]")
         if ncat != high.length
-            displayError("high.length [#{high.length}] != means.length [#{ncat}]")
+            displayError("high.length [#{high.length}] != mean.length [#{ncat}]")
 
-        xticks = (+i+1 for i of means)
+        xticks = (+i+1 for i of mean)
         xcatlabels = xcatlabels ? xticks
-        if xcatlabels.length != means.length
-            displayError("xcatlabels.length [#{xcatlabels.length}] != means.length [#{ncat}]")
+        if xcatlabels.length != mean.length
+            displayError("xcatlabels.length [#{xcatlabels.length}] != mean.length [#{ncat}]")
 
         # x- and y-axis limits + category locations
         ylim = ylim ? [d3.min(low), d3.max(high)]
-        xlim = [0.5, means.length + 0.5]
+        xlim = [0.5, mean.length + 0.5]
 
-        # expand segcolor and vertsegcolor to length of means
-        segcolor = expand2vector(forceAsArray(segcolor), means.length)
-        vertsegcolor = expand2vector(forceAsArray(vertsegcolor), means.length)
+        # expand segcolor and vertsegcolor to length of mean
+        segcolor = expand2vector(forceAsArray(segcolor), mean.length)
+        vertsegcolor = expand2vector(forceAsArray(vertsegcolor), mean.length)
 
         if horizontal
             chartOpts.ylim = xlim.reverse()
@@ -84,9 +84,9 @@ cichart = (chartOpts) ->
         tip = d3.tip()
                 .attr('class', "d3-tip #{tipclass}")
                 .html((d,i) ->
-                      index = i % means.length
-                      f = formatAxis([low[index],means[index]], 1)
-                      "#{f(means[index])} (#{f(low[index])} - #{f(high[index])})")
+                      index = i % mean.length
+                      f = formatAxis([low[index],mean[index]], 1)
+                      "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})")
                 .direction('e')
                 .offset([0,10])
         svg.call(tip)
@@ -117,7 +117,7 @@ cichart = (chartOpts) ->
                 .on("mouseout.paneltip", tip.hide)
 
         # lines at low, mean, and high
-        yval = means.concat(low,high)
+        yval = mean.concat(low,high)
         xval = (+(i % ncat)+1 for i of yval)
         segments = segmentGroup.selectAll("empty")
                 .data(yval)
@@ -148,7 +148,7 @@ cichart = (chartOpts) ->
                            else
                                return yscale(d))
                 .attr("fill", "none")
-                .attr("stroke", (d,i) -> segcolor[i % means.length])
+                .attr("stroke", (d,i) -> segcolor[i % mean.length])
                 .attr("stroke-width", segstrokewidth)
                 .on("mouseover.paneltip", tip.show)
                 .on("mouseout.paneltip", tip.hide)

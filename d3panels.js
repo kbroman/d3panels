@@ -1225,7 +1225,7 @@ var cichart;
 cichart = function(chartOpts) {
   var chart, horizontal, ref, ref1, ref10, ref11, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, segcolor, segments, segstrokewidth, segwidth, svg, tip, tipclass, v_over_h, vertsegcolor, xcatlabels, xlab, xlineOpts, xscale, ylab, ylim, yscale;
   xcatlabels = (ref = chartOpts != null ? chartOpts.xcatlabels : void 0) != null ? ref : null;
-  segwidth = (ref1 = chartOpts != null ? chartOpts.segwidth : void 0) != null ? ref1 : 0.2;
+  segwidth = (ref1 = chartOpts != null ? chartOpts.segwidth : void 0) != null ? ref1 : 0.4;
   segcolor = (ref2 = chartOpts != null ? chartOpts.segcolor : void 0) != null ? ref2 : "slateblue";
   segstrokewidth = (ref3 = chartOpts != null ? chartOpts.segstrokewidth : void 0) != null ? ref3 : "3";
   vertsegcolor = (ref4 = chartOpts != null ? chartOpts.vertsegcolor : void 0) != null ? ref4 : "slateblue";
@@ -1245,33 +1245,33 @@ cichart = function(chartOpts) {
   svg = null;
   tip = null;
   chart = function(selection, data) {
-    var high, i, low, means, myframe, ncat, segmentGroup, xlim, xticks, xval, yval;
-    means = data.means;
+    var high, i, low, mean, myframe, ncat, segmentGroup, xlim, xticks, xval, yval;
+    mean = data.mean;
     low = data.low;
     high = data.high;
-    ncat = means.length;
+    ncat = mean.length;
     if (ncat !== low.length) {
-      displayError("low.length [" + low.length + "] != means.length [" + ncat + "]");
+      displayError("low.length [" + low.length + "] != mean.length [" + ncat + "]");
     }
     if (ncat !== high.length) {
-      displayError("high.length [" + high.length + "] != means.length [" + ncat + "]");
+      displayError("high.length [" + high.length + "] != mean.length [" + ncat + "]");
     }
     xticks = (function() {
       var results;
       results = [];
-      for (i in means) {
+      for (i in mean) {
         results.push(+i + 1);
       }
       return results;
     })();
     xcatlabels = xcatlabels != null ? xcatlabels : xticks;
-    if (xcatlabels.length !== means.length) {
-      displayError("xcatlabels.length [" + xcatlabels.length + "] != means.length [" + ncat + "]");
+    if (xcatlabels.length !== mean.length) {
+      displayError("xcatlabels.length [" + xcatlabels.length + "] != mean.length [" + ncat + "]");
     }
     ylim = ylim != null ? ylim : [d3.min(low), d3.max(high)];
-    xlim = [0.5, means.length + 0.5];
-    segcolor = expand2vector(forceAsArray(segcolor), means.length);
-    vertsegcolor = expand2vector(forceAsArray(vertsegcolor), means.length);
+    xlim = [0.5, mean.length + 0.5];
+    segcolor = expand2vector(forceAsArray(segcolor), mean.length);
+    vertsegcolor = expand2vector(forceAsArray(vertsegcolor), mean.length);
     if (horizontal) {
       chartOpts.ylim = xlim.reverse();
       chartOpts.xlim = ylim;
@@ -1302,9 +1302,9 @@ cichart = function(chartOpts) {
     yscale = myframe.yscale();
     tip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
       var f, index;
-      index = i % means.length;
-      f = formatAxis([low[index], means[index]], 1);
-      return (f(means[index])) + " (" + (f(low[index])) + " - " + (f(high[index])) + ")";
+      index = i % mean.length;
+      f = formatAxis([low[index], mean[index]], 1);
+      return (f(mean[index])) + " (" + (f(low[index])) + " - " + (f(high[index])) + ")";
     }).direction('e').offset([0, 10]);
     svg.call(tip);
     segmentGroup = svg.append("g").attr("id", "segments");
@@ -1331,7 +1331,7 @@ cichart = function(chartOpts) {
     }).attr("fill", "none").attr("stroke", function(d, i) {
       return vertsegcolor[i];
     }).attr("stroke-width", segstrokewidth).on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
-    yval = means.concat(low, high);
+    yval = mean.concat(low, high);
     xval = (function() {
       var results;
       results = [];
@@ -1377,7 +1377,7 @@ cichart = function(chartOpts) {
         return yscale(d);
       }
     }).attr("fill", "none").attr("stroke", function(d, i) {
-      return segcolor[i % means.length];
+      return segcolor[i % mean.length];
     }).attr("stroke-width", segstrokewidth).on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
   };
   chart.yscale = function() {
