@@ -29,7 +29,7 @@ unique = function(x) {
   output = {};
   for (k = 0, len = x.length; k < len; k++) {
     v = x[k];
-    if (v) {
+    if (v != null) {
       output[v] = v;
     }
   }
@@ -2082,7 +2082,7 @@ dotchart = function(chartOpts) {
   svg = null;
   indtip = null;
   chart = function(selection, data) {
-    var i, indID, j, myframe, pointGroup, ref15, ref16, results, v, x, xlim, xticks, xv, y;
+    var indID, j, myframe, pointGroup, ref15, ref16, results, v, x, xlim, xv, y;
     x = data.x;
     y = data.y;
     indID = (ref15 = data != null ? data.indID : void 0) != null ? ref15 : null;
@@ -2118,7 +2118,7 @@ dotchart = function(chartOpts) {
       console.log(x);
     }
     ylim = ylim != null ? ylim : d3.extent(y);
-    xlim = [0.5, xcategories.length + 0.5];
+    xlim = [d3.min(xcategories) - 0.5, d3.max(xcategories) + 0.5];
     if (x.every(function(v) {
       return (v != null) && !xNA.force;
     })) {
@@ -2129,14 +2129,6 @@ dotchart = function(chartOpts) {
     })) {
       yNA.handle = false;
     }
-    xticks = (function() {
-      var results1;
-      results1 = [];
-      for (i in xcategories) {
-        results1.push(+i + 1);
-      }
-      return results1;
-    })();
     if (horizontal) {
       chartOpts.ylim = xlim.reverse();
       chartOpts.xlim = ylim;
@@ -2146,7 +2138,7 @@ dotchart = function(chartOpts) {
       chartOpts.ylineOpts = xlineOpts;
       chartOpts.yNA = xNA.handle;
       chartOpts.xNA = yNA.handle;
-      chartOpts.yticks = xticks;
+      chartOpts.yticks = xcategories;
       chartOpts.yticklab = xcatlabels;
       chartOpts.v_over_h = v_over_h;
     } else {
@@ -2158,7 +2150,7 @@ dotchart = function(chartOpts) {
       chartOpts.xlineOpts = xlineOpts;
       chartOpts.xNA = xNA.handle;
       chartOpts.yNA = yNA.handle;
-      chartOpts.xticks = xticks;
+      chartOpts.xticks = xcategories;
       chartOpts.xticklab = xcatlabels;
       chartOpts.v_over_h = v_over_h;
     }

@@ -26,7 +26,7 @@ dotchart = (chartOpts) ->
     indtip = null
 
     ## the main function
-    chart = (selection, data) -> # data = {x, y, indID}
+    chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values
         x = data.x
         y = data.y
 
@@ -56,14 +56,11 @@ dotchart = (chartOpts) ->
 
         # x- and y-axis limits
         ylim = ylim ? d3.extent(y)
-        xlim = [0.5, xcategories.length + 0.5]
+        xlim = [d3.min(xcategories)-0.5, d3.max(xcategories) + 0.5]
 
         # whether to include separate boxes for NAs
         xNA.handle = false if x.every (v) -> (v?) and !xNA.force
         yNA.handle = false if y.every (v) -> (v?) and !yNA.force
-
-        # category locations
-        xticks = (+i+1 for i of xcategories)
 
         if horizontal
             chartOpts.ylim = xlim.reverse()
@@ -74,7 +71,7 @@ dotchart = (chartOpts) ->
             chartOpts.ylineOpts = xlineOpts
             chartOpts.yNA = xNA.handle
             chartOpts.xNA = yNA.handle
-            chartOpts.yticks = xticks
+            chartOpts.yticks = xcategories
             chartOpts.yticklab = xcatlabels
             chartOpts.v_over_h = v_over_h
         else
@@ -86,7 +83,7 @@ dotchart = (chartOpts) ->
             chartOpts.xlineOpts = xlineOpts
             chartOpts.xNA = xNA.handle
             chartOpts.yNA = yNA.handle
-            chartOpts.xticks = xticks
+            chartOpts.xticks = xcategories
             chartOpts.xticklab = xcatlabels
             chartOpts.v_over_h = v_over_h
 
