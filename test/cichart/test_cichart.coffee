@@ -5,7 +5,12 @@ axispos = {xtitle:25, ytitle:50, xlabel:5, ylabel:5}
 
 # Example 1: simplest use
 d3.json "data.json", (data) ->
-    mychart = cichart().margin(margin).axispos(axispos)
-    d3.select("div#chart1")
-      .datum(data)
-      .call(mychart)
+    console.log(data)
+    mychart = cichart({margin:margin, axispos:axispos})
+    mychart(d3.select("div#chart1"), data)
+
+# Example 2: horizontal
+d3.json "data.json", (data) ->
+    console.log(data)
+    mychart = cichart({margin:margin, axispos:axispos, horizontal:true})
+    mychart(d3.select("div#chart2"), data)
