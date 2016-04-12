@@ -14,8 +14,8 @@ panelframe = (chartOpts) ->
     rotate_ylab = chartOpts?.rotate_ylab ? null # whether to rotate the y-axis label
     xNA = chartOpts?.xNA ? false   # include box for x=NA values
     yNA = chartOpts?.yNA ? false   # include box for y=NA values
-    xNA_size = chartOpts?.xNA_size ? {width:30, gap:10} # width and gap for x=NA box
-    yNA_size = chartOpts?.yNA_size ? {width:30, gap:10} # width and gap for y=NA box
+    xNA_size = chartOpts?.xNA_size ? {width:20, gap:10} # width and gap for x=NA box
+    yNA_size = chartOpts?.yNA_size ? {width:20, gap:10} # width and gap for y=NA box
     xlim = chartOpts?.xlim ? [0,1] # x-axis limits
     ylim = chartOpts?.ylim ? [0,1] # y-axis limits
     nxticks = chartOpts?.nxticks ? 5  # no. ticks on x-axis
