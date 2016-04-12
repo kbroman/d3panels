@@ -22,34 +22,26 @@ cichart = (chartOpts) ->
     tip = null
 
     ## the main function
-    chart = (selection, data) ->
+    chart = (selection, data) ->  # {means, low, high} each vectors
 
         # input:
         means = data.means
         low = data.low
         high = data.high
-        categories = data.categories
-        if means.length != low.length
-            displayError("means.length [#{means.length}] != low.length [#{low.length}]")
-        if means.length != high.length
-            displayError("means.length [#{means.length}] != high.length [#{high.length}]")
-        if means.length != categories.length
-            displayError("means.length [#{means.length}] != categories.length [#{categories.length}]")
+        ncat = means.length
+        if ncat != low.length
+            displayError("low.length [#{low.length}] != means.length [#{ncat}]")
+        if ncat != high.length
+            displayError("high.length [#{high.length}] != means.length [#{ncat}]")
 
-        xcatlabels = xcatlabels ? categories
-        if xcatlabels.length != categories.length
-            displayError("xcatlabels.length [#{xcatlabels.length}] != categories.length [#{categories.length}]")
+        xticks = (+i+1 for i of means)
+        xcatlabels = xcatlabels ? xticks
+        if xcatlabels.length != means.length
+            displayError("xcatlabels.length [#{xcatlabels.length}] != means.length [#{ncat}]")
 
         # x- and y-axis limits + category locations
-        console.log(low)
-        console.log(high)
         ylim = ylim ? [d3.min(low), d3.max(high)]
-        xlim = [0.5, categories.length+0.5]
-        xticks = (+i+1 for i of categories)
-        console.log("xlim:")
-        console.log(xlim)
-        console.log("ylim:")
-        console.log(ylim)
+        xlim = [0.5, means.length + 0.5]
 
         # expand segcolor and vertsegcolor to length of means
         segcolor = expand2vector(forceAsArray(segcolor), means.length)
@@ -88,13 +80,6 @@ cichart = (chartOpts) ->
         # grab scale functions
         xscale = myframe.xscale()
         yscale = myframe.yscale()
-        console.log(xscale(1))
-        console.log(xscale(2))
-        console.log(xscale(3))
-        console.log(xscale(21))
-        console.log(xscale(22))
-        console.log(xscale(23))
-
 
         tip = d3.tip()
                 .attr('class', "d3-tip #{tipclass}")
@@ -107,55 +92,59 @@ cichart = (chartOpts) ->
         svg.call(tip)
 
         segmentGroup = svg.append("g").attr("id", "segments")
+
+        # lines from low to high
         segments = segmentGroup.selectAll("empty")
                 .data(low)
                 .enter()
                 .append("line")
                 .attr("x1", (d,i) ->
-                    return xscale(categories[i]) unless horizontal
+                    return xscale(i+1) unless horizontal
                     xscale(d))
                 .attr("x2", (d,i) ->
-                    return xscale(categories[i]) unless horizontal
+                    return xscale(i+1) unless horizontal
                     xscale(high[i]))
                 .attr("y1", (d,i) ->
                     return yscale(d) unless horizontal
-                    yscale(categories[i]))
+                    yscale(i+1))
                 .attr("y2", (d,i) ->
                     return yscale(high[i]) unless horizontal
-                    yscale(categories[i]))
+                    yscale(i+1))
                 .attr("fill", "none")
                 .attr("stroke", (d,i) -> vertsegcolor[i])
                 .attr("stroke-width", segstrokewidth)
+                .on("mouseover.paneltip", tip.show)
+                .on("mouseout.paneltip", tip.hide)
+
+        # lines at low, mean, and high
+        yval = means.concat(low,high)
+        xval = (+(i % ncat)+1 for i of yval)
         segments = segmentGroup.selectAll("empty")
-                .data(means.concat(low, high))
+                .data(yval)
                 .enter()
                 .append("line")
                 .attr("x1", (d,i) ->
                            if horizontal
                                return xscale(d)
                            else
-                               x = xscale(categories[i % means.length])
-                               return x - segwidth/2 if i < means.length
-                               return x - segwidth/3)
+                               return xscale(xval[i] - segwidth/2) if i < ncat
+                               return xscale(xval[i] - segwidth/3))
                 .attr("x2", (d,i) ->
                            if horizontal
                                return xscale(d)
                            else
-                               x = xscale(categories[i % means.length])
-                               return x + segwidth/2 if i < means.length
-                               return x + segwidth/3)
-                .attr("y1", (d) ->
+                               return xscale(xval[i] + segwidth/2) if i < ncat
+                               return xscale(xval[i] + segwidth/3))
+                .attr("y1", (d,i) ->
                            if horizontal
-                               x = yscale(categories[i % means.length])
-                               return x - segwidth/2 if i < means.length
-                               return x - segwidth/3
+                               return yscale(xval[i] - segwidth/2) if i < ncat
+                               return yscale(xval[i] - segwidth/3)
                            else
                                return yscale(d))
-                .attr("y2", (d) ->
+                .attr("y2", (d,i) ->
                            if horizontal
-                               x = yscale(categories[i % means.length])
-                               return x + segwidth/2 if i < means.length
-                               return x + segwidth/3
+                               return yscale(xval[i] + segwidth/2) if i < ncat
+                               return yscale(xval[i] + segwidth/3)
                            else
                                return yscale(d))
                 .attr("fill", "none")
