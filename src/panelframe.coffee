@@ -43,176 +43,171 @@ panelframe = (chartOpts) ->
 
     ## the main function
     chart = (selection) ->
-        selection.each () ->
+        # Create SVG
+        svg = selection.append("svg")
 
-            # Select the svg element, if it exists.
-            svg = d3.select(this).selectAll("svg").data([null])
+        # Update the dimensions
+        svg.attr("width", width)
+           .attr("height", height)
+           .attr("class", "d3panels")
 
-            # Otherwise, create the skeletal chart.
-            gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g")
+        # put all of this stuff in a group
+        g = svg.append("g").attr("id", "frame")
 
-            # Update the dimensions
-            svg.attr("width", width)
-               .attr("height", height)
-               .attr("class", "d3panels")
+        xNA_size = {width:0, gap:0} unless xNA # if no x-axis NA box
+        yNA_size = {width:0, gap:0} unless yNA # if no y-axis NA box
 
-            g = svg.select("g")
+        # placement of boxes according to whether NAs will be treated specially
+        plot_width = width - (margin.left + margin.right)
+        plot_height = height - (margin.top + margin.bottom)
+        inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap)
+        inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap)
+        boxes =
+                left:[margin.left+xNA_size.width+xNA_size.gap, margin.left, margin.left, margin.left+xNA_size.width+xNA_size.gap],
+                width:[inner_width, xNA_size.width, xNA_size.width, inner_width],
+                top:[margin.top, margin.top, height-(margin.bottom+yNA_size.width), height-(margin.bottom+yNA_size.width)],
+                height:[inner_height, inner_height, yNA_size.width, yNA_size.width]
+        xNA_xpos = if xNA then margin.left + xNA_size.width/2 else -50000
+        yNA_ypos = if yNA then height-margin.bottom-yNA_size.width/2 else -50000
+        xrange = [boxes.left[0], boxes.left[0] + boxes.width[0]]
+        yrange = [boxes.top[0] + boxes.height[0], boxes.top[0]]
 
+        # background rectangles
+        for i of boxes.left
+            if boxes.width[i]>0 and boxes.height[i]>0
+                g.append("rect")
+                 .attr("x", boxes.left[i])
+                 .attr("y", boxes.top[i])
+                 .attr("height", boxes.height[i])
+                 .attr("width", boxes.width[i])
+                 .attr("fill", rectcolor)
+                 .attr("stroke", "none")
 
-            xNA_size = {width:0, gap:0} unless xNA # if no x-axis NA box
-            yNA_size = {width:0, gap:0} unless yNA # if no y-axis NA box
+        # add title
+        g.append("g").attr("class", "title")
+         .append("text")
+         .text(title)
+         .attr("x", (width-margin.left-margin.right)/2 + margin.left)
+         .attr("y", titlepos)
 
-            # placement of boxes according to whether NAs will be treated specially
-            plot_width = width - (margin.left + margin.right)
-            plot_height = height - (margin.top + margin.bottom)
-            inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap)
-            inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap)
-            boxes =
-                    left:[margin.left+xNA_size.width+xNA_size.gap, margin.left, margin.left, margin.left+xNA_size.width+xNA_size.gap],
-                    width:[inner_width, xNA_size.width, xNA_size.width, inner_width],
-                    top:[margin.top, margin.top, height-(margin.bottom+yNA_size.width), height-(margin.bottom+yNA_size.width)],
-                    height:[inner_height, inner_height, yNA_size.width, yNA_size.width]
-            xNA_xpos = if xNA then margin.left + xNA_size.width/2 else -50000
-            yNA_ypos = if yNA then height-margin.bottom-yNA_size.width/2 else -50000
-            xrange = [boxes.left[0], boxes.left[0] + boxes.width[0]]
-            yrange = [boxes.top[0] + boxes.height[0], boxes.top[0]]
+        # rotate y-axis title?
+        rotate_ylab = rotate_ylab ? (ylab.length > 1)
 
-            # background rectangles
-            for i of boxes.left
-                if boxes.width[i]>0 and boxes.height[i]>0
-                    g.append("rect")
-                     .attr("x", boxes.left[i])
-                     .attr("y", boxes.top[i])
-                     .attr("height", boxes.height[i])
-                     .attr("width", boxes.width[i])
-                     .attr("fill", rectcolor)
-                     .attr("stroke", "none")
+        if v_over_h # vlines on top
+            yaxis = g.append("g").attr("class", "y axis")
+            xaxis = g.append("g").attr("class", "x axis")
+        else        # vlines on bottom
+            xaxis = g.append("g").attr("class", "x axis")
+            yaxis = g.append("g").attr("class", "y axis")
 
-            # add title
-            g.append("g").attr("class", "title")
-             .append("text")
-             .text(title)
+        xaxis.append("text").attr("class", "title")
+             .text(xlab)
              .attr("x", (width-margin.left-margin.right)/2 + margin.left)
-             .attr("y", titlepos)
+             .attr("y", plot_height + margin.top + axispos.xtitle)
+        ylabpos_y = (height-margin.top-margin.bottom)/2 + margin.top
+        ylabpos_x = margin.left - axispos.ytitle
+        yaxis.append("text").attr("class", "title")
+             .text(ylab)
+             .attr("y", ylabpos_y)
+             .attr("x", ylabpos_x)
+             .attr("transform", if rotate_ylab then "rotate(270,#{ylabpos_x},#{ylabpos_y})" else "")
 
-            # rotate y-axis title?
-            rotate_ylab = rotate_ylab ? (ylab.length > 1)
+        # scales (ignoring NA business)
+        xscale = d3.scale.linear().domain(xlim).range(xrange)
+        yscale = d3.scale.linear().domain(ylim).range(yrange)
+        # scales (handling nulls)
+        xscale_wnull = (val) ->
+            return xNA_xpos unless val?
+            xscale(val)
+        yscale_wnull = (val) ->
+            return yNA_ypos unless val?
+            yscale(val)
 
-            if v_over_h # vlines on top
-                yaxis = g.append("g").attr("class", "y axis")
-                xaxis = g.append("g").attr("class", "x axis")
-            else        # vlines on bottom
-                xaxis = g.append("g").attr("class", "x axis")
-                yaxis = g.append("g").attr("class", "y axis")
+        # add X axis values + vlines
+        # if xticks not provided, use nxticks to choose pretty ones
+        xticks = xticks ? xscale.ticks(nxticks)
+        if xticklab? and xticklab.length != xticks.length
+            displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
+        unless xticklab? and xticklab.length == xticks.length
+            xticklab = (formatAxis(xticks)(d) for d in xticks)
+        xticks = [null].concat(xticks)
+        xticklab = ["NA"].concat(xticklab)
 
-            xaxis.append("text").attr("class", "title")
-                 .text(xlab)
-                 .attr("x", (width-margin.left-margin.right)/2 + margin.left)
-                 .attr("y", plot_height + margin.top + axispos.xtitle)
-            ylabpos_y = (height-margin.top-margin.bottom)/2 + margin.top
-            ylabpos_x = margin.left - axispos.ytitle
-            yaxis.append("text").attr("class", "title")
-                 .text(ylab)
-                 .attr("y", ylabpos_y)
-                 .attr("x", ylabpos_x)
-                 .attr("transform", if rotate_ylab then "rotate(270,#{ylabpos_x},#{ylabpos_y})" else "")
+        # add Y axis values + hlines
+        # if yticks not provided, use nyticks to choose pretty ones
+        yticks = yticks ? yscale.ticks(nyticks)
+        if yticklab? and yticklab.length != yticks.length
+            displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
+        unless yticklab? and yticklab.length == yticks.length
+            yticklab = (formatAxis(yticks)(d) for d in yticks)
+        yticks = [null].concat(yticks)
+        yticklab = ["NA"].concat(yticklab)
 
-            # scales (ignoring NA business)
-            xscale = d3.scale.linear().domain(xlim).range(xrange)
-            yscale = d3.scale.linear().domain(ylim).range(yrange)
-            # scales (handling nulls)
-            xscale_wnull = (val) ->
-                return xNA_xpos unless val?
-                xscale(val)
-            yscale_wnull = (val) ->
-                return yNA_ypos unless val?
-                yscale(val)
+        # do hlines first
+        hlines = yaxis.append("g").attr("id", "hlines")
+                  .selectAll("empty")
+                  .data(yticks.concat(yticks))
+                  .enter()
+                  .append("line")
+                  .attr("y1", (d) -> yscale_wnull(d))
+                  .attr("y2", (d) -> yscale_wnull(d))
+                  .attr("x1", (d,i) ->
+                      return xrange[0] if i < yticks.length
+                      margin.left)
+                  .attr("x2", (d,i) ->
+                      return xrange[1] if i < yticks.length
+                      margin.left+xNA_size.width)
+                  .attr("fill", "none")
+                  .attr("stroke", hlineOpts.color)
+                  .attr("stroke-width", hlineOpts.width)
 
-            # add X axis values + vlines
-            # if xticks not provided, use nxticks to choose pretty ones
-            xticks = xticks ? xscale.ticks(nxticks)
-            if xticklab? and xticklab.length != xticks.length
-                displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
-            unless xticklab? and xticklab.length == xticks.length
-                xticklab = (formatAxis(xticks)(d) for d in xticks)
-            xticks = [null].concat(xticks)
-            xticklab = ["NA"].concat(xticklab)
+        # vlines
+        vlines = xaxis.append("g").attr("id", "vlines")
+                  .selectAll("empty")
+                  .data(xticks.concat(xticks))
+                  .enter()
+                  .append("line")
+                  .attr("x1", (d) -> xscale_wnull(d))
+                  .attr("x2", (d) -> xscale_wnull(d))
+                  .attr("y1", (d,i) ->
+                      return yrange[0] if i < xticks.length
+                      height-margin.bottom)
+                  .attr("y2", (d,i) ->
+                      return yrange[1] if i < xticks.length
+                      height-margin.bottom-yNA_size.width)
+                  .attr("fill", "none")
+                  .attr("stroke", vlineOpts.color)
+                  .attr("stroke-width", vlineOpts.width)
 
-            # add Y axis values + hlines
-            # if yticks not provided, use nyticks to choose pretty ones
-            yticks = yticks ? yscale.ticks(nyticks)
-            if yticklab? and yticklab.length != yticks.length
-                displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
-            unless yticklab? and yticklab.length == yticks.length
-                yticklab = (formatAxis(yticks)(d) for d in yticks)
-            yticks = [null].concat(yticks)
-            yticklab = ["NA"].concat(yticklab)
+        # axis labels
+        xlabels = xaxis.append("g").attr("id", "xlabels")
+                   .selectAll("empty")
+                   .data(xticklab)
+                   .enter()
+                   .append("text")
+                   .attr("x", (d,i) -> xscale_wnull(xticks[i]))
+                   .attr("y", height - margin.bottom + axispos.xlabel)
+                   .text((d) -> d)
+        ylabels = yaxis.append("g").attr("id", "ylabels")
+                   .selectAll("empty")
+                   .data(yticklab)
+                   .enter()
+                   .append("text")
+                   .attr("y", (d,i) -> yscale_wnull(yticks[i]))
+                   .attr("x", margin.left - axispos.ylabel)
+                   .text((d) -> d)
 
-            # do hlines first
-            hlines = yaxis.append("g").attr("id", "hlines")
-                      .selectAll("empty")
-                      .data(yticks.concat(yticks))
-                      .enter()
-                      .append("line")
-                      .attr("y1", (d) -> yscale_wnull(d))
-                      .attr("y2", (d) -> yscale_wnull(d))
-                      .attr("x1", (d,i) ->
-                          return xrange[0] if i < yticks.length
-                          margin.left)
-                      .attr("x2", (d,i) ->
-                          return xrange[1] if i < yticks.length
-                          margin.left+xNA_size.width)
-                      .attr("fill", "none")
-                      .attr("stroke", hlineOpts.color)
-                      .attr("stroke-width", hlineOpts.width)
-
-            # vlines
-            vlines = xaxis.append("g").attr("id", "vlines")
-                      .selectAll("empty")
-                      .data(xticks.concat(xticks))
-                      .enter()
-                      .append("line")
-                      .attr("x1", (d) -> xscale_wnull(d))
-                      .attr("x2", (d) -> xscale_wnull(d))
-                      .attr("y1", (d,i) ->
-                          return yrange[0] if i < xticks.length
-                          height-margin.bottom)
-                      .attr("y2", (d,i) ->
-                          return yrange[1] if i < xticks.length
-                          height-margin.bottom-yNA_size.width)
-                      .attr("fill", "none")
-                      .attr("stroke", vlineOpts.color)
-                      .attr("stroke-width", vlineOpts.width)
-
-            # axis labels
-            xlabels = xaxis.append("g").attr("id", "xlabels")
-                       .selectAll("empty")
-                       .data(xticklab)
-                       .enter()
-                       .append("text")
-                       .attr("x", (d,i) -> xscale_wnull(xticks[i]))
-                       .attr("y", height - margin.bottom + axispos.xlabel)
-                       .text((d) -> d)
-            ylabels = yaxis.append("g").attr("id", "ylabels")
-                       .selectAll("empty")
-                       .data(yticklab)
-                       .enter()
-                       .append("text")
-                       .attr("y", (d,i) -> yscale_wnull(yticks[i]))
-                       .attr("x", margin.left - axispos.ylabel)
-                       .text((d) -> d)
-
-            # background rectangle boxes
-            for i of boxes.left
-                if boxes.width[i]>0 and boxes.height[i]>0
-                    g.append("rect")
-                     .attr("x", boxes.left[i])
-                     .attr("y", boxes.top[i])
-                     .attr("height", boxes.height[i])
-                     .attr("width", boxes.width[i])
-                     .attr("fill", "none")
-                     .attr("stroke", boxcolor)
-                     .attr("stroke-width", boxwidth)
+        # background rectangle boxes
+        for i of boxes.left
+            if boxes.width[i]>0 and boxes.height[i]>0
+                g.append("rect")
+                 .attr("x", boxes.left[i])
+                 .attr("y", boxes.top[i])
+                 .attr("height", boxes.height[i])
+                 .attr("width", boxes.width[i])
+                 .attr("fill", "none")
+                 .attr("stroke", boxcolor)
+                 .attr("stroke-width", boxwidth)
 
     # functions to grab stuff
     chart.xscale = () -> xscale_wnull

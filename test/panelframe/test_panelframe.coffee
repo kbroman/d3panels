@@ -2,8 +2,7 @@
 
 # Example 1: simplest use
 mychart1 = panelframe({title:"No NAs"})
-d3.select("div#chart1")
-  .call(mychart1)
+mychart1(d3.select("div#chart1"))
 
 # Example 2: xNA box, and thicker hlines (underneath vlines)
 mychart2 = panelframe({
@@ -17,8 +16,23 @@ mychart2 = panelframe({
         width:4,
         color:"#999",
     v_over_h:true})
-d3.select("div#chart2")
-  .call(mychart2)
+mychart2(d3.select("div#chart2"))
+
+# add some points to this one
+svg = mychart2.svg()
+xscale = mychart2.xscale()
+yscale = mychart2.yscale()
+data = [{x:0.2, y:1}, {x:0.4, y:2}, {x:0.6, y:3}, {x:0.8, y:1}]
+svg.append("g").attr("id", "pointgroup")
+   .selectAll("empty")
+   .data(data)
+   .enter()
+   .append("circle")
+   .attr("fill", "slateblue")
+   .attr("stroke", "black")
+   .attr("r", 5)
+   .attr("cx", (d) -> xscale(d.x))
+   .attr("cy", (d) -> yscale(d.y))
 
 # Example 3: yNA box and thicker vlines
 mychart3 = panelframe({
@@ -31,8 +45,7 @@ mychart3 = panelframe({
     xticks:[1,2,3],
     xticklab:["A", "H", "B"],
     xlab:"Group"})
-d3.select("div#chart3")
-  .call(mychart3)
+mychart3(d3.select("div#chart3"))
 
 # Example 4: both xNA and yNA boxes, no vertical lines
 mychart4 = panelframe({
@@ -42,8 +55,7 @@ mychart4 = panelframe({
     vlineOpts:
         width:0,
         color:null})
-d3.select("div#chart4")
-  .call(mychart4)
+mychart4(d3.select("div#chart4"))
 
 # Example 5: both xNA and yNA boxes, dark lines
 mychart5 = panelframe({
@@ -56,5 +68,4 @@ mychart5 = panelframe({
     hlineOpts:
         width:4,
         color:"#999"})
-d3.select("div#chart5")
-  .call(mychart5)
+mychart5(d3.select("div#chart5"))
