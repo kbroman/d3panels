@@ -43,10 +43,10 @@ frame = (chartOpts) ->
 
     ## the main function
     chart = (selection) ->
-        selection.each (data) ->
+        selection.each () ->
 
             # Select the svg element, if it exists.
-            svg = d3.select(this).selectAll("svg").data([data])
+            svg = d3.select(this).selectAll("svg").data([null])
 
             # Otherwise, create the skeletal chart.
             gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g")
@@ -131,6 +131,8 @@ frame = (chartOpts) ->
             # add X axis values + vlines
             # if xticks not provided, use nxticks to choose pretty ones
             xticks = xticks ? xscale.ticks(nxticks)
+            if xticklab? and xticklab.length != xticks.length
+                displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
             unless xticklab? and xticklab.length == xticks.length
                 xticklab = (formatAxis(xticks)(d) for d in xticks)
             xticks = [null].concat(xticks)
@@ -139,6 +141,8 @@ frame = (chartOpts) ->
             # add Y axis values + hlines
             # if yticks not provided, use nyticks to choose pretty ones
             yticks = yticks ? yscale.ticks(nyticks)
+            if yticklab? and yticklab.length != yticks.length
+                displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
             unless yticklab? and yticklab.length == yticks.length
                 yticklab = (formatAxis(yticks)(d) for d in yticks)
             yticks = [null].concat(yticks)
@@ -217,10 +221,12 @@ frame = (chartOpts) ->
     chart.hlines = () -> hlines
     chart.xlabels = () -> xlabels
     chart.ylabels = () -> ylabels
+    chart.svg = () -> svg
 
+    # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      return null
+                      null
 
     # return the chart function
     chart
