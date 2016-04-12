@@ -1,371 +1,151 @@
 # dotchart: reuseable dot plot (like a scatter plot where one dimension is categorical)
 
-dotchart = () ->
-    width = 400
-    height = 500
-    margin = {left:60, top:40, right:40, bottom: 40, inner:5}
-    axispos = {xtitle:25, ytitle:30, xlabel:5, ylabel:5}
-    titlepos = 20
-    xcategories = null
-    xcatlabels = null
-    xjitter = null
-    yNA = {handle:true, force:false, width:15, gap:10}
-    ylim = null
-    nyticks = 5
-    yticks = null
-    rectcolor = "#e6e6e6"
-    pointcolor = "slateblue"
-    pointstroke = "black"
-    pointsize = 3
-    title = ""
-    xlab = "Group"
-    ylab = "Response"
-    rotate_ylab = null
-    xscale = d3.scale.ordinal()
-    yscale = d3.scale.linear()
-    xvar = 0
-    yvar = 1
-    pointsSelect = null
-    dataByInd = true
+dotchart = (chartOpts) ->
+
+    # chartOpts start
+    xcategories = chartOpts?.xcategories ? null # group categories
+    xcatlabels = chartOpts?.xcatlabels ? null # labels for group categories
+    xjitter = chartOpts?.xjitter ? null # amount to jitter horizontally
+    xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    ylim = chartOpts?.ylim ? null # y-axis limits
+    xlab = chartOpts?.xlab ? "Group" # x-axis title
+    ylab = chartOpts?.ylab ? "Response" # y-axis title
+    xlineOpts = chartOpts?.xlineOpts ? {color:"#999", width:5} # color and width of vertical lines
+    pointcolor = chartOpts?.pointcolor ? "slateblue" # fill color of points
+    pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
+    pointsize = chartOpts?.pointsize ? 3 # color of points
+    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
+    # chartOpts end
+    xscale = null
+    yscale = null
+    points = null
     svg = null
     indtip = null
-    tipclass = ""
 
     ## the main function
-    chart = (selection) ->
-        selection.each (data) ->
+    chart = (selection, data) -> # data = {x, y, indID}
+        x = data.x
+        y = data.y
 
-            if dataByInd
-                x = data.map (d) -> d[xvar]
-                y = data.map (d) -> d[yvar]
-            else # reorganize data
-                x = data[xvar]
-                y = data[yvar]
+        # grab indID if it's there
+        # if no indID, create a vector of them
+        indID = data?.indID ? null
+        indID = indID ? [1..x.length]
 
-            # grab indID if it's there
-            # if no indID, create a vector of them
-            indID = data?.indID ? null
-            indID = indID ? [1..x.length]
+        # a few checks
+        if x.length != y.length
+            displayError("length(x) [#{x.length}] != length(y) [#{y.length}]")
+        if indID.length != x.length
+            displayError("length(indID) [#{indID.length}] != length(x) [#{x.length}]")
 
-            # a few checks
-            displayError("length(x) [#{x.length}] != length(y) [#{y.length}]") if x.length != y.length
-            displayError("length(indID) [#{indID.length}] != length(x) [#{x.length}]") if indID.length != x.length
+        xcategories = xcategories ? unique(x)
+        xcatlabels = xcatlabels ? xcategories
+        if xcatlabels.length != xcategories.length
+            displayError("xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]")
 
-            # if all y not null
-            yNA.handle = false if y.every (v) -> (v?) and !yNA.force
-            if yNA.handle
-                panelheight = height - (yNA.width + yNA.gap)
-            else
-                panelheight = height
+        # check all x in xcategories
+        if sumArray(xv? and !(xv in xcategories) for xv in x) > 0
+            displayError("Some x values not in xcategories")
+            console.log("xcategories:")
+            console.log(xcategories)
+            console.log("x:")
+            console.log(x)
 
-            xcategories = xcategories ? unique(x)
-            xcatlabels = xcatlabels ? xcategories
-            displayError("xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]") if xcatlabels.length != xcategories.length
+        # x- and y-axis limits
+        ylim = ylim ? d3.extent(y)
+        xlim = [0.5, xcategories.length + 0.5]
 
-            # check all x in xcategories
-            if sumArray(xv? and !(xv in xcategories) for xv in x) > 0
-                displayError("Some x values not in xcategories")
-                console.log("xcategories:")
-                console.log(xcategories)
-                console.log("x:")
-                console.log(x)
+        # whether to include separate boxes for NAs
+        xNA.handle = false if x.every (v) -> (v?) and !xNA.force
+        yNA.handle = false if y.every (v) -> (v?) and !yNA.force
 
-            ylim = ylim ? d3.extent(y)
+        # category locations
+        xticks = (+i+1 for i of xcategories)
 
-            # I'll replace missing values something smaller than what's observed
-            na_value = d3.min(y) - 100
+        if horizontal
+            chartOpts.ylim = xlim.reverse()
+            chartOpts.xlim = ylim
+            chartOpts.xlab = ylab
+            chartOpts.ylab = xlab
+            chartOpts.xlineOpts = chartOpts.ylineOpts
+            chartOpts.ylineOpts = xlineOpts
+            chartOpts.yNA = xNA.handle
+            chartOpts.xNA = yNA.handle
+            chartOpts.yticks = xticks
+            chartOpts.yticklab = xcatlabels
+        else
+            chartOpts.ylim = ylim
+            chartOpts.xlim = xlim
+            chartOpts.xlab = xlab
+            chartOpts.ylab = ylab
+            chartOpts.ylineOpts = chartOpts.ylineOpts
+            chartOpts.xlineOpts = xlineOpts
+            chartOpts.xNA = xNA.handle
+            chartOpts.yNA = yNA.handle
+            chartOpts.xticks = xticks
+            chartOpts.xticklab = xcatlabels
 
-            # Select the svg element, if it exists.
-            svg = d3.select(this).selectAll("svg").data([data])
+        # set up frame
+        myframe = panelframe(chartOpts)
 
-            # Otherwise, create the skeletal chart.
-            gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g")
+        # Create SVG
+        myframe(selection)
+        svg = myframe.svg()
 
-            # Update the outer dimensions.
-            svg.attr("width", width+margin.left+margin.right)
-               .attr("height", height+margin.top+margin.bottom)
+        # grab scale functions
+        xscale = myframe.xscale()
+        yscale = myframe.yscale()
 
-            g = svg.select("g")
 
-            # box
-            g.append("rect")
-             .attr("x", margin.left)
-             .attr("y", margin.top)
-             .attr("height", panelheight)
-             .attr("width", width)
-             .attr("fill", rectcolor)
-             .attr("stroke", "none")
-            if yNA.handle
-                g.append("rect")
-                 .attr("x", margin.left)
-                 .attr("y", margin.top+height-yNA.width)
-                 .attr("height", yNA.width)
-                 .attr("width", width)
-                 .attr("fill", rectcolor)
-                 .attr("stroke", "none")
+        # jitter x-axis
+        if xjitter == null
+            xjitter = ((Math.random()-0.5)*0.2 for v in d3.range(x.length))
+        else
+            xjitter = [xjitter] if typeof(xjitter) == 'number'
+            xjitter = (xjitter[0] for v in d3.range(x.length)) if xjitter.length == 1
 
-            # simple scales (ignore NA business)
-            xrange = [margin.left+margin.inner, margin.left+width-margin.inner]
-            xscale.domain(xcategories).rangePoints(xrange, 1)
+        displayError("xjitter.length [#{xjitter.length}] != x.length [#{x.length}]") if xjitter.length != x.length
 
-            # jitter x-axis
-            if xjitter == null
-                w = (xrange[1]-xrange[0])/xcategories.length
-                xjitter = ((Math.random()-0.5)*w*0.2 for v in d3.range(x.length))
-            else
-                xjitter = [xjitter] if typeof(xjitter) == 'number'
-                xjitter = (xjitter[0] for v in d3.range(x.length)) if xjitter.length == 1
+        indtip = d3.tip()
+                   .attr('class', "d3-tip #{tipclass}")
+                   .html((d,i) -> indID[i])
+                   .direction('e')
+                   .offset([0,10])
+        svg.call(indtip)
 
-            displayError("xjitter.length [#{xjitter.length}] != x.length [#{x.length}]") if xjitter.length != x.length
+        pointGroup = svg.append("g").attr("id", "points")
+        points =
+            pointGroup.selectAll("empty")
+                  .data(x)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", (d,i) ->
+                      return xscale(x[i]+xjitter[i]) unless horizontal
+                      xscale(y[i]))
+                  .attr("cy", (d,i) ->
+                      return yscale(y[i]) unless horizontal
+                      yscale(x[i]+xjitter[i]))
+                  .attr("class", (d,i) -> "pt#{i}")
+                  .attr("r", pointsize)
+                  .attr("fill", pointcolor)
+                  .attr("stroke", pointstroke)
+                  .attr("stroke-width", "1")
+                  .attr("opacity", (d,i) ->
+                                       return 1 if (y[i]? or yNA.handle) and x[i]? and x[i] in xcategories
+                                       return 0)
+                  .on("mouseover.paneltip", indtip.show)
+                  .on("mouseout.paneltip", indtip.hide)
 
-            yrange = [margin.top+panelheight-margin.inner, margin.top+margin.inner]
-            yscale.domain(ylim).range(yrange)
-            ys = d3.scale.linear().domain(ylim).range(yrange)
+    # functions to grab stuff
+    chart.yscale = () -> yscale
+    chart.xscale = () -> xscale
+    chart.points = () -> points
+    chart.svg = () -> svg
+    chart.indtip = () -> indtip
 
-            # "polylinear" scales to handle missing values
-            if yNA.handle
-                yscale.domain([na_value].concat ylim)
-                      .range([height+margin.top-yNA.width/2].concat yrange)
-                y = y.map (e) -> if e? then e else na_value
-
-            # if yticks not provided, use nyticks to choose pretty ones
-            yticks = yticks ? ys.ticks(nyticks)
-
-            # title
-            titlegrp = g.append("g").attr("class", "title")
-             .append("text")
-             .attr("x", margin.left + width/2)
-             .attr("y", margin.top - titlepos)
-             .text(title)
-
-            # x-axis
-            xaxis = g.append("g").attr("class", "x axis")
-            xaxis.selectAll("empty")
-                 .data(xcategories)
-                 .enter()
-                 .append("line")
-                 .attr("x1", (d) -> xscale(d))
-                 .attr("x2", (d) -> xscale(d))
-                 .attr("y1", margin.top)
-                 .attr("y2", margin.top+height)
-                 .attr("class", "x axis grid")
-            xaxis.selectAll("empty")
-                 .data(xcategories)
-                 .enter()
-                 .append("text")
-                 .attr("x", (d) -> xscale(d))
-                 .attr("y", margin.top+height+axispos.xlabel)
-                 .text((d,i) -> xcatlabels[i])
-            xaxis.append("text").attr("class", "title")
-                 .attr("x", margin.left+width/2)
-                 .attr("y", margin.top+height+axispos.xtitle)
-                 .text(xlab)
-
-            # y-axis
-            rotate_ylab = rotate_ylab ? (ylab.length > 1)
-            yaxis = g.append("g").attr("class", "y axis")
-            yaxis.selectAll("empty")
-                 .data(yticks)
-                 .enter()
-                 .append("line")
-                 .attr("y1", (d) -> yscale(d))
-                 .attr("y2", (d) -> yscale(d))
-                 .attr("x1", margin.left)
-                 .attr("x2", margin.left+width)
-                 .attr("class", "y axis grid")
-            yaxis.selectAll("empty")
-                 .data(yticks)
-                 .enter()
-                 .append("text")
-                 .attr("y", (d) -> yscale(d))
-                 .attr("x", margin.left-axispos.ylabel)
-                 .text((d) -> formatAxis(yticks)(d))
-            yaxis.append("text").attr("class", "title")
-                 .attr("y", margin.top+height/2)
-                 .attr("x", margin.left-axispos.ytitle)
-                 .text(ylab)
-                 .attr("transform", if rotate_ylab then "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})" else "")
-            if yNA.handle
-                yaxis.append("text")
-                     .attr("x", margin.left-axispos.ylabel)
-                     .attr("y", margin.top+height-yNA.width/2)
-                     .text("N/A")
-
-            indtip = d3.tip()
-                       .attr('class', "d3-tip #{tipclass}")
-                       .html((d,i) -> indID[i])
-                       .direction('e')
-                       .offset([0,10])
-            svg.call(indtip)
-
-            points = g.append("g").attr("id", "points")
-            pointsSelect =
-                points.selectAll("empty")
-                      .data(x)
-                      .enter()
-                      .append("circle")
-                      .attr("cx", (d,i) -> xscale(x[i])+xjitter[i])
-                      .attr("cy", (d,i) -> yscale(y[i]))
-                      .attr("class", (d,i) -> "pt#{i}")
-                      .attr("r", pointsize)
-                      .attr("fill", pointcolor)
-                      .attr("stroke", pointstroke)
-                      .attr("stroke-width", "1")
-                      .attr("opacity", (d,i) ->
-                                           return 1 if (y[i]? or yNA.handle) and x[i]? and x[i] in xcategories
-                                           return 0)
-                      .on("mouseover.paneltip", indtip.show)
-                      .on("mouseout.paneltip", indtip.hide)
-
-            # box
-            g.append("rect")
-             .attr("x", margin.left)
-             .attr("y", margin.top)
-             .attr("height", panelheight)
-             .attr("width", width)
-             .attr("fill", "none")
-             .attr("stroke", "black")
-             .attr("stroke-width", "none")
-            if yNA.handle
-                g.append("rect")
-                 .attr("x", margin.left)
-                 .attr("y", margin.top+height-yNA.width)
-                 .attr("height", yNA.width)
-                 .attr("width", width)
-                 .attr("fill", "none")
-                 .attr("stroke", "black")
-                 .attr("stroke-width", "none")
-
-    ## configuration parameters
-    chart.width = (value) ->
-                      return width if !arguments.length
-                      width = value
-                      chart
-
-    chart.height = (value) ->
-                      return height if !arguments.length
-                      height = value
-                      chart
-
-    chart.margin = (value) ->
-                      return margin if !arguments.length
-                      margin = value
-                      chart
-
-    chart.axispos = (value) ->
-                      return axispos if !arguments.length
-                      axispos = value
-                      chart
-
-    chart.titlepos = (value) ->
-                      return titlepos if !arguments.length
-                      titlepos = value
-                      chart
-
-    chart.xcategories = (value) ->
-                      return xcategories if !arguments.length
-                      xcategories = value
-                      chart
-
-    chart.xcatlabels = (value) ->
-                      return xcatlabels if !arguments.length
-                      xcatlabels = value
-                      chart
-
-    chart.xjitter = (value) ->
-                      return xjitter if !arguments.length
-                      xjitter = value
-                      chart
-
-    chart.ylim = (value) ->
-                      return ylim if !arguments.length
-                      ylim = value
-                      chart
-
-    chart.nyticks = (value) ->
-                      return nyticks if !arguments.length
-                      nyticks = value
-                      chart
-
-    chart.yticks = (value) ->
-                      return yticks if !arguments.length
-                      yticks = value
-                      chart
-
-    chart.rectcolor = (value) ->
-                      return rectcolor if !arguments.length
-                      rectcolor = value
-                      chart
-
-    chart.pointcolor = (value) ->
-                      return pointcolor if !arguments.length
-                      pointcolor = value
-                      chart
-
-    chart.pointsize = (value) ->
-                      return pointsize if !arguments.length
-                      pointsize = value
-                      chart
-
-    chart.pointstroke = (value) ->
-                      return pointstroke if !arguments.length
-                      pointstroke = value
-                      chart
-
-    chart.dataByInd = (value) ->
-                      return dataByInd if !arguments.length
-                      dataByInd = value
-                      chart
-
-    chart.title = (value) ->
-                      return title if !arguments.length
-                      title = value
-                      chart
-
-    chart.xlab = (value) ->
-                      return xlab if !arguments.length
-                      xlab = value
-                      chart
-
-    chart.ylab = (value) ->
-                      return ylab if !arguments.length
-                      ylab = value
-                      chart
-
-    chart.rotate_ylab = (value) ->
-                      return rotate_ylab if !arguments.length
-                      rotate_ylab = value
-                      chart
-
-    chart.xvar = (value) ->
-                      return xvar if !arguments.length
-                      xvar = value
-                      chart
-
-    chart.yvar = (value) ->
-                      return yvar if !arguments.length
-                      yvar = value
-                      chart
-
-    chart.yNA = (value) ->
-                      return yNA if !arguments.length
-                      yNA = value
-                      chart
-
-    chart.tipclass = (value) ->
-                      return tipclass if !arguments.length
-                      tipclass = value
-                      chart
-
-    chart.yscale = () ->
-                      return yscale
-
-    chart.xscale = () ->
-                      return xscale
-
-    chart.pointsSelect = () ->
-                      return pointsSelect
-
+    # function to remove chart
     chart.remove = () ->
                       svg.remove()
                       indtip.destroy()
