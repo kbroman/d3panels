@@ -22,7 +22,7 @@ formatAxis = (d, extra_digits=0) ->
 # unique values of array (ignore nulls)
 unique = (x) ->
     output = {}
-    output[v] = v for v in x when v
+    output[v] = v for v in x when v?
     output[v] for v of output
 
 # Pull out a variable (column) from a two-dimensional array
