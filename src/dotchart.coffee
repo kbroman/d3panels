@@ -101,7 +101,6 @@ dotchart = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-
         # jitter x-axis
         if xjitter == null
             xjitter = ((Math.random()-0.5)*0.2 for v in d3.range(x.length))
