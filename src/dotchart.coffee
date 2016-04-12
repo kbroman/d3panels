@@ -11,12 +11,13 @@ dotchart = (chartOpts) ->
     ylim = chartOpts?.ylim ? null # y-axis limits
     xlab = chartOpts?.xlab ? "Group" # x-axis title
     ylab = chartOpts?.ylab ? "Response" # y-axis title
-    xlineOpts = chartOpts?.xlineOpts ? {color:"#999", width:5} # color and width of vertical lines
+    xlineOpts = chartOpts?.xlineOpts ? {color:"#CDCDCD", width:5} # color and width of vertical lines
     pointcolor = chartOpts?.pointcolor ? "slateblue" # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3 # color of points
     tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
     horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
+    v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
     # chartOpts end
     xscale = null
     yscale = null
@@ -75,6 +76,7 @@ dotchart = (chartOpts) ->
             chartOpts.xNA = yNA.handle
             chartOpts.yticks = xticks
             chartOpts.yticklab = xcatlabels
+            chartOpts.v_over_h = v_over_h
         else
             chartOpts.ylim = ylim
             chartOpts.xlim = xlim
@@ -86,6 +88,7 @@ dotchart = (chartOpts) ->
             chartOpts.yNA = yNA.handle
             chartOpts.xticks = xticks
             chartOpts.xticklab = xcatlabels
+            chartOpts.v_over_h = v_over_h
 
         # set up frame
         myframe = panelframe(chartOpts)

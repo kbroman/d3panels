@@ -2157,7 +2157,7 @@ var dotchart,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 dotchart = function(chartOpts) {
-  var chart, horizontal, indtip, pointcolor, points, pointsize, pointstroke, ref, ref1, ref10, ref11, ref12, ref13, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, tipclass, xNA, xcategories, xcatlabels, xjitter, xlab, xlineOpts, xscale, yNA, ylab, ylim, yscale;
+  var chart, horizontal, indtip, pointcolor, points, pointsize, pointstroke, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, tipclass, v_over_h, xNA, xcategories, xcatlabels, xjitter, xlab, xlineOpts, xscale, yNA, ylab, ylim, yscale;
   xcategories = (ref = chartOpts != null ? chartOpts.xcategories : void 0) != null ? ref : null;
   xcatlabels = (ref1 = chartOpts != null ? chartOpts.xcatlabels : void 0) != null ? ref1 : null;
   xjitter = (ref2 = chartOpts != null ? chartOpts.xjitter : void 0) != null ? ref2 : null;
@@ -2173,7 +2173,7 @@ dotchart = function(chartOpts) {
   xlab = (ref6 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref6 : "Group";
   ylab = (ref7 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref7 : "Response";
   xlineOpts = (ref8 = chartOpts != null ? chartOpts.xlineOpts : void 0) != null ? ref8 : {
-    color: "#999",
+    color: "#CDCDCD",
     width: 5
   };
   pointcolor = (ref9 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref9 : "slateblue";
@@ -2181,19 +2181,20 @@ dotchart = function(chartOpts) {
   pointsize = (ref11 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref11 : 3;
   tipclass = (ref12 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref12 : "pointtip";
   horizontal = (ref13 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref13 : false;
+  v_over_h = (ref14 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref14 : horizontal;
   xscale = null;
   yscale = null;
   points = null;
   svg = null;
   indtip = null;
   chart = function(selection, data) {
-    var i, indID, j, myframe, pointGroup, ref14, ref15, results, v, x, xlim, xticks, xv, y;
+    var i, indID, j, myframe, pointGroup, ref15, ref16, results, v, x, xlim, xticks, xv, y;
     x = data.x;
     y = data.y;
-    indID = (ref14 = data != null ? data.indID : void 0) != null ? ref14 : null;
+    indID = (ref15 = data != null ? data.indID : void 0) != null ? ref15 : null;
     indID = indID != null ? indID : (function() {
       results = [];
-      for (var j = 1, ref15 = x.length; 1 <= ref15 ? j <= ref15 : j >= ref15; 1 <= ref15 ? j++ : j--){ results.push(j); }
+      for (var j = 1, ref16 = x.length; 1 <= ref16 ? j <= ref16 : j >= ref16; 1 <= ref16 ? j++ : j--){ results.push(j); }
       return results;
     }).apply(this);
     if (x.length !== y.length) {
@@ -2253,6 +2254,7 @@ dotchart = function(chartOpts) {
       chartOpts.xNA = yNA.handle;
       chartOpts.yticks = xticks;
       chartOpts.yticklab = xcatlabels;
+      chartOpts.v_over_h = v_over_h;
     } else {
       chartOpts.ylim = ylim;
       chartOpts.xlim = xlim;
@@ -2264,6 +2266,7 @@ dotchart = function(chartOpts) {
       chartOpts.yNA = yNA.handle;
       chartOpts.xticks = xticks;
       chartOpts.xticklab = xcatlabels;
+      chartOpts.v_over_h = v_over_h;
     }
     myframe = panelframe(chartOpts);
     myframe(selection);
@@ -2272,11 +2275,11 @@ dotchart = function(chartOpts) {
     yscale = myframe.yscale();
     if (xjitter === null) {
       xjitter = (function() {
-        var k, len, ref16, results1;
-        ref16 = d3.range(x.length);
+        var k, len, ref17, results1;
+        ref17 = d3.range(x.length);
         results1 = [];
-        for (k = 0, len = ref16.length; k < len; k++) {
-          v = ref16[k];
+        for (k = 0, len = ref17.length; k < len; k++) {
+          v = ref17[k];
           results1.push((Math.random() - 0.5) * 0.2);
         }
         return results1;
@@ -2287,11 +2290,11 @@ dotchart = function(chartOpts) {
       }
       if (xjitter.length === 1) {
         xjitter = (function() {
-          var k, len, ref16, results1;
-          ref16 = d3.range(x.length);
+          var k, len, ref17, results1;
+          ref17 = d3.range(x.length);
           results1 = [];
-          for (k = 0, len = ref16.length; k < len; k++) {
-            v = ref16[k];
+          for (k = 0, len = ref17.length; k < len; k++) {
+            v = ref17[k];
             results1.push(xjitter[0]);
           }
           return results1;
@@ -2319,8 +2322,8 @@ dotchart = function(chartOpts) {
     }).attr("class", function(d, i) {
       return "pt" + i;
     }).attr("r", pointsize).attr("fill", pointcolor).attr("stroke", pointstroke).attr("stroke-width", "1").attr("opacity", function(d, i) {
-      var ref16;
-      if (((y[i] != null) || yNA.handle) && (x[i] != null) && (ref16 = x[i], indexOf.call(xcategories, ref16) >= 0)) {
+      var ref17;
+      if (((y[i] != null) || yNA.handle) && (x[i] != null) && (ref17 = x[i], indexOf.call(xcategories, ref17) >= 0)) {
         return 1;
       }
       return 0;

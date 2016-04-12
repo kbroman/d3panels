@@ -14,7 +14,7 @@ mychart2 = panelframe({
     ylab: "Group"
     ylineOpts:
         width:4
-        color:"#999"
+        color:"#CDCDCD"
     v_over_h:true})
 mychart2(d3.select("div#chart2"))
 
@@ -40,7 +40,7 @@ mychart3 = panelframe({
     title:"Y-axis NAs"
     xlineOpts:
         width:4
-        color:"#999"
+        color:"#CDCDCD"
     xlim:[0.5,3.5]
     xticks:[1,2,3]
     xticklab:["A", "H", "B"]
@@ -64,8 +64,8 @@ mychart5 = panelframe({
     title:"X- and Y-axis NAs + dark grid"
     xlineOpts:
         width:4
-        color:"#999"
+        color:"#CDCDCD"
     ylineOpts:
         width:4
-        color:"#999"})
+        color:"#CDCDCD"})
 mychart5(d3.select("div#chart5"))
