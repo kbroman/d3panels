@@ -115,6 +115,8 @@ scatterplot = (chartOpts) ->
     chart.yscale = () -> yscale
     chart.xscale = () -> xscale
     chart.points = () -> points
+    chart.svg = () -> svg
+    chart.indtip = () -> indtip
 
     # function to remove chart
     chart.remove = () ->
