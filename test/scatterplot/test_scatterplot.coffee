@@ -1,7 +1,7 @@
 # illustration of use of the scatterplot function
 
-h = 300
-w = 400
+h = 380
+w = 500
 margin = {left:60, top:40, right:40, bottom: 40, inner:5}
 halfh = (h+margin.top+margin.bottom)
 totalh = halfh*2
@@ -10,24 +10,24 @@ totalw = halfw*2
 
 # Example 1: simplest use
 d3.json "data.json", (data) ->
-    mychart = scatterplot().xvar(0)
-                           .yvar(1)
-                           .xlab("X1")
-                           .ylab("X2")
-                           .height(h)
-                           .width(w)
-                           .margin(margin)
+    mychart = scatterplot({
+        xvar:0
+        yvar:1
+        xlab:"X1"
+        ylab:"X2"
+        height:h
+        width:w
+        pointsize: 3
+        margin:margin})
 
-    d3.select("div#chart1")
-      .datum({data:data})
-      .call(mychart)
+    mychart(d3.select("div#chart1"), {data:data})
 
     # animate points
-    mychart.pointsSelect()
+    mychart.points()
               .on "mouseover", (d) ->
-                                   d3.select(this).attr("r", mychart.pointsize()*3)
+                                   d3.select(this).attr("r", 3*3)
               .on "mouseout", (d) ->
-                                   d3.select(this).attr("r", mychart.pointsize())
+                                   d3.select(this).attr("r", 3)
 
 
 # Example 2: three scatterplots within one SVG, with brushing
@@ -46,20 +46,20 @@ d3.json "data.json", (data) ->
     mychart = []
     chart = []
     for i in [0..2]
-        mychart[i] = scatterplot().xvar(xvar[i])
-                                  .yvar(yvar[i])
-                                  .nxticks(6)
-                                  .height(h)
-                                  .width(w)
-                                  .margin(margin)
-                                  .pointsize(4)
-                                  .xlab("X#{xvar[i]+1}")
-                                  .ylab("X#{yvar[i]+1}")
-                                  .title("X#{yvar[i]+1} vs. X#{xvar[i]+1}")
+        mychart[i] = scatterplot({
+            xvar:xvar[i]
+            yvar:yvar[i]
+            nxticks:6
+            height:h
+            width:w
+            margin:margin
+            xlab:"X#{xvar[i]+1}"
+            ylab:"Y#{yvar[i]+1}"
+            title:"X#{yvar[i]+1} vs. X#{xvar[i]+1}"})
 
         chart[i] = svg.append("g").attr("id", "chart#{i}")
                       .attr("transform", "translate(#{xshift[i]},#{yshift[i]})")
-        chart[i].datum({data:data}).call(mychart[i])
+        mychart[i](chart[i], {data:data})
 
     brush = []
     brushstart = (i) ->
@@ -100,35 +100,56 @@ d3.json "data.json", (data) ->
 
 # Example 3: different options regarding treatment of missing values
 d3.json "data.json", (data) ->
-    mychart01 = scatterplot().xvar(1)
-                             .yvar(0)
-                             .height(h)
-                             .width(w)
-                             .margin(margin)
-                             .xlab("X2")
-                             .ylab("X1")
-                             .xNA({handle:true, force:true, width:15, gap:10})
-                             .yNA({handle:true, force:true, width:15, gap:10})
-                             .title("X1 vs X2")
+    mychart01 = scatterplot({
+        xvar:1
+        yvar:0
+        height:h
+        width:w
+        margin:margin
+        xlab:"X2"
+        ylab:"X1"
+        xNA:
+            handle:true
+            force:true
+        xNA_size:
+            width:15
+            gap: 10
+        yNA:
+            handle:true
+            force:true
+        yNA_size:
+            width:15
+            gap:10
+        title:"X1 vs X2"})
 
-    mychart02 = scatterplot().xvar(2)
-                             .yvar(0)
-                             .height(h)
-                             .width(w)
-                             .margin(margin)
-                             .xlab("X3")
-                             .ylab("X1")
-                             .yNA({handle:true, force:true, width:15, gap:10})
-                             .title("X1 vs X3")
-    mychart12 = scatterplot().xvar(2)
-                             .yvar(1)
-                             .height(h)
-                             .width(w)
-                             .margin(margin)
-                             .xlab("X3")
-                             .ylab("X2")
-                             .xNA({handle:false, force:false, width:15, gap:10})
-                             .title("X2 vs X3")
+    mychart02 = scatterplot({
+        xvar:2
+        yvar:0
+        height:h
+        width:w
+        margin:margin
+        xlab:"X3"
+        ylab:"X1"
+        yNA:
+            handle:true
+            force:true
+        yNA_size:
+            width:15
+            gap: 10
+        title: "X1 vs X3"})
+
+    mychart12 = scatterplot({
+        xvar:2
+        yvar:1
+        height:h
+        width:w
+        margin:margin
+        xlab:"X3"
+        ylab:"X2"
+        xNA:
+            handle:false
+            force:false
+        title: "X2 vs X3"})
 
     svg = d3.select("div#chart3")
             .append("svg")
@@ -144,63 +165,56 @@ d3.json "data.json", (data) ->
     chart12 = svg.append("g").attr("id", "chart12")
                  .attr("transform", "translate(#{halfw}, #{halfh})")
 
-    chart01.datum({data:data})
-      .call(mychart01)
-
-    chart02.datum({data:data})
-      .call(mychart02)
-
-    chart12.datum({data:data})
-      .call(mychart12)
+    mychart01(chart01, {data:data})
+    mychart02(chart02, {data:data})
+    mychart12(chart12, {data:data})
 
     [mychart01, mychart02, mychart12].forEach (chart) ->
-        chart.pointsSelect()
+        chart.points()
              .on "mouseover", (d,i) ->
-                                  svg.selectAll("circle.pt#{i}").attr("r", chart.pointsize()*3)
+                                  svg.selectAll("circle.pt#{i}").attr("r", 9)
              .on "mouseout", (d,i) ->
-                                  svg.selectAll("circle.pt#{i}").attr("r", chart.pointsize())
+                                  svg.selectAll("circle.pt#{i}").attr("r", 3)
 
 
 # Example 4: Data not by individual but with X and Y as separate columns
 d3.json "data.json", (data) ->
-    mychart = scatterplot().height(h)
-                           .width(w)
-                           .margin(margin)
-                           .dataByInd(false)
+    mychart = scatterplot({
+        height:h
+        width:w
+        margin:margin
+        dataByInd:false})
 
     dataReorg = [(x[0] for x in data), (x[1] for x in data)]
 
-    d3.select("div#chart4")
-      .datum({data:dataReorg})
-      .call(mychart)
+    mychart(d3.select("div#chart4"), {data:dataReorg})
 
     # animate points
-    mychart.pointsSelect()
+    mychart.points()
            .on "mouseover", (d) ->
-                               d3.select(this).attr("r", mychart.pointsize()*3)
+                               d3.select(this).attr("r", 3*3)
            .on "mouseout", (d) ->
-                               d3.select(this).attr("r", mychart.pointsize())
+                               d3.select(this).attr("r", 3)
 
 # Example 5: color by grouping
 d3.json "data.json", (data) ->
-    mychart = scatterplot().xvar(0)
-                           .yvar(1)
-                           .xlab("X1")
-                           .ylab("X2")
-                           .height(h)
-                           .width(w)
-                           .margin(margin)
+    mychart = scatterplot({
+        xvar:0
+        yvar:1
+        xlab:"X1"
+        ylab:"Y1"
+        height:h
+        width:w
+        margin:margin})
 
     ngroup = 3
     group = (Math.ceil(Math.random()*ngroup) for i in data)
 
-    d3.select("div#chart5")
-      .datum({data:data, group:group})
-      .call(mychart)
+    mychart(d3.select("div#chart5"), {data:data, group:group})
 
     # animate points
-    mychart.pointsSelect()
+    mychart.points()
            .on "mouseover", (d) ->
-                               d3.select(this).attr("r", mychart.pointsize()*3)
+                               d3.select(this).attr("r", 9)
            .on "mouseout", (d) ->
-                               d3.select(this).attr("r", mychart.pointsize())
+                               d3.select(this).attr("r", 3)
