@@ -130,6 +130,9 @@ d3.json "data.json", (data) ->
         margin:margin
         xlab:"X3"
         ylab:"X1"
+        xNA_size:
+            width:15
+            gap: 10
         yNA:
             handle:true
             force:true
@@ -149,6 +152,9 @@ d3.json "data.json", (data) ->
         xNA:
             handle:false
             force:false
+        yNA_size:
+            width:15
+            gap: 10
         title: "X2 vs X3"})
 
     svg = d3.select("div#chart3")
