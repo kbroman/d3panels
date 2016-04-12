@@ -169,7 +169,8 @@ frame = (chartOpts) ->
                 yticks = [null].concat(yticks)
 
             # do hlines first
-            hlines = yaxis.selectAll("empty")
+            hlines = yaxis.append("g").attr("id", "hlines")
+                      .selectAll("empty")
                       .data(yticks)
                       .enter()
                       .append("line")
@@ -182,7 +183,8 @@ frame = (chartOpts) ->
                       .attr("stroke-width", hlineOpts.width)
 
             # vlines
-            vlines = xaxis.selectAll("empty")
+            vlines = xaxis.append("g").attr("id", "vlines")
+                      .selectAll("empty")
                       .data(xticks)
                       .enter()
                       .append("line")
@@ -195,14 +197,16 @@ frame = (chartOpts) ->
                       .attr("stroke-width", vlineOpts.width)
 
             # axis labels
-            xlabels = xaxis.selectAll("empty")
+            xlabels = xaxis.append("g").attr("id", "xlabels")
+                       .selectAll("empty")
                        .data(xticklab)
                        .enter()
                        .append("text")
                        .attr("x", (d,i) -> xscale_wnull(xticks[i]))
                        .attr("y", height - margin.bottom + axispos.xlabel)
                        .text((d) -> formatAxis(xticks)(d))
-            ylabels = yaxis.selectAll("empty")
+            ylabels = yaxis.append("g").attr("id", "ylabels")
+                       .selectAll("empty")
                        .data(yticklab)
                        .enter()
                        .append("text")

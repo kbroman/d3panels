@@ -1141,22 +1141,22 @@ frame = function(chartOpts) {
         yticklab = ["NA"].concat(yticks);
         yticks = [null].concat(yticks);
       }
-      hlines = yaxis.selectAll("empty").data(yticks).enter().append("line").attr("y1", function(d) {
+      hlines = yaxis.append("g").attr("id", "hlines").selectAll("empty").data(yticks).enter().append("line").attr("y1", function(d) {
         return yscale_wnull(d);
       }).attr("y2", function(d) {
         return yscale_wnull(d);
       }).attr("x1", xrange[0]).attr("x2", xrange[1]).attr("fill", "none").attr("stroke", hlineOpts.color).attr("stroke-width", hlineOpts.width);
-      vlines = xaxis.selectAll("empty").data(xticks).enter().append("line").attr("x1", function(d) {
+      vlines = xaxis.append("g").attr("id", "vlines").selectAll("empty").data(xticks).enter().append("line").attr("x1", function(d) {
         return xscale_wnull(d);
       }).attr("x2", function(d) {
         return xscale_wnull(d);
       }).attr("y1", yrange[0]).attr("y2", yrange[1]).attr("fill", "none").attr("stroke", vlineOpts.color).attr("stroke-width", vlineOpts.width);
-      xlabels = xaxis.selectAll("empty").data(xticklab).enter().append("text").attr("x", function(d, i) {
+      xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(xticklab).enter().append("text").attr("x", function(d, i) {
         return xscale_wnull(xticks[i]);
       }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
         return formatAxis(xticks)(d);
       });
-      ylabels = yaxis.selectAll("empty").data(yticklab).enter().append("text").attr("y", function(d, i) {
+      ylabels = yaxis.append("g").attr("id", "ylabels").selectAll("empty").data(yticklab).enter().append("text").attr("y", function(d, i) {
         return yscale_wnull(yticks[i]);
       }).attr("x", margin.left - axispos.ylabel).text(function(d, i) {
         return formatAxis(yticks)(d);
