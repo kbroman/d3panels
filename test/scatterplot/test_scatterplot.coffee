@@ -11,8 +11,6 @@ totalw = halfw*2
 # Example 1: simplest use
 d3.json "data.json", (data) ->
     mychart = scatterplot({
-        xvar:0
-        yvar:1
         xlab:"X1"
         ylab:"X2"
         height:h
@@ -20,7 +18,11 @@ d3.json "data.json", (data) ->
         pointsize: 3
         margin:margin})
 
-    mychart(d3.select("div#chart1"), {data:data})
+    # reorg data
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+
+    # make plot
+    mychart(d3.select("div#chart1"), these_data)
 
     # animate points
     mychart.points()
@@ -47,19 +49,19 @@ d3.json "data.json", (data) ->
     chart = []
     for i in [0..2]
         mychart[i] = scatterplot({
-            xvar:xvar[i]
-            yvar:yvar[i]
             nxticks:6
             height:h
             width:w
             margin:margin
             xlab:"X#{xvar[i]+1}"
-            ylab:"Y#{yvar[i]+1}"
+            ylab:"X#{yvar[i]+1}"
             title:"X#{yvar[i]+1} vs. X#{xvar[i]+1}"})
 
         chart[i] = svg.append("g").attr("id", "chart#{i}")
                       .attr("transform", "translate(#{xshift[i]},#{yshift[i]})")
-        mychart[i](chart[i], {data:data})
+
+        these_data = {x:(d[xvar[i]] for d in data), y:(d[yvar[i]] for d in data)}
+        mychart[i](chart[i], these_data)
 
     brush = []
     brushstart = (i) ->
@@ -101,8 +103,6 @@ d3.json "data.json", (data) ->
 # Example 3: different options regarding treatment of missing values
 d3.json "data.json", (data) ->
     mychart01 = scatterplot({
-        xvar:1
-        yvar:0
         height:h
         width:w
         margin:margin
@@ -123,8 +123,6 @@ d3.json "data.json", (data) ->
         title:"X1 vs X2"})
 
     mychart02 = scatterplot({
-        xvar:2
-        yvar:0
         height:h
         width:w
         margin:margin
@@ -142,8 +140,6 @@ d3.json "data.json", (data) ->
         title: "X1 vs X3"})
 
     mychart12 = scatterplot({
-        xvar:2
-        yvar:1
         height:h
         width:w
         margin:margin
@@ -171,9 +167,12 @@ d3.json "data.json", (data) ->
     chart12 = svg.append("g").attr("id", "chart12")
                  .attr("transform", "translate(#{halfw}, #{halfh})")
 
-    mychart01(chart01, {data:data})
-    mychart02(chart02, {data:data})
-    mychart12(chart12, {data:data})
+    these_data = {x:(d[1] for d in data), y:(d[0] for d in data)}
+    mychart01(chart01, these_data)
+    these_data = {x:(d[2] for d in data), y:(d[0] for d in data)}
+    mychart02(chart02, these_data)
+    these_data = {x:(d[2] for d in data), y:(d[1] for d in data)}
+    mychart12(chart12, these_data)
 
     [mychart01, mychart02, mychart12].forEach (chart) ->
         chart.points()
@@ -183,40 +182,20 @@ d3.json "data.json", (data) ->
                                   svg.selectAll("circle.pt#{i}").attr("r", 3)
 
 
-# Example 4: Data not by individual but with X and Y as separate columns
+# Example 4: color by grouping
 d3.json "data.json", (data) ->
     mychart = scatterplot({
-        height:h
-        width:w
-        margin:margin
-        dataByInd:false})
-
-    dataReorg = [(x[0] for x in data), (x[1] for x in data)]
-
-    mychart(d3.select("div#chart4"), {data:dataReorg})
-
-    # animate points
-    mychart.points()
-           .on "mouseover", (d) ->
-                               d3.select(this).attr("r", 3*3)
-           .on "mouseout", (d) ->
-                               d3.select(this).attr("r", 3)
-
-# Example 5: color by grouping
-d3.json "data.json", (data) ->
-    mychart = scatterplot({
-        xvar:0
-        yvar:1
         xlab:"X1"
-        ylab:"Y1"
+        ylab:"X2"
         height:h
         width:w
         margin:margin})
 
     ngroup = 3
     group = (Math.ceil(Math.random()*ngroup) for i in data)
+    these_data = {x:(d[0] for d in data), y:d[1] for d in data, group:group}
 
-    mychart(d3.select("div#chart5"), {data:data, group:group})
+    mychart(d3.select("div#chart4"), these_data)
 
     # animate points
     mychart.points()

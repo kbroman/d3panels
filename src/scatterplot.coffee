@@ -10,9 +10,6 @@ scatterplot = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? null      # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3 # color of points
-    xvar = chartOpts?.xvar ? 0 # x-axis variable name
-    yvar = chartOpts?.yvar ? 1 # y-axis variable name
-    dataByInd = chartOpts?.dataByInd ? true # whether data are arranged by individual as (x,y) pairs
     tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
     # chartOpts end
     points = null
@@ -22,13 +19,9 @@ scatterplot = (chartOpts) ->
     yscale = null
 
     ## the main function
-    chart = (selection, data) ->
-        if dataByInd
-            x = data.data.map (d) -> d[xvar]
-            y = data.data.map (d) -> d[yvar]
-        else # reorganize data
-            x = data.data[xvar]
-            y = data.data[yvar]
+    chart = (selection, data) -> # data = {x, y, indID, group}
+        x = data.x
+        y = data.y
 
         if x.length != y.length
             displayError("x.length (#{x.length}) != y.length (#{y.length})")
