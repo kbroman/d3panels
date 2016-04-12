@@ -56,61 +56,35 @@ frame = (chartOpts) ->
 
             g = svg.select("g")
 
+
+            xNA_size = {width:0, gap:0} unless xNA # if no x-axis NA box
+            yNA_size = {width:0, gap:0} unless yNA # if no y-axis NA box
+
             # placement of boxes according to whether NAs will be treated specially
             plot_width = width - (margin.left + margin.right)
             plot_height = height - (margin.top + margin.bottom)
-            if xNA and yNA # NA boxes for both X and Y
-                inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap)
-                inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap)
-                boxes =
+            inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap)
+            inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap)
+            boxes =
                     left:[margin.left+xNA_size.width+xNA_size.gap, margin.left, margin.left, margin.left+xNA_size.width+xNA_size.gap],
                     width:[inner_width, xNA_size.width, xNA_size.width, inner_width],
                     top:[margin.top, margin.top, height-(margin.bottom+yNA_size.width), height-(margin.bottom+yNA_size.width)],
                     height:[inner_height, inner_height, yNA_size.width, yNA_size.width]
-                xNA_xpos = margin.left + xNA_size.width/2
-                yNA_ypos = height-margin.bottom-yNA_size.width/2
-            else if xNA    # NA box only for X
-                inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap)
-                inner_height = height - (margin.top + margin.bottom)
-                boxes =
-                    left:[margin.left+xNA_size.width+xNA_size.gap, margin.left],
-                    width:[inner_width, xNA_size.width],
-                    top:[margin.top, margin.top],
-                    height: [inner_height, inner_height]
-                xNA_xpos = margin.left + xNA_size.width/2
-                yNA_ypos = -5000
-            else if yNA    # NA box only for Y
-                inner_width = width - (margin.right + margin.left)
-                inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap)
-                boxes =
-                    left: [margin.left, margin.left],
-                    width: [inner_width, inner_width],
-                    top: [margin.top, height-(margin.bottom + yNA_size.width)],
-                    height: [inner_height, yNA_size.width]
-                xNA_xpos = -5000
-                yNA_ypos = height-margin.bottom-yNA_size.width/2
-            else           # no NA boxes
-                inner_width = width - (margin.right + margin.left)
-                inner_height = height - (margin.top + margin.bottom)
-                boxes =
-                    left: [margin.left],
-                    width: [inner_width],
-                    top: [margin.top],
-                    height: [inner_height]
-                xNA_xpos = -5000
-                yNA_ypos = -5000
+            xNA_xpos = if xNA then margin.left + xNA_size.width/2 else -50000
+            yNA_ypos = if yNA then height-margin.bottom-yNA_size.width/2 else -50000
             xrange = [boxes.left[0], boxes.left[0] + boxes.width[0]]
             yrange = [boxes.top[0] + boxes.height[0], boxes.top[0]]
 
             # background rectangles
             for i of boxes.left
-                g.append("rect")
-                 .attr("x", boxes.left[i])
-                 .attr("y", boxes.top[i])
-                 .attr("height", boxes.height[i])
-                 .attr("width", boxes.width[i])
-                 .attr("fill", rectcolor)
-                 .attr("stroke", "none")
+                if boxes.width[i]>0 and boxes.height[i]>0
+                    g.append("rect")
+                     .attr("x", boxes.left[i])
+                     .attr("y", boxes.top[i])
+                     .attr("height", boxes.height[i])
+                     .attr("width", boxes.width[i])
+                     .attr("fill", rectcolor)
+                     .attr("stroke", "none")
 
             # add title
             g.append("g").attr("class", "title")
@@ -171,13 +145,17 @@ frame = (chartOpts) ->
             # do hlines first
             hlines = yaxis.append("g").attr("id", "hlines")
                       .selectAll("empty")
-                      .data(yticks)
+                      .data(yticks.concat(yticks))
                       .enter()
                       .append("line")
                       .attr("y1", (d) -> yscale_wnull(d))
                       .attr("y2", (d) -> yscale_wnull(d))
-                      .attr("x1", xrange[0])
-                      .attr("x2", xrange[1])
+                      .attr("x1", (d,i) ->
+                          return xrange[0] if i < yticks.length
+                          margin.left)
+                      .attr("x2", (d,i) ->
+                          return xrange[1] if i < yticks.length
+                          margin.left+xNA_size.width)
                       .attr("fill", "none")
                       .attr("stroke", hlineOpts.color)
                       .attr("stroke-width", hlineOpts.width)
@@ -185,13 +163,17 @@ frame = (chartOpts) ->
             # vlines
             vlines = xaxis.append("g").attr("id", "vlines")
                       .selectAll("empty")
-                      .data(xticks)
+                      .data(xticks.concat(xticks))
                       .enter()
                       .append("line")
                       .attr("x1", (d) -> xscale_wnull(d))
                       .attr("x2", (d) -> xscale_wnull(d))
-                      .attr("y1", yrange[0])
-                      .attr("y2", yrange[1])
+                      .attr("y1", (d,i) ->
+                          return yrange[0] if i < xticks.length
+                          height-margin.bottom)
+                      .attr("y2", (d,i) ->
+                          return yrange[1] if i < xticks.length
+                          height-margin.bottom-yNA_size.width)
                       .attr("fill", "none")
                       .attr("stroke", vlineOpts.color)
                       .attr("stroke-width", vlineOpts.width)
@@ -216,14 +198,15 @@ frame = (chartOpts) ->
 
             # background rectangle boxes
             for i of boxes.left
-                g.append("rect")
-                 .attr("x", boxes.left[i])
-                 .attr("y", boxes.top[i])
-                 .attr("height", boxes.height[i])
-                 .attr("width", boxes.width[i])
-                 .attr("fill", "none")
-                 .attr("stroke", boxcolor)
-                 .attr("stroke-width", boxwidth)
+                if boxes.width[i]>0 and boxes.height[i]>0
+                    g.append("rect")
+                     .attr("x", boxes.left[i])
+                     .attr("y", boxes.top[i])
+                     .attr("height", boxes.height[i])
+                     .attr("width", boxes.width[i])
+                     .attr("fill", "none")
+                     .attr("stroke", boxcolor)
+                     .attr("stroke-width", boxwidth)
 
     # functions to grab stuff
     chart.xscale = () -> xscale_wnull

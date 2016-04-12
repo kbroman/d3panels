@@ -23,3 +23,9 @@ xlab.data(["A", "H", "B"]).text((d) -> d)
 mychart4 = frame({xNA:true, yNA:true, title:"X- and Y-axis NAs", vlineOpts:{width:0, color:null}})
 d3.select("div#chart4")
   .call(mychart4)
+
+# Example 5: both xNA and yNA boxes, dark lines
+mychart5 = frame({xNA:true, yNA:true, title:"X- and Y-axis NAs + dark grid", vlineOpts:{width:4, color:"#999"},
+hlineOpts:{width:4, color:"#999"}})
+d3.select("div#chart5")
+  .call(mychart5)

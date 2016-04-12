@@ -1050,57 +1050,36 @@ frame = function(chartOpts) {
       gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g");
       svg.attr("width", width).attr("height", height).attr("class", "d3panels");
       g = svg.select("g");
+      if (!xNA) {
+        xNA_size = {
+          width: 0,
+          gap: 0
+        };
+      }
+      if (!yNA) {
+        yNA_size = {
+          width: 0,
+          gap: 0
+        };
+      }
       plot_width = width - (margin.left + margin.right);
       plot_height = height - (margin.top + margin.bottom);
-      if (xNA && yNA) {
-        inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap);
-        inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap);
-        boxes = {
-          left: [margin.left + xNA_size.width + xNA_size.gap, margin.left, margin.left, margin.left + xNA_size.width + xNA_size.gap],
-          width: [inner_width, xNA_size.width, xNA_size.width, inner_width],
-          top: [margin.top, margin.top, height - (margin.bottom + yNA_size.width), height - (margin.bottom + yNA_size.width)],
-          height: [inner_height, inner_height, yNA_size.width, yNA_size.width]
-        };
-        xNA_xpos = margin.left + xNA_size.width / 2;
-        yNA_ypos = height - margin.bottom - yNA_size.width / 2;
-      } else if (xNA) {
-        inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap);
-        inner_height = height - (margin.top + margin.bottom);
-        boxes = {
-          left: [margin.left + xNA_size.width + xNA_size.gap, margin.left],
-          width: [inner_width, xNA_size.width],
-          top: [margin.top, margin.top],
-          height: [inner_height, inner_height]
-        };
-        xNA_xpos = margin.left + xNA_size.width / 2;
-        yNA_ypos = -5000;
-      } else if (yNA) {
-        inner_width = width - (margin.right + margin.left);
-        inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap);
-        boxes = {
-          left: [margin.left, margin.left],
-          width: [inner_width, inner_width],
-          top: [margin.top, height - (margin.bottom + yNA_size.width)],
-          height: [inner_height, yNA_size.width]
-        };
-        xNA_xpos = -5000;
-        yNA_ypos = height - margin.bottom - yNA_size.width / 2;
-      } else {
-        inner_width = width - (margin.right + margin.left);
-        inner_height = height - (margin.top + margin.bottom);
-        boxes = {
-          left: [margin.left],
-          width: [inner_width],
-          top: [margin.top],
-          height: [inner_height]
-        };
-        xNA_xpos = -5000;
-        yNA_ypos = -5000;
-      }
+      inner_width = width - (margin.right + margin.left + xNA_size.width + xNA_size.gap);
+      inner_height = height - (margin.top + margin.bottom + yNA_size.width + yNA_size.gap);
+      boxes = {
+        left: [margin.left + xNA_size.width + xNA_size.gap, margin.left, margin.left, margin.left + xNA_size.width + xNA_size.gap],
+        width: [inner_width, xNA_size.width, xNA_size.width, inner_width],
+        top: [margin.top, margin.top, height - (margin.bottom + yNA_size.width), height - (margin.bottom + yNA_size.width)],
+        height: [inner_height, inner_height, yNA_size.width, yNA_size.width]
+      };
+      xNA_xpos = xNA ? margin.left + xNA_size.width / 2 : -50000;
+      yNA_ypos = yNA ? height - margin.bottom - yNA_size.width / 2 : -50000;
       xrange = [boxes.left[0], boxes.left[0] + boxes.width[0]];
       yrange = [boxes.top[0] + boxes.height[0], boxes.top[0]];
       for (i in boxes.left) {
-        g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", rectcolor).attr("stroke", "none");
+        if (boxes.width[i] > 0 && boxes.height[i] > 0) {
+          g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", rectcolor).attr("stroke", "none");
+        }
       }
       g.append("g").attr("class", "title").append("text").text(title).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", titlepos);
       rotate_ylab = rotate_ylab != null ? rotate_ylab : ylab.length > 1;
@@ -1141,16 +1120,36 @@ frame = function(chartOpts) {
         yticklab = ["NA"].concat(yticks);
         yticks = [null].concat(yticks);
       }
-      hlines = yaxis.append("g").attr("id", "hlines").selectAll("empty").data(yticks).enter().append("line").attr("y1", function(d) {
+      hlines = yaxis.append("g").attr("id", "hlines").selectAll("empty").data(yticks.concat(yticks)).enter().append("line").attr("y1", function(d) {
         return yscale_wnull(d);
       }).attr("y2", function(d) {
         return yscale_wnull(d);
-      }).attr("x1", xrange[0]).attr("x2", xrange[1]).attr("fill", "none").attr("stroke", hlineOpts.color).attr("stroke-width", hlineOpts.width);
-      vlines = xaxis.append("g").attr("id", "vlines").selectAll("empty").data(xticks).enter().append("line").attr("x1", function(d) {
+      }).attr("x1", function(d, i) {
+        if (i < yticks.length) {
+          return xrange[0];
+        }
+        return margin.left;
+      }).attr("x2", function(d, i) {
+        if (i < yticks.length) {
+          return xrange[1];
+        }
+        return margin.left + xNA_size.width;
+      }).attr("fill", "none").attr("stroke", hlineOpts.color).attr("stroke-width", hlineOpts.width);
+      vlines = xaxis.append("g").attr("id", "vlines").selectAll("empty").data(xticks.concat(xticks)).enter().append("line").attr("x1", function(d) {
         return xscale_wnull(d);
       }).attr("x2", function(d) {
         return xscale_wnull(d);
-      }).attr("y1", yrange[0]).attr("y2", yrange[1]).attr("fill", "none").attr("stroke", vlineOpts.color).attr("stroke-width", vlineOpts.width);
+      }).attr("y1", function(d, i) {
+        if (i < xticks.length) {
+          return yrange[0];
+        }
+        return height - margin.bottom;
+      }).attr("y2", function(d, i) {
+        if (i < xticks.length) {
+          return yrange[1];
+        }
+        return height - margin.bottom - yNA_size.width;
+      }).attr("fill", "none").attr("stroke", vlineOpts.color).attr("stroke-width", vlineOpts.width);
       xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(xticklab).enter().append("text").attr("x", function(d, i) {
         return xscale_wnull(xticks[i]);
       }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
@@ -1163,7 +1162,11 @@ frame = function(chartOpts) {
       });
       results = [];
       for (i in boxes.left) {
-        results.push(g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth));
+        if (boxes.width[i] > 0 && boxes.height[i] > 0) {
+          results.push(g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth));
+        } else {
+          results.push(void 0);
+        }
       }
       return results;
     });
