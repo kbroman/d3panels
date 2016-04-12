@@ -985,7 +985,7 @@ chrheatmap = function() {
 var panelframe;
 
 panelframe = function(chartOpts) {
-  var axispos, boxcolor, boxwidth, chart, height, hlineOpts, hlines, margin, nxticks, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, vlineOpts, vlines, width, xNA, xNA_size, xlab, xlabels, xlim, xscale, xscale_wnull, xticklab, xticks, yNA, yNA_size, ylab, ylabels, ylim, yscale, yscale_wnull, yticklab, yticks;
+  var axispos, boxcolor, boxwidth, chart, height, margin, nxticks, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, width, xNA, xNA_size, xlab, xlabels, xlim, xlineOpts, xlines, xscale, xscale_wnull, xticklab, xticks, yNA, yNA_size, ylab, ylabels, ylim, ylineOpts, ylines, yscale, yscale_wnull, yticklab, yticks;
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 800;
   height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 500;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
@@ -1027,11 +1027,11 @@ panelframe = function(chartOpts) {
   rectcolor = (ref21 = chartOpts != null ? chartOpts.rectcolor : void 0) != null ? ref21 : "#e6e6e6";
   boxcolor = (ref22 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref22 : "black";
   boxwidth = (ref23 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref23 : 1;
-  vlineOpts = (ref24 = chartOpts != null ? chartOpts.vlineOpts : void 0) != null ? ref24 : {
+  xlineOpts = (ref24 = chartOpts != null ? chartOpts.xlineOpts : void 0) != null ? ref24 : {
     color: "white",
     width: 2
   };
-  hlineOpts = (ref25 = chartOpts != null ? chartOpts.hlineOpts : void 0) != null ? ref25 : {
+  ylineOpts = (ref25 = chartOpts != null ? chartOpts.ylineOpts : void 0) != null ? ref25 : {
     color: "white",
     width: 2
   };
@@ -1040,8 +1040,8 @@ panelframe = function(chartOpts) {
   xscale = null;
   xscale_wnull = null;
   yscale_wnull = null;
-  vlines = null;
-  hlines = null;
+  xlines = null;
+  ylines = null;
   xlabels = null;
   ylabels = null;
   svg = null;
@@ -1142,7 +1142,7 @@ panelframe = function(chartOpts) {
     }
     yticks = [null].concat(yticks);
     yticklab = ["NA"].concat(yticklab);
-    hlines = yaxis.append("g").attr("id", "hlines").selectAll("empty").data(yticks.concat(yticks)).enter().append("line").attr("y1", function(d) {
+    ylines = yaxis.append("g").attr("id", "ylines").selectAll("empty").data(yticks.concat(yticks)).enter().append("line").attr("y1", function(d) {
       return yscale_wnull(d);
     }).attr("y2", function(d) {
       return yscale_wnull(d);
@@ -1156,8 +1156,8 @@ panelframe = function(chartOpts) {
         return xrange[1];
       }
       return margin.left + xNA_size.width;
-    }).attr("fill", "none").attr("stroke", hlineOpts.color).attr("stroke-width", hlineOpts.width);
-    vlines = xaxis.append("g").attr("id", "vlines").selectAll("empty").data(xticks.concat(xticks)).enter().append("line").attr("x1", function(d) {
+    }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width);
+    xlines = xaxis.append("g").attr("id", "xlines").selectAll("empty").data(xticks.concat(xticks)).enter().append("line").attr("x1", function(d) {
       return xscale_wnull(d);
     }).attr("x2", function(d) {
       return xscale_wnull(d);
@@ -1171,7 +1171,7 @@ panelframe = function(chartOpts) {
         return yrange[1];
       }
       return height - margin.bottom - yNA_size.width;
-    }).attr("fill", "none").attr("stroke", vlineOpts.color).attr("stroke-width", vlineOpts.width);
+    }).attr("fill", "none").attr("stroke", xlineOpts.color).attr("stroke-width", xlineOpts.width);
     xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(xticklab).enter().append("text").attr("x", function(d, i) {
       return xscale_wnull(xticks[i]);
     }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
@@ -1198,11 +1198,11 @@ panelframe = function(chartOpts) {
   chart.yscale = function() {
     return yscale_wnull;
   };
-  chart.vlines = function() {
-    return vlines;
+  chart.xlines = function() {
+    return xlines;
   };
-  chart.hlines = function() {
-    return hlines;
+  chart.ylines = function() {
+    return ylines;
   };
   chart.xlabels = function() {
     return xlabels;

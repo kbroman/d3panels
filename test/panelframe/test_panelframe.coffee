@@ -4,7 +4,7 @@
 mychart1 = panelframe({title:"No NAs"})
 mychart1(d3.select("div#chart1"))
 
-# Example 2: xNA box, and thicker hlines (underneath vlines)
+# Example 2: xNA box, and thicker ylines (underneath xlines)
 mychart2 = panelframe({
     xNA:true
     title:"X-axis NAs"
@@ -12,7 +12,7 @@ mychart2 = panelframe({
     yticks:[1,2,3]
     yticklab:["A","H","B"]
     ylab: "Group"
-    hlineOpts:
+    ylineOpts:
         width:4
         color:"#999"
     v_over_h:true})
@@ -34,11 +34,11 @@ svg.append("g").attr("id", "pointgroup")
    .attr("cx", (d) -> xscale(d.x))
    .attr("cy", (d) -> yscale(d.y))
 
-# Example 3: yNA box and thicker vlines
+# Example 3: yNA box and thicker xlines
 mychart3 = panelframe({
     yNA:true
     title:"Y-axis NAs"
-    vlineOpts:
+    xlineOpts:
         width:4
         color:"#999"
     xlim:[0.5,3.5]
@@ -52,7 +52,7 @@ mychart4 = panelframe({
     xNA:true
     yNA:true
     title:"X- and Y-axis NAs"
-    vlineOpts:
+    xlineOpts:
         width:0
         color:null})
 mychart4(d3.select("div#chart4"))
@@ -62,10 +62,10 @@ mychart5 = panelframe({
     xNA:true
     yNA:true
     title:"X- and Y-axis NAs + dark grid"
-    vlineOpts:
+    xlineOpts:
         width:4
         color:"#999"
-    hlineOpts:
+    ylineOpts:
         width:4
         color:"#999"})
 mychart5(d3.select("div#chart5"))

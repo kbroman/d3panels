@@ -27,16 +27,16 @@ panelframe = (chartOpts) ->
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
-    vlineOpts = chartOpts?.vlineOpts ? {color:"white", width:2} # color and width of vertical lines
-    hlineOpts = chartOpts?.hlineOpts ? {color:"white", width:2} # color and width of horizontal lines
+    xlineOpts = chartOpts?.xlineOpts ? {color:"white", width:2} # color and width of vertical lines
+    ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     v_over_h = chartOpts?.v_over_h ? false # whether the vertical grid lines should be on top of the horizontal lines
     # chartOpts end
     yscale = null
     xscale = null
     xscale_wnull = null
     yscale_wnull = null
-    vlines = null
-    hlines = null
+    xlines = null
+    ylines = null
     xlabels = null
     ylabels = null
     svg = null
@@ -93,10 +93,10 @@ panelframe = (chartOpts) ->
         # rotate y-axis title?
         rotate_ylab = rotate_ylab ? (ylab.length > 1)
 
-        if v_over_h # vlines on top
+        if v_over_h # xlines on top
             yaxis = g.append("g").attr("class", "y axis")
             xaxis = g.append("g").attr("class", "x axis")
-        else        # vlines on bottom
+        else        # xlines on bottom
             xaxis = g.append("g").attr("class", "x axis")
             yaxis = g.append("g").attr("class", "y axis")
 
@@ -123,7 +123,7 @@ panelframe = (chartOpts) ->
             return yNA_ypos unless val?
             yscale(val)
 
-        # add X axis values + vlines
+        # add X axis values + xlines
         # if xticks not provided, use nxticks to choose pretty ones
         xticks = xticks ? xscale.ticks(nxticks)
         if xticklab? and xticklab.length != xticks.length
@@ -133,7 +133,7 @@ panelframe = (chartOpts) ->
         xticks = [null].concat(xticks)
         xticklab = ["NA"].concat(xticklab)
 
-        # add Y axis values + hlines
+        # add Y axis values + ylines
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = yticks ? yscale.ticks(nyticks)
         if yticklab? and yticklab.length != yticks.length
@@ -143,8 +143,8 @@ panelframe = (chartOpts) ->
         yticks = [null].concat(yticks)
         yticklab = ["NA"].concat(yticklab)
 
-        # do hlines first
-        hlines = yaxis.append("g").attr("id", "hlines")
+        # do ylines first
+        ylines = yaxis.append("g").attr("id", "ylines")
                   .selectAll("empty")
                   .data(yticks.concat(yticks))
                   .enter()
@@ -158,11 +158,11 @@ panelframe = (chartOpts) ->
                       return xrange[1] if i < yticks.length
                       margin.left+xNA_size.width)
                   .attr("fill", "none")
-                  .attr("stroke", hlineOpts.color)
-                  .attr("stroke-width", hlineOpts.width)
+                  .attr("stroke", ylineOpts.color)
+                  .attr("stroke-width", ylineOpts.width)
 
-        # vlines
-        vlines = xaxis.append("g").attr("id", "vlines")
+        # xlines
+        xlines = xaxis.append("g").attr("id", "xlines")
                   .selectAll("empty")
                   .data(xticks.concat(xticks))
                   .enter()
@@ -176,8 +176,8 @@ panelframe = (chartOpts) ->
                       return yrange[1] if i < xticks.length
                       height-margin.bottom-yNA_size.width)
                   .attr("fill", "none")
-                  .attr("stroke", vlineOpts.color)
-                  .attr("stroke-width", vlineOpts.width)
+                  .attr("stroke", xlineOpts.color)
+                  .attr("stroke-width", xlineOpts.width)
 
         # axis labels
         xlabels = xaxis.append("g").attr("id", "xlabels")
@@ -212,8 +212,8 @@ panelframe = (chartOpts) ->
     # functions to grab stuff
     chart.xscale = () -> xscale_wnull
     chart.yscale = () -> yscale_wnull
-    chart.vlines = () -> vlines
-    chart.hlines = () -> hlines
+    chart.xlines = () -> xlines
+    chart.ylines = () -> ylines
     chart.xlabels = () -> xlabels
     chart.ylabels = () -> ylabels
     chart.svg = () -> svg
