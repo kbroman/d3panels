@@ -160,6 +160,7 @@ panelframe = (chartOpts) ->
                   .attr("fill", "none")
                   .attr("stroke", ylineOpts.color)
                   .attr("stroke-width", ylineOpts.width)
+                  .style("pointer-events", "none")
 
         # xlines
         xlines = xaxis.append("g").attr("id", "xlines")
@@ -178,6 +179,7 @@ panelframe = (chartOpts) ->
                   .attr("fill", "none")
                   .attr("stroke", xlineOpts.color)
                   .attr("stroke-width", xlineOpts.width)
+                  .style("pointer-events", "none")
 
         # axis labels
         xlabels = xaxis.append("g").attr("id", "xlabels")
