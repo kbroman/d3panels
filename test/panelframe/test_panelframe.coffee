@@ -1,4 +1,4 @@
-# illustration of use of the cichart function
+# illustration of use of the panelframe() function
 
 # Example 1: simplest use
 mychart1 = panelframe({title:"No NAs"})
