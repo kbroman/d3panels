@@ -3,8 +3,8 @@
 panelframe = (chartOpts) ->
 
     # chartOpts start
-    width = chartOpts?.width ? 800 # overall height of chart in pixels
-    height = chartOpts?.height ? 500 # overall width of chart in pixels
+    width = chartOpts?.width ? 800 # overall width of chart in pixels
+    height = chartOpts?.height ? 500 # overall height of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40, inner:3} # margins in pixels (left, top, right, bottom, inner)
     axispos = chartOpts?.axispos ? {xtitle:25, ytitle:45, xlabel:5, ylabel:5} # position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
     titlepos = chartOpts?.titlepos ? 20 # position of chart title in pixels
