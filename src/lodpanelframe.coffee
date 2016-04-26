@@ -27,7 +27,7 @@ lodpanelframe = (chartOpts) ->
     xscale = null
     ylines = null
     ylabels = null
-    chrRect = null
+    chrSelect = null
     svg = null
 
     ## the main function
@@ -73,18 +73,18 @@ lodpanelframe = (chartOpts) ->
          .attr("fill", rectcolor)
 
         # background rectangles, alternating colors
-        chrRect = g.append("g")
-                   .selectAll("empty")
-                   .data(data.chr)
-                   .enter()
-                   .append("rect")
-                   .attr("x", (d,i) -> chr_start_pixels[i]-gap/2)
-                   .attr("width", (d,i) -> chr_length[i]/tot_chr_length*tot_pixels + gap)
-                   .attr("y", margin.top)
-                   .attr("height", plot_height)
-                   .attr("fill", (d,i) ->
-                       return rectcolor if i % 2 == 0
-                       altrectcolor)
+        chrSelect = g.append("g")
+                     .selectAll("empty")
+                     .data(data.chr)
+                     .enter()
+                     .append("rect")
+                     .attr("x", (d,i) -> chr_start_pixels[i]-gap/2)
+                     .attr("width", (d,i) -> chr_length[i]/tot_chr_length*tot_pixels + gap)
+                     .attr("y", margin.top)
+                     .attr("height", plot_height)
+                     .attr("fill", (d,i) ->
+                         return rectcolor if i % 2 == 0
+                         altrectcolor)
 
         # add title
         g.append("g").attr("class", "title")
@@ -176,7 +176,7 @@ lodpanelframe = (chartOpts) ->
     chart.ylines = () -> ylines
     chart.xlabels = () -> xlabels
     chart.ylabels = () -> ylabels
-    chart.chrRect = () -> chrRect
+    chart.chrSelect = () -> chrSelect
     chart.svg = () -> svg
 
     # function to remove chart
