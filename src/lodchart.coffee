@@ -9,12 +9,14 @@ lodchart = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
     ylim = chartOpts?.ylim ? null # y-axis limits; if null, use range of data
+    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
     # chartOpts end
     yscale = null
     xscale = null
     ylines = null
     ylabels = null
-    chrRect = null
+    chrSelect = null
+    markerSelect = null
     markertip = null
     svg = null
 
@@ -47,8 +49,7 @@ lodchart = (chartOpts) ->
         data = reorgLodData(data)
 
         # y-axis limits
-        chartOpts.ylim = [0, d3.max(data.lod)*1.05] unless chartOpts?.ylim?
-        console.log(chartOpts.ylim)
+        chartOpts.ylim = ylim ? [0, d3.max(data.lod)*1.05]
 
         # set up frame
         myframe = lodpanelframe(chartOpts)
@@ -61,12 +62,8 @@ lodchart = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        console.log(xscale['1'](data.posByChr['1'][0]))
-        console.log(data.lodByChr['1'][0])
-        console.log(yscale(data.lodByChr['1'][0]))
-
         # chromosome rectangles
-        chrRect = myframe.chrRect()
+        chrSelect = myframe.chrSelect()
 
         # lod curves by chr
         lodcurve = (chr) ->
@@ -87,9 +84,9 @@ lodchart = (chartOpts) ->
 
         # points at markers
         if pointsize > 0
-            markerpoints = g.append("g").attr("id", "markerpoints_visible")
+            markerpoints = svg.append("g").attr("id", "markerpoints_visible")
             markerpoints.selectAll("empty")
-                        .data(data.markers)
+                        .data(data.markerinfo)
                         .enter()
                         .append("circle")
                         .attr("cx", (d) -> xscale[d.chr](d.pos))
@@ -99,46 +96,43 @@ lodchart = (chartOpts) ->
                         .attr("stroke", pointstroke)
                         .attr("pointer-events", "hidden")
 
-        if pointsAtMarkers
-            # these hidden points are what get selected...a bit larger
-            hiddenpoints = g.append("g").attr("id", "markerpoints_hidden")
+        # these hidden points are what get selected...a bit larger
+        hiddenpoints = svg.append("g").attr("id", "markerpoints_hidden")
 
-            markertip = d3.tip()
-                          .attr('class', "d3-tip #{tipclass}")
-                          .html((d) ->
-                                     [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
-                          .direction("e")
-                          .offset([0,10])
-            svg.call(markertip)
+        markertip = d3.tip()
+                      .attr('class', "d3-tip #{tipclass}")
+                      .html((d) ->
+                                 [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
+                      .direction("e")
+                      .offset([0,10])
+        svg.call(markertip)
 
-            bigpointsize = d3.max([2*pointsize, 3])
+        bigpointsize = d3.max([2*pointsize, 3])
 
-            markerSelect =
-                hiddenpoints.selectAll("empty")
-                            .data(data.markers)
-                            .enter()
-                            .append("circle")
-                            .attr("cx", (d) -> xscale[d.chr](d.pos))
-                            .attr("cy", (d) -> yscale(d.lod))
-                            .attr("id", (d) -> d.name)
-                            .attr("r", (d) -> if d.lod? then bigpointsize else null)
-                            .attr("opacity", 0)
-                            .attr("fill", pointcolor)
-                            .attr("stroke", pointstroke)
-                            .attr("stroke-width", "1")
-                            .on "mouseover.paneltip", (d) ->
-                                                           d3.select(this).attr("opacity", 1)
-                                                           markertip.show(d)
-                            .on "mouseout.paneltip", ->
-                                                           d3.select(this).attr("opacity", 0)
-                                                                          .call(markertip.hide)
-
+        markerSelect =
+            hiddenpoints.selectAll("empty")
+                        .data(data.markerinfo)
+                        .enter()
+                        .append("circle")
+                        .attr("cx", (d) -> xscale[d.chr](d.pos))
+                        .attr("cy", (d) -> yscale(d.lod))
+                        .attr("id", (d) -> d.name)
+                        .attr("r", (d) -> if d.lod? then bigpointsize else null)
+                        .attr("opacity", 0)
+                        .attr("fill", pointcolor)
+                        .attr("stroke", pointstroke)
+                        .attr("stroke-width", "1")
+                        .on "mouseover.paneltip", (d) ->
+                                                       d3.select(this).attr("opacity", 1)
+                                                       markertip.show(d)
+                        .on "mouseout.paneltip", ->
+                                                       d3.select(this).attr("opacity", 0)
+                                                                      .call(markertip.hide)
     # functions to grab stuff
     chart.yscale = () -> yscale
     chart.xscale = () -> xscale
-    chart.points = () -> points
-    chart.curves = () -> curves
-    chart.chrRect = () -> chrRect
+    chart.markerSelect = () -> markerSelect
+    chart.chrSelect = () -> chrSelect
     chart.svg = () -> svg
     chart.markertip = () -> indtip
 

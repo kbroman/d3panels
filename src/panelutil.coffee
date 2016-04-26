@@ -40,7 +40,7 @@ reorgLodData = (data) ->
         data.posByChr[chr] = (data.pos[i] for i of data.pos when data.chr[i]==chr)
         data.lodByChr[chr] = (data.lod[i] for i of data.pos when data.chr[i]==chr)
 
-    data.markerinfo = ({name:data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker)
+    data.markerinfo = ({name: data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker when data.marker[i] != "")
 
     data
 
