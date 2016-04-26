@@ -32,25 +32,15 @@ pullVarAsArray = (data, variable) ->
 # reorganize lod/pos by chromosome
 # lodvarname==null    -> case for multiple LOD columns (lodheatmap)
 # lodvarname provided -> case for one LOD column (lodchart)
-reorgLodData = (data, lodvarname=null) ->
+reorgLodData = (data) ->
     data.posByChr = {}
     data.lodByChr = {}
 
-    for chr,i in data.chrnames
-        data.posByChr[chr] = []
-        data.lodByChr[chr] = []
-        for pos,j in data.pos
-            if data.chr[j] == chr
-                data.posByChr[chr].push(pos)
-                data.lodnames = [data.lodnames] unless Array.isArray(data.lodnames)
-                lodval = (data[lodcolumn][j] for lodcolumn in data.lodnames)
-                data.lodByChr[chr].push(lodval)
+    for chr,i in data.chrname
+        data.posByChr[chr] = (data.pos[i] for i of data.pos when data.chr[i]==chr)
+        data.lodByChr[chr] = (data.lod[i] for i of data.pos when data.chr[i]==chr)
 
-    if lodvarname?
-        data.markers = []
-        for marker,i in data.markernames
-            if marker != ""
-                data.markers.push({name:marker, chr:data.chr[i], pos:data.pos[i], lod:data[lodvarname][i]})
+    data.markerinfo = ({name:data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker)
 
     data
 

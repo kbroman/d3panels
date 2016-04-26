@@ -9,14 +9,9 @@ totalw = (w+margin.left+margin.right)
 
 # simplest use
 d3.json "data.json", (data) ->
-    mychart = lodchart().lodvarname("lod.em")
-                        .height(h)
-                        .width(w)
-                        .margin(margin)
+    mychart = lodchart({height:h, width:w, margin:margin})
 
-    d3.select("div#topchart")
-      .datum(data)
-      .call(mychart)
+    mychart(d3.select("div#topchart"), {chr:data.chr,pos:data.pos,lod:data["lod.em"],marker:data.markernames})
 
     # grab chromosome rectangles; color pink on hover
     chrrect = mychart.chrSelect()
