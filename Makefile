@@ -11,6 +11,7 @@ JS= src/panelutil.js \
 	src/dotchart.js \
 	src/heatmap.js \
 	src/lodchart.js \
+	src/add_lodcurve.js \
 	src/lodheatmap.js \
 	src/mapchart.js \
 	src/scatterplot.js

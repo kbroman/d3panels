@@ -3,15 +3,12 @@
 h = 300
 w = 600
 margin = {left:60, top:40, right:40, bottom: 40, inner:5}
-halfh = (h+margin.top+margin.bottom)
-totalh = halfh*2
-totalw = (w+margin.left+margin.right)
 
 # simplest use
 d3.json "data.json", (data) ->
     mychart = lodchart({height:h, width:w, margin:margin})
 
-    mychart(d3.select("div#topchart"), {chr:data.chr,pos:data.pos,lod:data["lod.em"],marker:data.markernames})
+    mychart(d3.select("div#chart1"), {chr:data.chr,pos:data.pos,lod:data["lod.em"],marker:data.markernames})
 
     # grab chromosome rectangles; color pink on hover
     chrrect = mychart.chrSelect()
@@ -51,16 +48,32 @@ d3.json "data.json", (data) ->
         yticks:[0,1,2,4,6,8]
         title:"Haley-Knott regression"})
 
-    svg = d3.select("div#bottomchart")
+    svg = d3.select("div#chart2")
             .append("svg")
             .attr("class", "d3panels")
-            .attr("height", totalh)
-            .attr("width", totalw)
+            .attr("height", h*2)
+            .attr("width", w)
 
-    chart1 = svg.append("g").attr("id", "chart1")
+    chart2a = svg.append("g").attr("id", "chart2a")
 
-    chart2 = svg.append("g").attr("id", "chart2")
-                .attr("transform", "translate(0, #{halfh})")
+    chart2b = svg.append("g").attr("id", "chart2b")
+                .attr("transform", "translate(0, #{h})")
 
-    mychart_em(chart1, {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
-    mychart_hk(chart2, {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
+    mychart_em(chart2a, {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
+    mychart_hk(chart2b, {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
+
+# two curves on one chart
+d3.json "data.json", (data) ->
+    mychart = lodchart({
+        height:h
+        width:w
+        margin:margin
+        ylab:"LOD score"
+        pointstroke:"white"
+        nyticks:9})
+
+    svg = d3.select("div#chart3")
+
+    mychart(d3.select("div#chart3"), {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
+    add_lodcurve(mychart, {linecolor:"Crimson"},
+                 {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
