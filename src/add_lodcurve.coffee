@@ -5,6 +5,7 @@ add_lodcurve = (chart, chartOpts, data) ->
     # chartOpts start
     linecolor = chartOpts?.linecolor ? "darkslateblue" # color for LOD curves
     linewidth = chartOpts?.linewidth ? 2               # width (pixels) for LOD curves
+    linedash  = chartOpts?.linedash ? "1"              # 'dash array' to make dotted lines
     pointcolor = chartOpts?.pointcolor ? "#e9cfec"     # color of points at markers
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
@@ -58,4 +59,5 @@ add_lodcurve = (chart, chartOpts, data) ->
               .attr("stroke", linecolor)
               .attr("fill", "none")
               .attr("stroke-width", linewidth)
+              .attr("stroke-dasharray", linedash)
               .style("pointer-events", "none")

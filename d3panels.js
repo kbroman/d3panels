@@ -2962,13 +2962,14 @@ lodchart = function(chartOpts) {
 var add_lodcurve;
 
 add_lodcurve = function(chart, chartOpts, data) {
-  var c, chr, curves, i, j, k, l, len, len1, len2, linecolor, linewidth, lodcurve, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, results, svg, these_pos, tipclass, xscale, yscale;
+  var c, chr, curves, i, j, k, l, len, len1, len2, linecolor, linedash, linewidth, lodcurve, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, results, svg, these_pos, tipclass, xscale, yscale;
   linecolor = (ref = chartOpts != null ? chartOpts.linecolor : void 0) != null ? ref : "darkslateblue";
   linewidth = (ref1 = chartOpts != null ? chartOpts.linewidth : void 0) != null ? ref1 : 2;
-  pointcolor = (ref2 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref2 : "#e9cfec";
-  pointsize = (ref3 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref3 : 0;
-  pointstroke = (ref4 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref4 : "black";
-  tipclass = (ref5 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref5 : "pointtip";
+  linedash = (ref2 = chartOpts != null ? chartOpts.linedash : void 0) != null ? ref2 : "1";
+  pointcolor = (ref3 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref3 : "#e9cfec";
+  pointsize = (ref4 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref4 : 0;
+  pointstroke = (ref5 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref5 : "black";
+  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "pointtip";
   markerSelect = null;
   markertip = null;
   if (data.pos.length !== data.chr.length) {
@@ -2985,9 +2986,9 @@ add_lodcurve = function(chart, chartOpts, data) {
   }
   if (!(data != null ? data.chrstart : void 0)) {
     data.chrstart = [];
-    ref6 = data.chrname;
-    for (j = 0, len = ref6.length; j < len; j++) {
-      c = ref6[j];
+    ref7 = data.chrname;
+    for (j = 0, len = ref7.length; j < len; j++) {
+      c = ref7[j];
       these_pos = (function() {
         var results;
         results = [];
@@ -3003,9 +3004,9 @@ add_lodcurve = function(chart, chartOpts, data) {
   }
   if (!(data != null ? data.chrend : void 0)) {
     data.chrend = [];
-    ref7 = data.chrname;
-    for (k = 0, len1 = ref7.length; k < len1; k++) {
-      c = ref7[k];
+    ref8 = data.chrname;
+    for (k = 0, len1 = ref8.length; k < len1; k++) {
+      c = ref8[k];
       these_pos = (function() {
         var results;
         results = [];
@@ -3031,11 +3032,11 @@ add_lodcurve = function(chart, chartOpts, data) {
     });
   };
   curves = svg.append("g").attr("id", "curves");
-  ref8 = data.chrname;
+  ref9 = data.chrname;
   results = [];
-  for (l = 0, len2 = ref8.length; l < len2; l++) {
-    chr = ref8[l];
-    results.push(curves.append("path").datum(data.posByChr[chr]).attr("d", lodcurve(chr)).attr("stroke", linecolor).attr("fill", "none").attr("stroke-width", linewidth).style("pointer-events", "none"));
+  for (l = 0, len2 = ref9.length; l < len2; l++) {
+    chr = ref9[l];
+    results.push(curves.append("path").datum(data.posByChr[chr]).attr("d", lodcurve(chr)).attr("stroke", linecolor).attr("fill", "none").attr("stroke-width", linewidth).attr("stroke-dasharray", linedash).style("pointer-events", "none"));
   }
   return results;
 };

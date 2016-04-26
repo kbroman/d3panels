@@ -30,7 +30,7 @@ d3.json "data.json", (data) ->
 # two LOD charts within one SVG
 d3.json "data.json", (data) ->
     mychart_em = lodchart({
-        height:h
+        height:h*0.7
         width:w
         margin:margin
         ylab:"LOD score (by EM)"
@@ -40,7 +40,7 @@ d3.json "data.json", (data) ->
         title:"Standard interval mapping"})
 
     mychart_hk = lodchart({
-        height:h
+        height:h*0.7
         width:w
         margin:margin
         ylab:"LOD score (by H-K)"
@@ -51,13 +51,13 @@ d3.json "data.json", (data) ->
     svg = d3.select("div#chart2")
             .append("svg")
             .attr("class", "d3panels")
-            .attr("height", h*2)
+            .attr("height", h*1.4)
             .attr("width", w)
 
     chart2a = svg.append("g").attr("id", "chart2a")
 
     chart2b = svg.append("g").attr("id", "chart2b")
-                .attr("transform", "translate(0, #{h})")
+                .attr("transform", "translate(0, #{h*0.7})")
 
     mychart_em(chart2a, {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
     mychart_hk(chart2b, {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
@@ -69,11 +69,10 @@ d3.json "data.json", (data) ->
         width:w
         margin:margin
         ylab:"LOD score"
-        pointstroke:"white"
-        nyticks:9})
+        pointstroke:"white"})
 
     svg = d3.select("div#chart3")
 
     mychart(d3.select("div#chart3"), {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
-    add_lodcurve(mychart, {linecolor:"Crimson"},
+    add_lodcurve(mychart, {linecolor:"Crimson", linedash:"4,4"},
                  {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
