@@ -13,9 +13,7 @@ d3.json "data.json", (data) ->
             xlabel: markers[0]
             ylabel: markers[1]
 
-    d3.select("div#chart1")
-      .datum(data2pass)
-      .call(mychart)
+    mychart(d3.select("div#chart1"), data2pass)
 
 # Example 2: two X-linked markers
 d3.json "data.json", (data) ->
@@ -30,9 +28,7 @@ d3.json "data.json", (data) ->
             xlabel: markers[0]
             ylabel: markers[1]
 
-    d3.select("div#chart2")
-      .datum(data2pass)
-      .call(mychart)
+    mychart(d3.select("div#chart2"), data2pass)
 
 # Example 3: an autosomal and an X-linked marker
 d3.json "data.json", (data) ->
@@ -47,6 +43,4 @@ d3.json "data.json", (data) ->
             xlabel: markers[0]
             ylabel: markers[1]
 
-    d3.select("div#chart3")
-      .datum(data2pass)
-      .call(mychart)
+    mychart(d3.select("div#chart3"), data2pass)

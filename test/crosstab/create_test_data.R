@@ -12,4 +12,4 @@ mar <- c(markernames(fake.f2, chr=1)[1:2],
 fake.f2 <- pull.markers(fake.f2, mar)
 
 # write to data file
-cat(RJSONIO::toJSON(qtlcharts:::convert4crosstab(fake.f2)), file="data.json")
+cat(jsonlite::toJSON(qtlcharts:::convert4crosstab(fake.f2)), file="data.json")
