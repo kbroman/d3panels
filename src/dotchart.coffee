@@ -5,7 +5,7 @@ dotchart = (chartOpts) ->
     # chartOpts start
     xcategories = chartOpts?.xcategories ? null # group categories
     xcatlabels = chartOpts?.xcatlabels ? null # labels for group categories
-    xjitter = chartOpts?.xjitter ? 'random' # whether to jitter horizontally (random, fixed, none)
+    xjitter = chartOpts?.xjitter ? "random" # whether to jitter horizontally (random, fixed, none)
     xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     ylim = chartOpts?.ylim ? null # y-axis limits
@@ -101,13 +101,22 @@ dotchart = (chartOpts) ->
         # jitter x-axis
         if data.jitter?
             jitter = data.jitter
-        else if xjitter == "random"
-            jitter = ((Math.random()-0.5)*0.2 for v of x)
-        else if xjitter == "fixed"
-            jitter = jiggle(x, y, pointsize, myframe.plot_height(), myframe.plot_width())
-        else # no jittering
+        else if xjitter == "none"
             jitter = (0 for v in x)
-
+        else if xjitter == "deterministic"
+            if horizontal
+                h = myframe.plot_width()
+                w = myframe.plot_height()
+            else
+                h = myframe.plot_height()
+                w = myframe.plot_width()
+            result = jiggle(x, y, pointsize, h, w)
+            y = result.y
+            jitter = result.jitter
+        else # random jittering
+            if(xjitter != "random")
+                displayError('xjitter should be random|deterministic|none; using "random"')
+            jitter = ((Math.random()-0.5)*0.2 for v of x)
         displayError("jitter.length [#{jitter.length}] != x.length [#{x.length}]") if jitter.length != x.length
 
         indtip = d3.tip()

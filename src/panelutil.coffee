@@ -389,8 +389,8 @@ jiggle = (group, y, radius, height, width) ->
     max_y = d3.max(y)
 
     # number of bins and amounts to jitter
-    vnum = Math.ceil(height/(radius*6))+1
-    hamount = (radius*4)/(width/n_group)
+    vnum = Math.ceil(height/(radius*2))
+    hamount = (radius*2)/(width/n_group)
     vamount = (max_y - min_y)/vnum
 
     # categorize the y's into bins
@@ -402,11 +402,13 @@ jiggle = (group, y, radius, height, width) ->
         cat = "#{group[i]}:#{ycat[i]}"
         counts[cat] = if counts[cat]? then counts[cat]+1 else 1
 
+    # amount of horizontal jitter, based on number of points within category
     seen = {}
     jit = []
     for i of y
         cat = "#{group[i]}:#{ycat[i]}"
         seen[cat] = if seen[cat]? then seen[cat]+1 else 1
         jit.push((seen[cat]-1)*hamount - (counts[cat]-1)*hamount/2)
+        y[i] = ycat[i]*vamount + min_y # move values vertically
 
-    jit
+    {jitter:jit, y:y}
