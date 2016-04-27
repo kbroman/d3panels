@@ -118,3 +118,49 @@ d3.json "data.json", (data) ->
                                 d3.select(this).attr("fill", "Orchid")
            .on "mouseout", (d) ->
                                 d3.select(this).attr("fill", "slateblue").attr("r", 3)
+
+# Example 6: deterministic jitter, much more data
+mychart6 = dotchart({
+    title:"Deterministic jitter"
+    height:h
+    width:w
+    margin:margin
+    xjitter:"deterministic"})
+
+ng = 4
+n = 75*ng
+x = (Math.ceil(Math.random()*ng) for i in [1..n])
+y = (Math.random()*4+20+xv for xv in x)
+z = y.slice(0)
+these_data = {x:x, y:y}
+mychart6(d3.select("div#chart6"), these_data)
+
+# animate points
+mychart6.points()
+        .on "mouseover", (d) ->
+                             d3.select(this).attr("r", 6)
+        .on "click", (d) ->
+                             d3.select(this).attr("fill", "Orchid")
+        .on "mouseout", (d) ->
+                             d3.select(this).attr("fill", "slateblue").attr("r", 3)
+
+# Example 7: deterministic jitter, much more data
+mychart7 = dotchart({
+    title:"Deterministic jitter"
+    height:h
+    width:w
+    margin:margin
+    xjitter:"deterministic",
+    horizontal:true})
+
+these_data = {x:x, y:z}
+mychart7(d3.select("div#chart7"), these_data)
+
+# animate points
+mychart7.points()
+        .on "mouseover", (d) ->
+                             d3.select(this).attr("r", 6)
+        .on "click", (d) ->
+                             d3.select(this).attr("fill", "Orchid")
+        .on "mouseout", (d) ->
+                             d3.select(this).attr("fill", "slateblue").attr("r", 3)
