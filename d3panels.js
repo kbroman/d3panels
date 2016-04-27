@@ -1622,7 +1622,7 @@ crosstab = function(chartOpts) {
     right: 40,
     bottom: 20
   };
-  cellPad = (ref3 = chartOpts != null ? chartOpts.cellPad : void 0) != null ? ref3 : 20;
+  cellPad = (ref3 = chartOpts != null ? chartOpts.cellPad : void 0) != null ? ref3 : null;
   titlepos = (ref4 = chartOpts != null ? chartOpts.titlepos : void 0) != null ? ref4 : 50;
   title = (ref5 = chartOpts != null ? chartOpts.title : void 0) != null ? ref5 : "";
   fontsize = (ref6 = chartOpts != null ? chartOpts.fontsize : void 0) != null ? ref6 : null;
@@ -1692,6 +1692,7 @@ crosstab = function(chartOpts) {
     cellWidth = width / (ncol + 2);
     cellHeight = height / (nrow + 2);
     fontsize = fontsize != null ? fontsize : cellHeight * 0.5;
+    cellPad = cellPad != null ? cellPad : cellWidth * 0.1;
     width = margin.left + margin.right + (ncol + 2) * cellWidth;
     height = margin.top + margin.bottom + (nrow + 2) * cellHeight;
     xscale = d3.scale.ordinal().domain((function() {
@@ -1722,7 +1723,7 @@ crosstab = function(chartOpts) {
       } else {
         return "none";
       }
-    }).attr("stroke-width", 0).style("pointer-events", "none");
+    }).attr("stroke-width", 0).style("pointer-events", "none").attr("shape-rendering", "crispEdges");
     values = svg.append("g").attr("id", "values");
     values.selectAll("empty").data(cells).enter().append("text").attr("x", function(d) {
       return xscale(d.col + 1) + cellWidth - cellPad;
@@ -1736,7 +1737,7 @@ crosstab = function(chartOpts) {
     colrect = svg.append("g").attr("id", "colrect");
     colrect.selectAll("empty").data(data.xcat.concat("Total")).enter().append("rect").attr("x", function(d, i) {
       return xscale(i + 1);
-    }).attr("y", yscale(0)).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").on("mouseover", function(d, i) {
+    }).attr("y", yscale(0)).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").attr("shape-rendering", "crispEdges").on("mouseover", function(d, i) {
       d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor);
       return values.selectAll(".col" + i).text(function(d) {
         return d.colpercent;
@@ -1756,7 +1757,7 @@ crosstab = function(chartOpts) {
     rowrect = svg.append("g").attr("id", "rowrect");
     rowrect.selectAll("empty").data(data.ycat.concat("Total")).enter().append("rect").attr("x", xscale(0)).attr("y", function(d, i) {
       return yscale(i + 1);
-    }).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").on("mouseover", function(d, i) {
+    }).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").attr("shape-rendering", "crispEdges").on("mouseover", function(d, i) {
       d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor);
       return values.selectAll(".row" + i).text(function(d) {
         return d.rowpercent;
@@ -1774,8 +1775,8 @@ crosstab = function(chartOpts) {
       return d;
     }).attr("class", "crosstab").style("font-size", fontsize).style("pointer-events", "none");
     borders = svg.append("g").attr("id", "borders");
-    borders.append("rect").attr("x", xscale(1)).attr("y", yscale(1)).attr("width", cellWidth * ncol).attr("height", cellHeight * nrow).attr("fill", "none").attr("stroke", bordercolor).attr("stroke-width", 2).style("pointer-events", "none");
-    borders.append("rect").attr("x", xscale(ncol + 1)).attr("y", yscale(nrow + 1)).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "none").attr("stroke", bordercolor).attr("stroke-width", 2).style("pointer-events", "none");
+    borders.append("rect").attr("x", xscale(1)).attr("y", yscale(1)).attr("width", cellWidth * ncol).attr("height", cellHeight * nrow).attr("fill", "none").attr("stroke", bordercolor).attr("stroke-width", 2).style("pointer-events", "none").attr("shape-rendering", "crispEdges");
+    borders.append("rect").attr("x", xscale(ncol + 1)).attr("y", yscale(nrow + 1)).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "none").attr("stroke", bordercolor).attr("stroke-width", 2).style("pointer-events", "none").attr("shape-rendering", "crispEdges");
     titles = svg.append("g").attr("id", "titles");
     titles.append("text").attr("class", "crosstabtitle").attr("x", margin.left + (ncol + 1) * cellWidth / 2).attr("y", margin.top - cellHeight / 2).text(data.xlabel).style("font-size", fontsize).style("font-weight", "bold");
     titles.append("text").attr("class", "crosstab").attr("x", xscale(0) + cellWidth - cellPad).attr("y", yscale(0) + cellHeight / 2).text(data.ylabel).style("font-size", fontsize).style("font-weight", "bold");

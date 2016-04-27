@@ -6,7 +6,7 @@ crosstab = (chartOpts) ->
     width = chartOpts?.width ? 600 # overall width of chart in pixels
     height = chartOpts?.height ? 300 # overall height of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:80, right:40, bottom: 20} # margins in pixels
-    cellPad = chartOpts?.cellPad ? 20 # padding of cells
+    cellPad = chartOpts?.cellPad ? null # padding of cells (if null, we take cell width * 0.1
     titlepos = chartOpts?.titlepos ? 50 # position of title in pixels
     title = chartOpts?.title ? "" # chart title
     fontsize = chartOpts?.fontsize ? null # font size (if null, we take cell height * 0.5)
@@ -73,6 +73,7 @@ crosstab = (chartOpts) ->
         cellWidth = width/(ncol+2)
         cellHeight = height/(nrow+2)
         fontsize = fontsize ? cellHeight*0.5
+        cellPad = cellPad ? cellWidth*0.1
 
         width = margin.left + margin.right + (ncol+2)*cellWidth
         height = margin.top + margin.bottom + (nrow+2)*cellHeight
@@ -104,6 +105,7 @@ crosstab = (chartOpts) ->
             .attr("stroke", (d) -> if d.shaded then rectcolor else "none")
             .attr("stroke-width", 0)
             .style("pointer-events", "none")
+            .attr("shape-rendering", "crispEdges")
 
         # text for the body of the table
         values = svg.append("g").attr("id", "values")
@@ -130,6 +132,7 @@ crosstab = (chartOpts) ->
                .attr("height", cellHeight)
                .attr("fill", "white")
                .attr("stroke", "white")
+               .attr("shape-rendering", "crispEdges")
                .on "mouseover", (d,i) ->
                     d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor)
                     values.selectAll(".col#{i}").text((d) -> d.colpercent)
@@ -162,6 +165,7 @@ crosstab = (chartOpts) ->
                .attr("height", cellHeight)
                .attr("fill", "white")
                .attr("stroke", "white")
+               .attr("shape-rendering", "crispEdges")
                .on "mouseover", (d,i) ->
                     d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor)
                     values.selectAll(".row#{i}").text((d) -> d.rowpercent)
@@ -193,6 +197,7 @@ crosstab = (chartOpts) ->
                .attr("stroke", bordercolor)
                .attr("stroke-width", 2)
                .style("pointer-events", "none")
+               .attr("shape-rendering", "crispEdges")
         # border around overall total
         borders.append("rect")
                .attr("x", xscale(ncol+1))
@@ -203,6 +208,7 @@ crosstab = (chartOpts) ->
                .attr("stroke", bordercolor)
                .attr("stroke-width", 2)
                .style("pointer-events", "none")
+               .attr("shape-rendering", "crispEdges")
 
         # row and column headings and optional overall title
         titles = svg.append("g").attr("id", "titles")
