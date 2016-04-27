@@ -2991,11 +2991,13 @@ add_lodcurve = function(chartOpts) {
         return yscale(data.lodByChr[chr][i]);
       });
     };
-    curves = svg.append("g").attr("id", "curves");
-    ref9 = data.chrname;
-    for (l = 0, len2 = ref9.length; l < len2; l++) {
-      chr = ref9[l];
-      curves.append("path").datum(data.posByChr[chr]).attr("d", lodcurve(chr)).attr("stroke", linecolor).attr("fill", "none").attr("stroke-width", linewidth).attr("stroke-dasharray", linedash).style("pointer-events", "none");
+    if (linewidth > 0) {
+      curves = svg.append("g").attr("id", "curves");
+      ref9 = data.chrname;
+      for (l = 0, len2 = ref9.length; l < len2; l++) {
+        chr = ref9[l];
+        curves.append("path").datum(data.posByChr[chr]).attr("d", lodcurve(chr)).attr("stroke", linecolor).attr("fill", "none").attr("stroke-width", linewidth).attr("stroke-dasharray", linedash).style("pointer-events", "none");
+      }
     }
     if (pointsize > 0) {
       markerpoints = svg.append("g").attr("id", "markerpoints_visible");

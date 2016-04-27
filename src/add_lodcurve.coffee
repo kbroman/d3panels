@@ -4,8 +4,8 @@ add_lodcurve = (chartOpts) ->
 
     # chartOpts start
     linecolor = chartOpts?.linecolor ? "darkslateblue" # color for LOD curves
-    linewidth = chartOpts?.linewidth ? 2               # width (pixels) for LOD curves
-    linedash  = chartOpts?.linedash ? ""              # 'dash array' to make dotted lines
+    linewidth = chartOpts?.linewidth ? 2               # width (pixels) for LOD curves (if 0, no curves plotted)
+    linedash  = chartOpts?.linedash ? ""               # 'dash array' to make dotted lines
     pointcolor = chartOpts?.pointcolor ? "#e9cfec"     # color of points at markers
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
@@ -54,17 +54,19 @@ add_lodcurve = (chartOpts) ->
                   .x((d) -> xscale[chr](d))
                   .y((d,i) -> yscale(data.lodByChr[chr][i]))
 
-        curves = svg.append("g").attr("id", "curves")
 
-        for chr in data.chrname
-            curves.append("path")
-                  .datum(data.posByChr[chr])
-                  .attr("d", lodcurve(chr))
-                  .attr("stroke", linecolor)
-                  .attr("fill", "none")
-                  .attr("stroke-width", linewidth)
-                  .attr("stroke-dasharray", linedash)
-                  .style("pointer-events", "none")
+        # add curves
+        if linewidth > 0
+            curves = svg.append("g").attr("id", "curves")
+            for chr in data.chrname
+                curves.append("path")
+                      .datum(data.posByChr[chr])
+                      .attr("d", lodcurve(chr))
+                      .attr("stroke", linecolor)
+                      .attr("fill", "none")
+                      .attr("stroke-width", linewidth)
+                      .attr("stroke-dasharray", linedash)
+                      .style("pointer-events", "none")
 
         # points at markers
         if pointsize > 0
