@@ -74,5 +74,6 @@ d3.json "data.json", (data) ->
     svg = d3.select("div#chart3")
 
     mychart(d3.select("div#chart3"), {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
-    add_lodcurve(mychart, {linecolor:"Crimson", linedash:"4,4"},
-                 {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
+
+    addtochart = add_lodcurve({linecolor:"Crimson", pointcolor:"slateblue", linedash:"4,4"})
+    addtochart(mychart, {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
