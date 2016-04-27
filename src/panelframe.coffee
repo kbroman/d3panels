@@ -39,6 +39,8 @@ panelframe = (chartOpts) ->
     ylines = null
     xlabels = null
     ylabels = null
+    plot_width = null
+    plot_height = null
     svg = null
 
     ## the main function
@@ -223,6 +225,8 @@ panelframe = (chartOpts) ->
     chart.xlabels = () -> xlabels
     chart.ylabels = () -> ylabels
     chart.svg = () -> svg
+    chart.plot_width = () -> plot_width
+    chart.plot_height = () -> plot_height
 
     # function to remove chart
     chart.remove = () ->

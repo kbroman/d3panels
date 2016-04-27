@@ -5,7 +5,7 @@ dotchart = (chartOpts) ->
     # chartOpts start
     xcategories = chartOpts?.xcategories ? null # group categories
     xcatlabels = chartOpts?.xcatlabels ? null # labels for group categories
-    xjitter = chartOpts?.xjitter ? null # amount to jitter horizontally
+    xjitter = chartOpts?.xjitter ? 'random' # whether to jitter horizontally (random, fixed, none)
     xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     ylim = chartOpts?.ylim ? null # y-axis limits
@@ -99,13 +99,16 @@ dotchart = (chartOpts) ->
         yscale = myframe.yscale()
 
         # jitter x-axis
-        if xjitter?
-            xjitter = [xjitter] if typeof(xjitter) == 'number'
-            xjitter = (xjitter[0] for v in d3.range(x.length)) if xjitter.length == 1
-        else
-            xjitter = ((Math.random()-0.5)*0.2 for v in d3.range(x.length))
+        if data.jitter?
+            jitter = data.jitter
+        else if xjitter == "random"
+            jitter = ((Math.random()-0.5)*0.2 for v of x)
+        else if xjitter == "fixed"
+            jitter = jiggle(x, y, pointsize, myframe.plot_height(), myframe.plot_width())
+        else # no jittering
+            jitter = (0 for v in x)
 
-        displayError("xjitter.length [#{xjitter.length}] != x.length [#{x.length}]") if xjitter.length != x.length
+        displayError("jitter.length [#{jitter.length}] != x.length [#{x.length}]") if jitter.length != x.length
 
         indtip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
@@ -121,11 +124,11 @@ dotchart = (chartOpts) ->
                   .enter()
                   .append("circle")
                   .attr("cx", (d,i) ->
-                      return xscale(x[i]+xjitter[i]) unless horizontal
+                      return xscale(x[i]+jitter[i]) unless horizontal
                       xscale(y[i]))
                   .attr("cy", (d,i) ->
                       return yscale(y[i]) unless horizontal
-                      yscale(x[i]+xjitter[i]))
+                      yscale(x[i]+jitter[i]))
                   .attr("class", (d,i) -> "pt#{i}")
                   .attr("r", pointsize)
                   .attr("fill", pointcolor)
