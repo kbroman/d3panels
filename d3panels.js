@@ -1217,7 +1217,7 @@ panelframe = function(chartOpts) {
 var lodpanelframe;
 
 lodpanelframe = function(chartOpts) {
-  var altrectcolor, axispos, boxcolor, boxwidth, chart, chrSelect, gap, height, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylabels, ylim, ylineOpts, ylines, yscale, yticklab, yticks;
+  var altrectcolor, axispos, boxcolor, boxwidth, chart, chrSelect, gap, height, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, ylineOpts, yscale, yticklab, yticks;
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 800;
   height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 500;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
@@ -1250,14 +1250,12 @@ lodpanelframe = function(chartOpts) {
     width: 2
   };
   gap = (ref18 = chartOpts != null ? chartOpts.gap : void 0) != null ? ref18 : 5;
-  yscale = null;
-  xscale = null;
-  ylines = null;
-  ylabels = null;
-  chrSelect = null;
   svg = null;
+  xscale = null;
+  yscale = null;
+  chrSelect = null;
   chart = function(selection, data) {
-    var c, chr_end_pixels, chr_length, chr_start_pixels, d, g, i, j, plot_height, plot_width, ref19, tot_chr_length, tot_pixels, xaxis, xlabels, yaxis, ylabpos_x, ylabpos_y;
+    var c, chr_end_pixels, chr_length, chr_start_pixels, d, g, i, j, plot_height, plot_width, ref19, tot_chr_length, tot_pixels, xaxis, xlabels, yaxis, ylabels, ylabpos_x, ylabpos_y, ylines;
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1359,26 +1357,17 @@ lodpanelframe = function(chartOpts) {
     });
     return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth);
   };
+  chart.svg = function() {
+    return svg;
+  };
   chart.xscale = function() {
     return xscale;
   };
   chart.yscale = function() {
     return yscale;
   };
-  chart.ylines = function() {
-    return ylines;
-  };
-  chart.xlabels = function() {
-    return xlabels;
-  };
-  chart.ylabels = function() {
-    return ylabels;
-  };
   chart.chrSelect = function() {
     return chrSelect;
-  };
-  chart.svg = function() {
-    return svg;
   };
   chart.remove = function() {
     svg.remove();

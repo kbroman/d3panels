@@ -23,12 +23,10 @@ lodpanelframe = (chartOpts) ->
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     gap = chartOpts?.gap ? 5 # gap between chromosomes in pixels
     # chartOpts end
-    yscale = null
-    xscale = null
-    ylines = null
-    ylabels = null
-    chrSelect = null
     svg = null
+    xscale = null
+    yscale = null
+    chrSelect = null
 
     ## the main function
     chart = (selection, data) -> # data = chr, start, end  (vectors with chromosome IDs, start positions, and end positions)
@@ -171,13 +169,10 @@ lodpanelframe = (chartOpts) ->
          .attr("stroke-width", boxwidth)
 
     # functions to grab stuff
+    chart.svg = () -> svg
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
-    chart.ylines = () -> ylines
-    chart.xlabels = () -> xlabels
-    chart.ylabels = () -> ylabels
     chart.chrSelect = () -> chrSelect
-    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->
