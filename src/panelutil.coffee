@@ -44,6 +44,28 @@ reorgLodData = (data) ->
 
     data
 
+# calculate chromosome scales for lodpanelframe (and so lodchart)
+calc_chrscales = (plot_width, left_margin, gap, chr, start, end) ->
+    # calculate chromosome lengths, start and end in pixels
+    n_chr = chr.length
+    chr_length = (end[i]-start[i] for i of end)
+    tot_chr_length = chr_length.reduce (t,s) -> t+s
+    tot_pixels = plot_width - gap*n_chr
+    chr_start_pixels = [left_margin + gap/2]
+    chr_end_pixels = [left_margin + gap/2 + tot_pixels/tot_chr_length * chr_length[0]]
+    for i in [1..(n_chr-1)]
+        chr_start_pixels.push(chr_end_pixels[i-1] + gap)
+        chr_end_pixels.push(chr_start_pixels[i] + tot_pixels/tot_chr_length * chr_length[i])
+
+    xscale = {}
+    for i of chr
+        xscale[chr[i]] = d3.scale.linear()
+                           .domain([start[i], end[i]])
+                           .range([chr_start_pixels[i], chr_end_pixels[i]])
+    # return the scale
+    xscale
+
+
 # calculate chromosome start/end + scales, for heat map
 chrscales = (data, width, chrGap, leftMargin, pad4heatmap) ->
     # start and end of chromosome positions

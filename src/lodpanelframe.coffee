@@ -52,15 +52,9 @@ lodpanelframe = (chartOpts) ->
         if(data.chr.length != data.end.length)
             displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
 
-        chr_length = (data.end[i]-data.start[i] for i of data.end)
-        tot_chr_length = chr_length.reduce (t,s) -> t+s
-        tot_pixels = plot_width - gap*data.chr.length
-        chr_start_pixels = [margin.left + gap/2]
-        chr_end_pixels = [margin.left + gap/2 + tot_pixels/tot_chr_length * chr_length[0]]
-        for i in [1..(data.chr.length-1)]
-            chr_start_pixels.push(chr_end_pixels[i-1] + gap)
-            chr_end_pixels.push(chr_start_pixels[i] + tot_pixels/tot_chr_length * chr_length[i])
-
+        # scales (x-axis scale is a has by chromosome ID
+        yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
+        xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end)
 
         # solid background
         g.append("rect")
@@ -76,8 +70,8 @@ lodpanelframe = (chartOpts) ->
                      .data(data.chr)
                      .enter()
                      .append("rect")
-                     .attr("x", (d,i) -> chr_start_pixels[i]-gap/2)
-                     .attr("width", (d,i) -> chr_length[i]/tot_chr_length*tot_pixels + gap)
+                     .attr("x", (d,i) -> xscale[d](data.start[i])-gap/2)
+                     .attr("width", (d,i) -> xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap)
                      .attr("y", margin.top)
                      .attr("height", plot_height)
                      .attr("fill", (d,i) ->
@@ -109,14 +103,6 @@ lodpanelframe = (chartOpts) ->
              .attr("x", ylabpos_x)
              .attr("transform", if rotate_ylab then "rotate(270,#{ylabpos_x},#{ylabpos_y})" else "")
 
-        # scales (x-axis scale is a has by chromosome ID
-        yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
-        xscale = {}
-        for i of data.chr
-            xscale[data.chr[i]] = d3.scale.linear()
-                                    .domain([data.start[i], data.end[i]])
-                                    .range([chr_start_pixels[i], chr_end_pixels[i]])
-
         # add Y axis values + ylines
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = yticks ? yscale.ticks(nyticks)
@@ -146,7 +132,7 @@ lodpanelframe = (chartOpts) ->
                    .data(data.chr)
                    .enter()
                    .append("text")
-                   .attr("x", (d,i) -> (chr_start_pixels[i] + chr_end_pixels[i])/2)
+                   .attr("x", (d,i) -> (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
                    .attr("y", height - margin.bottom + axispos.xlabel)
                    .text((d) -> d)
         ylabels = yaxis.append("g").attr("id", "ylabels")
