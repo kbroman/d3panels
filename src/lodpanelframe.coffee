@@ -124,6 +124,7 @@ lodpanelframe = (chartOpts) ->
                   .attr("fill", "none")
                   .attr("stroke", ylineOpts.color)
                   .attr("stroke-width", ylineOpts.width)
+                  .attr("shape-rendering", "crispEdges")
                   .style("pointer-events", "none")
 
         # axis labels
@@ -153,6 +154,7 @@ lodpanelframe = (chartOpts) ->
          .attr("fill", "none")
          .attr("stroke", boxcolor)
          .attr("stroke-width", boxwidth)
+         .attr("shape-rendering", "crispEdges")
 
     # functions to grab stuff
     chart.svg = () -> svg

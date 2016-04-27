@@ -1178,7 +1178,7 @@ panelframe = function(chartOpts) {
         return xrange[1];
       }
       return margin.left + xNA_size.width;
-    }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width).style("pointer-events", "none");
+    }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
     xlines = xaxis.append("g").attr("id", "xlines").selectAll("empty").data(xticks.concat(xticks)).enter().append("line").attr("x1", function(d) {
       return xscale_wnull(d);
     }).attr("x2", function(d) {
@@ -1193,7 +1193,7 @@ panelframe = function(chartOpts) {
         return yrange[1];
       }
       return height - margin.bottom - yNA_size.width;
-    }).attr("fill", "none").attr("stroke", xlineOpts.color).attr("stroke-width", xlineOpts.width).style("pointer-events", "none");
+    }).attr("fill", "none").attr("stroke", xlineOpts.color).attr("stroke-width", xlineOpts.width).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
     xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(xticklab).enter().append("text").attr("x", function(d, i) {
       return xscale_wnull(xticks[i]);
     }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
@@ -1207,7 +1207,7 @@ panelframe = function(chartOpts) {
     results = [];
     for (i in boxes.left) {
       if (boxes.width[i] > 0 && boxes.height[i] > 0) {
-        results.push(g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth));
+        results.push(g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges"));
       } else {
         results.push(void 0);
       }
@@ -1351,7 +1351,7 @@ lodpanelframe = function(chartOpts) {
       return margin.left;
     }).attr("x2", function(d, i) {
       return plot_width + margin.left;
-    }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width).style("pointer-events", "none");
+    }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
     xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(data.chr).enter().append("text").attr("x", function(d, i) {
       return (xscale[d](data.start[i]) + xscale[d](data.end[i])) / 2;
     }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
@@ -1362,7 +1362,7 @@ lodpanelframe = function(chartOpts) {
     }).attr("x", margin.left - axispos.ylabel).text(function(d) {
       return d;
     });
-    return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth);
+    return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
   };
   chart.svg = function() {
     return svg;
@@ -1493,7 +1493,7 @@ cichart = function(chartOpts) {
       return yscale(i + 1);
     }).attr("fill", "none").attr("stroke", function(d, i) {
       return vertsegcolor[i];
-    }).attr("stroke-width", segstrokewidth).on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
+    }).attr("stroke-width", segstrokewidth).attr("shape-rendering", "crispEdges").on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
     yval = mean.concat(low, high);
     xval = (function() {
       var results;
@@ -1541,7 +1541,7 @@ cichart = function(chartOpts) {
       }
     }).attr("fill", "none").attr("stroke", function(d, i) {
       return segcolor[i % mean.length];
-    }).attr("stroke-width", segstrokewidth).on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
+    }).attr("stroke-width", segstrokewidth).attr("shape-rendering", "crispEdges").on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
   };
   chart.yscale = function() {
     return yscale;

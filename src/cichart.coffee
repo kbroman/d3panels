@@ -113,6 +113,7 @@ cichart = (chartOpts) ->
                 .attr("fill", "none")
                 .attr("stroke", (d,i) -> vertsegcolor[i])
                 .attr("stroke-width", segstrokewidth)
+                .attr("shape-rendering", "crispEdges")
                 .on("mouseover.paneltip", tip.show)
                 .on("mouseout.paneltip", tip.hide)
 
@@ -150,6 +151,7 @@ cichart = (chartOpts) ->
                 .attr("fill", "none")
                 .attr("stroke", (d,i) -> segcolor[i % mean.length])
                 .attr("stroke-width", segstrokewidth)
+                .attr("shape-rendering", "crispEdges")
                 .on("mouseover.paneltip", tip.show)
                 .on("mouseout.paneltip", tip.hide)
 
