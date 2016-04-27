@@ -131,7 +131,6 @@ ng = 4
 n = 75*ng
 x = (Math.ceil(Math.random()*ng) for i in [1..n])
 y = (Math.random()*4+20+xv for xv in x)
-z = y.slice(0)
 these_data = {x:x, y:y}
 mychart6(d3.select("div#chart6"), these_data)
 
@@ -146,14 +145,13 @@ mychart6.points()
 
 # Example 7: deterministic jitter, much more data
 mychart7 = dotchart({
-    title:"Deterministic jitter"
+    title:"Deterministic jitter, horizontal"
     height:h
     width:w
     margin:margin
     xjitter:"deterministic",
     horizontal:true})
 
-these_data = {x:x, y:z}
 mychart7(d3.select("div#chart7"), these_data)
 
 # animate points

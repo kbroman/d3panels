@@ -409,6 +409,8 @@ jiggle = (group, y, radius, height, width) ->
         cat = "#{group[i]}:#{ycat[i]}"
         seen[cat] = if seen[cat]? then seen[cat]+1 else 1
         jit.push((seen[cat]-1)*hamount - (counts[cat]-1)*hamount/2)
-        y[i] = ycat[i]*vamount + min_y # move values vertically
 
-    {jitter:jit, y:y}
+    # adjust y values to midpoints
+    yout = (yv * vamount + min_y for yv in ycat)
+
+    {jitter:jit, y:yout}
