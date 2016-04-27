@@ -376,3 +376,37 @@ ci_by_group = (g, y, m=2) ->
             high: if n[i]>0 then means[i] + m*sds[i]/Math.sqrt(n[i]) else means[i]
 
     ci
+
+# jiggle values horizontally in a deterministic way
+# group = vector of integers 1,2,3... defining categories
+# y = vector of responses (same length as group)
+# radius = radius of points
+# height = height of plot
+jiggle = (group, y, radius, height, width) ->
+
+    n_group = d3.max(group)
+    min_y = d3.min(y)
+    max_y = d3.max(y)
+
+    # number of bins and amounts to jitter
+    vnum = Math.ceil(height/(radius*6))+1
+    hamount = (radius*4)/(width/n_group)
+    vamount = (max_y - min_y)/vnum
+
+    # categorize the y's into bins
+    ycat = (Math.floor((x - min_y)/vamount) for x in y)
+
+    # count values in each group:bin via hash
+    counts = {}
+    for i of y
+        cat = "#{group[i]}:#{ycat[i]}"
+        counts[cat] = if counts[cat]? then counts[cat]+1 else 1
+
+    seen = {}
+    jit = []
+    for i of y
+        cat = "#{group[i]}:#{ycat[i]}"
+        seen[cat] = if seen[cat]? then seen[cat]+1 else 1
+        jit.push((seen[cat]-1)*hamount - (counts[cat]-1)*hamount/2)
+
+    jit

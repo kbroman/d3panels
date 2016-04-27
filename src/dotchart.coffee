@@ -99,11 +99,11 @@ dotchart = (chartOpts) ->
         yscale = myframe.yscale()
 
         # jitter x-axis
-        if xjitter == null
-            xjitter = ((Math.random()-0.5)*0.2 for v in d3.range(x.length))
-        else
+        if xjitter?
             xjitter = [xjitter] if typeof(xjitter) == 'number'
             xjitter = (xjitter[0] for v in d3.range(x.length)) if xjitter.length == 1
+        else
+            xjitter = ((Math.random()-0.5)*0.2 for v in d3.range(x.length))
 
         displayError("xjitter.length [#{xjitter.length}] != x.length [#{x.length}]") if xjitter.length != x.length
 
