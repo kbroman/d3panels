@@ -34,6 +34,21 @@ data:
 mychart(d3.select("div#chart"), mydata)
 ```
 
+You'll need to link to the `d3panels.js` and `d3panels.css` files (or
+to `d3panels.min.js` and `d3panels.min.css`):
+
+```html
+<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/master/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
+```
+
+You'll also want to link to [D3.js](https://d3js.org) and
+[d3-tip](https://github.com/Caged/d3-tip):
+
+```html
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
+```
 
 #### License
 
