@@ -127,8 +127,8 @@ dotchart = (chartOpts) ->
                        return 'n' if horizontal
                        'e')
                    .offset(() ->
-                       return [-10,0] if horizontal
-                       [0,10])
+                       return [-10-pointsize,0] if horizontal
+                       [0,10+pointsize])
         svg.call(indtip)
 
         pointGroup = svg.append("g").attr("id", "points")

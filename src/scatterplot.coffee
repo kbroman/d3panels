@@ -83,7 +83,7 @@ scatterplot = (chartOpts) ->
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d,i) -> indID[i])
                    .direction('e')
-                   .offset([0,10])
+                   .offset([0,10+pointsize])
         svg.call(indtip)
 
         pointGroup = svg.append("g").attr("id", "points")

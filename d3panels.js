@@ -2376,9 +2376,9 @@ dotchart = function(chartOpts) {
       return 'e';
     }).offset(function() {
       if (horizontal) {
-        return [-10, 0];
+        return [-10 - pointsize, 0];
       }
-      return [0, 10];
+      return [0, 10 + pointsize];
     });
     svg.call(indtip);
     pointGroup = svg.append("g").attr("id", "points");
