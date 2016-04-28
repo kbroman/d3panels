@@ -123,8 +123,12 @@ dotchart = (chartOpts) ->
         indtip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d,i) -> indID[i])
-                   .direction('e')
-                   .offset([0,10])
+                   .direction(() ->
+                       return 'n' if horizontal
+                       'e')
+                   .offset(() ->
+                       return [-10,0] if horizontal
+                       [0,10])
         svg.call(indtip)
 
         pointGroup = svg.append("g").attr("id", "points")

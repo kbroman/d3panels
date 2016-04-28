@@ -2369,7 +2369,17 @@ dotchart = function(chartOpts) {
     }
     indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
       return indID[i];
-    }).direction('e').offset([0, 10]);
+    }).direction(function() {
+      if (horizontal) {
+        return 'n';
+      }
+      return 'e';
+    }).offset(function() {
+      if (horizontal) {
+        return [-10, 0];
+      }
+      return [0, 10];
+    });
     svg.call(indtip);
     pointGroup = svg.append("g").attr("id", "points");
     return points = pointGroup.selectAll("empty").data(x).enter().append("circle").attr("cx", function(d, i) {
