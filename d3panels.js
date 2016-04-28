@@ -1194,8 +1194,12 @@ panelframe = function(chartOpts) {
         return results;
       })();
     }
-    xticks = [null].concat(xticks);
-    xticklab = ["NA"].concat(xticklab);
+    if (xNA) {
+      xticks = [null].concat(xticks);
+    }
+    if (xNA) {
+      xticklab = ["NA"].concat(xticklab);
+    }
     yticks = yticks != null ? yticks : yscale.ticks(nyticks);
     if ((yticklab != null) && yticklab.length !== yticks.length) {
       displayError("yticklab.length (" + yticklab.length + ") != yticks.length (" + yticks.length + ")");
@@ -1211,8 +1215,12 @@ panelframe = function(chartOpts) {
         return results;
       })();
     }
-    yticks = [null].concat(yticks);
-    yticklab = ["NA"].concat(yticklab);
+    if (yNA) {
+      yticks = [null].concat(yticks);
+    }
+    if (yNA) {
+      yticklab = ["NA"].concat(yticklab);
+    }
     ylines = yaxis.append("g").attr("id", "ylines").selectAll("empty").data(yticks.concat(yticks)).enter().append("line").attr("y1", function(d) {
       return yscale_wnull(d);
     }).attr("y2", function(d) {
@@ -2423,56 +2431,34 @@ heatmap = function(chartOpts) {
       d3.select(this).attr("stroke", "black").moveToFront();
       celltip.show(d);
       if (data.xcat != null) {
-        xlabels.attr("opacity", function(dlab) {
-          if (d.x !== +dlab) {
-            return 0;
-          }
-          return 1;
-        });
+        svg.select("text#xlab" + d.x).attr("opacity", 1);
       }
       if (data.ycat != null) {
-        return ylabels.attr("opacity", function(dlab) {
-          if (d.y !== +dlab) {
-            return 0;
-          }
-          return 1;
-        });
+        return svg.select("text#ylab" + d.y).attr("opacity", 1);
       }
-    }).on("mouseout.paneltip", function() {
+    }).on("mouseout.paneltip", function(d) {
       d3.select(this).attr("stroke", "none");
       celltip.hide();
       if (data.xcat != null) {
-        xlabels.attr("opacity", 0);
+        svg.select("text#xlab" + d.x).attr("opacity", 0);
       }
-      if (data.xcat != null) {
-        return ylabels.attr("opacity", 0);
+      if (data.ycat != null) {
+        return svg.select("text#ylab" + d.y).attr("opacity", 0);
       }
     });
     svg.append("rect").attr("height", svg.attr("height") - margin.top - margin.bottom).attr("width", svg.attr("width") - margin.left - margin.right).attr("x", margin.left).attr("y", margin.top).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
     if (data.xcat != null) {
       xlabels.text(function(d, i) {
-        if (!i) {
-          return "";
-        }
-        return data.xcat[i - 1];
+        return data.xcat[i];
       }).attr("opacity", 0).attr("id", function(d, i) {
-        if (!i) {
-          return "";
-        }
-        return "xlab" + data.x[i - 1];
+        return "xlab" + data.x[i];
       });
     }
     if (data.ycat != null) {
       return ylabels.text(function(d, i) {
-        if (!i) {
-          return "";
-        }
-        return data.ycat[i - 1];
+        return data.ycat[i];
       }).attr("opacity", 0).attr("id", function(d, i) {
-        if (!i) {
-          return "";
-        }
-        return "ylab" + data.y[i - 1];
+        return "ylab" + data.y[i];
       });
     }
   };

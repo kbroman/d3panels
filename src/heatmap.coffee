@@ -140,21 +140,17 @@ heatmap = (chartOpts) ->
                     .on("mouseover.paneltip", (d) ->
                                                   d3.select(this).attr("stroke", "black").moveToFront()
                                                   celltip.show(d)
-                                                  if data.xcat?
-                                                      xlabels.attr("opacity", (dlab) ->
-                                                          return 0 unless d.x == +dlab
-                                                          1)
+                                                  if data.xcat? # show categorical scales
+                                                      svg.select("text#xlab#{d.x}").attr("opacity", 1)
                                                   if data.ycat?
-                                                      ylabels.attr("opacity", (dlab) ->
-                                                          return 0 unless d.y == +dlab
-                                                          1))
-                    .on("mouseout.paneltip", () ->
+                                                      svg.select("text#ylab#{d.y}").attr("opacity", 1))
+                    .on("mouseout.paneltip", (d) ->
                                                   d3.select(this).attr("stroke", "none")
                                                   celltip.hide()
-                                                  if data.xcat?
-                                                      xlabels.attr("opacity", 0)
-                                                  if data.xcat?
-                                                      ylabels.attr("opacity", 0))
+                                                  if data.xcat? # hide categorical scales
+                                                      svg.select("text#xlab#{d.x}").attr("opacity", 0)
+                                                  if data.ycat?
+                                                      svg.select("text#ylab#{d.y}").attr("opacity", 0))
 
         # add box again
         svg.append("rect")
@@ -168,23 +164,16 @@ heatmap = (chartOpts) ->
            .attr("shape-rendering", "crispEdges")
            .style("pointer-events", "none")
 
-        # handle categorical scales
+        # handle categorical scales:
+        #    replace text with category labels, add IDs, and hide them initially
         if data.xcat?
-            xlabels.text((d,i) ->
-                           return "" unless i
-                           data.xcat[i-1])
+            xlabels.text((d,i) -> data.xcat[i])
                    .attr("opacity", 0)
-                   .attr("id", (d,i) ->
-                           return "" unless i
-                           "xlab#{data.x[i-1]}")
+                   .attr("id", (d,i) -> "xlab#{data.x[i]}")
         if data.ycat?
-            ylabels.text((d,i) ->
-                           return "" unless i
-                           data.ycat[i-1])
+            ylabels.text((d,i) -> data.ycat[i])
                    .attr("opacity", 0)
-                   .attr("id", (d,i) ->
-                           return "" unless i
-                           "ylab#{data.y[i-1]}")
+                   .attr("id", (d,i) -> "ylab#{data.y[i]}")
 
     # functions to grab stuff
     chart.xscale = () -> xscale
