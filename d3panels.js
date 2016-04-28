@@ -1281,14 +1281,14 @@ panelframe = function(chartOpts) {
   chart.ylabels = function() {
     return ylabels;
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.plot_width = function() {
     return plot_width;
   };
   chart.plot_height = function() {
     return plot_height;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -1336,10 +1336,10 @@ lodpanelframe = function(chartOpts) {
     width: 2
   };
   gap = (ref18 = chartOpts != null ? chartOpts.gap : void 0) != null ? ref18 : 5;
-  svg = null;
   xscale = null;
   yscale = null;
   chrSelect = null;
+  svg = null;
   chart = function(selection, data) {
     var c, d, g, plot_height, plot_width, xaxis, xlabels, yaxis, ylabels, ylabpos_x, ylabpos_y, ylines;
     svg = selection.append("svg");
@@ -1422,9 +1422,6 @@ lodpanelframe = function(chartOpts) {
     });
     return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.xscale = function() {
     return xscale;
   };
@@ -1433,6 +1430,9 @@ lodpanelframe = function(chartOpts) {
   };
   chart.chrSelect = function() {
     return chrSelect;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -1462,12 +1462,12 @@ cichart = function(chartOpts) {
   };
   horizontal = (ref9 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref9 : false;
   v_over_h = (ref10 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref10 : horizontal;
-  tipclass = (ref11 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref11 : "pointtip";
+  tipclass = (ref11 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref11 : "tooltip";
   xscale = null;
   yscale = null;
   segments = null;
-  svg = null;
   tip = null;
+  svg = null;
   chart = function(selection, data) {
     var high, i, low, mean, myframe, ncat, segmentGroup, xlim, xticks, xval, yval;
     mean = data.mean;
@@ -1623,11 +1623,11 @@ cichart = function(chartOpts) {
   chart.segments = function() {
     return segments;
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.tip = function() {
     return tip;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -1835,12 +1835,12 @@ curvechart = function(chartOpts) {
   strokecolorhilit = (ref3 = chartOpts != null ? chartOpts.strokecolorhilit : void 0) != null ? ref3 : null;
   strokewidth = (ref4 = chartOpts != null ? chartOpts.strokewidth : void 0) != null ? ref4 : 2;
   strokewidthhilit = (ref5 = chartOpts != null ? chartOpts.strokewidthhilit : void 0) != null ? ref5 : 2;
-  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "curvetip";
+  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip";
   xscale = null;
   yscale = null;
   curvesSelect = null;
-  svg = null;
   indtip = null;
+  svg = null;
   chart = function(selection, data) {
     var curve, curves, dataByPoint, g, group, i, indID, j, k, l, lastpoint, len, m, myframe, n_ind, ngroup, points, pointsg, ref10, ref7, ref8, ref9, results, v, x, y;
     x = data.x;
@@ -1990,20 +1990,20 @@ curvechart = function(chartOpts) {
       return yscale(d.y);
     }).attr("r", 1).attr("opacity", 0);
   };
-  chart.yscale = function() {
-    return yscale;
-  };
   chart.xscale = function() {
     return xscale;
+  };
+  chart.yscale = function() {
+    return yscale;
   };
   chart.curvesSelect = function() {
     return curvesSelect;
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.indtip = function() {
     return indtip;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -2042,14 +2042,14 @@ dotchart = function(chartOpts) {
   pointcolor = (ref9 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref9 : "slateblue";
   pointstroke = (ref10 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref10 : "black";
   pointsize = (ref11 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref11 : 3;
-  tipclass = (ref12 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref12 : "pointtip";
+  tipclass = (ref12 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref12 : "tooltip";
   horizontal = (ref13 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref13 : false;
   v_over_h = (ref14 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref14 : horizontal;
   xscale = null;
   yscale = null;
   points = null;
-  svg = null;
   indtip = null;
+  svg = null;
   chart = function(selection, data) {
     var h, indID, j, jitter, myframe, pointGroup, ref15, ref16, result, results, v, w, x, xlim, xv, y;
     x = data.x;
@@ -2202,20 +2202,20 @@ dotchart = function(chartOpts) {
       return 0;
     }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
   };
-  chart.yscale = function() {
-    return yscale;
-  };
   chart.xscale = function() {
     return xscale;
+  };
+  chart.yscale = function() {
+    return yscale;
   };
   chart.points = function() {
     return points;
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.indtip = function() {
     return indtip;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -2227,378 +2227,137 @@ dotchart = function(chartOpts) {
 // Generated by CoffeeScript 1.10.0
 var heatmap;
 
-heatmap = function() {
-  var axispos, cellSelect, celltip, chart, colors, dataByCell, height, margin, nullcolor, nxticks, nyticks, rectcolor, rotate_ylab, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks, zlim, zscale, zthresh;
-  width = 400;
-  height = 500;
-  margin = {
+heatmap = function(chartOpts) {
+  var boxcolor, boxwidth, cellSelect, celltip, chart, colors, margin, nullcolor, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, tipclass, xlim, xscale, ylim, yscale, zlim, zscale, zthresh;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
+  margin = (ref = chartOpts != null ? chartOpts.margin : void 0) != null ? ref : {
     left: 60,
     top: 40,
     right: 40,
-    bottom: 40
+    bottom: 40,
+    inner: 0
   };
-  axispos = {
-    xtitle: 25,
-    ytitle: 30,
-    xlabel: 5,
-    ylabel: 5
-  };
-  titlepos = 20;
-  xlim = null;
-  nxticks = 5;
-  xticks = null;
-  ylim = null;
-  nyticks = 5;
-  yticks = null;
-  rectcolor = "#e6e6e6";
-  nullcolor = "#e6e6e6";
-  colors = ["slateblue", "white", "crimson"];
-  title = "";
-  xlab = "X";
-  ylab = "Y";
-  rotate_ylab = null;
-  zlim = null;
-  zthresh = null;
-  xscale = d3.scale.linear();
-  yscale = d3.scale.linear();
-  zscale = d3.scale.linear();
+  xlim = (ref1 = chartOpts != null ? chartOpts.xlim : void 0) != null ? ref1 : null;
+  ylim = (ref2 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref2 : null;
+  nullcolor = (ref3 = chartOpts != null ? chartOpts.nullcolor : void 0) != null ? ref3 : "#e6e6e6";
+  colors = (ref4 = chartOpts != null ? chartOpts.colors : void 0) != null ? ref4 : ["slateblue", "white", "crimson"];
+  zlim = (ref5 = chartOpts != null ? chartOpts.zlim : void 0) != null ? ref5 : null;
+  zthresh = (ref6 = chartOpts != null ? chartOpts.zthresh : void 0) != null ? ref6 : null;
+  boxcolor = (ref7 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref7 : "black";
+  boxwidth = (ref8 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref8 : 1;
+  tipclass = (ref9 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref9 : "tooltip";
+  xscale = null;
+  yscale = null;
+  zscale = null;
   cellSelect = null;
-  dataByCell = false;
-  svg = null;
   celltip = null;
-  tipclass = "";
-  chart = function(selection) {
-    return selection.each(function(data) {
-      var cell, cells, g, gEnter, i, j, k, len, nx, ny, ref, titlegrp, xLR, xaxis, xrange, yLR, yaxis, yrange, zmax, zmin;
-      if (dataByCell) {
-        data.x = (function() {
-          var k, len, ref, results;
-          ref = data.cells;
-          results = [];
-          for (k = 0, len = ref.length; k < len; k++) {
-            cell = ref[k];
-            results.push(cell.x);
-          }
-          return results;
-        })();
-        data.y = (function() {
-          var k, len, ref, results;
-          ref = data.cells;
-          results = [];
-          for (k = 0, len = ref.length; k < len; k++) {
-            cell = ref[k];
-            results.push(cell.y);
-          }
-          return results;
-        })();
-        data.allz = (function() {
-          var k, len, ref, results;
-          ref = data.cells;
-          results = [];
-          for (k = 0, len = ref.length; k < len; k++) {
-            cell = ref[k];
-            results.push(cell.z);
-          }
-          return results;
-        })();
-      } else {
-        nx = data.x.length;
-        ny = data.y.length;
-        if (nx !== data.z.length) {
-          displayError("data.x.length (" + data.x.length + ") != data.z.length (" + data.z.length + ")");
-        }
-        if (ny !== data.z[0].length) {
-          displayError("data.y.length (" + data.y.length + ") != data.z[0].length (" + data.z[0].length + ")");
-        }
-        data.cells = [];
-        for (i in data.z) {
-          for (j in data.z[i]) {
-            data.cells.push({
-              x: data.x[i],
-              y: data.y[j],
-              z: data.z[i][j],
-              i: i,
-              j: j
-            });
-          }
-        }
-        data.allz = (function() {
-          var k, len, ref, results;
-          ref = data.cells;
-          results = [];
-          for (k = 0, len = ref.length; k < len; k++) {
-            cell = ref[k];
-            results.push(cell.z);
-          }
-          return results;
-        })();
+  svg = null;
+  chart = function(selection, data) {
+    var cell, cellrect, cells, i, j, k, len, myframe, nx, ny, xLR, yLR, zmax, zmin;
+    nx = data.x.length;
+    ny = data.y.length;
+    if (data.z.length !== nx) {
+      displayError("data.x.length (" + nx + ") != data.z.length (" + data.z.length + ")");
+    }
+    for (i in data.z) {
+      if (data.z[i].length !== ny) {
+        displayError("data.y.length (" + ny + ") != data.z[" + i + "].length (" + data.z[i].length + ")");
       }
-      data.x.sort(function(a, b) {
-        return a - b;
-      });
-      data.y.sort(function(a, b) {
-        return a - b;
-      });
-      xLR = getLeftRight(data.x);
-      yLR = getLeftRight(data.y);
-      xlim = xlim != null ? xlim : xLR.extent;
-      ylim = ylim != null ? ylim : yLR.extent;
-      zmin = d3.min(data.allz);
-      zmax = d3.max(data.allz);
-      if (-zmin > zmax) {
-        zmax = -zmin;
+    }
+    cells = [];
+    for (i in data.z) {
+      for (j in data.z[i]) {
+        cells.push({
+          x: data.x[i],
+          y: data.y[j],
+          z: data.z[i][j]
+        });
       }
-      zlim = zlim != null ? zlim : [-zmax, 0, zmax];
-      if (zlim.length !== colors.length) {
-        displayError("zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
-      }
-      zscale.domain(zlim).range(colors);
-      zthresh = zthresh != null ? zthresh : zmin - 1;
-      data.cells = (function() {
-        var k, len, ref, results;
-        ref = data.cells;
-        results = [];
-        for (k = 0, len = ref.length; k < len; k++) {
-          cell = ref[k];
-          if (cell.z >= zthresh || cell.z <= -zthresh) {
-            results.push(cell);
-          }
-        }
-        return results;
-      })();
-      ref = data.cells;
-      for (k = 0, len = ref.length; k < len; k++) {
-        cell = ref[k];
-        cell.recLeft = (xLR[cell.x].left + cell.x) / 2;
-        cell.recRight = (xLR[cell.x].right + cell.x) / 2;
-        cell.recTop = (yLR[cell.y].right + cell.y) / 2;
-        cell.recBottom = (yLR[cell.y].left + cell.y) / 2;
-      }
-      svg = d3.select(this).selectAll("svg").data([data]);
-      gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g");
-      svg.attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom);
-      g = svg.select("g");
-      g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", height).attr("width", width).attr("fill", rectcolor).attr("stroke", "none");
-      xrange = [margin.left, margin.left + width];
-      xscale.domain(xlim).range(xrange);
-      yrange = [margin.top + height, margin.top];
-      yscale.domain(ylim).range(yrange);
-      xticks = xticks != null ? xticks : xscale.ticks(nxticks);
-      yticks = yticks != null ? yticks : yscale.ticks(nyticks);
-      titlegrp = g.append("g").attr("class", "title").append("text").attr("x", margin.left + width / 2).attr("y", margin.top - titlepos).text(title);
-      xaxis = g.append("g").attr("class", "x axis");
-      xaxis.selectAll("empty").data(xticks).enter().append("line").attr("x1", function(d) {
-        return xscale(d);
-      }).attr("x2", function(d) {
-        return xscale(d);
-      }).attr("y1", margin.top).attr("y2", margin.top + height).attr("class", "y axis grid");
-      xaxis.selectAll("empty").data(xticks).enter().append("text").attr("x", function(d) {
-        return xscale(d);
-      }).attr("y", margin.top + height + axispos.xlabel).text(function(d) {
-        return formatAxis(xticks)(d);
-      });
-      xaxis.append("text").attr("class", "title").attr("x", margin.left + width / 2).attr("y", margin.top + height + axispos.xtitle).text(xlab);
-      rotate_ylab = rotate_ylab != null ? rotate_ylab : ylab.length > 1;
-      yaxis = g.append("g").attr("class", "y axis");
-      yaxis.selectAll("empty").data(yticks).enter().append("line").attr("y1", function(d) {
-        return yscale(d);
-      }).attr("y2", function(d) {
-        return yscale(d);
-      }).attr("x1", margin.left).attr("x2", margin.left + width).attr("class", "y axis grid");
-      yaxis.selectAll("empty").data(yticks).enter().append("text").attr("y", function(d) {
-        return yscale(d);
-      }).attr("x", margin.left - axispos.ylabel).text(function(d) {
-        return formatAxis(yticks)(d);
-      });
-      yaxis.append("text").attr("class", "title").attr("y", margin.top + height / 2).attr("x", margin.left - axispos.ytitle).text(ylab).attr("transform", rotate_ylab ? "rotate(270," + (margin.left - axispos.ytitle) + "," + (margin.top + height / 2) + ")" : "");
-      celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
-        var x, y, z;
-        x = formatAxis(data.x)(d.x);
-        y = formatAxis(data.y)(d.y);
-        z = formatAxis(data.allz)(d.z);
-        return "(" + x + ", " + y + ") &rarr; " + z;
-      }).direction('e').offset([0, 10]);
-      svg.call(celltip);
-      cells = g.append("g").attr("id", "cells");
-      cellSelect = cells.selectAll("empty").data(data.cells).enter().append("rect").attr("x", function(d) {
-        return xscale(d.recLeft);
-      }).attr("y", function(d) {
-        return yscale(d.recTop);
-      }).attr("width", function(d) {
-        return xscale(d.recRight) - xscale(d.recLeft);
-      }).attr("height", function(d) {
-        return yscale(d.recBottom) - yscale(d.recTop);
-      }).attr("class", function(d, i) {
-        return "cell" + i;
-      }).attr("fill", function(d) {
-        if (d.z != null) {
-          return zscale(d.z);
-        } else {
-          return nullcolor;
-        }
-      }).attr("stroke", "none").attr("stroke-width", "1").on("mouseover.paneltip", function(d) {
-        d3.select(this).attr("stroke", "black");
-        return celltip.show(d);
-      }).on("mouseout.paneltip", function() {
-        d3.select(this).attr("stroke", "none");
-        return celltip.hide();
-      });
-      return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", height).attr("width", width).attr("fill", "none").attr("stroke", "black").attr("stroke-width", "none");
+    }
+    data.x.sort(function(a, b) {
+      return a - b;
     });
-  };
-  chart.width = function(value) {
-    if (!arguments.length) {
-      return width;
+    data.y.sort(function(a, b) {
+      return a - b;
+    });
+    xLR = getLeftRight(data.x);
+    yLR = getLeftRight(data.y);
+    xlim = xlim != null ? xlim : xLR.extent;
+    ylim = ylim != null ? ylim : yLR.extent;
+    zmin = matrixMin(data.z);
+    zmax = matrixMax(data.z);
+    if (-zmin > zmax) {
+      zmax = -zmin;
     }
-    width = value;
-    return chart;
-  };
-  chart.height = function(value) {
-    if (!arguments.length) {
-      return height;
+    zlim = zlim != null ? zlim : [-zmax, 0, zmax];
+    if (zlim.length !== colors.length) {
+      displayError("zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
     }
-    height = value;
-    return chart;
-  };
-  chart.margin = function(value) {
-    if (!arguments.length) {
-      return margin;
+    zscale = d3.scale.linear().domain(zlim).range(colors);
+    zthresh = zthresh != null ? zthresh : zmin - 1;
+    cells = (function() {
+      var k, len, results;
+      results = [];
+      for (k = 0, len = cells.length; k < len; k++) {
+        cell = cells[k];
+        if (Math.abs(cell.z) >= zthresh) {
+          results.push(cell);
+        }
+      }
+      return results;
+    })();
+    for (k = 0, len = cells.length; k < len; k++) {
+      cell = cells[k];
+      cell.recLeft = (xLR[cell.x].left + cell.x) / 2;
+      cell.recRight = (xLR[cell.x].right + cell.x) / 2;
+      cell.recTop = (yLR[cell.y].right + cell.y) / 2;
+      cell.recBottom = (yLR[cell.y].left + cell.y) / 2;
     }
-    margin = value;
-    return chart;
-  };
-  chart.axispos = function(value) {
-    if (!arguments.length) {
-      return axispos;
-    }
-    axispos = value;
-    return chart;
-  };
-  chart.titlepos = function(value) {
-    if (!arguments.length) {
-      return titlepos;
-    }
-    titlepos = value;
-    return chart;
-  };
-  chart.xlim = function(value) {
-    if (!arguments.length) {
-      return xlim;
-    }
-    xlim = value;
-    return chart;
-  };
-  chart.nxticks = function(value) {
-    if (!arguments.length) {
-      return nxticks;
-    }
-    nxticks = value;
-    return chart;
-  };
-  chart.xticks = function(value) {
-    if (!arguments.length) {
-      return xticks;
-    }
-    xticks = value;
-    return chart;
-  };
-  chart.ylim = function(value) {
-    if (!arguments.length) {
-      return ylim;
-    }
-    ylim = value;
-    return chart;
-  };
-  chart.nyticks = function(value) {
-    if (!arguments.length) {
-      return nyticks;
-    }
-    nyticks = value;
-    return chart;
-  };
-  chart.yticks = function(value) {
-    if (!arguments.length) {
-      return yticks;
-    }
-    yticks = value;
-    return chart;
-  };
-  chart.rectcolor = function(value) {
-    if (!arguments.length) {
-      return rectcolor;
-    }
-    rectcolor = value;
-    return chart;
-  };
-  chart.nullcolor = function(value) {
-    if (!arguments.length) {
-      return nullcolor;
-    }
-    nullcolor = value;
-    return chart;
-  };
-  chart.colors = function(value) {
-    if (!arguments.length) {
-      return colors;
-    }
-    colors = value;
-    return chart;
-  };
-  chart.dataByCell = function(value) {
-    if (!arguments.length) {
-      return dataByCell;
-    }
-    dataByCell = value;
-    return chart;
-  };
-  chart.title = function(value) {
-    if (!arguments.length) {
-      return title;
-    }
-    title = value;
-    return chart;
-  };
-  chart.xlab = function(value) {
-    if (!arguments.length) {
-      return xlab;
-    }
-    xlab = value;
-    return chart;
-  };
-  chart.ylab = function(value) {
-    if (!arguments.length) {
-      return ylab;
-    }
-    ylab = value;
-    return chart;
-  };
-  chart.rotate_ylab = function(value) {
-    if (!arguments.length) {
-      return rotate_ylab;
-    }
-    rotate_ylab = value;
-    return chart;
-  };
-  chart.zthresh = function(value) {
-    if (!arguments.length) {
-      return zthresh;
-    }
-    zthresh = value;
-    return chart;
-  };
-  chart.zlim = function(value) {
-    if (!arguments.length) {
-      return zlim;
-    }
-    zlim = value;
-    return chart;
-  };
-  chart.tipclass = function(value) {
-    if (!arguments.length) {
-      return tipclass;
-    }
-    tipclass = value;
-    return chart;
+    chartOpts.margin = margin;
+    chartOpts.xlim = xlim;
+    chartOpts.ylim = ylim;
+    chartOpts.xNA = false;
+    chartOpts.yNA = false;
+    myframe = panelframe(chartOpts);
+    myframe(selection);
+    svg = myframe.svg();
+    xscale = myframe.xscale();
+    yscale = myframe.yscale();
+    celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
+      var x, y, z;
+      x = formatAxis(data.x)(d.x);
+      y = formatAxis(data.y)(d.y);
+      z = formatAxis([0, zmax / 100])(d.z);
+      return "(" + x + ", " + y + ") &rarr; " + z;
+    }).direction('e').offset([0, 10]);
+    svg.call(celltip);
+    cellrect = svg.append("g").attr("id", "cells");
+    cellSelect = cellrect.selectAll("empty").data(cells).enter().append("rect").attr("x", function(d) {
+      return xscale(d.recLeft);
+    }).attr("y", function(d) {
+      return yscale(d.recTop);
+    }).attr("width", function(d) {
+      return xscale(d.recRight) - xscale(d.recLeft);
+    }).attr("height", function(d) {
+      return yscale(d.recBottom) - yscale(d.recTop);
+    }).attr("class", function(d, i) {
+      return "cell" + i;
+    }).attr("fill", function(d) {
+      if (d.z != null) {
+        return zscale(d.z);
+      } else {
+        return nullcolor;
+      }
+    }).attr("stroke", "none").attr("stroke-width", "1").attr("shape-rendering", "crispEdges").on("mouseover.paneltip", function(d) {
+      d3.select(this).attr("stroke", "black").moveToFront();
+      return celltip.show(d);
+    }).on("mouseout.paneltip", function() {
+      d3.select(this).attr("stroke", "none");
+      return celltip.hide();
+    });
+    return svg.append("rect").attr("height", svg.attr("height") - margin.top - margin.bottom).attr("width", svg.attr("width") - margin.left - margin.right).attr("x", margin.left).attr("y", margin.top).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
   };
   chart.xscale = function() {
     return xscale;
@@ -2612,6 +2371,12 @@ heatmap = function() {
   chart.cellSelect = function() {
     return cellSelect;
   };
+  chart.celltip = function() {
+    return celltip;
+  };
+  chart.svg = function() {
+    return svg;
+  };
   chart.remove = function() {
     svg.remove();
     celltip.destroy();
@@ -2623,7 +2388,7 @@ heatmap = function() {
 var lodchart;
 
 lodchart = function(chartOpts) {
-  var chart, chrSelect, linecolor, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, svg, tipclass, xscale, ylabels, ylim, ylines, yscale;
+  var chart, chrSelect, linecolor, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, svg, tipclass, xscale, ylim, yscale;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -2633,11 +2398,9 @@ lodchart = function(chartOpts) {
   pointsize = (ref3 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref3 : 0;
   pointstroke = (ref4 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref4 : "black";
   ylim = (ref5 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref5 : null;
-  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "pointtip";
+  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip";
   yscale = null;
   xscale = null;
-  ylines = null;
-  ylabels = null;
   chrSelect = null;
   markerSelect = null;
   markertip = null;
@@ -2720,9 +2483,6 @@ lodchart = function(chartOpts) {
     markerSelect = add2chart.markerSelect();
     return markertip = add2chart.markertip();
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.xscale = function() {
     return xscale;
   };
@@ -2737,6 +2497,9 @@ lodchart = function(chartOpts) {
   };
   chart.markertip = function() {
     return markertip;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -2759,7 +2522,7 @@ add_lodcurve = function(chartOpts) {
   pointcolor = (ref3 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref3 : "#e9cfec";
   pointsize = (ref4 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref4 : 0;
   pointstroke = (ref5 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref5 : "black";
-  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "pointtip";
+  tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip";
   markerSelect = null;
   markertip = null;
   chart = function(prevchart, data) {
@@ -3250,12 +3013,12 @@ mapchart = function(chartOpts) {
   horizontal = (ref7 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref7 : false;
   v_over_h = (ref8 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref8 : horizontal;
   shiftStart = (ref9 = chartOpts != null ? chartOpts.shiftStart : void 0) != null ? ref9 : false;
-  tipclass = (ref10 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref10 : "pointtip";
+  tipclass = (ref10 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref10 : "tooltip";
   xscale = null;
   yscale = null;
   markerSelect = null;
-  svg = null;
   martip = null;
+  svg = null;
   chart = function(selection, data) {
     var chr, chrscale, extentByChr, i, j, k, l, len, len1, markerpos, markers, minpos, myframe, n_chr, n_pos, pos, ref11, ref12, these_index, these_pos, x, xlim, xticklab, xticks, ylim;
     n_pos = data.pos.length;
@@ -3446,20 +3209,20 @@ mapchart = function(chartOpts) {
       return martip.hide();
     });
   };
-  chart.yscale = function() {
-    return yscale;
-  };
   chart.xscale = function() {
     return xscale;
+  };
+  chart.yscale = function() {
+    return yscale;
   };
   chart.markerSelect = function() {
     return markerSelect;
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.martip = function() {
     return martip;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
@@ -3489,12 +3252,12 @@ scatterplot = function(chartOpts) {
   pointcolor = (ref4 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref4 : null;
   pointstroke = (ref5 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref5 : "black";
   pointsize = (ref6 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref6 : 3;
-  tipclass = (ref7 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref7 : "pointtip";
-  points = null;
-  svg = null;
-  indtip = null;
+  tipclass = (ref7 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref7 : "tooltip";
   xscale = null;
   yscale = null;
+  points = null;
+  indtip = null;
+  svg = null;
   chart = function(selection, data) {
     var g, group, i, indID, j, myframe, ngroup, pointGroup, ref10, ref8, ref9, results, x, y;
     x = data.x;
@@ -3577,7 +3340,7 @@ scatterplot = function(chartOpts) {
     yscale = myframe.yscale();
     indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
       return indID[i];
-    }).direction('e').offset([0, 10]);
+    }).direction('e').offset([0, 10 + pointsize]);
     svg.call(indtip);
     pointGroup = svg.append("g").attr("id", "points");
     return points = pointGroup.selectAll("empty").data(d3.range(x.length)).enter().append("circle").attr("cx", function(d, i) {
@@ -3595,20 +3358,20 @@ scatterplot = function(chartOpts) {
       return 0;
     }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
   };
-  chart.yscale = function() {
-    return yscale;
-  };
   chart.xscale = function() {
     return xscale;
+  };
+  chart.yscale = function() {
+    return yscale;
   };
   chart.points = function() {
     return points;
   };
-  chart.svg = function() {
-    return svg;
-  };
   chart.indtip = function() {
     return indtip;
+  };
+  chart.svg = function() {
+    return svg;
   };
   chart.remove = function() {
     svg.remove();
