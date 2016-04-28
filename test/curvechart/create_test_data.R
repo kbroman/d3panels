@@ -20,12 +20,14 @@ y <- y + rnorm(prod(dim(y)), 0, 0.35)
 mis <- sample(n, 10)
 for(i in mis)
     y[i,!rbinom(16, 1, 0.8)] <- NA
+y[53,ncol(y)] <- NA
+y[38,ncol(y)+c(-2,-1,0)] <- NA
 
 # group = 1/2 (e.g. sex)
 means <- rowMeans(y, na.rm=TRUE)
 means <- means - min(means)
 group <- rbinom(n, 1, prob=means/max(means))+1
 
-dat <- list(x=times, data=y, group=group)
+dat <- list(x=list(times), y=y, group=group)
 
 cat(jsonlite::toJSON(dat), file="data.json")

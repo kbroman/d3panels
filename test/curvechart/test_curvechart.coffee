@@ -10,26 +10,24 @@ totalw = halfw*2
 
 # Example : simplest use
 d3.json "data.json", (data) ->
-    mychart = curvechart().xlab("Age (weeks)")
-                          .ylab("Body weight")
-                          .height(h)
-                          .width(w)
-                          .margin(margin)
-                          .strokewidthhilit(4)
-                          .commonX(true)
+    mychart = curvechart({
+        xlab:"Age (weeks)"
+        ylab:"Body weight"
+        height:h
+        width:w
+        margin:margin
+        strokewidthhilit:4})
 
-    d3.select("div#chart")
-      .datum(data)
-      .call(mychart)
+    mychart(d3.select("div#chart"), data)
 
     # add indication of individual (initially blank)
-    textbox = d3.select("div#chart svg")
-                   .append("text")
-                   .attr("class", "title")
-                   .text("")
-                   .attr("y", margin.top/2)
-                   .attr("x", margin.left)
-                   .style("text-anchor","start")
+    textbox = mychart.svg()
+                     .append("text")
+                     .attr("class", "title")
+                     .text("")
+                     .attr("y", margin.top/2)
+                     .attr("x", margin.left)
+                     .style("text-anchor","start")
 
     mychart.curvesSelect()
            .on("mouseover.text", (d,i) ->
