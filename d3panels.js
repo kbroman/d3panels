@@ -3400,11 +3400,9 @@ var mapchart;
 
 mapchart = function(chartOpts) {
   var chart, horizontal, linecolor, linecolorhilit, linewidth, markerSelect, martip, ref, ref1, ref10, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, shiftStart, svg, tickwidth, tipclass, v_over_h, xlab, xlineOpts, xscale, ylab, yscale;
-  console.log(chartOpts);
   if (chartOpts == null) {
     chartOpts = {};
   }
-  console.log(chartOpts);
   tickwidth = (ref = chartOpts != null ? chartOpts.tickwidth : void 0) != null ? ref : 10;
   linecolor = (ref1 = chartOpts != null ? chartOpts.linecolor : void 0) != null ? ref1 : "slateblue";
   linecolorhilit = (ref2 = typeof chartopts !== "undefined" && chartopts !== null ? chartopts.linecolorhilit : void 0) != null ? ref2 : "Orchid";

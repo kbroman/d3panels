@@ -35,7 +35,8 @@ mapchart = (chartOpts) ->
             data.chrname = unique(data.chr)
 
         data.adjpos = data.pos.slice(0)
-        if shiftStart # shift positions so that each chromosome starts at 0
+        # shift positions so that each chromosome starts at 0
+        if shiftStart
             for chr in data.chrname
                 these_pos = (data.pos[i] for i of data.pos when data.chr[i] == chr)
                 these_index = (i for i of data.pos when data.chr[i] == chr)
@@ -43,6 +44,8 @@ mapchart = (chartOpts) ->
                 these_pos = (x-minpos for x in these_pos)
                 for j of these_pos
                     data.adjpos[these_index[j]] = these_pos[j]
+        # hereafter: data.adjpos is location to be plotted
+        #            data.pos remains the real position
 
         # find min and max position on each chromosome
         extentByChr = {}
