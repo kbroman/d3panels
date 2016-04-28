@@ -23,3 +23,14 @@ for(i in seq(along=x))
 
 cat(jsonlite::toJSON(list(x=x, y=y, z=z)),
     file="data_unequal.json")
+
+# third data set: correlation matrix
+n <- 30
+p <- 15
+X <-matrix(rnorm(n*p), ncol=p) %*% chol(matrix(0.5, p, p) + diag(rep(0.5, p)))
+X[,1:5] <- -X[,1:5]
+z <- cor(X)
+
+xcat <- paste0("var", 1:p)
+cat(jsonlite::toJSON(list(xcat=xcat, ycat=xcat, z=z)),
+    file="data_categorical.json")

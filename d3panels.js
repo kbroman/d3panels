@@ -2279,7 +2279,41 @@ heatmap = function(chartOpts) {
   celltip = null;
   svg = null;
   chart = function(selection, data) {
-    var cell, cellrect, cells, i, j, k, len, myframe, nx, ny, xLR, yLR, zmax, zmin;
+    var cell, cellrect, cells, i, j, k, len, myframe, nx, ny, ref10, ref11, xLR, xlabels, yLR, ylabels, zmax, zmin;
+    if (data.xcat != null) {
+      data.x = (function() {
+        var results;
+        results = [];
+        for (i in data.xcat) {
+          results.push(+i);
+        }
+        return results;
+      })();
+      xlim = xlim != null ? xlim : [-0.5, data.x.length - 0.5];
+      chartOpts.xticks = data.x;
+      chartOpts.xlineOpts = {
+        color: "none",
+        width: 0
+      };
+      chartOpts.xlab = (ref10 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref10 : "";
+    }
+    if (data.ycat != null) {
+      data.y = (function() {
+        var results;
+        results = [];
+        for (i in data.ycat) {
+          results.push(+i);
+        }
+        return results;
+      })();
+      ylim = ylim != null ? ylim : [-0.5, data.x.length - 0.5];
+      chartOpts.yticks = data.y;
+      chartOpts.ylineOpts = {
+        color: "none",
+        width: 0
+      };
+      chartOpts.ylab = (ref11 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref11 : "";
+    }
     nx = data.x.length;
     ny = data.y.length;
     if (data.z.length !== nx) {
@@ -2349,11 +2383,22 @@ heatmap = function(chartOpts) {
     svg = myframe.svg();
     xscale = myframe.xscale();
     yscale = myframe.yscale();
+    xlabels = myframe.xlabels();
+    ylabels = myframe.ylabels();
     celltip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
       var x, y, z;
       x = formatAxis(data.x)(d.x);
       y = formatAxis(data.y)(d.y);
       z = formatAxis([0, zmax / 100])(d.z);
+      if ((data.xcat != null) && (data.ycat != null)) {
+        return "" + z;
+      }
+      if (data.xcat != null) {
+        return "(" + y + ") &rarr; " + z;
+      }
+      if (data.ycat != null) {
+        return "(" + x + ") &rarr; " + z;
+      }
       return "(" + x + ", " + y + ") &rarr; " + z;
     }).direction('e').offset([0, 10]);
     svg.call(celltip);
@@ -2376,12 +2421,60 @@ heatmap = function(chartOpts) {
       }
     }).attr("stroke", "none").attr("stroke-width", "1").attr("shape-rendering", "crispEdges").on("mouseover.paneltip", function(d) {
       d3.select(this).attr("stroke", "black").moveToFront();
-      return celltip.show(d);
+      celltip.show(d);
+      if (data.xcat != null) {
+        xlabels.attr("opacity", function(dlab) {
+          if (d.x !== +dlab) {
+            return 0;
+          }
+          return 1;
+        });
+      }
+      if (data.ycat != null) {
+        return ylabels.attr("opacity", function(dlab) {
+          if (d.y !== +dlab) {
+            return 0;
+          }
+          return 1;
+        });
+      }
     }).on("mouseout.paneltip", function() {
       d3.select(this).attr("stroke", "none");
-      return celltip.hide();
+      celltip.hide();
+      if (data.xcat != null) {
+        xlabels.attr("opacity", 0);
+      }
+      if (data.xcat != null) {
+        return ylabels.attr("opacity", 0);
+      }
     });
-    return svg.append("rect").attr("height", svg.attr("height") - margin.top - margin.bottom).attr("width", svg.attr("width") - margin.left - margin.right).attr("x", margin.left).attr("y", margin.top).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
+    svg.append("rect").attr("height", svg.attr("height") - margin.top - margin.bottom).attr("width", svg.attr("width") - margin.left - margin.right).attr("x", margin.left).attr("y", margin.top).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
+    if (data.xcat != null) {
+      xlabels.text(function(d, i) {
+        if (!i) {
+          return "";
+        }
+        return data.xcat[i - 1];
+      }).attr("opacity", 0).attr("id", function(d, i) {
+        if (!i) {
+          return "";
+        }
+        return "xlab" + data.x[i - 1];
+      });
+    }
+    if (data.ycat != null) {
+      return ylabels.text(function(d, i) {
+        if (!i) {
+          return "";
+        }
+        return data.ycat[i - 1];
+      }).attr("opacity", 0).attr("id", function(d, i) {
+        if (!i) {
+          return "";
+        }
+        return "ylab" + data.y[i - 1];
+      });
+    }
   };
   chart.xscale = function() {
     return xscale;

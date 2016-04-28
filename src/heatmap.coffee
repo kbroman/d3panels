@@ -23,7 +23,23 @@ heatmap = (chartOpts) ->
     svg = null
 
     ## the main function
-    chart = (selection, data) -> # data = {x, y, z}
+    chart = (selection, data) -> # {x, y, z}  # z should be a double-indexed square matrix, z[xval][yval]
+                                 #   optionally, include xcat and ycat in place of x and y
+                                 #       then: categorial scales on x and y axis
+
+        # xcat and ycat included?
+        if data.xcat?
+            data.x = (+i for i of data.xcat)
+            xlim = xlim ? [-0.5, data.x.length-0.5]
+            chartOpts.xticks = data.x
+            chartOpts.xlineOpts = {color:"none",width:0}
+            chartOpts.xlab = chartOpts?.xlab ? ""
+        if data.ycat?
+            data.y = (+i for i of data.ycat)
+            ylim = ylim ? [-0.5, data.x.length-0.5]
+            chartOpts.yticks = data.y
+            chartOpts.ylineOpts = {color:"none",width:0}
+            chartOpts.ylab = chartOpts?.ylab ? ""
 
         # check input sizes
         nx = data.x.length
@@ -88,12 +104,19 @@ heatmap = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
+        # x- and y-axis labels
+        xlabels = myframe.xlabels()
+        ylabels = myframe.ylabels()
+
         celltip = d3.tip()
                     .attr('class', "d3-tip #{tipclass}")
                     .html((d) ->
                             x = formatAxis(data.x)(d.x)
                             y = formatAxis(data.y)(d.y)
                             z = formatAxis([0, zmax/100])(d.z)
+                            return "#{z}" if data.xcat? and data.ycat?
+                            return "(#{y}) &rarr; #{z}" if data.xcat?
+                            return "(#{x}) &rarr; #{z}" if data.ycat?
                             "(#{x}, #{y}) &rarr; #{z}")
                     .direction('e')
                     .offset([0,10])
@@ -116,10 +139,22 @@ heatmap = (chartOpts) ->
                     .attr("shape-rendering", "crispEdges")
                     .on("mouseover.paneltip", (d) ->
                                                   d3.select(this).attr("stroke", "black").moveToFront()
-                                                  celltip.show(d))
+                                                  celltip.show(d)
+                                                  if data.xcat?
+                                                      xlabels.attr("opacity", (dlab) ->
+                                                          return 0 unless d.x == +dlab
+                                                          1)
+                                                  if data.ycat?
+                                                      ylabels.attr("opacity", (dlab) ->
+                                                          return 0 unless d.y == +dlab
+                                                          1))
                     .on("mouseout.paneltip", () ->
                                                   d3.select(this).attr("stroke", "none")
-                                                  celltip.hide())
+                                                  celltip.hide()
+                                                  if data.xcat?
+                                                      xlabels.attr("opacity", 0)
+                                                  if data.xcat?
+                                                      ylabels.attr("opacity", 0))
 
         # add box again
         svg.append("rect")
@@ -132,6 +167,24 @@ heatmap = (chartOpts) ->
            .attr("stroke-width", boxwidth)
            .attr("shape-rendering", "crispEdges")
            .style("pointer-events", "none")
+
+        # handle categorical scales
+        if data.xcat?
+            xlabels.text((d,i) ->
+                           return "" unless i
+                           data.xcat[i-1])
+                   .attr("opacity", 0)
+                   .attr("id", (d,i) ->
+                           return "" unless i
+                           "xlab#{data.x[i-1]}")
+        if data.ycat?
+            ylabels.text((d,i) ->
+                           return "" unless i
+                           data.ycat[i-1])
+                   .attr("opacity", 0)
+                   .attr("id", (d,i) ->
+                           return "" unless i
+                           "ylab#{data.y[i-1]}")
 
     # functions to grab stuff
     chart.xscale = () -> xscale
