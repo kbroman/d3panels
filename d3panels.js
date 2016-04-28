@@ -1529,7 +1529,17 @@ cichart = function(chartOpts) {
       index = i % mean.length;
       f = formatAxis([low[index], mean[index]], 1);
       return (f(mean[index])) + " (" + (f(low[index])) + " - " + (f(high[index])) + ")";
-    }).direction('e').offset([0, 10]);
+    }).direction(function() {
+      if (horizontal) {
+        return 'n';
+      }
+      return 'e';
+    }).offset(function() {
+      if (horizontal) {
+        return [-10, 0];
+      }
+      return [0, 10];
+    });
     svg.call(tip);
     segmentGroup = svg.append("g").attr("id", "segments");
     segments = segmentGroup.selectAll("empty").data(low).enter().append("line").attr("x1", function(d, i) {

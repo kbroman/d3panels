@@ -89,8 +89,12 @@ cichart = (chartOpts) ->
                       index = i % mean.length
                       f = formatAxis([low[index],mean[index]], 1)
                       "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})")
-                .direction('e')
-                .offset([0,10])
+                .direction(() ->
+                    return 'n' if horizontal
+                    'e')
+                .offset(() ->
+                    return [-10,0] if horizontal
+                    [0,10])
         svg.call(tip)
 
         segmentGroup = svg.append("g").attr("id", "segments")
