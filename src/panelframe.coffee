@@ -133,8 +133,8 @@ panelframe = (chartOpts) ->
             displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
         unless xticklab? and xticklab.length == xticks.length
             xticklab = (formatAxis(xticks)(d) for d in xticks)
-        xticks = [null].concat(xticks)
-        xticklab = ["NA"].concat(xticklab)
+        xticks = [null].concat(xticks) if xNA
+        xticklab = ["NA"].concat(xticklab) if xNA
 
         # add Y axis values + ylines
         # if yticks not provided, use nyticks to choose pretty ones
@@ -143,8 +143,8 @@ panelframe = (chartOpts) ->
             displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
         unless yticklab? and yticklab.length == yticks.length
             yticklab = (formatAxis(yticks)(d) for d in yticks)
-        yticks = [null].concat(yticks)
-        yticklab = ["NA"].concat(yticklab)
+        yticks = [null].concat(yticks) if yNA
+        yticklab = ["NA"].concat(yticklab) if yNA
 
         # do ylines first
         ylines = yaxis.append("g").attr("id", "ylines")
