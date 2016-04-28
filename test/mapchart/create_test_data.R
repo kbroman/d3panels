@@ -1,7 +1,6 @@
 # create test data in JSON format
 
 library(qtl)
-library(qtlcharts)
 data(hyper)
 map <- pull.map(hyper)
 
