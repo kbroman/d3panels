@@ -10,12 +10,10 @@ lodchart = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
     ylim = chartOpts?.ylim ? null # y-axis limits; if null, use range of data
-    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     yscale = null
     xscale = null
-    ylines = null
-    ylabels = null
     chrSelect = null
     markerSelect = null
     markertip = null
@@ -81,12 +79,12 @@ lodchart = (chartOpts) ->
         markertip = add2chart.markertip()
 
     # functions to grab stuff
-    chart.svg = () -> svg
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
     chart.chrSelect = () -> chrSelect
     chart.markerSelect = () -> markerSelect
     chart.markertip = () -> markertip
+    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->

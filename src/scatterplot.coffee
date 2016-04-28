@@ -11,13 +11,13 @@ scatterplot = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? null      # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3 # color of points
-    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
-    points = null
-    svg = null
-    indtip = null
     xscale = null
     yscale = null
+    points = null
+    indtip = null
+    svg = null
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID, group}
@@ -106,11 +106,11 @@ scatterplot = (chartOpts) ->
                   .on("mouseout.paneltip", indtip.hide)
 
     # functions to grab stuff
-    chart.yscale = () -> yscale
     chart.xscale = () -> xscale
+    chart.yscale = () -> yscale
     chart.points = () -> points
-    chart.svg = () -> svg
     chart.indtip = () -> indtip
+    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->

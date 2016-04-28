@@ -16,15 +16,15 @@ dotchart = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? "slateblue" # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3 # color of points
-    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
     # chartOpts end
     xscale = null
     yscale = null
     points = null
-    svg = null
     indtip = null
+    svg = null
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values
@@ -155,11 +155,11 @@ dotchart = (chartOpts) ->
                   .on("mouseout.paneltip", indtip.hide)
 
     # functions to grab stuff
-    chart.yscale = () -> yscale
     chart.xscale = () -> xscale
+    chart.yscale = () -> yscale
     chart.points = () -> points
-    chart.svg = () -> svg
     chart.indtip = () -> indtip
+    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->

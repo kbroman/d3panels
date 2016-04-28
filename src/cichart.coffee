@@ -15,13 +15,13 @@ cichart = (chartOpts) ->
     xlineOpts = chartOpts?.xlineOpts ? {color:"#CDCDCD", width:5} # color and width of vertical lines
     horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
-    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
     yscale = null
     segments = null
-    svg = null
     tip = null
+    svg = null
 
     ## the main function
     chart = (selection, data) ->  # {mean, low, high} each vectors
@@ -166,8 +166,8 @@ cichart = (chartOpts) ->
     chart.yscale = () -> yscale
     chart.xscale = () -> xscale
     chart.segments = () -> segments
-    chart.svg = () -> svg
     chart.tip = () -> tip
+    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->

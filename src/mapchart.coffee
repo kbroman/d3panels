@@ -14,13 +14,13 @@ mapchart = (chartOpts) ->
     horizontal = chartOpts?.horizontal ? false # whether chromosomes should be laid at horizontally
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
     shiftStart = chartOpts?.shiftStart ? false  # if true, shift start of chromosomes to 0
-    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
     yscale = null
     markerSelect = null
-    svg = null
     martip = null
+    svg = null
 
     ## the main function
     chart = (selection, data) -> # {chr, pos, marker, (optionally) chrname}
@@ -171,11 +171,11 @@ mapchart = (chartOpts) ->
                                                  martip.hide()
 
     # functions to grab stuff
-    chart.yscale = () -> yscale
     chart.xscale = () -> xscale
+    chart.yscale = () -> yscale
     chart.markerSelect = () -> markerSelect
-    chart.svg = () -> svg
     chart.martip = () -> martip
+    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->

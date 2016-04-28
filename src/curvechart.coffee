@@ -10,13 +10,13 @@ curvechart = (chartOpts) ->
     strokecolorhilit = chartOpts?.strokecolorhilit ? null # color of highlighted curve (if null, use dark colors by group)
     strokewidth = chartOpts?.strokewidth ? 2           # width of curve
     strokewidthhilit = chartOpts?.strokewidthhilit ? 2 # width of highlighted curve
-    tipclass = chartOpts?.tipclass ? "curvetip"
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
     yscale = null
     curvesSelect = null
-    svg = null
     indtip = null
+    svg = null
 
     ## the main function
     chart = (selection, data) -> # {x, y, indID, group}
@@ -143,11 +143,11 @@ curvechart = (chartOpts) ->
                             .attr("opacity", 0)
 
     # functions to grab stuff
-    chart.yscale = () -> yscale
     chart.xscale = () -> xscale
+    chart.yscale = () -> yscale
     chart.curvesSelect = () -> curvesSelect
-    chart.svg = () -> svg
     chart.indtip = () -> indtip
+    chart.svg = () -> svg
 
     # function to remove chart
     chart.remove = () ->

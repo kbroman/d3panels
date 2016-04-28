@@ -10,7 +10,7 @@ add_lodcurve = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? "#e9cfec"     # color of points at markers
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
-    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     markerSelect = null
     markertip = null
