@@ -14,3 +14,9 @@ d3.json "data.json", (data) ->
     mychart = mapchart({title:"Shifted start", shiftStart:true})
 
     mychart(d3.select("div#chart3"), data)
+
+d3.json "data.json", (data) ->
+    mychart = mapchart({title:"Backwards order"})
+
+    data.chrname = unique(data.chr).reverse()
+    mychart(d3.select("div#chart4"), data)
