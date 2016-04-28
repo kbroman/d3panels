@@ -1,6 +1,8 @@
 # cichart: reuseable CI chart (plot of estimates and confidence intervals for a set of categories)
 
 cichart = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
+
     # chartOpts start
     xcatlabels = chartOpts?.xcatlabels ? null # category labels
     segwidth = chartOpts?.segwidth ? 0.4 # segment width as proportion of distance between categories

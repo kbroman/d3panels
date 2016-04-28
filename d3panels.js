@@ -1052,6 +1052,9 @@ var panelframe;
 
 panelframe = function(chartOpts) {
   var axispos, boxcolor, boxwidth, chart, height, margin, nxticks, nyticks, plot_height, plot_width, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, width, xNA, xNA_size, xlab, xlabels, xlim, xlineOpts, xlines, xscale, xscale_wnull, xticklab, xticks, yNA, yNA_size, ylab, ylabels, ylim, ylineOpts, ylines, yscale, yscale_wnull, yticklab, yticks;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 800;
   height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 500;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
@@ -1298,6 +1301,9 @@ var lodpanelframe;
 
 lodpanelframe = function(chartOpts) {
   var altrectcolor, axispos, boxcolor, boxwidth, chart, chrSelect, gap, height, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, ylineOpts, yscale, yticklab, yticks;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 800;
   height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 500;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
@@ -1439,6 +1445,9 @@ var cichart;
 
 cichart = function(chartOpts) {
   var chart, horizontal, ref, ref1, ref10, ref11, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, segcolor, segments, segstrokewidth, segwidth, svg, tip, tipclass, v_over_h, vertsegcolor, xcatlabels, xlab, xlineOpts, xscale, ylab, ylim, yscale;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   xcatlabels = (ref = chartOpts != null ? chartOpts.xcatlabels : void 0) != null ? ref : null;
   segwidth = (ref1 = chartOpts != null ? chartOpts.segwidth : void 0) != null ? ref1 : 0.4;
   segcolor = (ref2 = chartOpts != null ? chartOpts.segcolor : void 0) != null ? ref2 : "slateblue";
@@ -1622,6 +1631,9 @@ var crosstab;
 
 crosstab = function(chartOpts) {
   var bordercolor, cellPad, chart, fontsize, height, hilitcolor, margin, rectcolor, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, title, titlepos, width;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 600;
   height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 300;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
@@ -1803,7 +1815,10 @@ crosstab = function(chartOpts) {
 var curvechart;
 
 curvechart = function() {
-  var axispos, chart, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
+  var axispos, chart, chartOpts, commonX, curvesSelect, height, indtip, margin, nxticks, nyticks, rectcolor, rotate_ylab, strokecolor, strokecolorhilit, strokewidth, strokewidthhilit, svg, tipclass, title, titlepos, width, xlab, xlim, xscale, xticks, ylab, ylim, yscale, yticks;
+  if (typeof chartOpts === "undefined" || chartOpts === null) {
+    chartOpts = {};
+  }
   width = 800;
   height = 500;
   margin = {
@@ -2203,6 +2218,9 @@ var dotchart,
 
 dotchart = function(chartOpts) {
   var chart, horizontal, indtip, pointcolor, points, pointsize, pointstroke, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, tipclass, v_over_h, xNA, xcategories, xcatlabels, xjitter, xlab, xlineOpts, xscale, yNA, ylab, ylim, yscale;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   xcategories = (ref = chartOpts != null ? chartOpts.xcategories : void 0) != null ? ref : null;
   xcatlabels = (ref1 = chartOpts != null ? chartOpts.xcatlabels : void 0) != null ? ref1 : null;
   xjitter = (ref2 = chartOpts != null ? chartOpts.xjitter : void 0) != null ? ref2 : "random";
@@ -2796,6 +2814,9 @@ var lodchart;
 
 lodchart = function(chartOpts) {
   var chart, chrSelect, linecolor, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, svg, tipclass, xscale, ylabels, ylim, ylines, yscale;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   linecolor = (ref = chartOpts != null ? chartOpts.linecolor : void 0) != null ? ref : "darkslateblue";
   linewidth = (ref1 = chartOpts != null ? chartOpts.linewidth : void 0) != null ? ref1 : 2;
   pointcolor = (ref2 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref2 : "#e9cfec";
@@ -2919,6 +2940,9 @@ var add_lodcurve;
 
 add_lodcurve = function(chartOpts) {
   var chart, linecolor, linedash, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, tipclass;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   linecolor = (ref = chartOpts != null ? chartOpts.linecolor : void 0) != null ? ref : "darkslateblue";
   linewidth = (ref1 = chartOpts != null ? chartOpts.linewidth : void 0) != null ? ref1 : 2;
   linedash = (ref2 = chartOpts != null ? chartOpts.linedash : void 0) != null ? ref2 : "";
@@ -3629,6 +3653,9 @@ var scatterplot;
 
 scatterplot = function(chartOpts) {
   var chart, indtip, pointcolor, points, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, svg, tipclass, xNA, xlim, xscale, yNA, ylim, yscale;
+  if (chartOpts == null) {
+    chartOpts = {};
+  }
   xNA = (ref = chartOpts != null ? chartOpts.xNA : void 0) != null ? ref : {
     handle: true,
     force: false

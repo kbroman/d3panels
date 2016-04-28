@@ -1,6 +1,7 @@
 # scatterplot: reuseable scatterplot
 
 scatterplot = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data

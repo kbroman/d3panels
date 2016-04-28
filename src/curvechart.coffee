@@ -1,6 +1,8 @@
 # curvechart: reuseable chart with many curves
 
 curvechart = () ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
+
     width = 800
     height = 500
     margin = {left:60, top:40, right:40, bottom: 40, inner:5}

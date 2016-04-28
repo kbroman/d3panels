@@ -1,7 +1,7 @@
 # mapchart: reuseable marker map plot
 
 mapchart = (chartOpts) ->
-    chartOpts = {} unless chartOpts?
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     tickwidth = chartOpts?.tickwidth ? 10                 # width of ticks at markers

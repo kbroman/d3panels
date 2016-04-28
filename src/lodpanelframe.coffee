@@ -1,6 +1,7 @@
 # lodpanelframe: create a frame for a lod curve plot (rectangle + axes + labels)
 
 lodpanelframe = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     width = chartOpts?.width ? 800 # overall height of chart in pixels

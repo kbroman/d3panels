@@ -1,6 +1,7 @@
 # dotchart: reuseable dot plot (like a scatter plot where one dimension is categorical)
 
 dotchart = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     xcategories = chartOpts?.xcategories ? null # group categories

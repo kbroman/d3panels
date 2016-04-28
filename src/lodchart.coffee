@@ -1,6 +1,7 @@
 # lodchart: reuseable LOD score chart
 
 lodchart = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     linecolor = chartOpts?.linecolor ? "darkslateblue" # color for LOD curves

@@ -1,6 +1,7 @@
 # add_lodcurve: add lod curve to a lodchart() chart
 
 add_lodcurve = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     linecolor = chartOpts?.linecolor ? "darkslateblue" # color for LOD curves

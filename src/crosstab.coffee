@@ -1,6 +1,7 @@
 # crosstab: reusable chart (a table, really) for displaying a cross-tabulation
 
 crosstab = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     width = chartOpts?.width ? 600 # overall width of chart in pixels

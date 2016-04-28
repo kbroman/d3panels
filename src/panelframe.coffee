@@ -1,6 +1,7 @@
 # panelframe: create a frame for a plot (rectangle + axes + labels)
 
 panelframe = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
     width = chartOpts?.width ? 800 # overall width of chart in pixels
