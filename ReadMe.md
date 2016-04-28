@@ -15,6 +15,25 @@ rather more specific to my particular applications (and style).
 
 For snapshots and live tests, see <http://kbroman.org/d3panels>.
 
+I'm in the process of completely re-writing the library so that it
+will be simpler to use, maintain, and extend.
+
+#### Usage
+
+For each chart, you first call the chart function with a set of
+options, like this:
+
+```coffeescript
+mychart = lodchart({height:600, width:800, ylab="LOD score"})
+```
+
+Then you call the function that's created with some selection and the
+data:
+
+```coffeescript
+mychart(d3.select("div#chart"), mydata)
+```
+
 
 #### License
 
