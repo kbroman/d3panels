@@ -8,7 +8,8 @@ margin = {left:60, top:40, right:40, bottom: 40, inner:5}
 d3.json "data.json", (data) ->
     mychart = lodchart({height:h, width:w, margin:margin})
 
-    mychart(d3.select("div#chart1"), {chr:data.chr,pos:data.pos,lod:data["lod.em"],marker:data.markernames})
+    data.lod = data.lod_em
+    mychart(d3.select("div#chart1"), data)
 
     # grab chromosome rectangles; color pink on hover
     chrrect = mychart.chrSelect()
@@ -59,8 +60,10 @@ d3.json "data.json", (data) ->
     chart2b = svg.append("g").attr("id", "chart2b")
                 .attr("transform", "translate(0, #{h*0.7})")
 
-    mychart_em(chart2a, {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
-    mychart_hk(chart2b, {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
+    data.lod = data.lod_em
+    mychart_em(chart2a, data)
+    data.lod = data.lod_hk
+    mychart_hk(chart2b, data)
 
 # two curves on one chart
 d3.json "data.json", (data) ->
@@ -73,7 +76,9 @@ d3.json "data.json", (data) ->
 
     svg = d3.select("div#chart3")
 
-    mychart(d3.select("div#chart3"), {chr:data.chr, pos:data.pos, lod:data["lod.em"],marker:data.markernames})
+    data.lod = data.lod_em
+    mychart(d3.select("div#chart3"), data)
 
+    data2 = {chr:data.chr, pos:data.pos, lod:data.lod_hk, marker:data.marker}
     addtochart = add_lodcurve({linecolor:"Crimson", pointcolor:"slateblue", linedash:"4,4"})
-    addtochart(mychart, {chr:data.chr, pos:data.pos, lod:data["lod.hk"],marker:data.markernames})
+    addtochart(mychart, data2)

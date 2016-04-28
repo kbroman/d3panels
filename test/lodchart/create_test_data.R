@@ -1,11 +1,19 @@
 # create test data in JSON format
 
 library(qtl)
-library(qtlcharts)
 data(hyper)
 hyper <- calc.genoprob(hyper, step=1)
-out.em <- scanone(hyper, chr=1:6)
-out.hk <- scanone(hyper, chr=1:6, method="hk")
-out <- cbind(out.em, out.hk, labels=c("em", "hk"))
+out.em <- scanone(hyper, chr=c(1:6,"X"))
+out.hk <- scanone(hyper, chr=c(1:6,"X"), method="hk")
 
-cat(jsonlite::toJSON(qtlcharts:::convert_scanone(out)), file="data.json")
+marker <- rownames(out.em)
+# clear the pseudomarker names
+marker[grep("^c[0-9X]+\\.loc[0-9\\.]+$", marker)] <- ""
+
+data <- list(chr = out.em[,1],
+             pos = out.em[,2],
+             lod_em = out.em[,3],
+             lod_hk = out.hk[,3],
+             marker = marker)
+
+cat(jsonlite::toJSON(data), file="data.json")
