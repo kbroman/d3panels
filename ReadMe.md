@@ -50,6 +50,13 @@ You'll also want to link to [D3.js](https://d3js.org) and
 <script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
 ```
 
+For a couple of panels (`curvechart` and `scatterplot`) you may need
+to link to [colorbrewer.js](https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js):
+
+```html
+<script type="text/javascript" src="https://rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.js"></script>
+```
+
 #### License
 
 Licensed under the
