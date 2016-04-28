@@ -120,6 +120,7 @@ mapchart = (chartOpts) ->
            .attr("fill", "none")
            .attr("stroke", linecolor)
            .attr("stroke-width", linewidth)
+           .attr("shape-rendering", "crispEdges")
            .style("pointer-events", "none")
 
 
@@ -131,8 +132,12 @@ mapchart = (chartOpts) ->
         martip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d) -> "#{d} (#{markerpos[d]})")
-                   .direction('e')
-                   .offset([0,10])
+                   .direction(() ->
+                       return 'n' if horizontal
+                       'e')
+                   .offset(() ->
+                       return [-10,0] if horizontal
+                       [0,10])
         svg.call(martip)
 
         markers = svg.append("g").attr("id", "points")
@@ -157,6 +162,7 @@ mapchart = (chartOpts) ->
                    .attr("fill", "none")
                    .attr("stroke", linecolor)
                    .attr("stroke-width", linewidth)
+                   .attr("shape-rendering", "crispEdges")
                    .on "mouseover.paneltip", (d) ->
                                                  d3.select(this).attr("stroke", linecolorhilit)
                                                  martip.show(d)

@@ -3586,14 +3586,24 @@ mapchart = function(chartOpts) {
         return chrscale(d);
       }
       return yscale(extentByChr[d][1]);
-    }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).style("pointer-events", "none");
+    }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
     markerpos = {};
     for (i in data.marker) {
       markerpos[data.marker[i]] = d3.format(".1f")(data.pos[i]);
     }
     martip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
       return d + " (" + markerpos[d] + ")";
-    }).direction('e').offset([0, 10]);
+    }).direction(function() {
+      if (horizontal) {
+        return 'n';
+      }
+      return 'e';
+    }).offset(function() {
+      if (horizontal) {
+        return [-10, 0];
+      }
+      return [0, 10];
+    });
     svg.call(martip);
     markers = svg.append("g").attr("id", "points");
     return markerSelect = markers.selectAll("empty").data(data.marker).enter().append("line").attr("x1", function(d, i) {
@@ -3618,7 +3628,7 @@ mapchart = function(chartOpts) {
       return yscale(data.adjpos[i]);
     }).attr("id", function(d) {
       return d;
-    }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).on("mouseover.paneltip", function(d) {
+    }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).attr("shape-rendering", "crispEdges").on("mouseover.paneltip", function(d) {
       d3.select(this).attr("stroke", linecolorhilit);
       return martip.show(d);
     }).on("mouseout.paneltip", function() {
