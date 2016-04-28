@@ -1,297 +1,174 @@
 # mapchart: reuseable marker map plot
 
-mapchart = () ->
-    width = 1000
-    height = 600
-    margin = {left:60, top:40, right:40, bottom: 40, inner:10}
-    axispos = {xtitle:25, ytitle:30, xlabel:5, ylabel:5}
-    titlepos = 20
-    ylim = null
-    nyticks = 5
-    yticks = null
-    tickwidth = 10
-    rectcolor = "#e6e6e6"
-    linecolor = "slateblue"
-    linecolorhilit = "Orchid"
-    linewidth = 3
-    title = ""
-    xlab = "Chromosome"
-    ylab = "Position (cM)"
-    rotate_ylab = null
-    xscale = d3.scale.ordinal()
-    yscale = d3.scale.linear()
+mapchart = (chartOpts) ->
+    chartOpts = {} unless chartOpts?
+
+    # chartOpts start
+    tickwidth = chartOpts?.tickwidth ? 10                 # width of ticks at markers
+    linecolor = chartOpts?.linecolor ? "slateblue"        # line color
+    linecolorhilit = chartopts?.linecolorhilit ? "Orchid" # line color when highlighted
+    linewidth = chartOpts?.linewidth ? 3                  # line width (pixels)
+    xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
+    ylab = chartOpts?.ylab ? "Position (cM)" # y-axis label
+    xlineOpts = chartOpts?.xlineOpts ? {color:"#cdcdcd", width:5} # color and width of vertical lines
+    horizontal = chartOpts?.horizontal ? false # whether chromosomes should be laid at horizontally
+    v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
+    shiftStart = chartOpts?.shiftStart ? false  # if true, shift start of chromosomes to 0
+    tipclass = chartOpts?.tipclass ? "pointtip" # class name for tool tips
+    # chartOpts end
+    xscale = null
+    yscale = null
     markerSelect = null
     svg = null
     martip = null
-    tipclass = ""
 
     ## the main function
-    chart = (selection) ->
-        selection.each (data) ->
+    chart = (selection, data) -> # {chr, pos, marker, (optionally) chrname}
 
-            # check that the elements in data.chr are all in data.map
-            if sumArray(!(data.map[chr]?) for chr in data.chr) > 0
-                displayError("Some chr in data.chr not in data.map")
-            if sumArray(!(data.chr?) for chr of data.map) > 0
-                displayError("Some chr in data.map not in data.chr")
+        n_pos = data.pos.length
+        if(data.chr.length != n_pos)
+            displayError("data.chr.length (#{data.chr.length}) != data.pos.length (#{n_pos})")
+        if(data.marker.length != n_pos)
+            displayError("data.marker.length (#{data.marker.length}) != data.pos.length (#{n_pos})")
 
-            # find min and max position on each chromosome
-            yextentByChr = {}
-            for chr in data.chr
-                pos = (data.map[chr][marker] for marker of data.map[chr])
-                yextentByChr[chr] = d3.extent(pos)
-            ymin = (yextentByChr[chr][0] for chr in data.chr)
-            ymax = (yextentByChr[chr][1] for chr in data.chr)
+        unless data.chrname?
+            data.chrname = unique(data.chr)
 
-            ylim = ylim ? d3.extent(ymin.concat ymax)
+        data.adjpos = data.pos.slice(0)
+        if shiftStart # shift positions so that each chromosome starts at 0
+            for chr in data.chrname
+                these_pos = (data.pos[i] for i of data.pos when data.chr[i] == chr)
+                these_index = (i for i of data.pos when data.chr[i] == chr)
+                minpos = d3.min(these_pos)
+                these_pos = (x-minpos for x in these_pos)
+                for j of these_pos
+                    data.adjpos[these_index[j]] = these_pos[j]
 
-            # Select the svg element, if it exists.
-            svg = d3.select(this).selectAll("svg").data([data])
+        # find min and max position on each chromosome
+        extentByChr = {}
+        for chr in data.chrname
+            pos = (data.adjpos[i] for i of data.adjpos when data.chr[i] == chr)
+            extentByChr[chr] = d3.extent(pos)
 
-            # Otherwise, create the skeletal chart.
-            gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g")
+        ylim = ylim ? d3.extent(data.adjpos)
+        n_chr = data.chrname.length
+        xlim = [0.5, n_chr+0.5]
+        xticks = (i+1 for i in d3.range(n_chr))
+        xticklab = data.chrname
 
-            # Update the outer dimensions.
-            svg.attr("width", width+margin.left+margin.right)
-               .attr("height", height+margin.top+margin.bottom)
+        chartOpts.xNA = false
+        chartOpts.yNA = false
+        if horizontal
+            chartOpts.xlim = ylim
+            chartOpts.ylim = xlim.reverse()
+            chartOpts.xlineOpts = chartOpts.ylineOpts
+            chartOpts.ylineOpts = xlineOpts
+            chartOpts.xlab = ylab
+            chartOpts.ylab = xlab
+            chartOpts.xticks = chartOpts.yticks
+            chartOpts.yticks = xticks
+            chartOpts.nxticks = chartOpts.nyticks
+            chartOpts.xticklab = chartOpts.yticklab
+            chartOpts.yticklab = xticklab
+            chartOpts.v_over_h = v_over_h
+        else
+            chartOpts.xlim = xlim
+            chartOpts.ylim = ylim.reverse()
+            chartOpts.xlineOpts = xlineOpts
+            chartOpts.xlab = xlab
+            chartOpts.ylab = ylab
+            chartOpts.xticks = xticks
+            chartOpts.xticklab = xticklab
+            chartOpts.v_over_h = v_over_h
 
-            g = svg.select("g")
+        # set up frame
+        myframe = panelframe(chartOpts)
 
-            # box
-            g.append("rect")
-             .attr("x", margin.left)
-             .attr("y", margin.top)
-             .attr("height", height)
-             .attr("width", width)
-             .attr("fill", rectcolor)
-             .attr("stroke", "none")
+        # Create SVG
+        myframe(selection)
+        svg = myframe.svg()
 
-            # simple scales (ignore NA business)
-            xrange = [margin.left + margin.inner, margin.left + width - margin.inner]
-            xscale.domain(data.chr).rangePoints(xrange, 1)
+        # grab scale functions
+        xscale = myframe.xscale()
+        yscale = myframe.yscale()
 
-            yrange = [margin.top + margin.inner, margin.top + height - margin.inner]
-            yscale.domain(ylim).range(yrange)
+        chrscale = (chr) ->
+            chrpos = data.chrname.indexOf(chr) + 1
+            return xscale(chrpos) unless horizontal
+            yscale(chrpos)
 
-            # if yticks not provided, use nyticks to choose pretty ones
-            yticks = yticks ? yscale.ticks(nyticks)
+        # vertical lines for each chromosome
+        svg.append("g").attr("id", "chromosomes").selectAll("empty")
+           .data(data.chrname)
+           .enter()
+           .append("line")
+           .attr("x1", (d) ->
+               return xscale(extentByChr[d][0]) if horizontal
+               chrscale(d))
+           .attr("x2", (d) ->
+               return xscale(extentByChr[d][1]) if horizontal
+               chrscale(d))
+           .attr("y1", (d) ->
+               return chrscale(d) if horizontal
+               yscale(extentByChr[d][0]))
+           .attr("y2", (d) ->
+               return chrscale(d) if horizontal
+               yscale(extentByChr[d][1]))
+           .attr("fill", "none")
+           .attr("stroke", linecolor)
+           .attr("stroke-width", linewidth)
+           .style("pointer-events", "none")
 
-            # title
-            titlegrp = g.append("g").attr("class", "title")
-                        .append("text")
-                        .attr("x", margin.left + width/2)
-                        .attr("y", margin.top - titlepos)
-                        .text(title)
 
-            # x-axis
-            xaxis = g.append("g").attr("class", "x axis")
-            xaxis.selectAll("empty")
-                 .data(data.chr)
-                 .enter()
-                 .append("line")
-                 .attr("x1", (d) -> xscale(d))
-                 .attr("x2", (d) -> xscale(d))
-                 .attr("y1", margin.top)
-                 .attr("y2", margin.top+height)
-                 .attr("class", "x axis grid")
-            xaxis.selectAll("empty")
-                 .data(data.chr)
-                 .enter()
-                 .append("text")
-                 .attr("x", (d) -> xscale(d))
-                 .attr("y", margin.top+height+axispos.xlabel)
-                 .text((d) -> d)
-            xaxis.append("text").attr("class", "title")
-                 .attr("x", margin.left+width/2)
-                 .attr("y", margin.top+height+axispos.xtitle)
-                 .text(xlab)
+        # hash with rounded marker positions
+        markerpos = {}
+        for i of data.marker
+            markerpos[data.marker[i]] = d3.format(".1f")(data.pos[i])
 
-            # y-axis
-            rotate_ylab = rotate_ylab ? (ylab.length > 1)
-            yaxis = g.append("g").attr("class", "y axis")
-            yaxis.selectAll("empty")
-                 .data(yticks)
-                 .enter()
-                 .append("line")
-                 .attr("y1", (d) -> yscale(d))
-                 .attr("y2", (d) -> yscale(d))
-                 .attr("x1", margin.left)
-                 .attr("x2", margin.left+width)
-                 .attr("class", "y axis grid")
-            yaxis.selectAll("empty")
-                 .data(yticks)
-                 .enter()
-                 .append("text")
-                 .attr("y", (d) -> yscale(d))
-                 .attr("x", margin.left-axispos.ylabel)
-                 .text((d) -> formatAxis(yticks)(d))
-            yaxis.append("text").attr("class", "title")
-                 .attr("y", margin.top+height/2)
-                 .attr("x", margin.left-axispos.ytitle)
-                 .text(ylab)
-                 .attr("transform", if rotate_ylab then "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})" else "")
+        martip = d3.tip()
+                   .attr('class', "d3-tip #{tipclass}")
+                   .html((d) -> "#{d} (#{markerpos[d]})")
+                   .direction('e')
+                   .offset([0,10])
+        svg.call(martip)
 
-            # vertical lines for each chromosome
-            g.append("g").attr("id", "chromosomes").selectAll("empty")
-             .data(data.chr)
-             .enter()
-             .append("line")
-             .attr("x1", (d) -> xscale(d))
-             .attr("x2", (d) -> xscale(d))
-             .attr("y1", (d) -> yscale(yextentByChr[d][0]))
-             .attr("y2", (d) -> yscale(yextentByChr[d][1]))
-             .attr("fill", "none")
-             .attr("stroke", linecolor)
-             .attr("stroke-width", linewidth)
-             .style("pointer-events", "none")
-
-            martip = d3.tip()
-                       .attr('class', "d3-tip #{tipclass}")
-                       .html((d) ->
-                          pos = d3.format(".1f")(markerpos[d].pos)
-                          "#{d} (#{pos})")
-                       .direction('e')
-                       .offset([0,10])
-            svg.call(martip)
-
-            # reorganize map information by marker
-            markerpos = {}
-            for chr in data.chr
-                for marker of data.map[chr]
-                    markerpos[marker] = {chr:chr, pos:data.map[chr][marker]}
-            markernames = (mar for mar of markerpos)
-
-            markers = g.append("g").attr("id", "points")
-            markerSelect =
-                markers.selectAll("empty")
-                       .data(markernames)
-                       .enter()
-                       .append("line")
-                       .attr("x1", (d) -> xscale(markerpos[d].chr)-tickwidth)
-                       .attr("x2", (d) -> xscale(markerpos[d].chr)+tickwidth)
-                       .attr("y1", (d) -> yscale(markerpos[d].pos))
-                       .attr("y2", (d) -> yscale(markerpos[d].pos))
-                       .attr("id", (d) -> d)
-                       .attr("fill", "none")
-                       .attr("stroke", linecolor)
-                       .attr("stroke-width", linewidth)
-                       .on "mouseover.paneltip", (d) ->
-                                                     d3.select(this).attr("stroke", linecolorhilit)
-                                                     martip.show(d)
-                       .on "mouseout.paneltip", () ->
-                                                     d3.select(this).attr("stroke", linecolor)
-                                                     martip.hide()
-
-            # box
-            g.append("rect")
-                   .attr("x", margin.left)
-                   .attr("y", margin.top)
-                   .attr("height", height)
-                   .attr("width", width)
+        markers = svg.append("g").attr("id", "points")
+        markerSelect =
+            markers.selectAll("empty")
+                   .data(data.marker)
+                   .enter()
+                   .append("line")
+                   .attr("x1", (d,i) ->
+                       return xscale(data.adjpos[i]) if horizontal
+                       chrscale(data.chr[i]) - tickwidth)
+                   .attr("x2", (d,i) ->
+                       return xscale(data.adjpos[i]) if horizontal
+                       chrscale(data.chr[i]) + tickwidth)
+                   .attr("y1", (d,i) ->
+                       return chrscale(data.chr[i]) - tickwidth if horizontal
+                       yscale(data.adjpos[i]))
+                   .attr("y2", (d,i) ->
+                       return chrscale(data.chr[i]) + tickwidth if horizontal
+                       yscale(data.adjpos[i]))
+                   .attr("id", (d) -> d)
                    .attr("fill", "none")
-                   .attr("stroke", "black")
-                   .attr("stroke-width", "none")
+                   .attr("stroke", linecolor)
+                   .attr("stroke-width", linewidth)
+                   .on "mouseover.paneltip", (d) ->
+                                                 d3.select(this).attr("stroke", linecolorhilit)
+                                                 martip.show(d)
+                   .on "mouseout.paneltip", () ->
+                                                 d3.select(this).attr("stroke", linecolor)
+                                                 martip.hide()
 
-    ## configuration parameters
-    chart.width = (value) ->
-                      return width if !arguments.length
-                      width = value
-                      chart
+    # functions to grab stuff
+    chart.yscale = () -> yscale
+    chart.xscale = () -> xscale
+    chart.markerSelect = () -> markerSelect
+    chart.svg = () -> svg
+    chart.martip = () -> martip
 
-    chart.height = (value) ->
-                      return height if !arguments.length
-                      height = value
-                      chart
-
-    chart.margin = (value) ->
-                      return margin if !arguments.length
-                      margin = value
-                      chart
-
-    chart.axispos = (value) ->
-                      return axispos if !arguments.length
-                      axispos = value
-                      chart
-
-    chart.titlepos = (value) ->
-                      return titlepos if !arguments.length
-                      titlepos = value
-                      chart
-
-    chart.ylim = (value) ->
-                      return ylim if !arguments.length
-                      ylim = value
-                      chart
-
-    chart.nyticks = (value) ->
-                      return nyticks if !arguments.length
-                      nyticks = value
-                      chart
-
-    chart.yticks = (value) ->
-                      return yticks if !arguments.length
-                      yticks = value
-                      chart
-
-    chart.tickwidth = (value) ->
-                      return tickwidth if !arguments.length
-                      tickwidth = value
-                      chart
-
-    chart.rectcolor = (value) ->
-                      return rectcolor if !arguments.length
-                      rectcolor = value
-                      chart
-
-    chart.linecolor = (value) ->
-                      return linecolor if !arguments.length
-                      linecolor = value
-                      chart
-
-    chart.linecolorhilit = (value) ->
-                      return linecolorhilit if !arguments.length
-                      linecolorhilit = value
-                      chart
-
-    chart.linewidth = (value) ->
-                      return linewidth if !arguments.length
-                      linewidth = value
-                      chart
-
-    chart.title = (value) ->
-                      return title if !arguments.length
-                      title = value
-                      chart
-
-    chart.xlab = (value) ->
-                      return xlab if !arguments.length
-                      xlab = value
-                      chart
-
-    chart.ylab = (value) ->
-                      return ylab if !arguments.length
-                      ylab = value
-                      chart
-
-    chart.rotate_ylab = (value) ->
-                      return rotate_ylab if !arguments.length
-                      rotate_ylab = value
-                      chart
-
-    chart.tipclass = (value) ->
-                      return tipclass if !arguments.length
-                      tipclass = value
-                      chart
-
-    chart.yscale = () ->
-                      return yscale
-
-    chart.xscale = () ->
-                      return xscale
-
-    chart.markerSelect = () ->
-                      return markerSelect
-
+    # function to remove chart
     chart.remove = () ->
                       svg.remove()
                       martip.destroy()

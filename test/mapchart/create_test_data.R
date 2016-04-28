@@ -5,4 +5,9 @@ library(qtlcharts)
 data(hyper)
 map <- pull.map(hyper)
 
-cat(RJSONIO::toJSON(qtlcharts:::convert_map(map)), file="data.json")
+map_converted <-
+    list(chr=rep(names(map), vapply(map, length, 1)),
+         pos=unlist(map),
+         marker=unlist(lapply(map, names)))
+
+cat(jsonlite::toJSON(map_converted), file="data.json")

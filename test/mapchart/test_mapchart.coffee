@@ -3,6 +3,14 @@
 d3.json "data.json", (data) ->
     mychart = mapchart()
 
-    d3.select("div#chart")
-      .datum(data)
-      .call(mychart)
+    mychart(d3.select("div#chart1"), data)
+
+d3.json "data.json", (data) ->
+    mychart = mapchart({horizontal:true, height:600})
+
+    mychart(d3.select("div#chart2"), data)
+
+d3.json "data.json", (data) ->
+    mychart = mapchart({title:"Shifted start", shiftStart:true})
+
+    mychart(d3.select("div#chart3"), data)
