@@ -1287,6 +1287,15 @@ panelframe = function(chartOpts) {
   chart.plot_height = function() {
     return plot_height;
   };
+  chart.width = function() {
+    return width;
+  };
+  chart.height = function() {
+    return height;
+  };
+  chart.margin = function() {
+    return margin;
+  };
   chart.svg = function() {
     return svg;
   };
@@ -1430,6 +1439,21 @@ lodpanelframe = function(chartOpts) {
   };
   chart.chrSelect = function() {
     return chrSelect;
+  };
+  chart.plot_width = function() {
+    return plot_width;
+  };
+  chart.plot_height = function() {
+    return plot_height;
+  };
+  chart.width = function() {
+    return width;
+  };
+  chart.height = function() {
+    return height;
+  };
+  chart.margin = function() {
+    return margin;
   };
   chart.svg = function() {
     return svg;
