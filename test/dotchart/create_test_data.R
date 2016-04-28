@@ -7,4 +7,4 @@ y <- rnorm(n, 20+x/2)
 dat <- cbind(x, y)
 colnames(dat) <- NULL
 
-cat(RJSONIO::toJSON(dat), file="data.json")
+cat(jsonlite::toJSON(dat), file="data.json")

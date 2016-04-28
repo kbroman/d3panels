@@ -8,4 +8,4 @@ out.em <- scanone(hyper, chr=1:6)
 out.hk <- scanone(hyper, chr=1:6, method="hk")
 out <- cbind(out.em, out.hk, labels=c("em", "hk"))
 
-cat(RJSONIO::toJSON(qtlcharts:::convert_scanone(out)), file="data.json")
+cat(jsonlite::toJSON(qtlcharts:::convert_scanone(out)), file="data.json")
