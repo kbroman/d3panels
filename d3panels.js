@@ -2076,7 +2076,7 @@ curvechart = function(chartOpts) {
     }).attr("stroke-width", strokewidth).on("mouseover.panel", function(d, i) {
       var circle;
       d3.select(this).attr("stroke", strokecolorhilit[group[i]]).moveToFront();
-      circle = d3.select("circle#hiddenpoint" + i);
+      circle = svg.select("circle#hiddenpoint" + i);
       return indtip.show(i, circle.node());
     }).on("mouseout.panel", function(d, i) {
       d3.select(this).attr("stroke", strokecolor[group[i]]).moveToBack();
