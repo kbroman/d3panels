@@ -119,7 +119,7 @@ curvechart = (chartOpts) ->
                  .attr("stroke-width", strokewidth)
                  .on "mouseover.panel", (d,i) ->
                                            d3.select(this).attr("stroke", strokecolorhilit[group[i]]).moveToFront()
-                                           circle = d3.select("circle#hiddenpoint#{i}")
+                                           circle = svg.select("circle#hiddenpoint#{i}")
                                            indtip.show(i, circle.node())
                  .on "mouseout.panel", (d,i) ->
                                            d3.select(this).attr("stroke", strokecolor[group[i]]).moveToBack()
