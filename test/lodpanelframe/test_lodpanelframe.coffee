@@ -27,3 +27,7 @@ addpoints(mychart4, {
     pos:[52.45, 11.91, 55.93, 1.56, 49.34, 38.84, 21.68]
     lod:[3.342, 4.102, 3.002, 0.420, 2.654, 1.731, 2.246]
     marker:["1", "2", "3", "4", "5", "6", "7"]})
+
+# Example 5: horizontal
+mychart5 = lodpanelframe({title:"Horizontal",ylim:[0,5],height:800,width:600,horizontal:true})
+mychart5(d3.select("div#chart5"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})

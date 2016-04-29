@@ -1317,7 +1317,7 @@ panelframe = function(chartOpts) {
 var lodpanelframe;
 
 lodpanelframe = function(chartOpts) {
-  var altrectcolor, axispos, boxcolor, boxwidth, chart, chrSelect, gap, height, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, ylineOpts, yscale, yticklab, yticks;
+  var altrectcolor, axispos, boxcolor, boxwidth, chart, chrSelect, gap, height, horizontal, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, ylineOpts, yscale, yticklab, yticks;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -1353,6 +1353,7 @@ lodpanelframe = function(chartOpts) {
     width: 2
   };
   gap = (ref18 = chartOpts != null ? chartOpts.gap : void 0) != null ? ref18 : 5;
+  horizontal = (ref19 = chartOpts.horizontal) != null ? ref19 : false;
   xscale = null;
   yscale = null;
   chrSelect = null;
@@ -1366,11 +1367,11 @@ lodpanelframe = function(chartOpts) {
     plot_height = height - (margin.top + margin.bottom);
     if (!(data != null ? data.start : void 0)) {
       data.start = (function() {
-        var j, len, ref19, results;
-        ref19 = data.chr;
+        var j, len, ref20, results;
+        ref20 = data.chr;
         results = [];
-        for (j = 0, len = ref19.length; j < len; j++) {
-          c = ref19[j];
+        for (j = 0, len = ref20.length; j < len; j++) {
+          c = ref20[j];
           results.push(0);
         }
         return results;
@@ -1382,14 +1383,35 @@ lodpanelframe = function(chartOpts) {
     if (data.chr.length !== data.end.length) {
       displayError("data.end.length (" + data.end.length + ") != data.chr.length (" + data.chr.length + ")");
     }
-    yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top]);
-    xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end);
+    if (horizontal) {
+      xscale = calc_chrscales(plot_height, margin.top, gap, data.chr, data.start, data.end);
+      yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left]);
+    } else {
+      yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top]);
+      xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end);
+    }
     g.append("rect").attr("x", margin.left).attr("width", plot_width).attr("y", margin.top).attr("height", plot_height).attr("fill", rectcolor);
     chrSelect = g.append("g").selectAll("empty").data(data.chr).enter().append("rect").attr("x", function(d, i) {
+      if (horizontal) {
+        return margin.left;
+      }
       return xscale[d](data.start[i]) - gap / 2;
     }).attr("width", function(d, i) {
+      if (horizontal) {
+        return plot_width;
+      }
       return xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap;
-    }).attr("y", margin.top).attr("height", plot_height).attr("fill", function(d, i) {
+    }).attr("y", function(d, i) {
+      if (horizontal) {
+        return xscale[d](data.start[i]) - gap / 2;
+      }
+      return margin.top;
+    }).attr("height", function(d, i) {
+      if (horizontal) {
+        return xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap;
+      }
+      return plot_height;
+    }).attr("fill", function(d, i) {
       if (i % 2 === 0) {
         return rectcolor;
       }
@@ -1397,12 +1419,32 @@ lodpanelframe = function(chartOpts) {
     });
     g.append("g").attr("class", "title").append("text").text(title).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", titlepos);
     rotate_ylab = rotate_ylab != null ? rotate_ylab : ylab.length > 1;
-    xaxis = g.append("g").attr("class", "x axis");
-    yaxis = g.append("g").attr("class", "y axis");
-    xaxis.append("text").attr("class", "title").text(xlab).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", plot_height + margin.top + axispos.xtitle);
+    xaxis = g.append("g").attr("class", function() {
+      if (horizontal) {
+        return "y axis";
+      }
+      return "x axis";
+    });
+    yaxis = g.append("g").attr("class", function() {
+      if (horizontal) {
+        return "x axis";
+      }
+      return "y axis";
+    });
+    xaxis.append("text").attr("class", "title").text(function() {
+      if (horizontal) {
+        return ylab;
+      }
+      return xlab;
+    }).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", plot_height + margin.top + axispos.xtitle);
     ylabpos_y = (height - margin.top - margin.bottom) / 2 + margin.top;
     ylabpos_x = margin.left - axispos.ytitle;
-    yaxis.append("text").attr("class", "title").text(ylab).attr("y", ylabpos_y).attr("x", ylabpos_x).attr("transform", rotate_ylab ? "rotate(270," + ylabpos_x + "," + ylabpos_y + ")" : "");
+    yaxis.append("text").attr("class", "title").text(function() {
+      if (horizontal) {
+        return xlab;
+      }
+      return ylab;
+    }).attr("y", ylabpos_y).attr("x", ylabpos_x).attr("transform", rotate_ylab ? "rotate(270," + ylabpos_x + "," + ylabpos_y + ")" : "");
     yticks = yticks != null ? yticks : yscale.ticks(nyticks);
     if ((yticklab != null) && yticklab.length !== yticks.length) {
       displayError("yticklab.length (" + yticklab.length + ") != yticks.length (" + yticks.length + ")");
@@ -1419,22 +1461,50 @@ lodpanelframe = function(chartOpts) {
       })();
     }
     ylines = yaxis.append("g").attr("id", "ylines").selectAll("empty").data(yticks.concat(yticks)).enter().append("line").attr("y1", function(d) {
+      if (horizontal) {
+        return margin.top;
+      }
       return yscale(d);
     }).attr("y2", function(d) {
+      if (horizontal) {
+        return margin.top + plot_height;
+      }
       return yscale(d);
     }).attr("x1", function(d, i) {
+      if (horizontal) {
+        return yscale(d);
+      }
       return margin.left;
     }).attr("x2", function(d, i) {
+      if (horizontal) {
+        return yscale(d);
+      }
       return plot_width + margin.left;
     }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
     xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(data.chr).enter().append("text").attr("x", function(d, i) {
+      if (horizontal) {
+        return margin.left - axispos.ylabel;
+      }
       return (xscale[d](data.start[i]) + xscale[d](data.end[i])) / 2;
-    }).attr("y", height - margin.bottom + axispos.xlabel).text(function(d) {
+    }).attr("y", function(d, i) {
+      if (horizontal) {
+        return (xscale[d](data.start[i]) + xscale[d](data.end[i])) / 2;
+      }
+      return height - margin.bottom + axispos.xlabel;
+    }).text(function(d) {
       return d;
     });
     ylabels = yaxis.append("g").attr("id", "ylabels").selectAll("empty").data(yticklab).enter().append("text").attr("y", function(d, i) {
+      if (horizontal) {
+        return height - margin.bottom + axispos.xlabel;
+      }
       return yscale(yticks[i]);
-    }).attr("x", margin.left - axispos.ylabel).text(function(d) {
+    }).attr("x", function(d, i) {
+      if (horizontal) {
+        return yscale(yticks[i]);
+      }
+      return margin.left - axispos.ylabel;
+    }).text(function(d) {
       return d;
     });
     return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");

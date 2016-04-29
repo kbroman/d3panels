@@ -23,6 +23,7 @@ lodpanelframe = (chartOpts) ->
     boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     gap = chartOpts?.gap ? 5 # gap between chromosomes in pixels
+    horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same
     # chartOpts end
     xscale = null
     yscale = null
@@ -53,9 +54,13 @@ lodpanelframe = (chartOpts) ->
         if(data.chr.length != data.end.length)
             displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
 
-        # scales (x-axis scale is a has by chromosome ID
-        yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
-        xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end)
+        # scales (x-axis scale has by chromosome ID)
+        if horizontal # when horizontal, vertical is x-axis and horizontal is y-axis
+            xscale = calc_chrscales(plot_height, margin.top, gap, data.chr, data.start, data.end)
+            yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left])
+        else
+            yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
+            xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end)
 
         # solid background
         g.append("rect")
@@ -71,10 +76,18 @@ lodpanelframe = (chartOpts) ->
                      .data(data.chr)
                      .enter()
                      .append("rect")
-                     .attr("x", (d,i) -> xscale[d](data.start[i])-gap/2)
-                     .attr("width", (d,i) -> xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap)
-                     .attr("y", margin.top)
-                     .attr("height", plot_height)
+                     .attr("x", (d,i) ->
+                         return margin.left if horizontal
+                         xscale[d](data.start[i])-gap/2)
+                     .attr("width", (d,i) ->
+                         return plot_width if horizontal
+                         xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap)
+                     .attr("y", (d,i) ->
+                         return xscale[d](data.start[i])-gap/2 if horizontal
+                         margin.top)
+                     .attr("height", (d,i) ->
+                         return xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap if horizontal
+                         plot_height)
                      .attr("fill", (d,i) ->
                          return rectcolor if i % 2 == 0
                          altrectcolor)
@@ -89,17 +102,25 @@ lodpanelframe = (chartOpts) ->
         # rotate y-axis title?
         rotate_ylab = rotate_ylab ? (ylab.length > 1)
 
-        xaxis = g.append("g").attr("class", "x axis")
-        yaxis = g.append("g").attr("class", "y axis")
+        xaxis = g.append("g").attr("class", () ->
+                                return "y axis" if horizontal
+                                "x axis")
+        yaxis = g.append("g").attr("class", () ->
+                                return "x axis" if horizontal
+                                "y axis")
 
         xaxis.append("text").attr("class", "title")
-             .text(xlab)
+             .text(() ->
+                return ylab if horizontal
+                xlab)
              .attr("x", (width-margin.left-margin.right)/2 + margin.left)
              .attr("y", plot_height + margin.top + axispos.xtitle)
         ylabpos_y = (height-margin.top-margin.bottom)/2 + margin.top
         ylabpos_x = margin.left - axispos.ytitle
         yaxis.append("text").attr("class", "title")
-             .text(ylab)
+             .text(() ->
+                return xlab if horizontal
+                ylab)
              .attr("y", ylabpos_y)
              .attr("x", ylabpos_x)
              .attr("transform", if rotate_ylab then "rotate(270,#{ylabpos_x},#{ylabpos_y})" else "")
@@ -118,10 +139,18 @@ lodpanelframe = (chartOpts) ->
                   .data(yticks.concat(yticks))
                   .enter()
                   .append("line")
-                  .attr("y1", (d) -> yscale(d))
-                  .attr("y2", (d) -> yscale(d))
-                  .attr("x1", (d,i) -> margin.left)
-                  .attr("x2", (d,i) -> plot_width + margin.left)
+                  .attr("y1", (d) ->
+                          return margin.top if horizontal
+                          yscale(d))
+                  .attr("y2", (d) ->
+                          return margin.top+plot_height if horizontal
+                          yscale(d))
+                  .attr("x1", (d,i) ->
+                          return yscale(d) if horizontal
+                          margin.left)
+                  .attr("x2", (d,i) ->
+                          return yscale(d) if horizontal
+                          plot_width + margin.left)
                   .attr("fill", "none")
                   .attr("stroke", ylineOpts.color)
                   .attr("stroke-width", ylineOpts.width)
@@ -134,16 +163,24 @@ lodpanelframe = (chartOpts) ->
                    .data(data.chr)
                    .enter()
                    .append("text")
-                   .attr("x", (d,i) -> (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
-                   .attr("y", height - margin.bottom + axispos.xlabel)
+                   .attr("x", (d,i) ->
+                        return margin.left - axispos.ylabel if horizontal
+                        (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
+                   .attr("y", (d,i) ->
+                        return (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2 if horizontal
+                        height - margin.bottom + axispos.xlabel)
                    .text((d) -> d)
         ylabels = yaxis.append("g").attr("id", "ylabels")
                    .selectAll("empty")
                    .data(yticklab)
                    .enter()
                    .append("text")
-                   .attr("y", (d,i) -> yscale(yticks[i]))
-                   .attr("x", margin.left - axispos.ylabel)
+                   .attr("y", (d,i) ->
+                        return height - margin.bottom + axispos.xlabel if horizontal
+                        yscale(yticks[i]))
+                   .attr("x", (d,i) ->
+                        return yscale(yticks[i]) if horizontal
+                        margin.left - axispos.ylabel)
                    .text((d) -> d)
 
         # background rectangle box
