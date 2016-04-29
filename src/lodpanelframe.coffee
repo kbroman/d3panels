@@ -20,7 +20,7 @@ lodpanelframe = (chartOpts) ->
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
     altrectcolor = chartOpts?.altrectcolor ? "#d4d4d4" # color of background rectangle for alternate chromosomes
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
-    boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
+    boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     gap = chartOpts?.gap ? 5 # gap between chromosomes in pixels
     horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
@@ -28,6 +28,7 @@ lodpanelframe = (chartOpts) ->
     xscale = null
     yscale = null
     chrSelect = null
+    box = null
     svg = null
 
     ## the main function
@@ -40,7 +41,6 @@ lodpanelframe = (chartOpts) ->
            .attr("height", height)
            .attr("class", "d3panels")
 
-        # put all of this stuff in a group
         g = svg.append("g").attr("id", "frame")
 
         # placement of boxes according to whether NAs will be treated specially
@@ -184,15 +184,15 @@ lodpanelframe = (chartOpts) ->
                    .text((d) -> d)
 
         # background rectangle box
-        g.append("rect")
-         .attr("x", margin.left)
-         .attr("y", margin.top)
-         .attr("height", plot_height)
-         .attr("width", plot_width)
-         .attr("fill", "none")
-         .attr("stroke", boxcolor)
-         .attr("stroke-width", boxwidth)
-         .attr("shape-rendering", "crispEdges")
+        box = svg.append("rect").attr("class", "box")
+                 .attr("x", margin.left)
+                 .attr("y", margin.top)
+                 .attr("height", plot_height)
+                 .attr("width", plot_width)
+                 .attr("fill", "none")
+                 .attr("stroke", boxcolor)
+                 .attr("stroke-width", boxwidth)
+                 .attr("shape-rendering", "crispEdges")
 
     # functions to grab stuff
     chart.xscale = () -> xscale
@@ -203,6 +203,7 @@ lodpanelframe = (chartOpts) ->
     chart.width = () -> width
     chart.height = () -> height
     chart.margin = () -> margin
+    chart.box = () -> box
     chart.svg = () -> svg
 
     # function to remove chart

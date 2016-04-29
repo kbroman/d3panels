@@ -27,7 +27,7 @@ panelframe = (chartOpts) ->
     yticklab = chartOpts?.yticklab ? null # vector of y-axis tick labels
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
-    boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
+    boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     xlineOpts = chartOpts?.xlineOpts ? {color:"white", width:2} # color and width of vertical lines
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     v_over_h = chartOpts?.v_over_h ? false # whether the vertical grid lines should be on top of the horizontal lines
@@ -42,6 +42,7 @@ panelframe = (chartOpts) ->
     ylabels = null
     plot_width = null
     plot_height = null
+    box = null
     svg = null
 
     ## the main function
@@ -206,13 +207,16 @@ panelframe = (chartOpts) ->
                    .text((d) -> d)
 
         # background rectangle boxes
-        for i of boxes.left
-            if boxes.width[i]>0 and boxes.height[i]>0
-                g.append("rect")
-                 .attr("x", boxes.left[i])
-                 .attr("y", boxes.top[i])
-                 .attr("height", boxes.height[i])
-                 .attr("width", boxes.width[i])
+        boxes2include = (i for i of boxes.left when boxes.width[i] > 0 and boxes.height[i]>0)
+        box = svg.append("g").attr("id", "box")
+                 .selectAll("empty")
+                 .data(boxes2include)
+                 .enter()
+                 .append("rect")
+                 .attr("x", (i) -> boxes.left[i])
+                 .attr("y", (i) -> boxes.top[i])
+                 .attr("height", (i) -> boxes.height[i])
+                 .attr("width", (i) -> boxes.width[i])
                  .attr("fill", "none")
                  .attr("stroke", boxcolor)
                  .attr("stroke-width", boxwidth)
@@ -230,6 +234,7 @@ panelframe = (chartOpts) ->
     chart.width = () -> width
     chart.height = () -> height
     chart.margin = () -> margin
+    chart.box = () -> box
     chart.svg = () -> svg
 
     # function to remove chart

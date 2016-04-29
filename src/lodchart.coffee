@@ -78,6 +78,9 @@ lodchart = (chartOpts) ->
         markerSelect = add2chart.markerSelect()
         markertip = add2chart.markertip()
 
+        # move box to front
+        myframe.box().moveToFront()
+
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale

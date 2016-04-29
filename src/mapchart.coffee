@@ -170,6 +170,9 @@ mapchart = (chartOpts) ->
                                                  d3.select(this).attr("stroke", linecolor)
                                                  martip.hide()
 
+        # move box to front
+        myframe.box().moveToFront()
+
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale

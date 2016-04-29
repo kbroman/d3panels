@@ -142,6 +142,9 @@ curvechart = (chartOpts) ->
                         .attr("r", 1)
                         .attr("opacity", 0)
 
+        # move box to front
+        myframe.box().moveToFront()
+
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale

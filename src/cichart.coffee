@@ -161,6 +161,8 @@ cichart = (chartOpts) ->
                 .on("mouseover.paneltip", tip.show)
                 .on("mouseout.paneltip", tip.hide)
 
+        # move box to front
+        myframe.box().moveToFront()
 
     # functions to grab stuff
     chart.yscale = () -> yscale

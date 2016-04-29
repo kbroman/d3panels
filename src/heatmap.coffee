@@ -175,6 +175,9 @@ heatmap = (chartOpts) ->
                    .attr("opacity", 0)
                    .attr("id", (d,i) -> "ylab#{data.y[i]}")
 
+        # move box to front
+        myframe.box().moveToFront()
+
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale

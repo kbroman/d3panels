@@ -105,6 +105,9 @@ scatterplot = (chartOpts) ->
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
+        # move box to front
+        myframe.box().moveToFront()
+
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
