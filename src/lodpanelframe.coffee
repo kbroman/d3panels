@@ -59,8 +59,8 @@ lodpanelframe = (chartOpts) ->
             xscale = calc_chrscales(plot_height, margin.top, gap, data.chr, data.start, data.end)
             yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left])
         else
-            yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
             xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end)
+            yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
 
         # solid background
         g.append("rect")
