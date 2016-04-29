@@ -11,6 +11,7 @@ add_lodcurve = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    horizontal = chartOpts?.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     markerSelect = null
     markertip = null
@@ -52,9 +53,12 @@ add_lodcurve = (chartOpts) ->
         # lod curves by chr
         lodcurve = (chr) ->
                 d3.svg.line()
-                  .x((d) -> xscale[chr](d))
-                  .y((d,i) -> yscale(data.lodByChr[chr][i]))
-
+                  .x((d,i) ->
+                      return yscale(data.lodByChr[chr][i]) if horizontal
+                      xscale[chr](d))
+                  .y((d,i) ->
+                      return xscale[chr](d) if horizontal
+                      yscale(data.lodByChr[chr][i]))
 
         # add curves
         if linewidth > 0
@@ -76,8 +80,12 @@ add_lodcurve = (chartOpts) ->
                         .data(data.markerinfo)
                         .enter()
                         .append("circle")
-                        .attr("cx", (d) -> xscale[d.chr](d.pos))
-                        .attr("cy", (d) -> yscale(d.lod))
+                        .attr("cx", (d) ->
+                            return yscale(d.lod) if horizontal
+                            xscale[d.chr](d.pos))
+                        .attr("cy", (d) ->
+                            return xscale[d.chr](d.pos) if horizontal
+                            yscale(d.lod))
                         .attr("r", (d) -> if d.lod? then pointsize else null)
                         .attr("fill", pointcolor)
                         .attr("stroke", pointstroke)
@@ -90,8 +98,12 @@ add_lodcurve = (chartOpts) ->
                       .attr('class', "d3-tip #{tipclass}")
                       .html((d) ->
                                  [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
-                      .direction("e")
-                      .offset([0,10])
+                      .direction(() ->
+                          return "n" if horizontal
+                          "e")
+                      .offset(() ->
+                          return [-10,0] if horizontal
+                          [0,10])
         svg.call(markertip)
 
         bigpointsize = d3.max([2*pointsize, 3])
@@ -101,8 +113,12 @@ add_lodcurve = (chartOpts) ->
                         .data(data.markerinfo)
                         .enter()
                         .append("circle")
-                        .attr("cx", (d) -> xscale[d.chr](d.pos))
-                        .attr("cy", (d) -> yscale(d.lod))
+                        .attr("cx", (d) ->
+                            return yscale(d.lod) if horizontal
+                            xscale[d.chr](d.pos))
+                        .attr("cy", (d) ->
+                            return xscale[d.chr](d.pos) if horizontal
+                            yscale(d.lod))
                         .attr("id", (d) -> d.name)
                         .attr("r", (d) -> if d.lod? then bigpointsize else null)
                         .attr("opacity", 0)

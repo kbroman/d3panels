@@ -1051,7 +1051,7 @@ chrheatmap = function() {
 var panelframe;
 
 panelframe = function(chartOpts) {
-  var axispos, boxcolor, boxwidth, chart, height, margin, nxticks, nyticks, plot_height, plot_width, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, width, xNA, xNA_size, xlab, xlabels, xlim, xlineOpts, xlines, xscale, xscale_wnull, xticklab, xticks, yNA, yNA_size, ylab, ylabels, ylim, ylineOpts, ylines, yscale, yscale_wnull, yticklab, yticks;
+  var axispos, box, boxcolor, boxwidth, chart, height, margin, nxticks, nyticks, plot_height, plot_width, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, v_over_h, width, xNA, xNA_size, xlab, xlabels, xlim, xlineOpts, xlines, xscale, xscale_wnull, xticklab, xticks, yNA, yNA_size, ylab, ylabels, ylim, ylineOpts, ylines, yscale, yscale_wnull, yticklab, yticks;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -1095,7 +1095,7 @@ panelframe = function(chartOpts) {
   yticklab = (ref20 = chartOpts != null ? chartOpts.yticklab : void 0) != null ? ref20 : null;
   rectcolor = (ref21 = chartOpts != null ? chartOpts.rectcolor : void 0) != null ? ref21 : "#e6e6e6";
   boxcolor = (ref22 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref22 : "black";
-  boxwidth = (ref23 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref23 : 1;
+  boxwidth = (ref23 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref23 : 2;
   xlineOpts = (ref24 = chartOpts != null ? chartOpts.xlineOpts : void 0) != null ? ref24 : {
     color: "white",
     width: 2
@@ -1115,9 +1115,10 @@ panelframe = function(chartOpts) {
   ylabels = null;
   plot_width = null;
   plot_height = null;
+  box = null;
   svg = null;
   chart = function(selection) {
-    var boxes, d, g, i, inner_height, inner_width, results, xNA_xpos, xaxis, xrange, yNA_ypos, yaxis, ylabpos_x, ylabpos_y, yrange;
+    var boxes, boxes2include, d, g, i, inner_height, inner_width, xNA_xpos, xaxis, xrange, yNA_ypos, yaxis, ylabpos_x, ylabpos_y, yrange;
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1261,15 +1262,25 @@ panelframe = function(chartOpts) {
     }).attr("x", margin.left - axispos.ylabel).text(function(d) {
       return d;
     });
-    results = [];
-    for (i in boxes.left) {
-      if (boxes.width[i] > 0 && boxes.height[i] > 0) {
-        results.push(g.append("rect").attr("x", boxes.left[i]).attr("y", boxes.top[i]).attr("height", boxes.height[i]).attr("width", boxes.width[i]).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges"));
-      } else {
-        results.push(void 0);
+    boxes2include = (function() {
+      var results;
+      results = [];
+      for (i in boxes.left) {
+        if (boxes.width[i] > 0 && boxes.height[i] > 0) {
+          results.push(i);
+        }
       }
-    }
-    return results;
+      return results;
+    })();
+    return box = svg.append("g").attr("id", "box").selectAll("empty").data(boxes2include).enter().append("rect").attr("x", function(i) {
+      return boxes.left[i];
+    }).attr("y", function(i) {
+      return boxes.top[i];
+    }).attr("height", function(i) {
+      return boxes.height[i];
+    }).attr("width", function(i) {
+      return boxes.width[i];
+    }).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
   };
   chart.xscale = function() {
     return xscale_wnull;
@@ -1304,6 +1315,9 @@ panelframe = function(chartOpts) {
   chart.margin = function() {
     return margin;
   };
+  chart.box = function() {
+    return box;
+  };
   chart.svg = function() {
     return svg;
   };
@@ -1317,7 +1331,7 @@ panelframe = function(chartOpts) {
 var lodpanelframe;
 
 lodpanelframe = function(chartOpts) {
-  var altrectcolor, axispos, boxcolor, boxwidth, chart, chrSelect, gap, height, horizontal, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, ylineOpts, yscale, yticklab, yticks;
+  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrSelect, gap, height, horizontal, margin, nyticks, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xscale, ylab, ylim, ylineOpts, yscale, yticklab, yticks;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -1347,7 +1361,7 @@ lodpanelframe = function(chartOpts) {
   rectcolor = (ref13 = chartOpts != null ? chartOpts.rectcolor : void 0) != null ? ref13 : "#e6e6e6";
   altrectcolor = (ref14 = chartOpts != null ? chartOpts.altrectcolor : void 0) != null ? ref14 : "#d4d4d4";
   boxcolor = (ref15 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref15 : "black";
-  boxwidth = (ref16 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref16 : 1;
+  boxwidth = (ref16 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref16 : 2;
   ylineOpts = (ref17 = chartOpts != null ? chartOpts.ylineOpts : void 0) != null ? ref17 : {
     color: "white",
     width: 2
@@ -1357,6 +1371,7 @@ lodpanelframe = function(chartOpts) {
   xscale = null;
   yscale = null;
   chrSelect = null;
+  box = null;
   svg = null;
   chart = function(selection, data) {
     var c, d, g, plot_height, plot_width, xaxis, xlabels, yaxis, ylabels, ylabpos_x, ylabpos_y, ylines;
@@ -1387,8 +1402,8 @@ lodpanelframe = function(chartOpts) {
       xscale = calc_chrscales(plot_height, margin.top, gap, data.chr, data.start, data.end);
       yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left]);
     } else {
-      yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top]);
       xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end);
+      yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top]);
     }
     g.append("rect").attr("x", margin.left).attr("width", plot_width).attr("y", margin.top).attr("height", plot_height).attr("fill", rectcolor);
     chrSelect = g.append("g").selectAll("empty").data(data.chr).enter().append("rect").attr("x", function(d, i) {
@@ -1507,7 +1522,7 @@ lodpanelframe = function(chartOpts) {
     }).text(function(d) {
       return d;
     });
-    return g.append("rect").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
+    return box = svg.append("rect").attr("class", "box").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
   };
   chart.xscale = function() {
     return xscale;
@@ -1532,6 +1547,9 @@ lodpanelframe = function(chartOpts) {
   };
   chart.margin = function() {
     return margin;
+  };
+  chart.box = function() {
+    return box;
   };
   chart.svg = function() {
     return svg;
@@ -1676,7 +1694,7 @@ cichart = function(chartOpts) {
       }
       return results;
     })();
-    return segments = segmentGroup.selectAll("empty").data(yval).enter().append("line").attr("x1", function(d, i) {
+    segments = segmentGroup.selectAll("empty").data(yval).enter().append("line").attr("x1", function(d, i) {
       if (horizontal) {
         return xscale(d);
       } else {
@@ -1715,6 +1733,7 @@ cichart = function(chartOpts) {
     }).attr("fill", "none").attr("stroke", function(d, i) {
       return segcolor[i % mean.length];
     }).attr("stroke-width", segstrokewidth).attr("shape-rendering", "crispEdges").on("mouseover.paneltip", tip.show).on("mouseout.paneltip", tip.hide);
+    return myframe.box().moveToFront();
   };
   chart.yscale = function() {
     return yscale;
@@ -2084,13 +2103,14 @@ curvechart = function(chartOpts) {
       }
     }
     pointsg = svg.append("g").attr("id", "invisiblepoints");
-    return points = pointsg.selectAll("empty").data(lastpoint).enter().append("circle").attr("id", function(d, i) {
+    points = pointsg.selectAll("empty").data(lastpoint).enter().append("circle").attr("id", function(d, i) {
       return "hiddenpoint" + i;
     }).attr("cx", function(d) {
       return xscale(d.x);
     }).attr("cy", function(d) {
       return yscale(d.y);
     }).attr("r", 1).attr("opacity", 0);
+    return myframe.box().moveToFront();
   };
   chart.xscale = function() {
     return xscale;
@@ -2284,7 +2304,7 @@ dotchart = function(chartOpts) {
     });
     svg.call(indtip);
     pointGroup = svg.append("g").attr("id", "points");
-    return points = pointGroup.selectAll("empty").data(x).enter().append("circle").attr("cx", function(d, i) {
+    points = pointGroup.selectAll("empty").data(x).enter().append("circle").attr("cx", function(d, i) {
       if (!horizontal) {
         return xscale(x[i] + jitter[i]);
       }
@@ -2303,6 +2323,7 @@ dotchart = function(chartOpts) {
       }
       return 0;
     }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
+    return myframe.box().moveToFront();
   };
   chart.xscale = function() {
     return xscale;
@@ -2525,12 +2546,13 @@ heatmap = function(chartOpts) {
       });
     }
     if (data.ycat != null) {
-      return ylabels.text(function(d, i) {
+      ylabels.text(function(d, i) {
         return data.ycat[i];
       }).attr("opacity", 0).attr("id", function(d, i) {
         return "ylab" + data.y[i];
       });
     }
+    return myframe.box().moveToFront();
   };
   chart.xscale = function() {
     return xscale;
@@ -2561,7 +2583,7 @@ heatmap = function(chartOpts) {
 var lodchart;
 
 lodchart = function(chartOpts) {
-  var chart, chrSelect, linecolor, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, svg, tipclass, xscale, ylim, yscale;
+  var chart, chrSelect, horizontal, linecolor, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, svg, tipclass, xscale, ylim, yscale;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -2572,6 +2594,7 @@ lodchart = function(chartOpts) {
   pointstroke = (ref4 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref4 : "black";
   ylim = (ref5 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref5 : null;
   tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip";
+  horizontal = (ref7 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref7 : false;
   yscale = null;
   xscale = null;
   chrSelect = null;
@@ -2579,7 +2602,7 @@ lodchart = function(chartOpts) {
   markertip = null;
   svg = null;
   chart = function(selection, data) {
-    var add2chart, c, i, j, k, len, len1, myframe, ref7, ref8, self_chart, these_pos;
+    var add2chart, c, i, j, k, len, len1, myframe, ref8, ref9, self_chart, these_pos;
     if (data.pos.length !== data.chr.length) {
       displayError("data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
     }
@@ -2594,9 +2617,9 @@ lodchart = function(chartOpts) {
     }
     if (data.chrstart == null) {
       data.chrstart = [];
-      ref7 = data.chrname;
-      for (j = 0, len = ref7.length; j < len; j++) {
-        c = ref7[j];
+      ref8 = data.chrname;
+      for (j = 0, len = ref8.length; j < len; j++) {
+        c = ref8[j];
         these_pos = (function() {
           var results;
           results = [];
@@ -2612,9 +2635,9 @@ lodchart = function(chartOpts) {
     }
     if (data.chrend == null) {
       data.chrend = [];
-      ref8 = data.chrname;
-      for (k = 0, len1 = ref8.length; k < len1; k++) {
-        c = ref8[k];
+      ref9 = data.chrname;
+      for (k = 0, len1 = ref9.length; k < len1; k++) {
+        c = ref9[k];
         these_pos = (function() {
           var results;
           results = [];
@@ -2654,7 +2677,8 @@ lodchart = function(chartOpts) {
     add2chart = add_lodcurve(chartOpts);
     add2chart(self_chart, data);
     markerSelect = add2chart.markerSelect();
-    return markertip = add2chart.markertip();
+    markertip = add2chart.markertip();
+    return myframe.box().moveToFront();
   };
   chart.xscale = function() {
     return xscale;
@@ -2685,7 +2709,7 @@ lodchart = function(chartOpts) {
 var add_lodcurve;
 
 add_lodcurve = function(chartOpts) {
-  var chart, linecolor, linedash, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, tipclass;
+  var chart, horizontal, linecolor, linedash, linewidth, markerSelect, markertip, pointcolor, pointsize, pointstroke, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, tipclass;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -2696,10 +2720,11 @@ add_lodcurve = function(chartOpts) {
   pointsize = (ref4 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref4 : 0;
   pointstroke = (ref5 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref5 : "black";
   tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip";
+  horizontal = (ref7 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref7 : false;
   markerSelect = null;
   markertip = null;
   chart = function(prevchart, data) {
-    var bigpointsize, c, chr, curves, hiddenpoints, i, j, k, l, len, len1, len2, lodcurve, markerpoints, ref7, ref8, ref9, svg, these_pos, xscale, yscale;
+    var bigpointsize, c, chr, curves, hiddenpoints, i, j, k, l, len, len1, len2, lodcurve, markerpoints, ref10, ref8, ref9, svg, these_pos, xscale, yscale;
     if (data.pos.length !== data.chr.length) {
       displayError("data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
     }
@@ -2714,9 +2739,9 @@ add_lodcurve = function(chartOpts) {
     }
     if (data.chrstart == null) {
       data.chrstart = [];
-      ref7 = data.chrname;
-      for (j = 0, len = ref7.length; j < len; j++) {
-        c = ref7[j];
+      ref8 = data.chrname;
+      for (j = 0, len = ref8.length; j < len; j++) {
+        c = ref8[j];
         these_pos = (function() {
           var results;
           results = [];
@@ -2732,9 +2757,9 @@ add_lodcurve = function(chartOpts) {
     }
     if (data.chrend == null) {
       data.chrend = [];
-      ref8 = data.chrname;
-      for (k = 0, len1 = ref8.length; k < len1; k++) {
-        c = ref8[k];
+      ref9 = data.chrname;
+      for (k = 0, len1 = ref9.length; k < len1; k++) {
+        c = ref9[k];
         these_pos = (function() {
           var results;
           results = [];
@@ -2755,25 +2780,37 @@ add_lodcurve = function(chartOpts) {
     xscale = prevchart.xscale();
     yscale = prevchart.yscale();
     lodcurve = function(chr) {
-      return d3.svg.line().x(function(d) {
+      return d3.svg.line().x(function(d, i) {
+        if (horizontal) {
+          return yscale(data.lodByChr[chr][i]);
+        }
         return xscale[chr](d);
       }).y(function(d, i) {
+        if (horizontal) {
+          return xscale[chr](d);
+        }
         return yscale(data.lodByChr[chr][i]);
       });
     };
     if (linewidth > 0) {
       curves = svg.append("g").attr("id", "curves");
-      ref9 = data.chrname;
-      for (l = 0, len2 = ref9.length; l < len2; l++) {
-        chr = ref9[l];
+      ref10 = data.chrname;
+      for (l = 0, len2 = ref10.length; l < len2; l++) {
+        chr = ref10[l];
         curves.append("path").datum(data.posByChr[chr]).attr("d", lodcurve(chr)).attr("stroke", linecolor).attr("fill", "none").attr("stroke-width", linewidth).attr("stroke-dasharray", linedash).style("pointer-events", "none");
       }
     }
     if (pointsize > 0) {
       markerpoints = svg.append("g").attr("id", "markerpoints_visible");
       markerpoints.selectAll("empty").data(data.markerinfo).enter().append("circle").attr("cx", function(d) {
+        if (horizontal) {
+          return yscale(d.lod);
+        }
         return xscale[d.chr](d.pos);
       }).attr("cy", function(d) {
+        if (horizontal) {
+          return xscale[d.chr](d.pos);
+        }
         return yscale(d.lod);
       }).attr("r", function(d) {
         if (d.lod != null) {
@@ -2786,12 +2823,28 @@ add_lodcurve = function(chartOpts) {
     hiddenpoints = svg.append("g").attr("id", "markerpoints_hidden");
     markertip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d) {
       return [d.name, " LOD = " + (d3.format('.2f')(d.lod))];
-    }).direction("e").offset([0, 10]);
+    }).direction(function() {
+      if (horizontal) {
+        return "n";
+      }
+      return "e";
+    }).offset(function() {
+      if (horizontal) {
+        return [-10, 0];
+      }
+      return [0, 10];
+    });
     svg.call(markertip);
     bigpointsize = d3.max([2 * pointsize, 3]);
     return markerSelect = hiddenpoints.selectAll("empty").data(data.markerinfo).enter().append("circle").attr("cx", function(d) {
+      if (horizontal) {
+        return yscale(d.lod);
+      }
       return xscale[d.chr](d.pos);
     }).attr("cy", function(d) {
+      if (horizontal) {
+        return xscale[d.chr](d.pos);
+      }
       return yscale(d.lod);
     }).attr("id", function(d) {
       return d.name;
@@ -3352,7 +3405,7 @@ mapchart = function(chartOpts) {
     });
     svg.call(martip);
     markers = svg.append("g").attr("id", "points");
-    return markerSelect = markers.selectAll("empty").data(data.marker).enter().append("line").attr("x1", function(d, i) {
+    markerSelect = markers.selectAll("empty").data(data.marker).enter().append("line").attr("x1", function(d, i) {
       if (horizontal) {
         return xscale(data.adjpos[i]);
       }
@@ -3381,6 +3434,7 @@ mapchart = function(chartOpts) {
       d3.select(this).attr("stroke", linecolor);
       return martip.hide();
     });
+    return myframe.box().moveToFront();
   };
   chart.xscale = function() {
     return xscale;
@@ -3516,7 +3570,7 @@ scatterplot = function(chartOpts) {
     }).direction('e').offset([0, 10 + pointsize]);
     svg.call(indtip);
     pointGroup = svg.append("g").attr("id", "points");
-    return points = pointGroup.selectAll("empty").data(d3.range(x.length)).enter().append("circle").attr("cx", function(d, i) {
+    points = pointGroup.selectAll("empty").data(d3.range(x.length)).enter().append("circle").attr("cx", function(d, i) {
       return xscale(x[i]);
     }).attr("cy", function(d, i) {
       return yscale(y[i]);
@@ -3530,6 +3584,7 @@ scatterplot = function(chartOpts) {
       }
       return 0;
     }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
+    return myframe.box().moveToFront();
   };
   chart.xscale = function() {
     return xscale;

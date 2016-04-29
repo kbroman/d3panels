@@ -71,10 +71,7 @@ d3.json "data.json", (data) ->
         height:h
         width:w
         margin:margin
-        ylab:"LOD score"
         pointstroke:"white"})
-
-    svg = d3.select("div#chart3")
 
     data.lod = data.lod_em
     mychart(d3.select("div#chart3"), data)
@@ -82,3 +79,10 @@ d3.json "data.json", (data) ->
     data2 = {chr:data.chr, pos:data.pos, lod:data.lod_hk, marker:data.marker}
     addtochart = add_lodcurve({linecolor:"Crimson", pointcolor:"slateblue", linedash:"4,4"})
     addtochart(mychart, data2)
+
+# horizontal
+d3.json "data.json", (data) ->
+    mychart = lodchart({height:600, width:400, margin:margin, horizontal:true})
+
+    data.lod = data.lod_em
+    mychart(d3.select("div#chart4"), data)
