@@ -23,7 +23,7 @@ lodpanelframe = (chartOpts) ->
     boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     gap = chartOpts?.gap ? 5 # gap between chromosomes in pixels
-    horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same
+    horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     xscale = null
     yscale = null
