@@ -13,7 +13,7 @@ d3.json "data.json", (data) ->
     mychart = dotchart({
         xlab:"X"
         ylab:"Y"
-        title:"Jittered (default)"
+        title:"Default"
         height:h
         width:w
         margin:margin})
@@ -30,16 +30,15 @@ d3.json "data.json", (data) ->
            .on "mouseout", (d) ->
                                 d3.select(this).attr("fill", "slateblue").attr("r", 3)
 
-# Example 2: no horizontal jittering
+
+
+# Example 2: horizontal
 d3.json "data.json", (data) ->
     mychart = dotchart({
-        xlab:"X"
-        ylab:"Y"
-        title:"No jittering"
         height:h
         width:w
         margin:margin
-        xjitter:"none"})
+        horizontal:true})
 
     these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
     mychart(d3.select("div#chart2"), these_data)
@@ -54,88 +53,22 @@ d3.json "data.json", (data) ->
                                 d3.select(this).attr("fill", "slateblue").attr("r", 3)
 
 
-# Example 3: horizontal
-d3.json "data.json", (data) ->
-    mychart = dotchart({
-        height:h
-        width:w
-        margin:margin
-        horizontal:true})
-
-    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
-    mychart(d3.select("div#chart3"), these_data)
-
-    # animate points
-    mychart.points()
-           .on "mouseover", (d) ->
-                                d3.select(this).attr("r", 6)
-            .on "click", (d) ->
-                                d3.select(this).attr("fill", "Orchid")
-           .on "mouseout", (d) ->
-                                d3.select(this).attr("fill", "slateblue").attr("r", 3)
-
-# Example 4: deterministic jitter
-d3.json "data.json", (data) ->
-
-    mychart = dotchart({
-        title:"Deterministic jitter"
-        height:h
-        width:w
-        margin:margin
-        xjitter:"deterministic"})
-
-    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
-    mychart(d3.select("div#chart4"), these_data)
-
-    # animate points
-    mychart.points()
-           .on "mouseover", (d) ->
-                                d3.select(this).attr("r", 6)
-           .on "click", (d) ->
-                                d3.select(this).attr("fill", "Orchid")
-           .on "mouseout", (d) ->
-                                d3.select(this).attr("fill", "slateblue").attr("r", 3)
-
-# Example 5: deterministic jitter, horizontal
-d3.json "data.json", (data) ->
-
-    mychart = dotchart({
-        title:"Deterministic jitter, horizontal"
-        height:h
-        width:w
-        margin:margin
-        xjitter:"deterministic",
-        horizontal:true})
-
-    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
-    mychart(d3.select("div#chart5"), these_data)
-
-    # animate points
-    mychart.points()
-           .on "mouseover", (d) ->
-                                d3.select(this).attr("r", 6)
-           .on "click", (d) ->
-                                d3.select(this).attr("fill", "Orchid")
-           .on "mouseout", (d) ->
-                                d3.select(this).attr("fill", "slateblue").attr("r", 3)
-
-# Example 6: deterministic jitter, much more data
-mychart6 = dotchart({
-    title:"Deterministic jitter"
+# Example 3: More data
+mychart3 = dotchart({
+    title:"More data"
     height:h
     width:w
-    margin:margin
-    xjitter:"deterministic"})
+    margin:margin})
 
 ng = 4
 n = 75*ng
 x = (Math.ceil(Math.random()*ng) for i in [1..n])
 y = (Math.random()*4+20+xv for xv in x)
 these_data = {x:x, y:y}
-mychart6(d3.select("div#chart6"), these_data)
+mychart3(d3.select("div#chart3"), these_data)
 
 # animate points
-mychart6.points()
+mychart3.points()
         .on "mouseover", (d) ->
                              d3.select(this).attr("r", 6)
         .on "click", (d) ->
@@ -143,19 +76,18 @@ mychart6.points()
         .on "mouseout", (d) ->
                              d3.select(this).attr("fill", "slateblue").attr("r", 3)
 
-# Example 7: deterministic jitter, much more data
-mychart7 = dotchart({
-    title:"Deterministic jitter, horizontal"
+# Example 4: More data, horizontal
+mychart4 = dotchart({
+    title:"More data, horizontal"
     height:h
     width:w
     margin:margin
-    xjitter:"deterministic",
     horizontal:true})
 
-mychart7(d3.select("div#chart7"), these_data)
+mychart4(d3.select("div#chart4"), these_data)
 
 # animate points
-mychart7.points()
+mychart4.points()
         .on "mouseover", (d) ->
                              d3.select(this).attr("r", 6)
         .on "click", (d) ->
