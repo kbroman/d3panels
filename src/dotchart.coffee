@@ -6,7 +6,6 @@ dotchart = (chartOpts) ->
     # chartOpts start
     xcategories = chartOpts?.xcategories ? null # group categories
     xcatlabels = chartOpts?.xcatlabels ? null # labels for group categories
-    xjitter = chartOpts?.xjitter ? "random" # whether to jitter horizontally (random, fixed, none)
     xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     ylim = chartOpts?.ylim ? null # y-axis limits
@@ -99,27 +98,6 @@ dotchart = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        # jitter x-axis
-        if data.jitter?
-            jitter = data.jitter
-        else if xjitter == "none"
-            jitter = (0 for v in x)
-        else if xjitter == "deterministic"
-            if horizontal
-                h = myframe.plot_width()
-                w = myframe.plot_height()
-            else
-                h = myframe.plot_height()
-                w = myframe.plot_width()
-            result = jiggle(x, y, pointsize, h, w)
-            y = result.y
-            jitter = result.jitter
-        else # random jittering
-            if(xjitter != "random")
-                displayError('xjitter should be random|deterministic|none; using "random"')
-            jitter = ((Math.random()-0.5)*0.2 for v of x)
-        displayError("jitter.length [#{jitter.length}] != x.length [#{x.length}]") if jitter.length != x.length
-
         indtip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d,i) -> indID[i])
@@ -131,28 +109,92 @@ dotchart = (chartOpts) ->
                        [0,10+pointsize])
         svg.call(indtip)
 
+        # scaled versions of points
+        if horizontal
+            scaledPoints = ({x:xscale(y[i]),y:yscale(x[i])} for i of x)
+        else
+            scaledPoints = ({x:xscale(x[i]),y:yscale(y[i])} for i of x)
+        scaledPoints = ({x:p.x, y:p.y, true_x:p.x, true_y:p.y} for p in scaledPoints)
+
+        # nearby points
+        nearbyPoints = []
+        for i of scaledPoints
+            p = scaledPoints[i]
+            p.index = i
+            nearbyPoints[i] = []
+            for j of scaledPoints
+                if j != i
+                    q = scaledPoints[j]
+                    if horizontal
+                        nearbyPoints[i].push(j) if p.y == q.y and Math.abs(p.x-q.x)<pointsize*2
+                    else
+                        nearbyPoints[i].push(j) if p.x == q.x and Math.abs(p.y-q.y)<pointsize*2
+
         pointGroup = svg.append("g").attr("id", "points")
         points =
             pointGroup.selectAll("empty")
-                  .data(x)
+                  .data(scaledPoints)
                   .enter()
                   .append("circle")
-                  .attr("cx", (d,i) ->
-                      return xscale(x[i]+jitter[i]) unless horizontal
-                      xscale(y[i]))
-                  .attr("cy", (d,i) ->
-                      return yscale(y[i]) unless horizontal
-                      yscale(x[i]+jitter[i]))
                   .attr("class", (d,i) -> "pt#{i}")
                   .attr("r", pointsize)
                   .attr("fill", pointcolor)
                   .attr("stroke", pointstroke)
                   .attr("stroke-width", "1")
+                  .attr("cx", (d) -> d.x)
+                  .attr("cy", (d) -> d.y)
                   .attr("opacity", (d,i) ->
                                        return 1 if (y[i]? or yNA.handle) and x[i]? and x[i] in xcategories
                                        return 0)
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
+
+        gravity = (p, alpha) ->
+            if horizontal
+                p.y -= (p.y - p.true_y)*alpha
+            else
+                p.x -= (p.x - p.true_x)*alpha
+
+        collision = (p, alpha) ->
+            for i in nearbyPoints[p.index]
+                q = scaledPoints[i]
+                dx = p.x - q.x
+                dy = p.y - q.y
+                d = Math.sqrt(dx*dx + dy*dy)
+                if d < pointsize*2
+                    if horizontal
+                        if dy < 0
+                            p.y -= (pointsize*2 - d)*alpha
+                            q.y += (pointsize*2 - d)*alpha
+                        else
+                            p.y += (pointsize*2 - d)*alpha
+                            q.y -= (pointsize*2 - d)*alpha
+                    else
+                        if dx < 0
+                            p.x -= (pointsize*2 - d)*alpha
+                            q.x += (pointsize*2 - d)*alpha
+                        else
+                            p.x += (pointsize*2 - d)*alpha
+                            q.x -= (pointsize*2 - d)*alpha
+
+        tick = (e) ->
+            for p in scaledPoints
+                collision(p, e.alpha*5)
+
+            for p in scaledPoints
+                gravity(p, e.alpha/5)
+
+            if horizontal
+                points.attr("cy", (d) -> d.y)
+            else
+                points.attr("cx", (d) -> d.x)
+
+        force = d3.layout.force()
+                  .gravity(0)
+                  .charge(0)
+                  .nodes(scaledPoints)
+                  .on("tick", tick)
+                  .start()
 
         # move box to front
         myframe.box().moveToFront()
