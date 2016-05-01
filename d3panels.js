@@ -2280,7 +2280,6 @@ dotchart = function(chartOpts) {
         }
         return results1;
       })();
-      console.log(u);
       if (horizontal) {
         points.attr("cy", function(d, i) {
           return yscale(x[i] + u[i]);
