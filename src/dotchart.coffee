@@ -15,6 +15,7 @@ dotchart = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? "slateblue" # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3 # color of points
+    jitter = chartOpts?.jitter ? "beeswarm" # method for jittering points (beeswarm|random|none)
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
@@ -114,21 +115,7 @@ dotchart = (chartOpts) ->
             scaledPoints = ({x:xscale(y[i]),y:yscale(x[i])} for i of x)
         else
             scaledPoints = ({x:xscale(x[i]),y:yscale(y[i])} for i of x)
-        scaledPoints = ({x:p.x, y:p.y, true_x:p.x, true_y:p.y} for p in scaledPoints)
-
-        # nearby points
-        nearbyPoints = []
-        for i of scaledPoints
-            p = scaledPoints[i]
-            p.index = i
-            nearbyPoints[i] = []
-            for j of scaledPoints
-                if j != i
-                    q = scaledPoints[j]
-                    if horizontal
-                        nearbyPoints[i].push(j) if p.y == q.y and Math.abs(p.x-q.x)<pointsize*2
-                    else
-                        nearbyPoints[i].push(j) if p.x == q.x and Math.abs(p.y-q.y)<pointsize*2
+        scaledPoints = ({x:p.x, y:p.y} for p in scaledPoints)
 
         pointGroup = svg.append("g").attr("id", "points")
         points =
@@ -149,52 +136,82 @@ dotchart = (chartOpts) ->
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
-        gravity = (p, alpha) ->
+
+        if jitter == "random"
+            u = (Math.random()*0.4 - 0.2 for i of scaledPoints)
             if horizontal
-                p.y -= (p.y - p.true_y)*alpha
+                points.attr("cy", (d,i) -> yscale(x[i] + u[i]))
             else
-                p.x -= (p.x - p.true_x)*alpha
+                points.attr("cx", (d,i) -> xscale(x[i] + u[i]))
 
-        collision = (p, alpha) ->
-            for i in nearbyPoints[p.index]
-                q = scaledPoints[i]
-                dx = p.x - q.x
-                dy = p.y - q.y
-                d = Math.sqrt(dx*dx + dy*dy)
-                if d < pointsize*2
-                    if horizontal
-                        if dy < 0
-                            p.y -= (pointsize*2 - d)*alpha
-                            q.y += (pointsize*2 - d)*alpha
-                        else
-                            p.y += (pointsize*2 - d)*alpha
-                            q.y -= (pointsize*2 - d)*alpha
-                    else
-                        if dx < 0
-                            p.x -= (pointsize*2 - d)*alpha
-                            q.x += (pointsize*2 - d)*alpha
-                        else
-                            p.x += (pointsize*2 - d)*alpha
-                            q.x -= (pointsize*2 - d)*alpha
-
-        tick = (e) ->
-            for p in scaledPoints
-                collision(p, e.alpha*5)
+        else if jitter == "beeswarm"
 
             for p in scaledPoints
-                gravity(p, e.alpha/5)
+                p.true_x = p.x
+                p.true_y = p.y
 
-            if horizontal
-                points.attr("cy", (d) -> d.y)
-            else
-                points.attr("cx", (d) -> d.x)
+            # nearby points
+            nearbyPoints = []
+            for i of scaledPoints
+                p = scaledPoints[i]
+                p.index = i
+                nearbyPoints[i] = []
+                for j of scaledPoints
+                    if j != i
+                        q = scaledPoints[j]
+                        if horizontal
+                            nearbyPoints[i].push(j) if p.y == q.y and Math.abs(p.x-q.x)<pointsize*2
+                        else
+                            nearbyPoints[i].push(j) if p.x == q.x and Math.abs(p.y-q.y)<pointsize*2
 
-        force = d3.layout.force()
-                  .gravity(0)
-                  .charge(0)
-                  .nodes(scaledPoints)
-                  .on("tick", tick)
-                  .start()
+            gravity = (p, alpha) ->
+                if horizontal
+                    p.y -= (p.y - p.true_y)*alpha
+                else
+                    p.x -= (p.x - p.true_x)*alpha
+
+            collision = (p, alpha) ->
+                for i in nearbyPoints[p.index]
+                    q = scaledPoints[i]
+                    dx = p.x - q.x
+                    dy = p.y - q.y
+                    d = Math.sqrt(dx*dx + dy*dy)
+                    if d < pointsize*2
+                        if horizontal
+                            if dy < 0
+                                p.y -= (pointsize*2 - d)*alpha
+                                q.y += (pointsize*2 - d)*alpha
+                            else
+                                p.y += (pointsize*2 - d)*alpha
+                                q.y -= (pointsize*2 - d)*alpha
+                        else
+                            if dx < 0
+                                p.x -= (pointsize*2 - d)*alpha
+                                q.x += (pointsize*2 - d)*alpha
+                            else
+                                p.x += (pointsize*2 - d)*alpha
+                                q.x -= (pointsize*2 - d)*alpha
+
+            tick = (e) ->
+                for p in scaledPoints
+                    collision(p, e.alpha*5)
+
+                for p in scaledPoints
+                    gravity(p, e.alpha/5)
+
+                if horizontal
+                    points.attr("cy", (d) -> d.y)
+                else
+                    points.attr("cx", (d) -> d.x)
+
+            force = d3.layout.force()
+                      .gravity(0)
+                      .charge(0)
+                      .nodes(scaledPoints)
+                      .on("tick", tick)
+                      .start()
+        else if jitter != "none"
+            displayError('jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
         myframe.box().moveToFront()

@@ -94,3 +94,61 @@ mychart4.points()
                              d3.select(this).attr("fill", "Orchid")
         .on "mouseout", (d) ->
                              d3.select(this).attr("fill", "slateblue").attr("r", 3)
+
+# Example 5: random jitter
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Random jitter"
+        jitter:'random'
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    mychart(d3.select("div#chart5"), these_data)
+
+# Example 6: random jitter, horizontal
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Random jitter, horizontal"
+        jitter:'random'
+        horizontal:true
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    mychart(d3.select("div#chart6"), these_data)
+
+# Example 7: No jitter
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"No jitter"
+        jitter:'none'
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    mychart(d3.select("div#chart7"), these_data)
+
+# Example 8: random jitter
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"No jitter, horizontal"
+        jitter:'none'
+        horizontal:true
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    mychart(d3.select("div#chart8"), these_data)
