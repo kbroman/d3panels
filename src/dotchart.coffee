@@ -30,8 +30,8 @@ dotchart = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values
-        x = data.x
-        y = data.y
+        x = missing2null(data.x)
+        y = missing2null(data.y)
 
         # grab indID if it's there
         # if no indID, create a vector of them
@@ -63,8 +63,8 @@ dotchart = (chartOpts) ->
         xlim = [d3.min(xcategories)-0.5, d3.max(xcategories) + 0.5]
 
         # whether to include separate boxes for NAs
-        xNA.handle = false if x.every (v) -> (v?) and !xNA.force
-        yNA.handle = false if y.every (v) -> (v?) and !yNA.force
+        xNA.handle = xNA.force or (xNA.handle and !(x.every (v) -> (v?)))
+        yNA.handle = yNA.force or (yNA.handle and !(y.every (v) -> (v?)))
 
         if horizontal
             chartOpts.ylim = xlim.reverse()

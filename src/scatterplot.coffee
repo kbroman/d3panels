@@ -6,6 +6,8 @@ scatterplot = (chartOpts) ->
     # chartOpts start
     xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    xNA_size = chartOpts?.xNA_size ? {width:20, gap:10} # width and gap for x=NA box
+    yNA_size = chartOpts?.yNA_size ? {width:20, gap:10} # width and gap for y=NA box
     xlim = chartOpts?.xlim ? null # x-axis limits
     ylim = chartOpts?.ylim ? null # y-axis limits
     pointcolor = chartOpts?.pointcolor ? null      # fill color of points
@@ -21,15 +23,12 @@ scatterplot = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID, group}
-        x = data.x
-        y = data.y
+        # missing values can be any of null, "NA", or ""; replacing with nulls
+        x = missing2null(data.x)
+        y = missing2null(data.y)
 
         if x.length != y.length
             displayError("x.length (#{x.length}) != y.length (#{y.length})")
-
-        # missing values can be any of null, "NA", or ""; replacing with nulls
-        x = missing2null(x, ["NA", ""])
-        y = missing2null(y, ["NA", ""])
 
         # grab indID if it's there
         # if no indID, create a vector of them
@@ -56,9 +55,9 @@ scatterplot = (chartOpts) ->
         if pointcolor.length != ngroup
             displayError("pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
 
-        # if all (x,y) not null
-        xNA.handle = false if x.every (v) -> (v?) and !xNA.force
-        yNA.handle = false if y.every (v) -> (v?) and !yNA.force
+        # whether to include separate boxes for NAs
+        xNA.handle = xNA.force or (xNA.handle and !(x.every (v) -> (v?)))
+        yNA.handle = yNA.force or (yNA.handle and !(y.every (v) -> (v?)))
 
         xlim = xlim ? d3.extent(x)
         ylim = ylim ? d3.extent(y)
@@ -68,6 +67,9 @@ scatterplot = (chartOpts) ->
         chartOpts.ylim = ylim
         chartOpts.xNA = xNA.handle
         chartOpts.yNA = yNA.handle
+        chartOpts.xNA_size = xNA_size
+        chartOpts.yNA_size = yNA_size
+
         myframe = panelframe(chartOpts)
 
         # Create SVG
