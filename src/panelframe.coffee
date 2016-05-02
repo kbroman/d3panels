@@ -209,18 +209,19 @@ panelframe = (chartOpts) ->
         # background rectangle boxes
         boxes2include = (i for i of boxes.left when boxes.width[i] > 0 and boxes.height[i]>0)
         box = svg.append("g").attr("id", "box")
-                 .selectAll("empty")
-                 .data(boxes2include)
-                 .enter()
-                 .append("rect")
-                 .attr("x", (i) -> boxes.left[i])
-                 .attr("y", (i) -> boxes.top[i])
-                 .attr("height", (i) -> boxes.height[i])
-                 .attr("width", (i) -> boxes.width[i])
-                 .attr("fill", "none")
-                 .attr("stroke", boxcolor)
-                 .attr("stroke-width", boxwidth)
-                 .attr("shape-rendering", "crispEdges")
+
+        box.selectAll("empty")
+           .data(boxes2include)
+           .enter()
+           .append("rect")
+           .attr("x", (i) -> boxes.left[i])
+           .attr("y", (i) -> boxes.top[i])
+           .attr("height", (i) -> boxes.height[i])
+           .attr("width", (i) -> boxes.width[i])
+           .attr("fill", "none")
+           .attr("stroke", boxcolor)
+           .attr("stroke-width", boxwidth)
+           .attr("shape-rendering", "crispEdges")
 
     # functions to grab stuff
     chart.xscale = () -> xscale_wnull
