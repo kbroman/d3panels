@@ -22,7 +22,7 @@ lodpanelframe = (chartOpts) ->
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
-    gap = chartOpts?.gap ? 5 # gap between chromosomes in pixels
+    chrGap = chartOpts?.chrGap ? 5 # gap between chromosomes in pixels
     horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     xscale = null
@@ -56,10 +56,10 @@ lodpanelframe = (chartOpts) ->
 
         # scales (x-axis scale has by chromosome ID)
         if horizontal # when horizontal, vertical is x-axis and horizontal is y-axis
-            xscale = calc_chrscales(plot_height, margin.top, gap, data.chr, data.start, data.end)
+            xscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end)
             yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left])
         else
-            xscale = calc_chrscales(plot_width, margin.left, gap, data.chr, data.start, data.end)
+            xscale = calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
             yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
 
         # solid background
@@ -78,15 +78,15 @@ lodpanelframe = (chartOpts) ->
                      .append("rect")
                      .attr("x", (d,i) ->
                          return margin.left if horizontal
-                         xscale[d](data.start[i])-gap/2)
+                         xscale[d](data.start[i])-chrGap/2)
                      .attr("width", (d,i) ->
                          return plot_width if horizontal
-                         xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap)
+                         xscale[d](data.end[i]) - xscale[d](data.start[i]) + chrGap)
                      .attr("y", (d,i) ->
-                         return xscale[d](data.start[i])-gap/2 if horizontal
+                         return xscale[d](data.start[i])-chrGap/2 if horizontal
                          margin.top)
                      .attr("height", (d,i) ->
-                         return xscale[d](data.end[i]) - xscale[d](data.start[i]) + gap if horizontal
+                         return xscale[d](data.end[i]) - xscale[d](data.start[i]) + chrGap if horizontal
                          plot_height)
                      .attr("fill", (d,i) ->
                          return rectcolor if i % 2 == 0
