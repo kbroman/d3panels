@@ -165,17 +165,19 @@ calc_midpoints = (x) -> # x should be sorted
     ((x[i] + x[i+1])/2 for i in [0..(x.length - 2)])
 
 # calc cell rectangles (left, right, top, bottom)
-calc_cell_rect = (cells, x, y) ->
-    # pad x and y with lengths and calculate midpoints
-    xmid = calc_midpoints(pad_vector(x))
-    ymid = calc_midpoints(pad_vector(y))
-
+calc_cell_rect = (cells, xmid, ymid) ->
     for cell in cells
-        cell.left = xmid[cell.xindex]
-        cell.right = xmid[1 + cell.xindex]
-        cell.top = ymid[1 + cell.yindex]
-        cell.bottom = ymid[cell.yindex]
+        left = xmid[cell.xindex]
+        right = xmid[1 + cell.xindex]
+        top = ymid[cell.yindex]
+        bottom = ymid[1 + cell.yindex]
 
+        cell.left = d3.min([left, right])
+        cell.width = Math.abs(right-left)
+        cell.top = d3.min([top, bottom])
+        cell.height = Math.abs(bottom - top)
+
+# hash with values to left and right
 getLeftRight = (x) ->
     n = x.length
     x.sort( (a,b) -> a-b )

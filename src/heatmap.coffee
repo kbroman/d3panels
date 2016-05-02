@@ -56,12 +56,13 @@ heatmap = (chartOpts) ->
             for j of data.z[i]
                 cells.push({x:data.x[i], y:data.y[j], z:data.z[i][j], xindex: +i, yindex: +j})
 
-        # sort the x and y values
-        calc_cell_rect(cells, data.x, data.y)
+        # calc x and y midpoints
+        xmid = calc_midpoints(pad_vector(data.x))
+        ymid = calc_midpoints(pad_vector(data.y))
 
         # x and y axis limits
-        xlim = xlim ? [d3.min(cell.left for cell in cells), d3.max(cell.right for cell in cells)]
-        ylim = ylim ? [d3.min(cell.bottom for cell in cells), d3.max(cell.top for cell in cells)]
+        xlim = xlim ? d3.extent(xmid)
+        ylim = ylim ? d3.extent(ymid)
 
         # z-axis (color) limits; if not provided, make symmetric about 0
         zmin = matrixMin(data.z)
@@ -110,12 +111,12 @@ heatmap = (chartOpts) ->
                     .offset([0,10])
         svg.call(celltip)
 
-        # calculate x,y,width,height
-        for cell in cells
-            cell.xpix = d3.min([xscale(cell.left), xscale(cell.right)])
-            cell.ypix = d3.min([yscale(cell.top), yscale(cell.bottom)])
-            cell.width = Math.abs(xscale(cell.left) - xscale(cell.right))
-            cell.height = Math.abs(yscale(cell.top) - yscale(cell.bottom))
+        # scaled x and y midpoints
+        xmid_scaled = (xscale(xv) for xv in xmid)
+        ymid_scaled = (yscale(yv) for yv in ymid)
+
+        # calculate x,y,width,height of rectangles
+        calc_cell_rect(cells, xmid_scaled, ymid_scaled)
 
         cellrect = svg.append("g").attr("id", "cells")
         cellSelect =
@@ -123,8 +124,8 @@ heatmap = (chartOpts) ->
                     .data(cells)
                     .enter()
                     .append("rect")
-                    .attr("x", (d) -> d.xpix)
-                    .attr("y", (d) -> d.ypix)
+                    .attr("x", (d) -> d.left)
+                    .attr("y", (d) -> d.top)
                     .attr("width", (d) -> d.width)
                     .attr("height", (d) -> d.height)
                     .attr("class", (d,i) -> "cell#{i}")

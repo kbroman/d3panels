@@ -284,17 +284,19 @@ calc_midpoints = function(x) {
   return results;
 };
 
-calc_cell_rect = function(cells, x, y) {
-  var cell, k, len, results, xmid, ymid;
-  xmid = calc_midpoints(pad_vector(x));
-  ymid = calc_midpoints(pad_vector(y));
+calc_cell_rect = function(cells, xmid, ymid) {
+  var bottom, cell, k, left, len, results, right, top;
   results = [];
   for (k = 0, len = cells.length; k < len; k++) {
     cell = cells[k];
-    cell.left = xmid[cell.xindex];
-    cell.right = xmid[1 + cell.xindex];
-    cell.top = ymid[1 + cell.yindex];
-    results.push(cell.bottom = ymid[cell.yindex]);
+    left = xmid[cell.xindex];
+    right = xmid[1 + cell.xindex];
+    top = ymid[cell.yindex];
+    bottom = ymid[1 + cell.yindex];
+    cell.left = d3.min([left, right]);
+    cell.width = Math.abs(right - left);
+    cell.top = d3.min([top, bottom]);
+    results.push(cell.height = Math.abs(bottom - top));
   }
   return results;
 };
@@ -2464,7 +2466,7 @@ heatmap = function(chartOpts) {
   celltip = null;
   svg = null;
   chart = function(selection, data) {
-    var cell, cellrect, cells, i, j, k, len, myframe, nx, ny, ref10, ref11, xlabels, ylabels, zmax, zmin;
+    var cell, cellrect, cells, i, j, myframe, nx, ny, ref10, ref11, xlabels, xmid, xmid_scaled, xv, ylabels, ymid, ymid_scaled, yv, zmax, zmin;
     if (data.xcat != null) {
       data.x = (function() {
         var results;
@@ -2521,45 +2523,10 @@ heatmap = function(chartOpts) {
         });
       }
     }
-    calc_cell_rect(cells, data.x, data.y);
-    xlim = xlim != null ? xlim : [
-      d3.min((function() {
-        var k, len, results;
-        results = [];
-        for (k = 0, len = cells.length; k < len; k++) {
-          cell = cells[k];
-          results.push(cell.left);
-        }
-        return results;
-      })()), d3.max((function() {
-        var k, len, results;
-        results = [];
-        for (k = 0, len = cells.length; k < len; k++) {
-          cell = cells[k];
-          results.push(cell.right);
-        }
-        return results;
-      })())
-    ];
-    ylim = ylim != null ? ylim : [
-      d3.min((function() {
-        var k, len, results;
-        results = [];
-        for (k = 0, len = cells.length; k < len; k++) {
-          cell = cells[k];
-          results.push(cell.bottom);
-        }
-        return results;
-      })()), d3.max((function() {
-        var k, len, results;
-        results = [];
-        for (k = 0, len = cells.length; k < len; k++) {
-          cell = cells[k];
-          results.push(cell.top);
-        }
-        return results;
-      })())
-    ];
+    xmid = calc_midpoints(pad_vector(data.x));
+    ymid = calc_midpoints(pad_vector(data.y));
+    xlim = xlim != null ? xlim : d3.extent(xmid);
+    ylim = ylim != null ? ylim : d3.extent(ymid);
     zmin = matrixMin(data.z);
     zmax = matrixMax(data.z);
     if (-zmin > zmax) {
@@ -2611,18 +2578,30 @@ heatmap = function(chartOpts) {
       return "(" + x + ", " + y + ") &rarr; " + z;
     }).direction('e').offset([0, 10]);
     svg.call(celltip);
-    for (k = 0, len = cells.length; k < len; k++) {
-      cell = cells[k];
-      cell.xpix = d3.min([xscale(cell.left), xscale(cell.right)]);
-      cell.ypix = d3.min([yscale(cell.top), yscale(cell.bottom)]);
-      cell.width = Math.abs(xscale(cell.left) - xscale(cell.right));
-      cell.height = Math.abs(yscale(cell.top) - yscale(cell.bottom));
-    }
+    xmid_scaled = (function() {
+      var k, len, results;
+      results = [];
+      for (k = 0, len = xmid.length; k < len; k++) {
+        xv = xmid[k];
+        results.push(xscale(xv));
+      }
+      return results;
+    })();
+    ymid_scaled = (function() {
+      var k, len, results;
+      results = [];
+      for (k = 0, len = ymid.length; k < len; k++) {
+        yv = ymid[k];
+        results.push(yscale(yv));
+      }
+      return results;
+    })();
+    calc_cell_rect(cells, xmid_scaled, ymid_scaled);
     cellrect = svg.append("g").attr("id", "cells");
     cellSelect = cellrect.selectAll("empty").data(cells).enter().append("rect").attr("x", function(d) {
-      return d.xpix;
+      return d.left;
     }).attr("y", function(d) {
-      return d.ypix;
+      return d.top;
     }).attr("width", function(d) {
       return d.width;
     }).attr("height", function(d) {
