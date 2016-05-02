@@ -185,8 +185,8 @@ d3.json "data.json", (data) ->
 # Example 4: color by grouping
 d3.json "data.json", (data) ->
     mychart = scatterplot({
-        xlab:"X1"
-        ylab:"X2"
+        xlab:"X"
+        ylab:"Y"
         height:h
         width:w
         margin:margin})
@@ -194,6 +194,9 @@ d3.json "data.json", (data) ->
     ngroup = 3
     group = (Math.ceil(Math.random()*ngroup) for i in data)
     these_data = {x:(d[0] for d in data), y:d[1] for d in data, group:group}
+    for i of these_data.y
+        these_data.y[i] = null if Math.random() < 0.1
+        these_data.x[i] = null if Math.random() < 0.1
 
     mychart(d3.select("div#chart4"), these_data)
 
