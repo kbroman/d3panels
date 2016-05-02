@@ -12,7 +12,7 @@ heatmap = (chartOpts) ->
     zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
-    boxwidth = chartOpts?.boxwidth ? 1           # width of outer box in pixels
+    boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
@@ -54,19 +54,14 @@ heatmap = (chartOpts) ->
         cells = []
         for i of data.z
             for j of data.z[i]
-                cells.push({x:data.x[i], y:data.y[j], z:data.z[i][j]})
+                cells.push({x:data.x[i], y:data.y[j], z:data.z[i][j], xindex: +i, yindex: +j})
 
         # sort the x and y values
-        data.x.sort((a,b) -> a-b)
-        data.y.sort((a,b) -> a-b)
-
-        # x values to left and right of each value
-        xLR = getLeftRight(data.x)
-        yLR = getLeftRight(data.y)
+        calc_cell_rect(cells, data.x, data.y)
 
         # x and y axis limits
-        xlim = xlim ? xLR.extent
-        ylim = ylim ? yLR.extent
+        xlim = xlim ? [d3.min(cell.left for cell in cells), d3.max(cell.right for cell in cells)]
+        ylim = ylim ? [d3.min(cell.bottom for cell in cells), d3.max(cell.top for cell in cells)]
 
         # z-axis (color) limits; if not provided, make symmetric about 0
         zmin = matrixMin(data.z)
@@ -80,13 +75,6 @@ heatmap = (chartOpts) ->
         # discard cells with |z| < zthresh
         zthresh = zthresh ? zmin - 1
         cells = (cell for cell in cells when Math.abs(cell.z) >= zthresh)
-
-        # insert info about left, right, top, bottom points of cell rectangles
-        for cell in cells
-            cell.recLeft = (xLR[cell.x].left+cell.x)/2
-            cell.recRight = (xLR[cell.x].right+cell.x)/2
-            cell.recTop = (yLR[cell.y].right+cell.y)/2
-            cell.recBottom = (yLR[cell.y].left+cell.y)/2
 
         # set up frame
         chartOpts.margin = margin
@@ -122,16 +110,23 @@ heatmap = (chartOpts) ->
                     .offset([0,10])
         svg.call(celltip)
 
+        # calculate x,y,width,height
+        for cell in cells
+            cell.xpix = d3.min([xscale(cell.left), xscale(cell.right)])
+            cell.ypix = d3.min([yscale(cell.top), yscale(cell.bottom)])
+            cell.width = Math.abs(xscale(cell.left) - xscale(cell.right))
+            cell.height = Math.abs(yscale(cell.top) - yscale(cell.bottom))
+
         cellrect = svg.append("g").attr("id", "cells")
         cellSelect =
             cellrect.selectAll("empty")
                     .data(cells)
                     .enter()
                     .append("rect")
-                    .attr("x", (d) -> xscale(d.recLeft))
-                    .attr("y", (d) -> yscale(d.recTop))
-                    .attr("width", (d) -> xscale(d.recRight)-xscale(d.recLeft))
-                    .attr("height", (d) -> yscale(d.recBottom) - yscale(d.recTop))
+                    .attr("x", (d) -> d.xpix)
+                    .attr("y", (d) -> d.ypix)
+                    .attr("width", (d) -> d.width)
+                    .attr("height", (d) -> d.height)
                     .attr("class", (d,i) -> "cell#{i}")
                     .attr("fill", (d) -> if d.z? then zscale(d.z) else nullcolor)
                     .attr("stroke", "none")
