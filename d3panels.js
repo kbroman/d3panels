@@ -2280,11 +2280,6 @@ dotchart = function(chartOpts) {
       return d.x;
     }).attr("cy", function(d) {
       return d.y;
-    }).attr("opacity", function(d, i) {
-      if (((y[i] != null) || yNA.handle) && ((x[i] != null) || xNA.handle)) {
-        return 1;
-      }
-      return 0;
     }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
     if (jitter === "random") {
       jitter_width = 0.2;

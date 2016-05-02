@@ -137,9 +137,6 @@ dotchart = (chartOpts) ->
                   .attr("stroke-width", "1")
                   .attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
-                  .attr("opacity", (d,i) ->
-                                       return 1 if (y[i]? or yNA.handle) and (x[i]? or xNA.handle)
-                                       return 0)
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
