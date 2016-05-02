@@ -122,7 +122,6 @@ dotchart = (chartOpts) ->
             scaledPoints = ({x:xscale(y[i]),y:yscale(x[i])} for i of x)
         else
             scaledPoints = ({x:xscale(x[i]),y:yscale(y[i])} for i of x)
-        scaledPoints = ({x:p.x, y:p.y} for p in scaledPoints)
 
         pointGroup = svg.append("g").attr("id", "points")
         points =
