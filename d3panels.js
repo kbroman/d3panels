@@ -2095,7 +2095,7 @@ var dotchart,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 dotchart = function(chartOpts) {
-  var chart, horizontal, indtip, jitter, pointcolor, points, pointsize, pointstroke, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, tipclass, v_over_h, xNA, xcategories, xcatlabels, xlab, xlineOpts, xscale, yNA, ylab, ylim, yscale;
+  var chart, horizontal, indtip, jitter, pointcolor, points, pointsize, pointstroke, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, svg, tipclass, v_over_h, xNA, xNA_size, xcategories, xcatlabels, xlab, xlineOpts, xscale, yNA, yNA_size, ylab, ylim, yscale;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -2109,33 +2109,40 @@ dotchart = function(chartOpts) {
     handle: true,
     force: false
   };
-  ylim = (ref4 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref4 : null;
-  xlab = (ref5 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref5 : "Group";
-  ylab = (ref6 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref6 : "Response";
-  xlineOpts = (ref7 = chartOpts != null ? chartOpts.xlineOpts : void 0) != null ? ref7 : {
+  xNA_size = (ref4 = chartOpts != null ? chartOpts.xNA_size : void 0) != null ? ref4 : {
+    width: 20,
+    gap: 10
+  };
+  yNA_size = (ref5 = chartOpts != null ? chartOpts.yNA_size : void 0) != null ? ref5 : {
+    width: 20,
+    gap: 10
+  };
+  ylim = (ref6 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref6 : null;
+  xlab = (ref7 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref7 : "Group";
+  ylab = (ref8 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref8 : "Response";
+  xlineOpts = (ref9 = chartOpts != null ? chartOpts.xlineOpts : void 0) != null ? ref9 : {
     color: "#cdcdcd",
     width: 5
   };
-  pointcolor = (ref8 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref8 : "slateblue";
-  pointstroke = (ref9 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref9 : "black";
-  pointsize = (ref10 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref10 : 3;
-  jitter = (ref11 = chartOpts != null ? chartOpts.jitter : void 0) != null ? ref11 : "beeswarm";
-  tipclass = (ref12 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref12 : "tooltip";
-  horizontal = (ref13 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref13 : false;
-  v_over_h = (ref14 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref14 : horizontal;
+  pointcolor = (ref10 = chartOpts != null ? chartOpts.pointcolor : void 0) != null ? ref10 : "slateblue";
+  pointstroke = (ref11 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref11 : "black";
+  pointsize = (ref12 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref12 : 3;
+  jitter = (ref13 = chartOpts != null ? chartOpts.jitter : void 0) != null ? ref13 : "beeswarm";
+  tipclass = (ref14 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref14 : "tooltip";
+  horizontal = (ref15 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref15 : false;
+  v_over_h = (ref16 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref16 : horizontal;
   xscale = null;
   yscale = null;
   points = null;
   indtip = null;
   svg = null;
   chart = function(selection, data) {
-    var collision, force, gravity, i, indID, j, k, l, len, myframe, nearbyPoints, p, pointGroup, q, ref15, ref16, results, scaledPoints, tick, u, x, xlim, xv, y;
+    var collision, force, gravity, i, indID, j, jitter_width, k, l, len, myframe, nearbyPoints, p, pointGroup, q, ref17, ref18, ref19, results, scaledPoints, tick, u, x, xlim, xv, y;
     x = data.x;
     y = data.y;
-    indID = (ref15 = data != null ? data.indID : void 0) != null ? ref15 : null;
-    indID = indID != null ? indID : (function() {
+    indID = (ref17 = data != null ? data.indID : void 0) != null ? ref17 : (function() {
       results = [];
-      for (var k = 1, ref16 = x.length; 1 <= ref16 ? k <= ref16 : k >= ref16; 1 <= ref16 ? k++ : k--){ results.push(k); }
+      for (var k = 1, ref18 = x.length; 1 <= ref18 ? k <= ref18 : k >= ref18; 1 <= ref18 ? k++ : k--){ results.push(k); }
       return results;
     }).apply(this);
     if (x.length !== y.length) {
@@ -2163,6 +2170,11 @@ dotchart = function(chartOpts) {
       console.log(xcategories);
       console.log("x:");
       console.log(x);
+      for (i in x) {
+        if ((x[i] != null) && !(ref19 = x[i], indexOf.call(xcategories, ref19) >= 0)) {
+          x[i] = null;
+        }
+      }
     }
     ylim = ylim != null ? ylim : d3.extent(y);
     xlim = [d3.min(xcategories) - 0.5, d3.max(xcategories) + 0.5];
@@ -2185,6 +2197,8 @@ dotchart = function(chartOpts) {
       chartOpts.ylineOpts = xlineOpts;
       chartOpts.yNA = xNA.handle;
       chartOpts.xNA = yNA.handle;
+      chartOpts.xNA_size = yNA_size;
+      chartOpts.yNA_size = xNA_size;
       chartOpts.yticks = xcategories;
       chartOpts.yticklab = xcatlabels;
       chartOpts.v_over_h = v_over_h;
@@ -2197,6 +2211,8 @@ dotchart = function(chartOpts) {
       chartOpts.xlineOpts = xlineOpts;
       chartOpts.xNA = xNA.handle;
       chartOpts.yNA = yNA.handle;
+      chartOpts.xNA_size = xNA_size;
+      chartOpts.yNA_size = yNA_size;
       chartOpts.xticks = xcategories;
       chartOpts.xticklab = xcatlabels;
       chartOpts.v_over_h = v_over_h;
@@ -2265,28 +2281,34 @@ dotchart = function(chartOpts) {
     }).attr("cy", function(d) {
       return d.y;
     }).attr("opacity", function(d, i) {
-      var ref17;
-      if (((y[i] != null) || yNA.handle) && (x[i] != null) && (ref17 = x[i], indexOf.call(xcategories, ref17) >= 0)) {
+      if (((y[i] != null) || yNA.handle) && ((x[i] != null) || xNA.handle)) {
         return 1;
       }
       return 0;
     }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
     if (jitter === "random") {
+      jitter_width = 0.2;
       u = (function() {
         var results1;
         results1 = [];
         for (i in scaledPoints) {
-          results1.push(Math.random() * 0.4 - 0.2);
+          results1.push((Math.random() - 0.5) * jitter_width);
         }
         return results1;
       })();
       if (horizontal) {
         points.attr("cy", function(d, i) {
-          return yscale(x[i] + u[i]);
+          if (x[i] != null) {
+            return yscale(x[i] + u[i]);
+          }
+          return yscale(x[i]) + u[i] / jitter_width * xNA_size.width / 2;
         });
       } else {
         points.attr("cx", function(d, i) {
-          return xscale(x[i] + u[i]);
+          if (x[i] != null) {
+            return xscale(x[i] + u[i]);
+          }
+          return xscale(x[i]) + u[i] / jitter_width * xNA_size.width / 2;
         });
       }
     } else if (jitter === "beeswarm") {
@@ -2323,11 +2345,11 @@ dotchart = function(chartOpts) {
         }
       };
       collision = function(p, alpha) {
-        var d, dx, dy, len1, m, ref17, results1;
-        ref17 = nearbyPoints[p.index];
+        var d, dx, dy, len1, m, ref20, results1;
+        ref20 = nearbyPoints[p.index];
         results1 = [];
-        for (m = 0, len1 = ref17.length; m < len1; m++) {
-          i = ref17[m];
+        for (m = 0, len1 = ref20.length; m < len1; m++) {
+          i = ref20[m];
           q = scaledPoints[i];
           dx = p.x - q.x;
           dy = p.y - q.y;

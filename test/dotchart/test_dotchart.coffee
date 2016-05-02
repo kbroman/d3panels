@@ -152,3 +152,107 @@ d3.json "data.json", (data) ->
 
     these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
     mychart(d3.select("div#chart8"), these_data)
+
+
+# Example 9: Some missing y data
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Missing y values"
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    for i of these_data.y
+        these_data.y[i] = null if Math.random()<0.2
+    mychart(d3.select("div#chart9"), these_data)
+
+# Example 10: Some missing y data, horizontal
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Missing y values, horizontal"
+        horizontal:true
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    for i of these_data.y
+        these_data.y[i] = null if Math.random()<0.2
+    mychart(d3.select("div#chart10"), these_data)
+
+
+
+# Example 11: Some missing x data
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Missing x values"
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    for i of these_data.x
+        these_data.x[i] = null if Math.random()<0.2
+    mychart(d3.select("div#chart11"), these_data)
+
+# Example 12: Some missing x data, horizontal
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Missing x values, horizontal"
+        horizontal:true
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    for i of these_data.x
+        these_data.x[i] = null if Math.random()<0.2
+    mychart(d3.select("div#chart12"), these_data)
+
+
+
+# Example 13: Some missing x and y data
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Missing x and y values"
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    for i of these_data.y
+        these_data.x[i] = null if Math.random()<0.2
+        these_data.y[i] = null if Math.random()<0.2
+    these_data.x[0] = null
+    these_data.y[0] = null
+    mychart(d3.select("div#chart13"), these_data)
+
+# Example 14: Some missing x and y data, horizontal
+d3.json "data.json", (data) ->
+    mychart = dotchart({
+        xlab:"X"
+        ylab:"Y"
+        title:"Missing x and y values, horizontal"
+        horizontal:true
+        height:h
+        width:w
+        margin:margin})
+
+    these_data = {x:(d[0] for d in data), y:(d[1] for d in data)}
+    for i of these_data.y
+        these_data.x[i] = null if Math.random()<0.2
+        these_data.y[i] = null if Math.random()<0.2
+    these_data.x[0] = null
+    these_data.y[0] = null
+    mychart(d3.select("div#chart14"), these_data)

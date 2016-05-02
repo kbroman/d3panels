@@ -8,6 +8,8 @@ dotchart = (chartOpts) ->
     xcatlabels = chartOpts?.xcatlabels ? null # labels for group categories
     xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
     yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    xNA_size = chartOpts?.xNA_size ? {width:20, gap:10} # width and gap for x=NA box
+    yNA_size = chartOpts?.yNA_size ? {width:20, gap:10} # width and gap for y=NA box
     ylim = chartOpts?.ylim ? null # y-axis limits
     xlab = chartOpts?.xlab ? "Group" # x-axis title
     ylab = chartOpts?.ylab ? "Response" # y-axis title
@@ -33,8 +35,7 @@ dotchart = (chartOpts) ->
 
         # grab indID if it's there
         # if no indID, create a vector of them
-        indID = data?.indID ? null
-        indID = indID ? [1..x.length]
+        indID = data?.indID ? [1..x.length]
 
         # a few checks
         if x.length != y.length
@@ -54,6 +55,8 @@ dotchart = (chartOpts) ->
             console.log(xcategories)
             console.log("x:")
             console.log(x)
+            for i of x
+                x[i] = null if x[i]? and !(x[i] in xcategories)
 
         # x- and y-axis limits
         ylim = ylim ? d3.extent(y)
@@ -72,6 +75,8 @@ dotchart = (chartOpts) ->
             chartOpts.ylineOpts = xlineOpts
             chartOpts.yNA = xNA.handle
             chartOpts.xNA = yNA.handle
+            chartOpts.xNA_size = yNA_size
+            chartOpts.yNA_size = xNA_size
             chartOpts.yticks = xcategories
             chartOpts.yticklab = xcatlabels
             chartOpts.v_over_h = v_over_h
@@ -84,6 +89,8 @@ dotchart = (chartOpts) ->
             chartOpts.xlineOpts = xlineOpts
             chartOpts.xNA = xNA.handle
             chartOpts.yNA = yNA.handle
+            chartOpts.xNA_size = xNA_size
+            chartOpts.yNA_size = yNA_size
             chartOpts.xticks = xcategories
             chartOpts.xticklab = xcatlabels
             chartOpts.v_over_h = v_over_h
@@ -131,18 +138,23 @@ dotchart = (chartOpts) ->
                   .attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
                   .attr("opacity", (d,i) ->
-                                       return 1 if (y[i]? or yNA.handle) and x[i]? and x[i] in xcategories
+                                       return 1 if (y[i]? or yNA.handle) and (x[i]? or xNA.handle)
                                        return 0)
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
 
         if jitter == "random"
-            u = (Math.random()*0.4 - 0.2 for i of scaledPoints)
+            jitter_width = 0.2
+            u = ((Math.random()-0.5)*jitter_width for i of scaledPoints)
             if horizontal
-                points.attr("cy", (d,i) -> yscale(x[i] + u[i]))
+                points.attr("cy", (d,i) ->
+                    return yscale(x[i] + u[i]) if x[i]?
+                    yscale(x[i]) + u[i]/jitter_width*xNA_size.width/2)
             else
-                points.attr("cx", (d,i) -> xscale(x[i] + u[i]))
+                points.attr("cx", (d,i) ->
+                    return xscale(x[i] + u[i]) if x[i]?
+                    xscale(x[i]) + u[i]/jitter_width*xNA_size.width/2)
 
         else if jitter == "beeswarm"
 
