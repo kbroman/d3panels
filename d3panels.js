@@ -1236,7 +1236,7 @@ panelframe = function(chartOpts) {
       return boxes.height[i];
     }).attr("width", function(i) {
       return boxes.width[i];
-    }).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
+    }).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).style("shape-rendering", "crispEdges");
   };
   chart.xscale = function() {
     return xscale_wnull;
@@ -3652,12 +3652,7 @@ scatterplot = function(chartOpts) {
       return "pt" + i;
     }).attr("r", pointsize).attr("fill", function(d, i) {
       return pointcolor[group[i]];
-    }).attr("stroke", pointstroke).attr("stroke-width", "1").attr("opacity", function(d, i) {
-      if (((x[i] != null) || xNA.handle) && ((y[i] != null) || yNA.handle)) {
-        return 1;
-      }
-      return 0;
-    }).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
+    }).attr("stroke", pointstroke).attr("stroke-width", "1").on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
     return myframe.box().moveToFront();
   };
   chart.xscale = function() {

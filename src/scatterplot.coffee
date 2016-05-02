@@ -99,9 +99,6 @@ scatterplot = (chartOpts) ->
                   .attr("fill", (d,i) -> pointcolor[group[i]])
                   .attr("stroke", pointstroke)
                   .attr("stroke-width", "1")
-                  .attr("opacity", (d,i) ->
-                                       return 1 if (x[i]? or xNA.handle) and (y[i]? or yNA.handle)
-                                       return 0)
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
