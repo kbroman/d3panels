@@ -11,8 +11,6 @@ heatmap = (chartOpts) ->
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"] # vector of three colors for the color scale (negative - zero - positive)
     zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
-    boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
-    boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
@@ -147,18 +145,6 @@ heatmap = (chartOpts) ->
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 0)
                                                   if data.ycat?
                                                       svg.select("text#ylab#{d.y}").attr("opacity", 0))
-
-        # add box again
-        svg.append("rect")
-           .attr("height", svg.attr("height")-margin.top-margin.bottom)
-           .attr("width", svg.attr("width")-margin.left-margin.right)
-           .attr("x", margin.left)
-           .attr("y", margin.top)
-           .attr("fill", "none")
-           .attr("stroke", boxcolor)
-           .attr("stroke-width", boxwidth)
-           .attr("shape-rendering", "crispEdges")
-           .style("pointer-events", "none")
 
         # handle categorical scales:
         #    replace text with category labels, add IDs, and hide them initially
