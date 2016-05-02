@@ -156,13 +156,19 @@ median = (x) ->
         return x[(n-1)/2]
     (x[n/2] + x[(n/2)-1])/2
 
+# pad a vector to left and right
+pad_vector = (x) -> # x should be sorted
+    [x[0] - (x[1]-x[0])].concat(x).concat([x[x.length - 1] + (x[x.length-1] - x[x.length-2])])
+
+# calculate midpoints
+calc_midpoints = (x) -> # x should be sorted
+    ((x[i] + x[i+1])/2 for i in [0..(x.length - 2)])
+
 # calc cell rectangles (left, right, top, bottom)
 calc_cell_rect = (cells, x, y) ->
-    # pad x and y with lengths
-    xpad = [x[0] - (x[1]-x[0])].concat(x).concat([x[x.length - 1] + (x[x.length-1] - x[x.length-2])])
-    ypad = [y[0] - (y[1]-y[0])].concat(y).concat([y[y.length - 1] + (y[y.length-1] - y[y.length-2])])
-    xmid = ((xpad[i] + xpad[i+1])/2 for i in [0..(xpad.length - 2)])
-    ymid = ((ypad[i] + ypad[i+1])/2 for i in [0..(ypad.length - 2)])
+    # pad x and y with lengths and calculate midpoints
+    xmid = calc_midpoints(pad_vector(x))
+    ymid = calc_midpoints(pad_vector(y))
 
     for cell in cells
         cell.left = xmid[cell.xindex]
