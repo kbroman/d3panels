@@ -5,26 +5,28 @@ w = 1000
 
 # Example: simplest use
 d3.json "data.json", (data) ->
-    mychart = lodheatmap().height(h)
-                          .width(w)
-                          .zthresh(1.0)
+    mychart = lodheatmap({height:h, width:w, zthresh:1})
 
-    d3.select("div#chart1")
-      .datum(data)
-      .call(mychart)
+    data.ycat = data.time
+    mychart(d3.select("div#chart1"), data)
 
 # Example with use of quantitative y-axis scale
 d3.json "data.json", (data) ->
+    mychart = lodheatmap({height:h, width:w, zthresh:1})
 
-    times = (x/6 for x of data.lodnames)
-    lod_labels = (formatAxis(times, 1)(x) for x in times)
+    data.y = data.time
+    mychart(d3.select("div#chart2"), data)
 
-    mychart = lodheatmap().height(h)
-                          .width(w)
-                          .zthresh(1.0)
-                          .quantScale(times)
-                          .lod_labels(lod_labels)
+# Horizontal
+d3.json "data.json", (data) ->
+    mychart = lodheatmap({height:w, width:h, zthresh:1, horizontal:true})
 
-    d3.select("div#chart2")
-      .datum(data)
-      .call(mychart)
+    data.ycat = data.time
+    mychart(d3.select("div#chart3"), data)
+
+# Horizontal, with use of quantitative y-axis scale
+d3.json "data.json", (data) ->
+    mychart = lodheatmap({height:w, width:h, zthresh:1, horizontal:true})
+
+    data.y = data.time
+    mychart(d3.select("div#chart4"), data)

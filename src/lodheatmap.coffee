@@ -1,311 +1,142 @@
 # lodheatmap: reuseable panel with heat map of LOD curves
 
-lodheatmap = () ->
-    width = 1200
-    height = 600
-    margin = {left:60, top:40, right:40, bottom: 40}
-    axispos = {xtitle:25, ytitle:30, xlabel:5, ylabel:5}
-    chrGap = 8
-    titlepos = 20
-    rectcolor = "#e6e6e6"
-    nullcolor = "#e6e6e6"
-    colors = ["slateblue", "white", "crimson"]
-    title = ""
-    xlab = "Chromosome"
-    ylab = ""
-    rotate_ylab = null
-    zlim = null
-    zthresh = null
-    quantScale = null # optional vector of numbers, for y-axis scale
-    lod_labels = null # optional vector of strings, for LOD column labels
-    nyticks = 5   # no. y-axis ticks if quantitative scale
-    yticks = null # positions of y-axis ticks if quantitative scale
-    xscale = d3.scale.linear()
-    yscale = d3.scale.linear()
-    zscale = d3.scale.linear()
+lodheatmap = (chartOpts) ->
+    # chartOpts begin
+    colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
+    nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
+    xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
+    ylab = chartOpts?.ylab ? ""           # y-axis label
+    ylim = chartOpts?.ylim ? null # y-axis limits (if null take from data)
+    zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
+    zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
+    horizontal = chartOpts?.horizontal ? false # if true, have chromosomes arranged vertically
+    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    # chartOpts end
+    xscale = null
+    yscale = null
+    zscale = null
     cellSelect = null
-    svg = null
     celltip = null
-    tipclass = ""
+    svg = null
 
     ## the main function
-    chart = (selection) ->
-        selection.each (data) ->
+    chart = (selection, data) -> # (chr, pos, lod) optionally: y or ycat giving scale for y-axis
+                                 # also, optionally chrname, chrstart, chrend
 
-            data = reorgLodData(data)
-            data = chrscales(data, width, chrGap, margin.left, true)
-            xscale = data.xscale
+        # for categorical scale
+        if data.ycat?
+            data.y = (i+1 for i of data.ycat)
+        unless data.y?
+            data.ycat = (i+1 for i of data.lod[0])
+            data.y = (i+1 for i of data.lod[0])
+        n_pos = data.chr.length
+        n_lod = data.y.length
 
-            nlod = data.lodnames.length
-            yscale.domain([-0.5, nlod-0.5]).range([margin.top+height, margin.top])
-            rectHeight = yscale(0)-yscale(1)
+        # check inputs
+        if n_pos != data.pos.length
+            displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
+        if n_pos != data.lod.length
+            displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
+        for i of data.lod
+            if data.lod[i].length != data.y.length
+                displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.y.length (#{n_lod})")
 
-            xLR = {}
-            for chr in data.chrnames
-                xLR[chr] = getLeftRight(data.posByChr[chr])
+        # create chrname, chrstart, chrend if missing
+        data.chrname = unique(data.chr) unless data.chrname?
+        unless data.chrstart?
+            data.chrstart = []
+            for c in data.chrname
+                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
+                data.chrstart.push(d3.min(these_pos))
+        unless data.chrend?
+            data.chrend = []
+            for c in data.chrname
+                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
+                data.chrend.push(d3.max(these_pos))
 
-            # z-axis (color) limits; if not provided, make symmetric about 0
-            zmin = 0
-            zmax = 0
-            for lodcol in data.lodnames
-                extent = d3.extent(data[lodcol])
-                zmin = extent[0] if extent[0] < zmin
-                zmax = extent[1] if extent[1] > zmax
-            zmax = -zmin if -zmin > zmax
-            zlim = zlim ? [-zmax, 0, zmax]
-            if zlim.length != colors.length
-                displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
-            zscale.domain(zlim).range(colors)
+        # organize positions and LOD scores by chromosomes
+        data = reorgLodData(data)
 
-            zthresh = zthresh ? zmin - 1
+        # set up frame
+        chartOpts.ylim = ylim ? d3.extent(data.y)
+        chartOpts.horizontal = horizontal
+        chartOpts.xlab = xlab
+        chartOpts.ylab = ylab
+        myframe = lodpanelframe(chartOpts)
 
-            data.cells = []
-            for chr in data.chrnames
-                for pos, i in data.posByChr[chr]
-                    for lod,j in data.lodByChr[chr][i]
-                        if lod >= zthresh or lod <= -zthresh
-                            data.cells.push({z: lod, left: (xscale[chr](pos) + xscale[chr](xLR[chr][pos].left) )/2,
-                            right: (xscale[chr](pos) + xscale[chr](xLR[chr][pos].right) )/2, lodindex:j, chr:chr, pos:pos})
+        # Create SVG
+        myframe(selection, {chr:data.chrname,start:data.chrstart,end:data.chrend})
+        svg = myframe.svg()
 
-            # handle lod_labels, if provided
-            lod_labels = lod_labels ? data.lodnames
+        # grab scale functions
+        xscale = myframe.xscale()
+        yscale = myframe.yscale()
 
-            # Select the svg element, if it exists.
-            svg = d3.select(this).selectAll("svg").data([data])
+        nlod = data.lodnames.length
 
-            # Otherwise, create the skeletal chart.
-            gEnter = svg.enter().append("svg").attr("class", "d3panels").append("g")
+        # z-axis (color) limits; if not provided, make symmetric about 0
+        zmin = matrixMin(data.z)
+        zmax = matrixMax(data.z)
+        zmax = -zmin if -zmin > zmax
+        zlim = zlim ? [-zmax, 0, zmax]
+        if zlim.length != colors.length
+            displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+        zscale = d3.scale.linear().domain(zlim).range(colors)
+        zthresh = zthresh ? zmin - 1
 
-            # Update the outer dimensions.
-            svg.attr("width", width+margin.left+margin.right)
-               .attr("height", height+margin.top+margin.bottom)
+        data.cells = []
+        for chr in data.chrnames
+            for pos, i in data.posByChr[chr]
+                for lod,j in data.lodByChr[chr][i]
+                    if lod >= zthresh or lod <= -zthresh
+                        data.cells.push({z: lod, left: (xscale[chr](pos) + xscale[chr](xLR[chr][pos].left) )/2,
+                        right: (xscale[chr](pos) + xscale[chr](xLR[chr][pos].right) )/2, lodindex:j, chr:chr, pos:pos})
 
-            g = svg.select("g")
+        celltip = d3.tip()
+                   .attr('class', "d3-tip #{tipclass}")
+                   .html((d) ->
+                             z = d3.format(".2f")(Math.abs(d.z))
+                             p = d3.format(".1f")(d.pos)
+                             "#{d.chr}@#{p}, #{lod_labels[d.lodindex]} &rarr; #{z}")
+                   .direction('e')
+                   .offset([0,10])
+        svg.call(celltip)
 
-            # boxes
-            g.append("g").attr("id", "boxes").selectAll("empty")
-             .data(data.chrnames)
-             .enter()
-             .append("rect")
-             .attr("id", (d) -> "box#{d}")
-             .attr("x", (d,i) -> data.chrStart[i])
-             .attr("y", (d) -> margin.top)
-             .attr("height", height)
-             .attr("width", (d,i) -> data.chrEnd[i] - data.chrStart[i])
-             .attr("fill", rectcolor)
-             .attr("stroke", "none")
-
-            # title
-            titlegrp = g.append("g").attr("class", "title")
-             .append("text")
-             .attr("x", margin.left + width/2)
-             .attr("y", margin.top - titlepos)
-             .text(title)
-
-            # x-axis
-            xaxis = g.append("g").attr("class", "x axis")
-            xaxis.selectAll("empty")
-                 .data(data.chrnames)
+        cells = g.append("g").attr("id", "cells")
+        cellSelect =
+            cells.selectAll("empty")
+                 .data(data.cells)
                  .enter()
-                 .append("text")
-                 .attr("x", (d,i) -> (data.chrStart[i] + data.chrEnd[i])/2)
-                 .attr("y", margin.top+height+axispos.xlabel)
-                 .text((d) -> d)
-            xaxis.append("text").attr("class", "title")
-                 .attr("x", margin.left+width/2)
-                 .attr("y", margin.top+height+axispos.xtitle)
-                 .text(xlab)
+                 .append("rect")
+                 .attr("x", (d) -> d.left)
+                 .attr("y", (d) -> yscale(d.lodindex)-rectHeight/2)
+                 .attr("width", (d) -> d.right - d.left)
+                 .attr("height", rectHeight)
+                 .attr("class", (d,i) -> "cell#{i}")
+                 .attr("fill", (d) -> if d.z? then zscale(d.z) else nullcolor)
+                 .attr("stroke", "none")
+                 .attr("stroke-width", "1")
+                 .on("mouseover.paneltip", (d) ->
+                                               yaxis.select("text#yaxis#{d.lodindex}").attr("opacity", 1)
+                                               d3.select(this).attr("stroke", "black")
+                                               celltip.show(d))
+                 .on("mouseout.paneltip", (d) ->
+                                               yaxis.select("text#yaxis#{d.lodindex}").attr("opacity", 0)
+                                               d3.select(this).attr("stroke", "none")
+                                               celltip.hide())
 
-            # y-axis
-            rotate_ylab = rotate_ylab ? (ylab.length > 1)
-            yaxis = g.append("g").attr("class", "y axis")
-            yaxis.append("text").attr("class", "title")
-                 .attr("y", margin.top+height/2)
-                 .attr("x", margin.left-axispos.ytitle)
-                 .text(ylab)
-                 .attr("transform", if rotate_ylab then "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})" else "")
-            if quantScale? # quantitative y-axis scale
-                quant_y_scale = d3.scale.linear().domain([quantScale[0], quantScale[quantScale.length-1]])
-                                               .range([margin.top+height-rectHeight/2, margin.top+rectHeight/2])
-                yticks = yticks ? quant_y_scale.ticks(nyticks)
-                yaxis.selectAll("empty")
-                     .data(yticks)
-                     .enter()
-                     .append("text")
-                     .attr("y", (d) -> quant_y_scale(d))
-                     .attr("x", margin.left-axispos.ylabel)
-                     .text((d) -> formatAxis(yticks)(d))
-            else
-                yaxis.selectAll("empty")
-                     .data(lod_labels)
-                     .enter()
-                     .append("text")
-                     .attr("id", (d,i) -> "yaxis#{i}")
-                     .attr("y", (d,i) -> yscale(i))
-                     .attr("x", margin.left-axispos.ylabel)
-                     .text((d) -> d)
-                     .attr("opacity", 0)
+        mypanel.box().moveToFront()
 
-            celltip = d3.tip()
-                       .attr('class', "d3-tip #{tipclass}")
-                       .html((d) ->
-                                 z = d3.format(".2f")(Math.abs(d.z))
-                                 p = d3.format(".1f")(d.pos)
-                                 "#{d.chr}@#{p}, #{lod_labels[d.lodindex]} &rarr; #{z}")
-                       .direction('e')
-                       .offset([0,10])
-            svg.call(celltip)
 
-            cells = g.append("g").attr("id", "cells")
-            cellSelect =
-                cells.selectAll("empty")
-                     .data(data.cells)
-                     .enter()
-                     .append("rect")
-                     .attr("x", (d) -> d.left)
-                     .attr("y", (d) -> yscale(d.lodindex)-rectHeight/2)
-                     .attr("width", (d) -> d.right - d.left)
-                     .attr("height", rectHeight)
-                     .attr("class", (d,i) -> "cell#{i}")
-                     .attr("fill", (d) -> if d.z? then zscale(d.z) else nullcolor)
-                     .attr("stroke", "none")
-                     .attr("stroke-width", "1")
-                     .on("mouseover.paneltip", (d) ->
-                                                   yaxis.select("text#yaxis#{d.lodindex}").attr("opacity", 1)
-                                                   d3.select(this).attr("stroke", "black")
-                                                   celltip.show(d))
-                     .on("mouseout.paneltip", (d) ->
-                                                   yaxis.select("text#yaxis#{d.lodindex}").attr("opacity", 0)
-                                                   d3.select(this).attr("stroke", "none")
-                                                   celltip.hide())
+    # functions to grab stuff
+    chart.xscale = () -> xscale
+    chart.yscale = () -> yscale
+    chart.zscale = () -> yscale
+    chart.cellSelect = () -> chrSelect
+    chart.celltip = () -> chrSelect
+    chart.svg = () -> svg
 
-            # boxes
-            g.append("g").attr("id", "boxes").selectAll("empty")
-             .data(data.chrnames)
-             .enter()
-             .append("rect")
-             .attr("id", (d) -> "box#{d}")
-             .attr("x", (d,i) -> data.chrStart[i])
-             .attr("y", (d) -> margin.top)
-             .attr("height", height)
-             .attr("width", (d,i) -> data.chrEnd[i] - data.chrStart[i])
-             .attr("fill", "none")
-             .attr("stroke", "black")
-             .attr("stroke-width", "none")
-
-    ## configuration parameters
-    chart.width = (value) ->
-                      return width if !arguments.length
-                      width = value
-                      chart
-
-    chart.height = (value) ->
-                      return height if !arguments.length
-                      height = value
-                      chart
-
-    chart.margin = (value) ->
-                      return margin if !arguments.length
-                      margin = value
-                      chart
-
-    chart.axispos = (value) ->
-                      return axispos if !arguments.length
-                      axispos = value
-                      chart
-
-    chart.titlepos = (value) ->
-                      return titlepos if !arguments.length
-                      titlepos = value
-                      chart
-
-    chart.rectcolor = (value) ->
-                      return rectcolor if !arguments.length
-                      rectcolor = value
-                      chart
-
-    chart.nullcolor = (value) ->
-                      return nullcolor if !arguments.length
-                      nullcolor = value
-                      chart
-
-    chart.colors = (value) ->
-                      return colors if !arguments.length
-                      colors = value
-                      chart
-
-    chart.title = (value) ->
-                      return title if !arguments.length
-                      title = value
-                      chart
-
-    chart.xlab = (value) ->
-                      return xlab if !arguments.length
-                      xlab = value
-                      chart
-
-    chart.ylab = (value) ->
-                      return ylab if !arguments.length
-                      ylab = value
-                      chart
-
-    chart.rotate_ylab = (value) ->
-                      return rotate_ylab if !arguments.length
-                      rotate_ylab = value
-                      chart
-
-    chart.zthresh = (value) ->
-                      return zthresh if !arguments.length
-                      zthresh = value
-                      chart
-
-    chart.zlim = (value) ->
-                      return zlim if !arguments.length
-                      zlim = value
-                      chart
-
-    chart.chrGap = (value) ->
-                      return chrGap if !arguments.length
-                      chrGap = value
-                      chart
-
-    chart.nyticks = (value) ->
-                      return nyticks if !arguments.length
-                      nyticks = value
-                      chart
-
-    chart.yticks = (value) ->
-                      return yticks if !arguments.length
-                      yticks = value
-                      chart
-
-    chart.quantScale = (value) ->
-                      return quantScale if !arguments.length
-                      quantScale = value
-                      chart
-
-    chart.lod_labels = (value) ->
-                      return lod_labels if !arguments.length
-                      lod_labels = value
-                      chart
-
-    chart.tipclass = (value) ->
-                      return tipclass if !arguments.length
-                      tipclass = value
-                      chart
-
-    chart.xscale = () ->
-                      return xscale
-
-    chart.yscale = () ->
-                      return yscale
-
-    chart.zscale = () ->
-                      return zscale
-
-    chart.cellSelect = () ->
-                      return cellSelect
-
+    # function to remove chart
     chart.remove = () ->
                       svg.remove()
                       celltip.destroy()
