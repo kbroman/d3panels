@@ -80,8 +80,12 @@ chr2dpanelframe = (chartOpts) ->
                      .append("rect")
                      .attr("x", (d) -> xscale[d.chrx](data.start[d.xi]) - chrGap/2)
                      .attr("width", (d) -> xscale[d.chrx](data.end[d.xi]) - xscale[d.chrx](data.start[d.xi]) + chrGap)
-                     .attr("y", (d) -> yscale[d.chry](data.start[d.yi]) - chrGap/2)
-                     .attr("height", (d) -> yscale[d.chry](data.end[d.yi]) - yscale[d.chry](data.start[d.yi]) + chrGap)
+                     .attr("y", (d) ->
+                         return yscale[d.chry](data.start[d.yi]) - chrGap/2 if oneAtTop
+                         yscale[d.chry](data.end[d.yi]) - chrGap/2)
+                     .attr("height", (d) ->
+                         return yscale[d.chry](data.end[d.yi]) - yscale[d.chry](data.start[d.yi]) + chrGap if oneAtTop
+                         yscale[d.chry](data.start[d.yi]) - yscale[d.chry](data.end[d.yi]) + chrGap)
                      .attr("fill", (d,i) ->
                          return rectcolor unless d.odd
                          altrectcolor)
