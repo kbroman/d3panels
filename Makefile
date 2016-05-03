@@ -24,7 +24,7 @@ tests: test/test-unique.js test/test-stats.js \
 	   test/test-formatAxis.js test/test-pullVarAsArray.js \
 	   test/test-expand2vector.js test/test-maxdiff.js \
 	   test/test-matrixMinMax.js test/test-forceAsArray.js \
-	   test/test-sumArray.js \
+	   test/test-sumArray.js test/test-pad_vector.js \
 	   test/lod2dheatmap/test_lod2dheatmap.js \
 	   test/cichart/test_cichart.js \
 	   test/crosstab/test_crosstab.js \
