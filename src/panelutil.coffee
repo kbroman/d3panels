@@ -54,6 +54,9 @@ reorgLodData = (data) ->
     data
 
 # calculate chromosome scales for chrpanelframe (and so lodchart)
+# type = "xaxis"     normal x-axis scale
+#      = "yaxis"     y-axis scale
+#      = "revyaxis"  reversed y-axis scale
 calc_chrscales = (plot_width, left_margin, gap, chr, start, end, reverse=false) ->
     # calculate chromosome lengths, start and end in pixels
     n_chr = chr.length
@@ -66,66 +69,22 @@ calc_chrscales = (plot_width, left_margin, gap, chr, start, end, reverse=false) 
         chr_start_pixels.push(chr_end_pixels[i-1] + gap)
         chr_end_pixels.push(chr_start_pixels[i] + tot_pixels/tot_chr_length * chr_length[i])
 
+    right = plot_width + left_margin*2
     xscale = {}
     for i of chr
-        xscale[chr[i]] = d3.scale.linear()
-                           .domain([start[i], end[i]])
-                           .range([chr_start_pixels[i], chr_end_pixels[i]])
+        domain = [start[i], end[i]]
+        range = [chr_start_pixels[i], chr_end_pixels[i]]
 
-    if reverse # reverse the scale (right-to-left rather than left-to-right)
-        right = plot_width + left_margin*2
-        for i of chr
-            xscale[chr[i]].range([right - chr_end_pixels[i], right - chr_start_pixels[i]])
+        if reverse # for y-axis
+            domain.reverse()
+            range = [right - range[1], right - range[0]]
+
+        xscale[chr[i]] = d3.scale.linear()
+                           .domain(domain)
+                           .range(range)
 
     # return the scale
     xscale
-
-
-# calculate chromosome start/end + scales, for heat map
-chrscales = (data, width, chrGap, leftMargin, pad4heatmap) ->
-    # start and end of chromosome positions
-    chrStart = []
-    chrEnd = []
-    chrLength = []
-    totalChrLength = 0
-    maxd = 0
-    for chr in data.chrnames
-        d = maxdiff(data.posByChr[chr])
-        maxd = d if d > maxd
-
-        rng = d3.extent(data.posByChr[chr])
-        chrStart.push(rng[0])
-        chrEnd.push(rng[1])
-        L = rng[1] - rng[0]
-        chrLength.push(L)
-        totalChrLength += L
-
-    # adjust lengths for heatmap
-    if pad4heatmap
-        data.recwidth = maxd
-        chrStart = chrStart.map (x) -> x-maxd/2
-        chrEnd = chrEnd.map (x) -> x+maxd/2
-        chrLength = chrLength.map (x) -> x+maxd
-        totalChrLength += (chrLength.length*maxd)
-
-    # break up x axis into chromosomes by length, with gaps
-    data.chrStart = []
-    data.chrEnd = []
-    cur = leftMargin
-    cur += chrGap/2 unless pad4heatmap
-    data.xscale = {}
-    for chr,i in data.chrnames
-        data.chrStart.push(cur)
-        w = Math.round((width-chrGap*(data.chrnames.length-pad4heatmap))/totalChrLength*chrLength[i])
-        data.chrEnd.push(cur + w)
-        cur = data.chrEnd[i] + chrGap
-        # x-axis scales, by chromosome
-        data.xscale[chr] = d3.scale.linear()
-                             .domain([chrStart[i], chrEnd[i]])
-                             .range([data.chrStart[i], data.chrEnd[i]])
-
-    # return data with new stuff added
-    data
 
 # Select a set of categorical colors
 # ngroup is positive integer
