@@ -153,8 +153,12 @@ chr2dpanelframe = (chartOpts) ->
              .data(data.chr[0..(data.chr.length - 2)])
              .enter()
              .append("line")
-             .attr("y1", (d,i) -> yscale[d](data.end[i])+chrGap/2)
-             .attr("y2", (d,i) -> yscale[d](data.end[i])+chrGap/2)
+             .attr("y1", (d,i) ->
+                 return yscale[d](data.end[i])+chrGap/2 if oneAtTop
+                 yscale[d](data.end[i])-chrGap/2)
+             .attr("y2", (d,i) ->
+                 return yscale[d](data.end[i])+chrGap/2 if oneAtTop
+                 yscale[d](data.end[i])-chrGap/2)
              .attr("x1", margin.left)
              .attr("x2", margin.left + plot_width)
              .attr("stroke", chrlinecolor)
