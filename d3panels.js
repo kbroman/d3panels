@@ -1595,7 +1595,7 @@ chrpanelframe = function(chartOpts) {
 var chr2dpanelframe;
 
 chr2dpanelframe = function(chartOpts) {
-  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrGap, chrSelect, chrlinecolor, chrlinewidth, height, horizontal, margin, oneAtTop, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xlabels, xscale, ylab, ylabels, yscale;
+  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrGap, chrSelect, chrlinecolor, chrlines, chrlinewidth, height, horizontal, margin, oneAtTop, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xlabels, xscale, ylab, ylabels, yscale;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -1632,10 +1632,11 @@ chr2dpanelframe = function(chartOpts) {
   xlabels = null;
   ylabels = null;
   chrSelect = null;
+  chrlines = null;
   box = null;
   svg = null;
   chart = function(selection, data) {
-    var c, chrRect, chrlines, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref18, ref19, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
+    var c, chrRect, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref18, ref19, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1725,7 +1726,7 @@ chr2dpanelframe = function(chartOpts) {
       return d;
     });
     if (chrlinecolor !== "" && data.chr.length > 1) {
-      chrlines = g.append("g").attr("id", "chrlines");
+      chrlines = svg.append("g").attr("id", "chrlines");
       chrlines.selectAll("empty").data(data.chr.slice(0, +(data.chr.length - 2) + 1 || 9e9)).enter().append("line").attr("x1", function(d, i) {
         return xscale[d](data.end[i]) + chrGap / 2;
       }).attr("x2", function(d, i) {
@@ -1753,6 +1754,9 @@ chr2dpanelframe = function(chartOpts) {
   };
   chart.chrSelect = function() {
     return chrSelect;
+  };
+  chart.chrlines = function() {
+    return chrlines;
   };
   chart.plot_width = function() {
     return plot_width;

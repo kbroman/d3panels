@@ -28,6 +28,7 @@ chr2dpanelframe = (chartOpts) ->
     xlabels = null
     ylabels = null
     chrSelect = null
+    chrlines = null
     box = null
     svg = null
 
@@ -135,7 +136,7 @@ chr2dpanelframe = (chartOpts) ->
 
         # chrlines
         if chrlinecolor != "" and data.chr.length > 1
-            chrlines = g.append("g").attr("id", "chrlines")
+            chrlines = svg.append("g").attr("id", "chrlines")
             chrlines.selectAll("empty")
              .data(data.chr[0..(data.chr.length - 2)])
              .enter()
@@ -176,6 +177,7 @@ chr2dpanelframe = (chartOpts) ->
     chart.xlabels = () -> xlabels
     chart.ylabels = () -> ylabels
     chart.chrSelect = () -> chrSelect
+    chart.chrlines = () -> chrlines
     chart.plot_width = () -> plot_width
     chart.plot_height = () -> plot_height
     chart.width = () -> width
