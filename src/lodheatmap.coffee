@@ -1,6 +1,8 @@
 # lodheatmap: reuseable panel with heat map of LOD curves
 
 lodheatmap = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
+
     # chartOpts begin
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
     nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells

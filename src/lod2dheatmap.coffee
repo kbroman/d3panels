@@ -1,6 +1,8 @@
 # lod2dheatmap: reuseable heat map panel, broken into chromosomes
 
 lod2dheatmap = (chartOpts) ->
+    chartOpts = {} unless chartOpts? # make sure it's defined
+
     # chartOpts start
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
