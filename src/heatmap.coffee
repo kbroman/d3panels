@@ -11,6 +11,7 @@ heatmap = (chartOpts) ->
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"] # vector of three colors for the color scale (negative - zero - positive)
     zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
+    hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
@@ -132,7 +133,7 @@ heatmap = (chartOpts) ->
                     .attr("stroke-width", "1")
                     .attr("shape-rendering", "crispEdges")
                     .on("mouseover.paneltip", (d) ->
-                                                  d3.select(this).attr("stroke", "black").moveToFront()
+                                                  d3.select(this).attr("stroke", hilitcolor).moveToFront()
                                                   celltip.show(d)
                                                   if data.xcat? # show categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 1)

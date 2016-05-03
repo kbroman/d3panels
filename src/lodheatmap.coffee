@@ -12,6 +12,7 @@ lodheatmap = (chartOpts) ->
     zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
     horizontal = chartOpts?.horizontal ? false # if true, have chromosomes arranged vertically
+    hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes (in pixels)
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
@@ -154,7 +155,7 @@ lodheatmap = (chartOpts) ->
                  .attr("stroke-width", "1")
                  .attr("shape-rendering", "crispEdges")
                  .on("mouseover.paneltip", (d) ->
-                                               d3.select(this).attr("stroke", "black").moveToFront()
+                                               d3.select(this).attr("stroke", hilitcolor).moveToFront()
                                                celltip.show(d)
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",1))
