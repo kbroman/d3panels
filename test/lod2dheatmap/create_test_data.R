@@ -3,14 +3,15 @@
 library(qtl)
 data(badorder)
 badorder <- est.rf(badorder)
+
 lod <- pull.rf(badorder, "lod")
 diag(lod) <- rep(max(lod, na.rm=TRUE), nrow(lod))
-mnames <- markernames(badorder)
 dimnames(lod) <- list(NULL, NULL)
-n.mar <- nmar(badorder)
-names(n.mar) <- NULL
-chrnam <- chrnames(badorder)
 
-cat(RJSONIO::toJSON(list(z=lod, nmar=n.mar, chrnames=chrnam, labels=mnames),
-                     na="null"),
+marker <- markernames(badorder)
+chr <- rep(chrnames(badorder), nmar(badorder))
+pos <- unlist(lapply(nmar(badorder), function(a) 1:a))
+names(pos) <- NULL
+
+cat(jsonlite::toJSON(list(chr=chr, pos=pos, lod=lod, marker=marker)),
     file="data.json")
