@@ -1,4 +1,4 @@
-# create test data for chrheatmap in JSON format
+# create test data for lod2dheatmap in JSON format
 
 library(qtl)
 data(badorder)

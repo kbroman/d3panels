@@ -2,7 +2,7 @@ all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css
 .PHONY: all js tests testdata
 
 JS= src/panelutil.js \
-	src/chrheatmap.js \
+	src/lod2dheatmap.js \
 	src/panelframe.js \
 	src/chrpanelframe.js \
 	src/chr2dpanelframe.js \
@@ -23,7 +23,7 @@ tests: test/test-unique.js test/test-stats.js \
 	   test/test-expand2vector.js test/test-maxdiff.js \
 	   test/test-matrixMinMax.js test/test-forceAsArray.js \
 	   test/test-sumArray.js \
-	   test/chrheatmap/test_chrheatmap.js \
+	   test/lod2dheatmap/test_lod2dheatmap.js \
 	   test/cichart/test_cichart.js \
 	   test/crosstab/test_crosstab.js \
 	   test/curvechart/test_curvechart.js \
@@ -37,7 +37,7 @@ tests: test/test-unique.js test/test-stats.js \
 	   test/chrpanelframe/test_chrpanelframe.js \
 	   test/chr2dpanelframe/test_chr2dpanelframe.js
 
-testdata: test/chrheatmap/data.json \
+testdata: test/lod2dheatmap/data.json \
 		  test/cichart/data.json \
 		  test/crosstab/data.json \
 		  test/curvechart/data.json \

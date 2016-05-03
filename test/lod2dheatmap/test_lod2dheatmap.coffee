@@ -1,8 +1,8 @@
-# illustration of use of the chrheatmap function
+# illustration of use of the lod2dheatmap function
 
 # Example: chr 1 at bottom (default)
 d3.json "data.json", (data) ->
-    mychart = chrheatmap().pixelPerCell(20).chrGap(4)
+    mychart = lod2dheatmap().pixelPerCell(20).chrGap(4)
 
     d3.select("div#chart1")
       .datum(data)
@@ -10,9 +10,8 @@ d3.json "data.json", (data) ->
 
 # Example: chr 1 at top
 d3.json "data.json", (data) ->
-    mychart = chrheatmap().pixelPerCell(20).chrGap(4).oneAtTop(true)
+    mychart = lod2dheatmap().pixelPerCell(20).chrGap(4).oneAtTop(true)
 
     d3.select("div#chart2")
       .datum(data)
       .call(mychart)
-
