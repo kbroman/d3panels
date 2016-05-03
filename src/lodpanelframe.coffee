@@ -27,6 +27,8 @@ lodpanelframe = (chartOpts) ->
     # chartOpts end
     xscale = null
     yscale = null
+    xlabels = null
+    ylabels = null
     chrSelect = null
     box = null
     svg = null
@@ -200,6 +202,8 @@ lodpanelframe = (chartOpts) ->
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
+    chart.xlabels = () -> xlabels
+    chart.ylabels = () -> ylabels
     chart.chrSelect = () -> chrSelect
     chart.plot_width = () -> plot_width
     chart.plot_height = () -> plot_height
