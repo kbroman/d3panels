@@ -4,6 +4,9 @@ lod2dheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
+    width = chartOpts?.width ? 800 # overall height of chart in pixels
+    height = chartOpts?.height ? 800 # overall width of chart in pixels
+    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 60} # margins in pixels (left, top, right, bottom)
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
     equalCells = chartOpts?.equalCells ? false # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
     oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
@@ -40,8 +43,16 @@ lod2dheatmap = (chartOpts) ->
             # create position labels
             data.poslabel = ("#{data.chr[i]}@#{formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
 
-        # create chrname, chrstart, chrend if missing
+        # create chrname if missing
         data.chrname = unique(data.chr) unless data.chrname?
+
+        # if equalCells, change positions to dummy values
+        if equalCells
+            data.pos = []
+            for chr in data.chrname
+                data.pos = data.pos.concat(+i for i of data.chr when data.chr[i] == chr)
+
+        # create chrstart, chrend if missing
         unless data.chrstart?
             data.chrstart = []
             for c in data.chrname
@@ -53,8 +64,15 @@ lod2dheatmap = (chartOpts) ->
                 these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
                 data.chrend.push(d3.max(these_pos))
 
+        # if equalCells, adjust chrGap to make chromosome ends equal
+        if equalCells
+            chrGap = ((width - margin.left - margin.right) - 2*data.chrname.length)/data.chr.length + 2
+
         # create frame
         chartOpts.chrGap = chrGap
+        chartOpts.width = width
+        chartOpts.height = height
+        chartOpts.margin = margin
         myframe = chr2dpanelframe(chartOpts)
 
         # create SVG

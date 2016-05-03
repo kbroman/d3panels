@@ -4,6 +4,9 @@ lodheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts begin
+    width = chartOpts?.width ? 800 # overall height of chart in pixels
+    height = chartOpts?.height ? 500 # overall width of chart in pixels
+    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40} # margins in pixels (left, top, right, bottom)
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
     nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
     xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
@@ -14,6 +17,7 @@ lodheatmap = (chartOpts) ->
     horizontal = chartOpts?.horizontal ? false # if true, have chromosomes arranged vertically
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes (in pixels)
+    equalCells = chartOpts?.equalCells ? false # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
@@ -54,8 +58,16 @@ lodheatmap = (chartOpts) ->
             # create position labels
             data.poslabel = ("#{data.chr[i]}@#{formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
 
-        # create chrname, chrstart, chrend if missing
+        # create chrname if missing
         data.chrname = unique(data.chr) unless data.chrname?
+
+        # if equalCells, change positions to dummy values
+        if equalCells
+            data.pos = []
+            for chr in data.chrname
+                data.pos = data.pos.concat(+i for i of data.chr when data.chr[i] == chr)
+
+        # create chrstart, chrend if missing
         unless data.chrstart?
             data.chrstart = []
             for c in data.chrname
@@ -66,6 +78,10 @@ lodheatmap = (chartOpts) ->
             for c in data.chrname
                 these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
                 data.chrend.push(d3.max(these_pos))
+
+        # if equalCells, adjust chrGap to make chromosome ends equal
+        if equalCells
+            chrGap = ((width - margin.left - margin.right) - 2*data.chrname.length)/data.chr.length + 2
 
         # organize positions and LOD scores by chromosomes
         data = reorgLodData(data)
@@ -79,6 +95,9 @@ lodheatmap = (chartOpts) ->
         chartOpts.xlab = xlab
         chartOpts.ylab = ylab
         chartOpts.chrGap = chrGap
+        chartOpts.width = width
+        chartOpts.height = height
+        chartOpts.margin = margin
         if data.ycat? # categorical labels
             chartOpts.yticks = data.y
             chartOpts.yticklab = data.ycat
