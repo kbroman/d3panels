@@ -26,6 +26,7 @@ unique = (x) ->
     output[v] for v of output
 
 # Pull out a variable (column) from a two-dimensional array
+# [NO LONGER USED]
 pullVarAsArray = (data, variable) ->
     (data[i][variable] for i of data)
 
@@ -178,32 +179,8 @@ calc_2dchrcell_rect = (cells, xmid, ymid) ->
         cell.top = d3.min([top, bottom])
         cell.height = Math.abs(bottom - top)
 
-# hash with values to left and right
-getLeftRight = (x) ->
-    n = x.length
-    x.sort( (a,b) -> a-b )
-
-    xdif = []
-    result = {}
-    for v in x
-        result[v] = {}
-
-    for i in [1...n]
-        xdif.push(x[i]-x[i-1])
-        result[x[i]].left = x[i-1]
-    for i in [0...(n-1)]
-        result[x[i]].right = x[i+1]
-
-    xdif = median(xdif)
-    result.mediandiff = xdif
-
-    result[x[0]].left = x[0]-xdif
-    result[x[n-1]].right = x[n-1]+xdif
-    result.extent = [x[0]-xdif/2, x[n-1]+xdif/2]
-
-    result
-
 # maximum difference between adjacent values in a vector
+# [NO LONGER USED]
 maxdiff = (x) ->
     return null if x.length < 2
     result = x[1] - x[0]
