@@ -157,8 +157,9 @@ median = (x) ->
     (x[n/2] + x[(n/2)-1])/2
 
 # pad a vector to left and right
-pad_vector = (x) -> # x should be sorted
-    [x[0] - (x[1]-x[0])].concat(x).concat([x[x.length - 1] + (x[x.length-1] - x[x.length-2])])
+pad_vector = (x, pad=null) -> # x should be sorted
+    return [x[0] - (x[1]-x[0])].concat(x).concat([x[x.length - 1] + (x[x.length-1] - x[x.length-2])]) unless pad?
+    [x[0] - pad].concat(x).concat(x[x.length - 1] + pad)
 
 # calculate midpoints
 calc_midpoints = (x) -> # x should be sorted
@@ -171,6 +172,19 @@ calc_cell_rect = (cells, xmid, ymid) ->
         right = xmid[1 + cell.xindex]
         top = ymid[cell.yindex]
         bottom = ymid[1 + cell.yindex]
+
+        cell.left = d3.min([left, right])
+        cell.width = Math.abs(right-left)
+        cell.top = d3.min([top, bottom])
+        cell.height = Math.abs(bottom - top)
+
+# calc chr cell rectangles (left, right, top, bottom)
+calc_chrcell_rect = (cells, xmid, ymid) ->
+    for cell in cells
+        left = xmid[cell.chr][cell.posindex]
+        right = xmid[cell.chr][1 + cell.posindex]
+        top = ymid[cell.lodindex]
+        bottom = ymid[1 + cell.lodindex]
 
         cell.left = d3.min([left, right])
         cell.width = Math.abs(right-left)

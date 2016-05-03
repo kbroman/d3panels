@@ -3,13 +3,16 @@
 lodheatmap = (chartOpts) ->
     # chartOpts begin
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
-    nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
+    rectcolor = chartOpts?.rectcolor ? "white" # color of background rectangle
+    altrectcolor = chartOpts?.altrectcolor ? "white" # color of background rectangle for alternate chromosomes
+    nullcolor = chartOpts?.nullcolor ? "pink" # "#e6e6e6" # color for empty cells
     xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
     ylab = chartOpts?.ylab ? ""           # y-axis label
     ylim = chartOpts?.ylim ? null # y-axis limits (if null take from data)
     zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
     horizontal = chartOpts?.horizontal ? false # if true, have chromosomes arranged vertically
+    chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes (in pixels)
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     xscale = null
@@ -29,6 +32,8 @@ lodheatmap = (chartOpts) ->
         unless data.y?
             data.ycat = (i+1 for i of data.lod[0])
             data.y = (i+1 for i of data.lod[0])
+        data.y = (+yv for yv in data.y) # make sure it's numeric
+        data.ycat = data.y unless data.ycat?
         n_pos = data.chr.length
         n_lod = data.y.length
 
@@ -57,11 +62,15 @@ lodheatmap = (chartOpts) ->
         # organize positions and LOD scores by chromosomes
         data = reorgLodData(data)
 
+        # y-axis midpoints
+        ymid = calc_midpoints(pad_vector(data.y))
+
         # set up frame
-        chartOpts.ylim = ylim ? d3.extent(data.y)
+        chartOpts.ylim = ylim ? d3.extent(ymid)
         chartOpts.horizontal = horizontal
         chartOpts.xlab = xlab
         chartOpts.ylab = ylab
+        chartOpts.chrGap = chrGap
         myframe = lodpanelframe(chartOpts)
 
         # Create SVG
@@ -72,11 +81,17 @@ lodheatmap = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        nlod = data.lodnames.length
+        # scaled y-axis midpoints
+        ymid_scaled = (yscale(y) for y in ymid)
+
+        # x-axis midpoints
+        xmid_scaled = {}
+        for chr in data.chrname
+            xmid_scaled[chr] = calc_midpoints(pad_vector(xscale[chr](x) for x in data.posByChr[chr], (chrGap-2)/2))
 
         # z-axis (color) limits; if not provided, make symmetric about 0
-        zmin = matrixMin(data.z)
-        zmax = matrixMax(data.z)
+        zmin = matrixMin(data.lod)
+        zmax = matrixMax(data.lod)
         zmax = -zmin if -zmin > zmax
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
@@ -84,48 +99,60 @@ lodheatmap = (chartOpts) ->
         zscale = d3.scale.linear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 
-        data.cells = []
-        for chr in data.chrnames
-            for pos, i in data.posByChr[chr]
+        # create cells for plotting
+        cells = []
+        for chr in data.chrname
+            for pos,i in data.posByChr[chr]
                 for lod,j in data.lodByChr[chr][i]
                     if lod >= zthresh or lod <= -zthresh
-                        data.cells.push({z: lod, left: (xscale[chr](pos) + xscale[chr](xLR[chr][pos].left) )/2,
-                        right: (xscale[chr](pos) + xscale[chr](xLR[chr][pos].right) )/2, lodindex:j, chr:chr, pos:pos})
+                        cells.push({lod: lod, chr:chr, pos:pos, posindex:+i, lodindex:+j})
+        calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
 
         celltip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d) ->
-                             z = d3.format(".2f")(Math.abs(d.z))
+                             z = d3.format(".2f")(Math.abs(d.lod))
                              p = d3.format(".1f")(d.pos)
-                             "#{d.chr}@#{p}, #{lod_labels[d.lodindex]} &rarr; #{z}")
-                   .direction('e')
-                   .offset([0,10])
+                             "#{d.chr}@#{p}, #{data.ycat[d.lodindex]} &rarr; #{z}")
+                   .direction(() ->
+                       return 'n' if horizontal
+                       'e')
+                   .offset(() ->
+                       return [-10, 0] if horizontal
+                       [0,10])
         svg.call(celltip)
 
-        cells = g.append("g").attr("id", "cells")
+        cellg = svg.append("g").attr("id", "cells")
         cellSelect =
-            cells.selectAll("empty")
-                 .data(data.cells)
+            cellg.selectAll("empty")
+                 .data(cells)
                  .enter()
                  .append("rect")
-                 .attr("x", (d) -> d.left)
-                 .attr("y", (d) -> yscale(d.lodindex)-rectHeight/2)
-                 .attr("width", (d) -> d.right - d.left)
-                 .attr("height", rectHeight)
+                 .attr("x", (d) ->
+                     return d.top if horizontal
+                     d.left)
+                 .attr("y", (d) ->
+                     return d.left if horizontal
+                     d.top)
+                 .attr("width", (d) ->
+                     return d.height if horizontal
+                     d.width)
+                 .attr("height", (d) ->
+                     return d.width if horizontal
+                     d.height)
                  .attr("class", (d,i) -> "cell#{i}")
-                 .attr("fill", (d) -> if d.z? then zscale(d.z) else nullcolor)
+                 .attr("fill", (d) -> if d.lod? then zscale(d.lod) else nullcolor)
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
+                 .attr("shape-rendering", "crispEdges")
                  .on("mouseover.paneltip", (d) ->
-                                               yaxis.select("text#yaxis#{d.lodindex}").attr("opacity", 1)
-                                               d3.select(this).attr("stroke", "black")
+                                               d3.select(this).attr("stroke", "black").moveToFront()
                                                celltip.show(d))
                  .on("mouseout.paneltip", (d) ->
-                                               yaxis.select("text#yaxis#{d.lodindex}").attr("opacity", 0)
                                                d3.select(this).attr("stroke", "none")
                                                celltip.hide())
 
-        mypanel.box().moveToFront()
+        myframe.box().moveToFront()
 
 
     # functions to grab stuff

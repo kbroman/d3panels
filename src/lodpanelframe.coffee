@@ -6,7 +6,7 @@ lodpanelframe = (chartOpts) ->
     # chartOpts start
     width = chartOpts?.width ? 800 # overall height of chart in pixels
     height = chartOpts?.height ? 500 # overall width of chart in pixels
-    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40} # margins in pixels (left, top, right, bottom, inner)
+    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40} # margins in pixels (left, top, right, bottom)
     axispos = chartOpts?.axispos ? {xtitle:25, ytitle:45, xlabel:5, ylabel:5} # position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
     titlepos = chartOpts?.titlepos ? 20 # position of chart title in pixels
     title = chartOpts?.title ? "" # chart title
@@ -22,7 +22,7 @@ lodpanelframe = (chartOpts) ->
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
-    chrGap = chartOpts?.chrGap ? 5 # gap between chromosomes in pixels
+    chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
     horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     xscale = null
