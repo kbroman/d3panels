@@ -27,13 +27,12 @@ lodheatmap = (chartOpts) ->
                                  # also, optionally chrname, chrstart, chrend
 
         # for categorical scale
-        if data.ycat?
+        if data.ycat? # if data.ycat provided (categorical labels), data.y ignored
             data.y = (i+1 for i of data.ycat)
-        unless data.y?
+        unless data.y? # if neither data.ycat nor data.y provided, create labels
             data.ycat = (i+1 for i of data.lod[0])
             data.y = (i+1 for i of data.lod[0])
         data.y = (+yv for yv in data.y) # make sure it's numeric
-        data.ycat = data.y unless data.ycat?
         n_pos = data.chr.length
         n_lod = data.y.length
 
@@ -108,12 +107,15 @@ lodheatmap = (chartOpts) ->
                         cells.push({lod: lod, chr:chr, pos:pos, posindex:+i, lodindex:+j})
         calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
 
+        # tool tips
         celltip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d) ->
                              z = d3.format(".2f")(Math.abs(d.lod))
                              p = d3.format(".1f")(d.pos)
-                             "#{d.chr}@#{p}, #{data.ycat[d.lodindex]} &rarr; #{z}")
+                             lodlabel = if data.ycat? then data.ycat[d.lodindex] else formatAxis(data.y)(data.y[d.lodindex])
+                             return "#{lodlabel}, #{d.chr}@#{p} &rarr; #{z}" if horizontal
+                             "#{d.chr}@#{p}, #{lodlabel} &rarr; #{z}")
                    .direction(() ->
                        return 'n' if horizontal
                        'e')
