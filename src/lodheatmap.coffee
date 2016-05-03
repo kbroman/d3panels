@@ -70,6 +70,9 @@ lodheatmap = (chartOpts) ->
         chartOpts.xlab = xlab
         chartOpts.ylab = ylab
         chartOpts.chrGap = chrGap
+        if data.ycat? # categorical labels
+            chartOpts.yticks = data.y
+            chartOpts.yticklab = data.ycat
         myframe = lodpanelframe(chartOpts)
 
         # Create SVG
@@ -79,6 +82,9 @@ lodheatmap = (chartOpts) ->
         # grab scale functions
         xscale = myframe.xscale()
         yscale = myframe.yscale()
+
+        # y-axis labels
+        ylabels = myframe.ylabels()
 
         # scaled y-axis midpoints
         ymid_scaled = (yscale(y) for y in ymid)
@@ -149,10 +155,20 @@ lodheatmap = (chartOpts) ->
                  .attr("shape-rendering", "crispEdges")
                  .on("mouseover.paneltip", (d) ->
                                                d3.select(this).attr("stroke", "black").moveToFront()
-                                               celltip.show(d))
+                                               celltip.show(d)
+                                               if data.ycat?
+                                                   svg.select("text#ylab#{d.lodindex}").attr("opacity",1))
                  .on("mouseout.paneltip", (d) ->
                                                d3.select(this).attr("stroke", "none")
-                                               celltip.hide())
+                                               celltip.hide()
+                                               if data.ycat?
+                                                   svg.select("text#ylab#{d.lodindex}").attr("opacity",0))
+
+        # if horizontal, remove y-axis labels and lines
+        if data.ycat?
+            svg.selectAll("g#ylines").remove()
+            ylabels.attr("opacity", 0)
+                   .attr("id", (d,i) -> "ylab#{i}")
 
         myframe.box().moveToFront()
 
