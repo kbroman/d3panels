@@ -11,7 +11,6 @@ lodchart = (chartOpts) ->
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
     ylim = chartOpts?.ylim ? null # y-axis limits; if null, use range of data
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    horizontal = chartOpts?.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     yscale = null
     xscale = null
