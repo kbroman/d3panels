@@ -1,4 +1,4 @@
-# illustration of use of the chrheatmap function
+# illustration of use of the crosstab function
 
 # Example 1: two autosomal markers
 d3.json "data.json", (data) ->
