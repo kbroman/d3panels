@@ -15,6 +15,8 @@ chr2dpanelframe = (chartOpts) ->
     rotate_ylab = chartOpts?.rotate_ylab ? null # whether to rotate the y-axis label
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
     altrectcolor = chartOpts?.altrectcolor ? "#d4d4d4" # color of background rectangle for alternate chromosomes
+    chrlinecolor = chartOpts?.chrlinecolor ? "" # color of lines between chromosomes (if "", leave off)
+    chrlinewidth = chartOpts?.chrlinewidth ? 2 # width of lines between chromosomes
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
@@ -130,6 +132,32 @@ chr2dpanelframe = (chartOpts) ->
                    .attr("y", (d,i) -> (yscale[d](data.start[i]) + yscale[d](data.end[i]))/2)
                    .attr("x", margin.left - axispos.ylabel)
                    .text((d) -> d)
+
+        # chrlines
+        if chrlinecolor != "" and data.chr.length > 1
+            chrlines = g.append("g").attr("id", "chrlines")
+            chrlines.selectAll("empty")
+             .data(data.chr[0..(data.chr.length - 2)])
+             .enter()
+             .append("line")
+             .attr("x1", (d,i) -> xscale[d](data.end[i])+chrGap/2)
+             .attr("x2", (d,i) -> xscale[d](data.end[i])+chrGap/2)
+             .attr("y1", margin.top)
+             .attr("y2", margin.top + plot_height)
+             .attr("stroke", chrlinecolor)
+             .attr("stroke-width", chrlinewidth)
+             .attr("shape-rendering", "crispEdges")
+            chrlines.selectAll("empty")
+             .data(data.chr[0..(data.chr.length - 2)])
+             .enter()
+             .append("line")
+             .attr("y1", (d,i) -> yscale[d](data.end[i])+chrGap/2)
+             .attr("y2", (d,i) -> yscale[d](data.end[i])+chrGap/2)
+             .attr("x1", margin.left)
+             .attr("x2", margin.left + plot_width)
+             .attr("stroke", chrlinecolor)
+             .attr("stroke-width", chrlinewidth)
+             .attr("shape-rendering", "crispEdges")
 
         # background rectangle box
         box = svg.append("rect").attr("class", "box")

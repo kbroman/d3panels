@@ -1595,7 +1595,7 @@ chrpanelframe = function(chartOpts) {
 var chr2dpanelframe;
 
 chr2dpanelframe = function(chartOpts) {
-  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrGap, chrSelect, height, horizontal, margin, oneAtTop, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xlabels, xscale, ylab, ylabels, yscale;
+  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrGap, chrSelect, chrlinecolor, chrlinewidth, height, horizontal, margin, oneAtTop, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xlabels, xscale, ylab, ylabels, yscale;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -1620,11 +1620,13 @@ chr2dpanelframe = function(chartOpts) {
   rotate_ylab = (ref8 = chartOpts != null ? chartOpts.rotate_ylab : void 0) != null ? ref8 : null;
   rectcolor = (ref9 = chartOpts != null ? chartOpts.rectcolor : void 0) != null ? ref9 : "#e6e6e6";
   altrectcolor = (ref10 = chartOpts != null ? chartOpts.altrectcolor : void 0) != null ? ref10 : "#d4d4d4";
-  boxcolor = (ref11 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref11 : "black";
-  boxwidth = (ref12 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref12 : 2;
-  chrGap = (ref13 = chartOpts != null ? chartOpts.chrGap : void 0) != null ? ref13 : 6;
-  oneAtTop = (ref14 = chartOpts != null ? chartOpts.oneAtTop : void 0) != null ? ref14 : false;
-  horizontal = (ref15 = chartOpts.horizontal) != null ? ref15 : false;
+  chrlinecolor = (ref11 = chartOpts != null ? chartOpts.chrlinecolor : void 0) != null ? ref11 : "";
+  chrlinewidth = (ref12 = chartOpts != null ? chartOpts.chrlinewidth : void 0) != null ? ref12 : 2;
+  boxcolor = (ref13 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref13 : "black";
+  boxwidth = (ref14 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref14 : 2;
+  chrGap = (ref15 = chartOpts != null ? chartOpts.chrGap : void 0) != null ? ref15 : 6;
+  oneAtTop = (ref16 = chartOpts != null ? chartOpts.oneAtTop : void 0) != null ? ref16 : false;
+  horizontal = (ref17 = chartOpts.horizontal) != null ? ref17 : false;
   xscale = null;
   yscale = null;
   xlabels = null;
@@ -1633,7 +1635,7 @@ chr2dpanelframe = function(chartOpts) {
   box = null;
   svg = null;
   chart = function(selection, data) {
-    var c, chrRect, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref16, ref17, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
+    var c, chrRect, chrlines, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref18, ref19, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1641,11 +1643,11 @@ chr2dpanelframe = function(chartOpts) {
     plot_height = height - (margin.top + margin.bottom);
     if (!(data != null ? data.start : void 0)) {
       data.start = (function() {
-        var j, len, ref16, results;
-        ref16 = data.chr;
+        var j, len, ref18, results;
+        ref18 = data.chr;
         results = [];
-        for (j = 0, len = ref16.length; j < len; j++) {
-          c = ref16[j];
+        for (j = 0, len = ref18.length; j < len; j++) {
+          c = ref18[j];
           results.push(0);
         }
         return results;
@@ -1661,12 +1663,12 @@ chr2dpanelframe = function(chartOpts) {
     yscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, !oneAtTop);
     g.append("rect").attr("x", margin.left).attr("width", plot_width).attr("y", margin.top).attr("height", plot_height).attr("fill", rectcolor);
     chrRect = [];
-    ref16 = data.chr;
-    for (x = j = 0, len = ref16.length; j < len; x = ++j) {
-      chrx = ref16[x];
-      ref17 = data.chr;
-      for (y = k = 0, len1 = ref17.length; k < len1; y = ++k) {
-        chry = ref17[y];
+    ref18 = data.chr;
+    for (x = j = 0, len = ref18.length; j < len; x = ++j) {
+      chrx = ref18[x];
+      ref19 = data.chr;
+      for (y = k = 0, len1 = ref19.length; k < len1; y = ++k) {
+        chry = ref19[y];
         chrRect.push({
           chrx: chrx,
           xi: x,
@@ -1722,6 +1724,19 @@ chr2dpanelframe = function(chartOpts) {
     }).attr("x", margin.left - axispos.ylabel).text(function(d) {
       return d;
     });
+    if (chrlinecolor !== "" && data.chr.length > 1) {
+      chrlines = g.append("g").attr("id", "chrlines");
+      chrlines.selectAll("empty").data(data.chr.slice(0, +(data.chr.length - 2) + 1 || 9e9)).enter().append("line").attr("x1", function(d, i) {
+        return xscale[d](data.end[i]) + chrGap / 2;
+      }).attr("x2", function(d, i) {
+        return xscale[d](data.end[i]) + chrGap / 2;
+      }).attr("y1", margin.top).attr("y2", margin.top + plot_height).attr("stroke", chrlinecolor).attr("stroke-width", chrlinewidth).attr("shape-rendering", "crispEdges");
+      chrlines.selectAll("empty").data(data.chr.slice(0, +(data.chr.length - 2) + 1 || 9e9)).enter().append("line").attr("y1", function(d, i) {
+        return yscale[d](data.end[i]) + chrGap / 2;
+      }).attr("y2", function(d, i) {
+        return yscale[d](data.end[i]) + chrGap / 2;
+      }).attr("x1", margin.left).attr("x2", margin.left + plot_width).attr("stroke", chrlinecolor).attr("stroke-width", chrlinewidth).attr("shape-rendering", "crispEdges");
+    }
     return box = svg.append("rect").attr("class", "box").attr("x", margin.left).attr("y", margin.top).attr("height", plot_height).attr("width", plot_width).attr("fill", "none").attr("stroke", boxcolor).attr("stroke-width", boxwidth).attr("shape-rendering", "crispEdges");
   };
   chart.xscale = function() {
