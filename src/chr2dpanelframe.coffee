@@ -21,7 +21,6 @@ chr2dpanelframe = (chartOpts) ->
     boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
     oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
-    horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     xscale = null
     yscale = null
@@ -97,12 +96,8 @@ chr2dpanelframe = (chartOpts) ->
         # rotate y-axis title?
         rotate_ylab = rotate_ylab ? (ylab.length > 1)
 
-        xaxis = g.append("g").attr("class", () ->
-                                return "y axis" if horizontal
-                                "x axis")
-        yaxis = g.append("g").attr("class", () ->
-                                return "x axis" if horizontal
-                                "y axis")
+        xaxis = g.append("g").attr("class", "x axis")
+        yaxis = g.append("g").attr("class", "y axis")
 
         xaxis.append("text").attr("class", "title")
              .text(() -> xlab)
