@@ -30,17 +30,26 @@ pullVarAsArray = (data, variable) ->
     (data[i][variable] for i of data)
 
 # reorganize lod/pos by chromosome
-# lodvarname==null    -> case for multiple LOD columns (lodheatmap)
-# lodvarname provided -> case for one LOD column (lodchart)
+#    uniquechr = vector of unique chromosome IDs
+#    chr = vector of chromosome IDs
+reorgByChr = (uniquechr, chr, vector) ->
+    if(chr.length != vector.length)
+        displayError("reorgByChr: chr.length (#{chr.length}) != vector.length (#{vector.length})")
+
+    result = {}
+    for c,i in uniquechr
+        result[c] = (vector[i] for i of vector when chr[i]==c)
+
+    result
+
+# reorganize lod and position by chromosome
+# also, add markerinfo object
 reorgLodData = (data) ->
-    data.posByChr = {}
-    data.lodByChr = {}
+    data.posByChr = reorgByChr(data.chrname, data.chr, data.pos)
+    data.lodByChr = reorgByChr(data.chrname, data.chr, data.lod)
 
-    for chr,i in data.chrname
-        data.posByChr[chr] = (data.pos[i] for i of data.pos when data.chr[i]==chr)
-        data.lodByChr[chr] = (data.lod[i] for i of data.pos when data.chr[i]==chr)
-
-    data.markerinfo = ({name: data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker when data.marker[i] != "")
+    if data.marker?
+        data.markerinfo = ({name: data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker when data.marker[i] != "")
 
     data
 
