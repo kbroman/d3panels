@@ -20,5 +20,6 @@ d3.json "data.json", (data) ->
         oneAtTop:true
         altrectcolor:""
         chrlinecolor:"black"
+        colors:["crimson", "white", "slateblue"]
         chrGap:chrGap})
     mychart(d3.select("div#chart2"), data)
