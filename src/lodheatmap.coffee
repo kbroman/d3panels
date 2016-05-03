@@ -109,7 +109,7 @@ lodheatmap = (chartOpts) ->
         for chr in data.chrname
             for pos,i in data.posByChr[chr]
                 for lod,j in data.lodByChr[chr][i]
-                    if lod >= zthresh or lod <= -zthresh
+                    if Math.abs(lod) >= zthresh
                         cells.push({lod: lod, chr:chr, pos:pos, posindex:+i, lodindex:+j})
         calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
 
