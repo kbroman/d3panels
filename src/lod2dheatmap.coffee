@@ -5,6 +5,7 @@ lod2dheatmap = (chartOpts) ->
 
     # chartOpts start
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
+    oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
     nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
     zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
@@ -62,8 +63,8 @@ lod2dheatmap = (chartOpts) ->
         xmid_scaled = {}
         ymid_scaled = {}
         for chr in data.chrname
-            xmid_scaled[chr] = calc_midpoints(pad_vector(xscale[chr](x) for x in posByChr[chr], (chrGap-2)/2))
-            ymid_scaled[chr] = calc_midpoints(pad_vector(yscale[chr](y) for y in posByChr[chr], (chrGap-2)/2))
+            xmid_scaled[chr] = calc_midpoints(pad_vector(xscale[chr](x) for x in posByChr[chr], chrGap-2))
+            ymid_scaled[chr] = calc_midpoints(pad_vector(yscale[chr](y) for y in posByChr[chr], if oneAtTop then chrGap-2 else 2-chrGap))
 
         # z-axis (color) limits; if not provided, make symmetric about 0
         zmin = matrixMin(data.lod)
@@ -104,7 +105,7 @@ lod2dheatmap = (chartOpts) ->
                             z = d3.format(".2f")(Math.abs(d.lod))
                             px = formatAxis(posByChr[d.chrx])(d.posx)
                             py = formatAxis(posByChr[d.chry])(d.posy)
-                            "(#{d.chrx}@#{px},#{d.chry}@#{py}) &rarr; z")
+                            "(#{d.chrx}@#{px},#{d.chry}@#{py}) &rarr; #{z}")
                     .direction('e')
                     .offset([0,10])
         svg.call(celltip)
@@ -124,10 +125,10 @@ lod2dheatmap = (chartOpts) ->
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
                  .on("mouseover.paneltip", (d) ->
-                                               d3.select(this).attr("stroke", "black")
+                                               d3.select(this).attr("stroke", "black").moveToFront()
                                                celltip.show(d))
                  .on("mouseout.paneltip", () ->
-                                               d3.select(this).attr("stroke", "none")
+                                               d3.select(this).attr("stroke", "none").moveToBack()
                                                celltip.hide())
 
     # functions to grab stuff
