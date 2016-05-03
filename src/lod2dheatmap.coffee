@@ -5,6 +5,7 @@ lod2dheatmap = (chartOpts) ->
 
     # chartOpts start
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
+    equalCells = chartOpts?.equalCells ? false # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
     oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
     nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
@@ -21,7 +22,7 @@ lod2dheatmap = (chartOpts) ->
     svg = null
 
     ## the main function
-    chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])
+    chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])  optionally poslabel (e.g., marker names)
 
         n_pos = data.chr.length
         if(data.pos.length != n_pos)
@@ -31,6 +32,13 @@ lod2dheatmap = (chartOpts) ->
         for i of data.lod
             if(data.lod[i].length != n_pos)
                 displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.chr.length (#{n_pos})")
+
+        if data.poslabel?
+            if(data.poslabel.length != n_pos)
+                displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
+        else
+            # create position labels
+            data.poslabel = ("#{data.chr[i]}@#{formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
 
         # create chrname, chrstart, chrend if missing
         data.chrname = unique(data.chr) unless data.chrname?
@@ -91,8 +99,8 @@ lod2dheatmap = (chartOpts) ->
                         lod:data.lod[i][j]
                         chrx:data.chr[i]
                         chry:data.chr[j]
-                        posx:data.pos[i]
-                        posy:data.pos[j]
+                        poslabelx:data.poslabel[i]
+                        poslabely:data.poslabel[j]
                         posxindex:indexWithinChr[i]
                         posyindex:indexWithinChr[j]})
 
@@ -104,9 +112,7 @@ lod2dheatmap = (chartOpts) ->
                     .attr('class', "d3-tip #{tipclass}")
                     .html((d) ->
                             z = d3.format(".2f")(Math.abs(d.lod))
-                            px = formatAxis(posByChr[d.chrx])(d.posx)
-                            py = formatAxis(posByChr[d.chry])(d.posy)
-                            "(#{d.chrx}@#{px},#{d.chry}@#{py}) &rarr; #{z}")
+                            "(#{d.poslabelx},#{d.poslabely}) &rarr; #{z}")
                     .direction('e')
                     .offset([0,10])
         svg.call(celltip)

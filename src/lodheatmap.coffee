@@ -25,6 +25,7 @@ lodheatmap = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # (chr, pos, lod) optionally: y or ycat giving scale for y-axis
+                                 # also, optionally poslabel (e.g. marker name)
                                  # also, optionally chrname, chrstart, chrend
 
         # for categorical scale
@@ -45,6 +46,13 @@ lodheatmap = (chartOpts) ->
         for i of data.lod
             if data.lod[i].length != data.y.length
                 displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.y.length (#{n_lod})")
+
+        if data.poslabel?
+            if(data.poslabel.length != n_pos)
+                displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
+        else
+            # create position labels
+            data.poslabel = ("#{data.chr[i]}@#{formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
 
         # create chrname, chrstart, chrend if missing
         data.chrname = unique(data.chr) unless data.chrname?
@@ -111,7 +119,7 @@ lodheatmap = (chartOpts) ->
             for pos,i in data.posByChr[chr]
                 for lod,j in data.lodByChr[chr][i]
                     if Math.abs(lod) >= zthresh
-                        cells.push({lod: lod, chr:chr, pos:pos, posindex:+i, lodindex:+j})
+                        cells.push({lod: lod, chr:chr, pos:pos, poslabel: data.poslabelByChr[chr][i], posindex:+i, lodindex:+j})
         calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
 
         # tool tips
@@ -119,10 +127,9 @@ lodheatmap = (chartOpts) ->
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d) ->
                              z = d3.format(".2f")(Math.abs(d.lod))
-                             p = d3.format(".1f")(d.pos)
                              lodlabel = if data.ycat? then data.ycat[d.lodindex] else formatAxis(data.y)(data.y[d.lodindex])
-                             return "#{lodlabel}, #{d.chr}@#{p} &rarr; #{z}" if horizontal
-                             "#{d.chr}@#{p}, #{lodlabel} &rarr; #{z}")
+                             return "#{lodlabel}, #{d.poslabel} &rarr; #{z}" if horizontal
+                             "#{d.poslabel}, #{lodlabel} &rarr; #{z}")
                    .direction(() ->
                        return 'n' if horizontal
                        'e')

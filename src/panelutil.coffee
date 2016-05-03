@@ -49,6 +49,9 @@ reorgLodData = (data) ->
     data.posByChr = reorgByChr(data.chrname, data.chr, data.pos)
     data.lodByChr = reorgByChr(data.chrname, data.chr, data.lod)
 
+    if data.poslabel?
+        data.poslabelByChr = reorgByChr(data.chrname, data.chr, data.poslabel)
+
     if data.marker?
         data.markerinfo = ({name: data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker when data.marker[i] != "")
 
