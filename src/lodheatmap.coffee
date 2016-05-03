@@ -3,9 +3,7 @@
 lodheatmap = (chartOpts) ->
     # chartOpts begin
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
-    rectcolor = chartOpts?.rectcolor ? "white" # color of background rectangle
-    altrectcolor = chartOpts?.altrectcolor ? "white" # color of background rectangle for alternate chromosomes
-    nullcolor = chartOpts?.nullcolor ? "pink" # "#e6e6e6" # color for empty cells
+    nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
     xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
     ylab = chartOpts?.ylab ? ""           # y-axis label
     ylim = chartOpts?.ylim ? null # y-axis limits (if null take from data)
