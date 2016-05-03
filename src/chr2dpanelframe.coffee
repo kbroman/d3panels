@@ -14,7 +14,7 @@ chr2dpanelframe = (chartOpts) ->
     ylab = chartOpts?.ylab ? "Chromosome"  # y-axis label
     rotate_ylab = chartOpts?.rotate_ylab ? null # whether to rotate the y-axis label
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
-    altrectcolor = chartOpts?.altrectcolor ? "#d4d4d4" # color of background rectangle for alternate chromosomes
+    altrectcolor = chartOpts?.altrectcolor ? "#d4d4d4" # color of background rectangle for alternate chromosomes (if "", not created)
     chrlinecolor = chartOpts?.chrlinecolor ? "" # color of lines between chromosomes (if "", leave off)
     chrlinewidth = chartOpts?.chrlinewidth ? 2 # width of lines between chromosomes
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
@@ -73,23 +73,24 @@ chr2dpanelframe = (chartOpts) ->
                 chrRect.push({chrx:chrx, xi:x, chry:chry, yi:y, odd:(x+y)%2})
 
         # background rectangles, alternating colors
-        chrSelect = g.append("g")
-                     .selectAll("empty")
-                     .data(chrRect)
-                     .enter()
-                     .append("rect")
-                     .attr("x", (d) -> xscale[d.chrx](data.start[d.xi]) - chrGap/2)
-                     .attr("width", (d) -> xscale[d.chrx](data.end[d.xi]) - xscale[d.chrx](data.start[d.xi]) + chrGap)
-                     .attr("y", (d) ->
-                         return yscale[d.chry](data.start[d.yi]) - chrGap/2 if oneAtTop
-                         yscale[d.chry](data.end[d.yi]) - chrGap/2)
-                     .attr("height", (d) ->
-                         return yscale[d.chry](data.end[d.yi]) - yscale[d.chry](data.start[d.yi]) + chrGap if oneAtTop
-                         yscale[d.chry](data.start[d.yi]) - yscale[d.chry](data.end[d.yi]) + chrGap)
-                     .attr("fill", (d,i) ->
-                         return rectcolor unless d.odd
-                         altrectcolor)
-                     .attr("shape-rendering", "crispEdges")
+        if altrectcolor != ""
+            chrSelect = g.append("g")
+                         .selectAll("empty")
+                         .data(chrRect)
+                         .enter()
+                         .append("rect")
+                         .attr("x", (d) -> xscale[d.chrx](data.start[d.xi]) - chrGap/2)
+                         .attr("width", (d) -> xscale[d.chrx](data.end[d.xi]) - xscale[d.chrx](data.start[d.xi]) + chrGap)
+                         .attr("y", (d) ->
+                             return yscale[d.chry](data.start[d.yi]) - chrGap/2 if oneAtTop
+                             yscale[d.chry](data.end[d.yi]) - chrGap/2)
+                         .attr("height", (d) ->
+                             return yscale[d.chry](data.end[d.yi]) - yscale[d.chry](data.start[d.yi]) + chrGap if oneAtTop
+                             yscale[d.chry](data.start[d.yi]) - yscale[d.chry](data.end[d.yi]) + chrGap)
+                         .attr("fill", (d,i) ->
+                             return rectcolor unless d.odd
+                             altrectcolor)
+                         .attr("shape-rendering", "crispEdges")
 
         # add title
         g.append("g").attr("class", "title")
