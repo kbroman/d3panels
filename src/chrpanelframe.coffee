@@ -19,6 +19,8 @@ chrpanelframe = (chartOpts) ->
     yticklab = chartOpts?.yticklab ? null # vector of y-axis tick labels
     rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
     altrectcolor = chartOpts?.altrectcolor ? "#d4d4d4" # color of background rectangle for alternate chromosomes
+    chrlinecolor = chartOpts?.chrlinecolor ? "" # color of lines between chromosomes (if "", leave off)
+    chrlinewidth = chartOpts?.chrlinewidth ? 2 # width of lines between chromosomes
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
@@ -30,6 +32,7 @@ chrpanelframe = (chartOpts) ->
     xlabels = null
     ylabels = null
     chrSelect = null
+    chrlines = null
     box = null
     svg = null
 
@@ -188,6 +191,29 @@ chrpanelframe = (chartOpts) ->
                         margin.left - axispos.ylabel)
                    .text((d) -> d)
 
+        # chrlines
+        if chrlinecolor != "" and data.chr.length > 1
+            chrlines = svg.append("g").attr("id", "chrlines")
+            chrlines.selectAll("empty")
+             .data(data.chr[0..(data.chr.length - 2)])
+             .enter()
+             .append("line")
+             .attr("x1", (d,i) ->
+                 return margin.left if horizontal
+                 xscale[d](data.end[i])+chrGap/2)
+             .attr("x2", (d,i) ->
+                 return margin.left + plot_width if horizontal
+                 xscale[d](data.end[i])+chrGap/2)
+             .attr("y1", (d,i) ->
+                 return xscale[d](data.end[i])+chrGap/2 if horizontal
+                 margin.top)
+             .attr("y2", (d,i) ->
+                 return xscale[d](data.end[i])+chrGap/2 if horizontal
+                 margin.top + plot_height)
+             .attr("stroke", chrlinecolor)
+             .attr("stroke-width", chrlinewidth)
+             .attr("shape-rendering", "crispEdges")
+
         # background rectangle box
         box = svg.append("rect").attr("class", "box")
                  .attr("x", margin.left)
@@ -205,6 +231,7 @@ chrpanelframe = (chartOpts) ->
     chart.xlabels = () -> xlabels
     chart.ylabels = () -> ylabels
     chart.chrSelect = () -> chrSelect
+    chart.chrlines = () -> chrlines
     chart.plot_width = () -> plot_width
     chart.plot_height = () -> plot_height
     chart.width = () -> width

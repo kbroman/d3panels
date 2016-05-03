@@ -31,3 +31,29 @@ addpoints(mychart4, {
 # Example 5: horizontal
 mychart5 = chrpanelframe({title:"Horizontal",ylim:[0,5],height:800,width:600,horizontal:true})
 mychart5(d3.select("div#chart5"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})
+
+# Example 6: chr lines
+mychart6 = chrpanelframe({
+    title:"lines"
+    ylim:[0,5]
+    height:600
+    width:800
+    chrlinecolor:"black"
+    ylineOpts:{color:"black", width:2}
+    rectcolor:"white"
+    altrectcolor:"white"})
+mychart6(d3.select("div#chart6"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})
+
+# Example 7: chr lines, horizontal
+mychart7 = chrpanelframe({
+    title:"lines; horizontal"
+    ylim:[0,5]
+    height:800
+    width:600
+    chrlinecolor:"black"
+    chrlinewidth:2
+    ylineOpts:{color:"black", width:2}
+    rectcolor:"white"
+    altrectcolor:"white"
+    horizontal:true})
+mychart7(d3.select("div#chart7"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})
