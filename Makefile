@@ -71,8 +71,8 @@ d3panels.js: $(JS)
 d3panels.css: src/panelutil.css
 	cp $< $@
 
-d3panels.min.js: $(JS)
-	uglifyjs d3panels.js -o $@
+d3panels.min.js: d3panels.js
+	uglifyjs $< -o $@
 
-d3panels.min.css: src/panelutil.css
+d3panels.min.css: d3panels.css
 	uglifycss $< > $@
