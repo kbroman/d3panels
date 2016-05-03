@@ -100,7 +100,10 @@ lodpanelframe = (chartOpts) ->
          .attr("y", titlepos)
 
         # rotate y-axis title?
-        rotate_ylab = rotate_ylab ? (ylab.length > 1)
+        if horizontal
+            rotate_ylab = rotate_ylab ? (xlab.length > 1)
+        else
+            rotate_ylab = rotate_ylab ? (ylab.length > 1)
 
         xaxis = g.append("g").attr("class", () ->
                                 return "y axis" if horizontal
