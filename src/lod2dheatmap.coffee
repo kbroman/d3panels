@@ -21,104 +21,114 @@ lod2dheatmap = (chartOpts) ->
     ## the main function
     chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])
 
-        ny = data.z.length
-        nx = (x.length for x in data.z)
-        for i of nx
-            if nx[i] != ny
-                displayError("Row #{i+1} of data.z is not the right length: #{nx[i]} != #{ny}")
-        nchr = data.nmar.length
-        totmar = sumArray(data.nmar)
-        if totmar != ny
-            displayError("sum(data.nmar) [#{sumArray(data.nmar)}] != data.z.length [#{data.z.length}]")
-        if data.chrnames.length != nchr
-            displayError.log("data.nmar.length [#{data.nmar.length}] != data.chrnames.length [#{data.chrnames.length}]")
-        if data.labels.length != totmar
-            displayError("data.labels.length [#{data.labels.length}] != sum(data.nmar) [#{sum(data.nmar)}]")
-        if chrGap < 1
-            displayError("chrGap should be >= 2 (was #{chrGap})")
-            chrGap = 2
+        n_pos = data.chr.length
+        if(data.pos.length != n_pos)
+            displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
+        if(data.lod.length != n_pos)
+            displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
+        for i of data.lod
+            if(data.lod[i].length != n_pos)
+                displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.chr.length (#{n_pos})")
 
-        # determine start of each cell (leave 1 pixel border around each chromosome)
-        xChrBorder = [0]
-        xCellStart = []
-        cur = chrGap/2
-        for nm in data.nmar
-            for j in [0...nm]
-                xCellStart.push(cur+1)
-                cur = cur+pixelPerCell
-            xChrBorder.push(cur+1+chrGap/2)
-            cur = cur+chrGap
+        # create chrname, chrstart, chrend if missing
+        data.chrname = unique(data.chr) unless data.chrname?
+        unless data.chrstart?
+            data.chrstart = []
+            for c in data.chrname
+                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
+                data.chrstart.push(d3.min(these_pos))
+        unless data.chrend?
+            data.chrend = []
+            for c in data.chrname
+                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
+                data.chrend.push(d3.max(these_pos))
 
-        width = cur-chrGap/2
-        height = width # always square
-
-        if oneAtTop
-            yChrBorder = (val for val in xChrBorder)
-            yCellStart = (val for val in xCellStart)
-        else
-            yChrBorder = (height - val+1 for val in xChrBorder)
-            yCellStart = (height-val-pixelPerCell for val in xCellStart)
-
-        data.cells = []
-        for i of data.z
-            for j of data.z[i]
-                data.cells.push({i:i, j:j, z:data.z[i][j], x:xCellStart[i]+margin.left, y:yCellStart[j]+margin.top})
-        data.allz = (cell.z for cell in data.cells)
-
-        # z-axis (color) limits; if not provided, make symmetric about 0
-        zmin = d3.min(data.allz)
-        zmax = d3.max(data.allz)
-        zmax = -zmin if -zmin > zmax
-        zlim = zlim ? [-zmax, 0, zmax]
-        if zlim.length != colors.length
-            displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
-        zscale.domain(zlim).range(colors)
-
-        # discard cells with |z| < zthresh
-        zthresh = zthresh ? zmin - 1
-        data.cells = (cell for cell in data.cells when cell.z >= zthresh or cell.z <= -zthresh)
-
-        # set up frame
+        # create frame
         chartOpts.chrGap = chrGap
-        myframe = lod2dpanelframe(chartOpts)
+        myframe = chr2dpanelframe(chartOpts)
 
-        # create svg
-        myframe(selection, {chr:chrname, start:chrstart, end:chrend})
+        # create SVG
+        myframe(selection, {chr:data.chrname, start:data.chrstart, end:data.chrend})
         svg = myframe.svg()
 
         # scales
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
+        # split position by chromosome
+        posByChr = reorgByChr(data.chrname, data.chr, data.pos)
 
+        # scaled midpoints
+        xmid_scaled = {}
+        ymid_scaled = {}
+        for chr in data.chrname
+            xmid_scaled[chr] = calc_midpoints(pad_vector(xscale[chr](x) for x in posByChr[chr], (chrGap-2)/2))
+            ymid_scaled[chr] = calc_midpoints(pad_vector(yscale[chr](y) for y in posByChr[chr], (chrGap-2)/2))
+
+        # z-axis (color) limits; if not provided, make symmetric about 0
+        zmin = matrixMin(data.lod)
+        zmax = matrixMax(data.lod)
+        zmax = -zmin if -zmin > zmax
+        zlim = zlim ? [-zmax, 0, zmax]
+        if zlim.length != colors.length
+            displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+        zscale = d3.scale.linear().domain(zlim).range(colors)
+        zthresh = zthresh ? zmin - 1
+
+        # create within-chromosome index
+        indexWithinChr = []
+        for chr in data.chrname
+            indexWithinChr = indexWithinChr.concat(+i for i of posByChr[chr])
+
+        # create cells for plotting
+        cells = []
+        for i of data.chr
+            for j of data.chr
+                if Math.abs(data.lod[i][j]) >= zthresh
+                    cells.push({
+                        lod:data.lod[i][j]
+                        chrx:data.chr[i]
+                        chry:data.chr[j]
+                        posx:data.pos[i]
+                        posy:data.pos[j]
+                        posxindex:indexWithinChr[i]
+                        posyindex:indexWithinChr[j]})
+
+        # calc cell height, width
+        calc_2dchrcell_rect(cells, xmid_scaled, ymid_scaled)
+
+        # tool tip
         celltip = d3.tip()
                     .attr('class', "d3-tip #{tipclass}")
                     .html((d) ->
-                            "#{data.labels[d.i]}, #{data.labels[d.j]} &rarr; #{formatAxis(data.allz)(d.z)}")
+                            z = d3.format(".2f")(Math.abs(d.lod))
+                            px = formatAxis(posByChr[d.chrx])(d.posx)
+                            py = formatAxis(posByChr[d.chry])(d.posy)
+                            "(#{d.chrx}@#{px},#{d.chry}@#{py}) &rarr; z")
                     .direction('e')
                     .offset([0,10])
         svg.call(celltip)
 
-        cells = svg.append("g").attr("id", "cells")
+        cellg = svg.append("g").attr("id", "cells")
         cellSelect =
-            cells.selectAll("empty")
-                 .data(data.cells)
+            cellg.selectAll("empty")
+                 .data(cells)
                  .enter()
                  .append("rect")
-                 .attr("x", (d) -> d.x)
-                 .attr("y", (d) -> d.y)
-                 .attr("width", pixelPerCell)
-                 .attr("height", pixelPerCell)
+                 .attr("x", (d) -> d.left)
+                 .attr("y", (d) -> d.top)
+                 .attr("width", (d) -> d.width)
+                 .attr("height", (d) -> d.height)
                  .attr("class", (d,i) -> "cell#{i}")
-                 .attr("fill", (d) -> if d.z? then zscale(d.z) else nullcolor)
+                 .attr("fill", (d) -> if d.lod? then zscale(d.lod) else nullcolor)
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
                  .on("mouseover.paneltip", (d) ->
                                                d3.select(this).attr("stroke", "black")
-                                               celltip.show(d) if hover)
+                                               celltip.show(d))
                  .on("mouseout.paneltip", () ->
                                                d3.select(this).attr("stroke", "none")
-                                               celltip.hide() if hover)
+                                               celltip.hide())
 
     # functions to grab stuff
     chart.xscale = () -> xscale

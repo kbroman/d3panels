@@ -206,6 +206,19 @@ calc_chrcell_rect = (cells, xmid, ymid) ->
         cell.top = d3.min([top, bottom])
         cell.height = Math.abs(bottom - top)
 
+# calc chr cell rectangles (left, right, top, bottom)
+calc_2dchrcell_rect = (cells, xmid, ymid) ->
+    for cell in cells
+        left = xmid[cell.chrx][cell.posxindex]
+        right = xmid[cell.chrx][1 + cell.posxindex]
+        top = ymid[cell.chry][cell.posyindex]
+        bottom = ymid[cell.chry][1 + cell.posyindex]
+
+        cell.left = d3.min([left, right])
+        cell.width = Math.abs(right-left)
+        cell.top = d3.min([top, bottom])
+        cell.height = Math.abs(bottom - top)
+
 # hash with values to left and right
 getLeftRight = (x) ->
     n = x.length
