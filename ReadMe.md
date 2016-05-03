@@ -20,15 +20,16 @@ will be simpler to use, maintain, and extend.
 
 #### Usage
 
-For each chart, you first call the chart function with a set of
-options, like this:
+All of the functions are called as `d3panels.blah()`.  And for each
+chart, you first call the chart function with a set of options, like
+this:
 
 ```coffeescript
-mychart = lodchart({height:600, width:800, ylab="LOD score"})
+mychart = d3panels.lodchart({height:600, width:800, ylab="LOD score"})
 ```
 
-Then you call the function that's created with some selection and the
-data:
+And then you call the function that's created with some selection and
+the data:
 
 ```coffeescript
 mychart(d3.select("div#chart"), mydata)
