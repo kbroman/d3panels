@@ -45,7 +45,7 @@ reorgLodData = (data) ->
     data
 
 # calculate chromosome scales for chrpanelframe (and so lodchart)
-calc_chrscales = (plot_width, left_margin, gap, chr, start, end) ->
+calc_chrscales = (plot_width, left_margin, gap, chr, start, end, reverse=false) ->
     # calculate chromosome lengths, start and end in pixels
     n_chr = chr.length
     chr_length = (end[i]-start[i] for i of end)
@@ -62,6 +62,12 @@ calc_chrscales = (plot_width, left_margin, gap, chr, start, end) ->
         xscale[chr[i]] = d3.scale.linear()
                            .domain([start[i], end[i]])
                            .range([chr_start_pixels[i], chr_end_pixels[i]])
+
+    if reverse # reverse the scale (right-to-left rather than left-to-right)
+        right = plot_width + left_margin*2
+        for i of chr
+            xscale[chr[i]].range([right - chr_end_pixels[i], right - chr_start_pixels[i]])
+
     # return the scale
     xscale
 

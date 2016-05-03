@@ -5,6 +5,7 @@ JS= src/panelutil.js \
 	src/chrheatmap.js \
 	src/panelframe.js \
 	src/chrpanelframe.js \
+	src/chr2dpanelframe.js \
 	src/cichart.js \
 	src/crosstab.js \
 	src/curvechart.js \
@@ -33,7 +34,8 @@ tests: test/test-unique.js test/test-stats.js \
 	   test/mapchart/test_mapchart.js \
 	   test/scatterplot/test_scatterplot.js \
 	   test/panelframe/test_panelframe.js \
-	   test/chrpanelframe/test_chrpanelframe.js
+	   test/chrpanelframe/test_chrpanelframe.js \
+	   test/chr2dpanelframe/test_chr2dpanelframe.js
 
 testdata: test/chrheatmap/data.json \
 		  test/cichart/data.json \
