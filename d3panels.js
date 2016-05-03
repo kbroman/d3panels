@@ -1689,7 +1689,7 @@ chr2dpanelframe = function(chartOpts) {
         return rectcolor;
       }
       return altrectcolor;
-    });
+    }).attr("shape-rendering", "crispEdges");
     g.append("g").attr("class", "title").append("text").text(title).attr("x", (width - margin.left - margin.right) / 2 + margin.left).attr("y", titlepos);
     rotate_ylab = rotate_ylab != null ? rotate_ylab : ylab.length > 1;
     xaxis = g.append("g").attr("class", function() {

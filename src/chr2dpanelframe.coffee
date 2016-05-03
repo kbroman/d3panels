@@ -82,6 +82,7 @@ chr2dpanelframe = (chartOpts) ->
                      .attr("fill", (d,i) ->
                          return rectcolor unless d.odd
                          altrectcolor)
+                     .attr("shape-rendering", "crispEdges")
 
         # add title
         g.append("g").attr("class", "title")
