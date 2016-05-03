@@ -1,7 +1,8 @@
 all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css
 .PHONY: all js tests testdata
 
-JS= src/panelutil.js \
+JS= src/d3panels_top.js \
+	src/panelutil.js \
 	src/lod2dheatmap.js \
 	src/panelframe.js \
 	src/chrpanelframe.js \
@@ -15,7 +16,8 @@ JS= src/panelutil.js \
 	src/add_lodcurve.js \
 	src/lodheatmap.js \
 	src/mapchart.js \
-	src/scatterplot.js
+	src/scatterplot.js \
+	src/d3panels_bottom.js
 js: $(JS)
 
 tests: test/test-unique.js test/test-stats.js \
@@ -70,7 +72,7 @@ d3panels.css: src/panelutil.css
 	cp $< $@
 
 d3panels.min.js: $(JS)
-	uglifyjs $(JS) -o $@
+	uglifyjs d3panels.js -o $@
 
 d3panels.min.css: src/panelutil.css
 	uglifycss $< > $@

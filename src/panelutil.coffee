@@ -1,16 +1,13 @@
 # A variety of utility functions used by the different panel functions
 
-d3panels =
-    version: "1.0.0"
-
 # determine rounding of axis labels
-formatAxis = (d, extra_digits=0) ->
+d3panels.formatAxis = (d, extra_digits=0) ->
 
     # gap between values
     gap = if d[0]? then d[1]-d[0] else d[2] - d[1] # allow first value to be NULL
 
     # turn gap into number of digits
-    ndig = Math.floor( log10(gap) )
+    ndig = Math.floor( d3panels.log10(gap) )
     ndig = 0 if ndig > 0
     ndig = Math.abs(ndig) + extra_digits
 
@@ -20,22 +17,22 @@ formatAxis = (d, extra_digits=0) ->
         "NA"
 
 # unique values of array (ignore nulls)
-unique = (x) ->
+d3panels.unique = (x) ->
     output = {}
     output[v] = v for v in x when v?
     output[v] for v of output
 
 # Pull out a variable (column) from a two-dimensional array
 # [NO LONGER USED]
-pullVarAsArray = (data, variable) ->
+d3panels.pullVarAsArray = (data, variable) ->
     (data[i][variable] for i of data)
 
 # reorganize lod/pos by chromosome
 #    uniquechr = vector of unique chromosome IDs
 #    chr = vector of chromosome IDs
-reorgByChr = (uniquechr, chr, vector) ->
+d3panels.reorgByChr = (uniquechr, chr, vector) ->
     if(chr.length != vector.length)
-        displayError("reorgByChr: chr.length (#{chr.length}) != vector.length (#{vector.length})")
+        d3panels.displayError("reorgByChr: chr.length (#{chr.length}) != vector.length (#{vector.length})")
 
     result = {}
     for c,i in uniquechr
@@ -45,12 +42,12 @@ reorgByChr = (uniquechr, chr, vector) ->
 
 # reorganize lod and position by chromosome
 # also, add markerinfo object
-reorgLodData = (data) ->
-    data.posByChr = reorgByChr(data.chrname, data.chr, data.pos)
-    data.lodByChr = reorgByChr(data.chrname, data.chr, data.lod)
+d3panels.reorgLodData = (data) ->
+    data.posByChr = d3panels.reorgByChr(data.chrname, data.chr, data.pos)
+    data.lodByChr = d3panels.reorgByChr(data.chrname, data.chr, data.lod)
 
     if data.poslabel?
-        data.poslabelByChr = reorgByChr(data.chrname, data.chr, data.poslabel)
+        data.poslabelByChr = d3panels.reorgByChr(data.chrname, data.chr, data.poslabel)
 
     if data.marker?
         data.markerinfo = ({name: data.marker[i], chr:data.chr[i], pos:data.pos[i], lod:data.lod[i]} for i of data.marker when data.marker[i] != "")
@@ -61,7 +58,7 @@ reorgLodData = (data) ->
 # type = "xaxis"     normal x-axis scale
 #      = "yaxis"     y-axis scale
 #      = "revyaxis"  reversed y-axis scale
-calc_chrscales = (plot_width, left_margin, gap, chr, start, end, reverse=false) ->
+d3panels.calc_chrscales = (plot_width, left_margin, gap, chr, start, end, reverse=false) ->
     # calculate chromosome lengths, start and end in pixels
     n_chr = chr.length
     chr_length = (end[i]-start[i] for i of end)
@@ -93,7 +90,7 @@ calc_chrscales = (plot_width, left_margin, gap, chr, start, end, reverse=false) 
 # Select a set of categorical colors
 # ngroup is positive integer
 # palette = "dark" or "pastel"
-selectGroupColors = (ngroup, palette) ->
+d3panels.selectGroupColors = (ngroup, palette) ->
     return [] if ngroup == 0
 
     if palette == "dark"
@@ -115,7 +112,7 @@ selectGroupColors = (ngroup, palette) ->
 
 # expand element/array (e.g., of colors) to a given length
 #     single elment -> array, then repeated to length n
-expand2vector = (input, n) ->
+d3panels.expand2vector = (input, n) ->
     return input unless input? # return null if null
     return input if Array.isArray(input) and input.length >= n
     input = [input] unless Array.isArray(input)
@@ -124,7 +121,7 @@ expand2vector = (input, n) ->
     input
 
 # median of a vector
-median = (x) ->
+d3panels.median = (x) ->
     return null if !x?
     x = (xv for xv in x when xv?)
     n = x.length
@@ -135,16 +132,16 @@ median = (x) ->
     (x[n/2] + x[(n/2)-1])/2
 
 # pad a vector to left and right
-pad_vector = (x, pad=null) -> # x should be sorted
+d3panels.pad_vector = (x, pad=null) -> # x should be sorted
     return [x[0] - (x[1]-x[0])].concat(x).concat([x[x.length - 1] + (x[x.length-1] - x[x.length-2])]) unless pad?
     [x[0] - pad].concat(x).concat(x[x.length - 1] + pad)
 
 # calculate midpoints
-calc_midpoints = (x) -> # x should be sorted
+d3panels.calc_midpoints = (x) -> # x should be sorted
     ((x[i] + x[i+1])/2 for i in [0..(x.length - 2)])
 
 # calc cell rectangles (left, right, top, bottom)
-calc_cell_rect = (cells, xmid, ymid) ->
+d3panels.calc_cell_rect = (cells, xmid, ymid) ->
     for cell in cells
         left = xmid[cell.xindex]
         right = xmid[1 + cell.xindex]
@@ -157,7 +154,7 @@ calc_cell_rect = (cells, xmid, ymid) ->
         cell.height = Math.abs(bottom - top)
 
 # calc chr cell rectangles (left, right, top, bottom)
-calc_chrcell_rect = (cells, xmid, ymid) ->
+d3panels.calc_chrcell_rect = (cells, xmid, ymid) ->
     for cell in cells
         left = xmid[cell.chr][cell.posindex]
         right = xmid[cell.chr][1 + cell.posindex]
@@ -170,7 +167,7 @@ calc_chrcell_rect = (cells, xmid, ymid) ->
         cell.height = Math.abs(bottom - top)
 
 # calc chr cell rectangles (left, right, top, bottom)
-calc_2dchrcell_rect = (cells, xmid, ymid) ->
+d3panels.calc_2dchrcell_rect = (cells, xmid, ymid) ->
     for cell in cells
         left = xmid[cell.chrx][cell.posxindex]
         right = xmid[cell.chrx][1 + cell.posxindex]
@@ -184,7 +181,7 @@ calc_2dchrcell_rect = (cells, xmid, ymid) ->
 
 # maximum difference between adjacent values in a vector
 # [NO LONGER USED]
-maxdiff = (x) ->
+d3panels.maxdiff = (x) ->
     return null if x.length < 2
     result = x[1] - x[0]
     return result if x.length < 3
@@ -194,28 +191,28 @@ maxdiff = (x) ->
     result
 
 # matrix extent, min, max, and max of absolute values
-matrixMin = (mat) ->
+d3panels.matrixMin = (mat) ->
     result = mat[0][0]
     for i of mat
         for j of mat[i]
             result = mat[i][j] if !(result?) or (result > mat[i][j] and mat[i][j]?)
     result
 
-matrixMax = (mat) ->
+d3panels.matrixMax = (mat) ->
     result = mat[0][0]
     for i of mat
         for j of mat[i]
             result = mat[i][j] if !(result?) or (result < mat[i][j] and mat[i][j]?)
     result
 
-matrixMaxAbs = (mat) ->
+d3panels.matrixMaxAbs = (mat) ->
     result = Math.abs(mat[0][0])
     for i of mat
         for j of mat[i]
             result = Math.abs(mat[i][j]) if !(result?) or (result < Math.abs(mat[i][j]) and mat[i][j]?)
     result
 
-matrixExtent = (mat) -> [matrixMin(mat), matrixMax(mat)]
+d3panels.matrixExtent = (mat) -> [d3panels.matrixMin(mat), d3panels.matrixMax(mat)]
 
 # move an object to front or back
 d3.selection.prototype.moveToFront = () ->
@@ -227,17 +224,17 @@ d3.selection.prototype.moveToBack = () ->
         this.parentNode.insertBefore(this, firstChild) if firstChild
 
 # force an object to be an array (rather than a scalar)
-forceAsArray = (x) ->
+d3panels.forceAsArray = (x) ->
     return x unless x? # if null, return null
     return x if Array.isArray(x)
     [x]
 
 # any values in vec that appear in missing are made null
-missing2null = (vec, missingvalues=['NA', '']) ->
+d3panels.missing2null = (vec, missingvalues=['NA', '']) ->
     vec.map (value) -> if missingvalues.indexOf(value) > -1 then null else value
 
 # display error at top of page
-displayError = (message, divid=null) ->
+d3panels.displayError = (message, divid=null) ->
     div = "div.error"
     div += "##{divid}" if divid?
     if d3.select(div).empty() # no errors yet
@@ -249,13 +246,13 @@ displayError = (message, divid=null) ->
       .text(message)
 
 # sum values in an array
-sumArray = (vec) ->
+d3panels.sumArray = (vec) ->
     vec = (x for x in vec when x?)
     return null unless vec.length > 0
     (vec.reduce (a,b) -> (a*1)+(b*1))
 
 # calculate cross-tabulation
-calc_crosstab = (data) ->
+d3panels.calc_crosstab = (data) ->
     nrow = data.ycat.length
     ncol = data.xcat.length
 
@@ -266,8 +263,8 @@ calc_crosstab = (data) ->
         result[data.y[i]][data.x[i]] += 1
 
     # row and column sums
-    rs = rowSums(result)
-    cs = colSums(result)
+    rs = d3panels.rowSums(result)
+    cs = d3panels.colSums(result)
 
     # fill in column sums
     for i in [0...ncol]
@@ -278,36 +275,36 @@ calc_crosstab = (data) ->
         result[i][ncol] = rs[i]
 
     # fill in total
-    result[nrow][ncol] = sumArray(rs)
+    result[nrow][ncol] = d3panels.sumArray(rs)
 
     result
 
 # rowSums: the sums for each row
-rowSums = (mat) -> (sumArray(x) for x in mat)
+d3panels.rowSums = (mat) -> (d3panels.sumArray(x) for x in mat)
 
 # transpose: matrix transpose
-transpose = (mat) -> ((mat[i][j] for i in [0...mat.length]) for j in [0...mat[0].length])
+d3panels.transpose = (mat) -> ((mat[i][j] for i in [0...mat.length]) for j in [0...mat[0].length])
 
 # colSums = the sums for each column
-colSums = (mat) -> rowSums(transpose(mat))
+d3panels.colSums = (mat) -> d3panels.rowSums(d3panels.transpose(mat))
 
 # log base 2
-log2 = (x) ->
+d3panels.log2 = (x) ->
     return(x) unless x?
     Math.log(x)/Math.log(2.0)
 
 # log base 10
-log10 = (x) ->
+d3panels.log10 = (x) ->
     return(x) unless x?
     Math.log(x)/Math.log(10.0)
 
 # absolute value, preserving nulls
-abs = (x) ->
+d3panels.abs = (x) ->
     return(x) unless x?
     Math.abs(x)
 
 # mean of y for each possible value of g
-mean_by_group = (g, y) ->
+d3panels.mean_by_group = (g, y) ->
     means = {}
     n = {}
     for i of g
@@ -322,8 +319,8 @@ mean_by_group = (g, y) ->
     means
 
 # SD of y for each possible value of g
-sd_by_group = (g, y) ->
-    means = mean_by_group(g, y)
+d3panels.sd_by_group = (g, y) ->
+    means = d3panels.mean_by_group(g, y)
     sds = {}
     n = {}
     for i of g
@@ -341,7 +338,7 @@ sd_by_group = (g, y) ->
     sds
 
 # count groups
-count_groups = (g, y) ->
+d3panels.count_groups = (g, y) ->
     n = {}
     for i of g
         if n[g[i]]?
@@ -352,8 +349,8 @@ count_groups = (g, y) ->
 
 # CI for mean(y) for each possible value of g
 #  (as mean +/- m*SD)
-ci_by_group = (g, y, m=2) ->
-    means = mean_by_group(g, y)
+d3panels.ci_by_group = (g, y, m=2) ->
+    means = d3panels.mean_by_group(g, y)
 
     # repeat the code for the SD, so I do two passes but not three
     sds = {}

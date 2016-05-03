@@ -1,11 +1,11 @@
-# illustration of use of the panelframe() function
+# illustration of use of the d3panels.panelframe() function
 
 # Example 1: simplest use
-mychart1 = panelframe({title:"No NAs"})
+mychart1 = d3panels.panelframe({title:"No NAs"})
 mychart1(d3.select("div#chart1"))
 
 # Example 2: xNA box, and thicker ylines (underneath xlines)
-mychart2 = panelframe({
+mychart2 = d3panels.panelframe({
     xNA:true
     title:"X-axis NAs"
     ylim:[0.5,3.5]
@@ -35,7 +35,7 @@ svg.append("g").attr("id", "pointgroup")
    .attr("cy", (d) -> yscale(d.y))
 
 # Example 3: yNA box and thicker xlines
-mychart3 = panelframe({
+mychart3 = d3panels.panelframe({
     yNA:true
     title:"Y-axis NAs"
     xlineOpts:
@@ -48,7 +48,7 @@ mychart3 = panelframe({
 mychart3(d3.select("div#chart3"))
 
 # Example 4: both xNA and yNA boxes, no vertical lines
-mychart4 = panelframe({
+mychart4 = d3panels.panelframe({
     xNA:true
     yNA:true
     title:"X- and Y-axis NAs"
@@ -58,7 +58,7 @@ mychart4 = panelframe({
 mychart4(d3.select("div#chart4"))
 
 # Example 5: both xNA and yNA boxes, dark lines
-mychart5 = panelframe({
+mychart5 = d3panels.panelframe({
     xNA:true
     yNA:true
     title:"X- and Y-axis NAs + dark grid"

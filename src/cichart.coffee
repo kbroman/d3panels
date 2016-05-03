@@ -1,6 +1,6 @@
 # cichart: reuseable CI chart (plot of estimates and confidence intervals for a set of categories)
 
-cichart = (chartOpts) ->
+d3panels.cichart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -32,22 +32,22 @@ cichart = (chartOpts) ->
         high = data.high
         ncat = mean.length
         if ncat != low.length
-            displayError("low.length [#{low.length}] != mean.length [#{ncat}]")
+            d3panels.displayError("low.length [#{low.length}] != mean.length [#{ncat}]")
         if ncat != high.length
-            displayError("high.length [#{high.length}] != mean.length [#{ncat}]")
+            d3panels.displayError("high.length [#{high.length}] != mean.length [#{ncat}]")
 
         xticks = (+i+1 for i of mean)
         xcatlabels = xcatlabels ? xticks
         if xcatlabels.length != mean.length
-            displayError("xcatlabels.length [#{xcatlabels.length}] != mean.length [#{ncat}]")
+            d3panels.displayError("xcatlabels.length [#{xcatlabels.length}] != mean.length [#{ncat}]")
 
         # x- and y-axis limits + category locations
         ylim = ylim ? [d3.min(low), d3.max(high)]
         xlim = [0.5, mean.length + 0.5]
 
         # expand segcolor and vertsegcolor to length of mean
-        segcolor = expand2vector(forceAsArray(segcolor), mean.length)
-        vertsegcolor = expand2vector(forceAsArray(vertsegcolor), mean.length)
+        segcolor = d3panels.expand2vector(d3panels.forceAsArray(segcolor), mean.length)
+        vertsegcolor = d3panels.expand2vector(d3panels.forceAsArray(vertsegcolor), mean.length)
 
         if horizontal
             chartOpts.ylim = xlim.reverse()
@@ -73,7 +73,7 @@ cichart = (chartOpts) ->
             chartOpts.v_over_h = v_over_h
 
         # set up frame
-        myframe = panelframe(chartOpts)
+        myframe = d3panels.panelframe(chartOpts)
 
         # Create SVG
         myframe(selection)
@@ -87,7 +87,7 @@ cichart = (chartOpts) ->
                 .attr('class', "d3-tip #{tipclass}")
                 .html((d,i) ->
                       index = i % mean.length
-                      f = formatAxis([low[index],mean[index]], 1)
+                      f = d3panels.formatAxis([low[index],mean[index]], 1)
                       "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})")
                 .direction(() ->
                     return 'n' if horizontal

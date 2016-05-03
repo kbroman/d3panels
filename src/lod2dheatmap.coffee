@@ -1,6 +1,6 @@
 # lod2dheatmap: reuseable heat map panel, broken into chromosomes
 
-lod2dheatmap = (chartOpts) ->
+d3panels.lod2dheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -29,22 +29,22 @@ lod2dheatmap = (chartOpts) ->
 
         n_pos = data.chr.length
         if(data.pos.length != n_pos)
-            displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
         if(data.lod.length != n_pos)
-            displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
         for i of data.lod
             if(data.lod[i].length != n_pos)
-                displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.chr.length (#{n_pos})")
+                d3panels.displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.chr.length (#{n_pos})")
 
         if data.poslabel?
             if(data.poslabel.length != n_pos)
-                displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
+                d3panels.displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
         else
             # create position labels
-            data.poslabel = ("#{data.chr[i]}@#{formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
+            data.poslabel = ("#{data.chr[i]}@#{d3panels.formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
 
         # create chrname if missing
-        data.chrname = unique(data.chr) unless data.chrname?
+        data.chrname = d3panels.unique(data.chr) unless data.chrname?
 
         # if equalCells, change positions to dummy values
         if equalCells
@@ -73,7 +73,7 @@ lod2dheatmap = (chartOpts) ->
         chartOpts.width = width
         chartOpts.height = height
         chartOpts.margin = margin
-        myframe = chr2dpanelframe(chartOpts)
+        myframe = d3panels.chr2dpanelframe(chartOpts)
 
         # create SVG
         myframe(selection, {chr:data.chrname, start:data.chrstart, end:data.chrend})
@@ -84,22 +84,22 @@ lod2dheatmap = (chartOpts) ->
         yscale = myframe.yscale()
 
         # split position by chromosome
-        posByChr = reorgByChr(data.chrname, data.chr, data.pos)
+        posByChr = d3panels.reorgByChr(data.chrname, data.chr, data.pos)
 
         # scaled midpoints
         xmid_scaled = {}
         ymid_scaled = {}
         for chr in data.chrname
-            xmid_scaled[chr] = calc_midpoints(pad_vector(xscale[chr](x) for x in posByChr[chr], chrGap-2))
-            ymid_scaled[chr] = calc_midpoints(pad_vector(yscale[chr](y) for y in posByChr[chr], if oneAtTop then chrGap-2 else 2-chrGap))
+            xmid_scaled[chr] = d3panels.calc_midpoints(d3panels.pad_vector(xscale[chr](x) for x in posByChr[chr], chrGap-2))
+            ymid_scaled[chr] = d3panels.calc_midpoints(d3panels.pad_vector(yscale[chr](y) for y in posByChr[chr], if oneAtTop then chrGap-2 else 2-chrGap))
 
         # z-axis (color) limits; if not provided, make symmetric about 0
-        zmin = matrixMin(data.lod)
-        zmax = matrixMax(data.lod)
+        zmin = d3panels.matrixMin(data.lod)
+        zmax = d3panels.matrixMax(data.lod)
         zmax = -zmin if -zmin > zmax
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
-            displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+            d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
         zscale = d3.scale.linear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 
@@ -123,7 +123,7 @@ lod2dheatmap = (chartOpts) ->
                         posyindex:indexWithinChr[j]})
 
         # calc cell height, width
-        calc_2dchrcell_rect(cells, xmid_scaled, ymid_scaled)
+        d3panels.calc_2dchrcell_rect(cells, xmid_scaled, ymid_scaled)
 
         # tool tip
         celltip = d3.tip()

@@ -2,7 +2,7 @@
 
 # Example: chr 1 at bottom (default)
 d3.json "data.json", (data) ->
-    mychart = lod2dheatmap({
+    mychart = d3panels.lod2dheatmap({
         altrectcolor:""
         chrlinecolor:"black"
         equalCells:true})
@@ -10,7 +10,7 @@ d3.json "data.json", (data) ->
 
 # Example: chr 1 at top
 d3.json "data.json", (data) ->
-    mychart = lod2dheatmap({
+    mychart = d3panels.lod2dheatmap({
         oneAtTop:true
         altrectcolor:""
         chrlinecolor:"black"

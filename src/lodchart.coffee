@@ -1,6 +1,6 @@
 # lodchart: reuseable LOD score chart
 
-lodchart = (chartOpts) ->
+d3panels.lodchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -25,14 +25,14 @@ lodchart = (chartOpts) ->
 
         # check lengths
         if(data.pos.length != data.chr.length)
-            displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
         if(data.lod.length != data.chr.length)
-            displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
         if(data.marker.length != data.chr.length)
-            displayError("data.marker.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.marker.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
 
         # create chrname, chrstart, chrend if missing
-        data.chrname = unique(data.chr) unless data.chrname?
+        data.chrname = d3panels.unique(data.chr) unless data.chrname?
         unless data.chrstart?
             data.chrstart = []
             for c in data.chrname
@@ -45,13 +45,13 @@ lodchart = (chartOpts) ->
                 data.chrend.push(d3.max(these_pos))
 
         # organize positions and LOD scores by chromosomes
-        data = reorgLodData(data)
+        data = d3panels.reorgLodData(data)
 
         # y-axis limits
         chartOpts.ylim = ylim ? [0, d3.max(data.lod)*1.05]
 
         # set up frame
-        myframe = chrpanelframe(chartOpts)
+        myframe = d3panels.chrpanelframe(chartOpts)
 
         # Create SVG
         myframe(selection, {chr:data.chrname,start:data.chrstart,end:data.chrend})
@@ -71,7 +71,7 @@ lodchart = (chartOpts) ->
             yscale: -> yscale}
 
         # plot curves and points
-        add2chart = add_lodcurve(chartOpts)
+        add2chart = d3panels.add_lodcurve(chartOpts)
         add2chart(self_chart, data)
 
         # grab selections

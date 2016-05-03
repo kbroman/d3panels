@@ -1,6 +1,6 @@
 # chrpanelframe: create a frame for a lod curve plot (rectangle + axes + labels)
 
-chrpanelframe = (chartOpts) ->
+d3panels.chrpanelframe = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -55,16 +55,16 @@ chrpanelframe = (chartOpts) ->
         # if start missing, use 0
         data.start = (0 for c in data.chr) unless data?.start
         if(data.chr.length != data.start.length)
-            displayError("data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
         if(data.chr.length != data.end.length)
-            displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
 
         # scales (x-axis scale has by chromosome ID)
         if horizontal # when horizontal, vertical is x-axis and horizontal is y-axis
-            xscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end)
+            xscale = d3panels.calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end)
             yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left])
         else
-            xscale = calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
+            xscale = d3panels.calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
             yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
 
         # solid background
@@ -142,7 +142,7 @@ chrpanelframe = (chartOpts) ->
         if yticklab? and yticklab.length != yticks.length
             displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
         unless yticklab? and yticklab.length == yticks.length
-            yticklab = (formatAxis(yticks)(d) for d in yticks)
+            yticklab = (d3panels.formatAxis(yticks)(d) for d in yticks)
 
         # horizontal grid lines
         ylines = yaxis.append("g").attr("id", "ylines")

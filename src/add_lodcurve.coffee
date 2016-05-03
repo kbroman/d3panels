@@ -1,6 +1,6 @@
 # add_lodcurve: add lod curve to a lodchart() chart
 
-add_lodcurve = (chartOpts) ->
+d3panels.add_lodcurve = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -22,14 +22,14 @@ add_lodcurve = (chartOpts) ->
 
         # check lengths
         if(data.pos.length != data.chr.length)
-            displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
         if(data.lod.length != data.chr.length)
-            displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
         if(data.marker.length != data.chr.length)
-            displayError("data.marker.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.marker.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
 
         # create chrname, chrstart, chrend if missing
-        data.chrname = unique(data.chr) unless data.chrname?
+        data.chrname = d3panels.unique(data.chr) unless data.chrname?
         unless data.chrstart?
             data.chrstart = []
             for c in data.chrname
@@ -42,7 +42,7 @@ add_lodcurve = (chartOpts) ->
                 data.chrend.push(d3.max(these_pos))
 
         # organize positions and LOD scores by chromosomes
-        data = reorgLodData(data) unless data.posByChr? and data.lodByChr? and data.markerinfo?
+        data = d3panels.reorgLodData(data) unless data.posByChr? and data.lodByChr? and data.markerinfo?
 
         svg = prevchart.svg()
 

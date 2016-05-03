@@ -1,6 +1,6 @@
 # lodheatmap: reuseable panel with heat map of LOD curves
 
-lodheatmap = (chartOpts) ->
+d3panels.lodheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts begin
@@ -44,22 +44,22 @@ lodheatmap = (chartOpts) ->
 
         # check inputs
         if n_pos != data.pos.length
-            displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
         if n_pos != data.lod.length
-            displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
         for i of data.lod
             if data.lod[i].length != data.y.length
-                displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.y.length (#{n_lod})")
+                d3panels.displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.y.length (#{n_lod})")
 
         if data.poslabel?
             if(data.poslabel.length != n_pos)
-                displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
+                d3panels.displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
         else
             # create position labels
-            data.poslabel = ("#{data.chr[i]}@#{formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
+            data.poslabel = ("#{data.chr[i]}@#{d3panels.formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
 
         # create chrname if missing
-        data.chrname = unique(data.chr) unless data.chrname?
+        data.chrname = d3panels.unique(data.chr) unless data.chrname?
 
         # if equalCells, change positions to dummy values
         if equalCells
@@ -84,10 +84,10 @@ lodheatmap = (chartOpts) ->
             chrGap = ((width - margin.left - margin.right) - 2*data.chrname.length)/data.chr.length + 2
 
         # organize positions and LOD scores by chromosomes
-        data = reorgLodData(data)
+        data = d3panels.reorgLodData(data)
 
         # y-axis midpoints
-        ymid = calc_midpoints(pad_vector(data.y))
+        ymid = d3panels.calc_midpoints(d3panels.pad_vector(data.y))
 
         # set up frame
         chartOpts.ylim = ylim ? d3.extent(ymid)
@@ -101,7 +101,7 @@ lodheatmap = (chartOpts) ->
         if data.ycat? # categorical labels
             chartOpts.yticks = data.y
             chartOpts.yticklab = data.ycat
-        myframe = chrpanelframe(chartOpts)
+        myframe = d3panels.chrpanelframe(chartOpts)
 
         # Create SVG
         myframe(selection, {chr:data.chrname,start:data.chrstart,end:data.chrend})
@@ -120,15 +120,15 @@ lodheatmap = (chartOpts) ->
         # x-axis midpoints
         xmid_scaled = {}
         for chr in data.chrname
-            xmid_scaled[chr] = calc_midpoints(pad_vector(xscale[chr](x) for x in data.posByChr[chr], (chrGap-2)/2))
+            xmid_scaled[chr] = d3panels.calc_midpoints(d3panels.pad_vector(xscale[chr](x) for x in data.posByChr[chr], (chrGap-2)/2))
 
         # z-axis (color) limits; if not provided, make symmetric about 0
-        zmin = matrixMin(data.lod)
-        zmax = matrixMax(data.lod)
+        zmin = d3panels.matrixMin(data.lod)
+        zmax = d3panels.matrixMax(data.lod)
         zmax = -zmin if -zmin > zmax
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
-            displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+            d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
         zscale = d3.scale.linear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 
@@ -139,14 +139,14 @@ lodheatmap = (chartOpts) ->
                 for lod,j in data.lodByChr[chr][i]
                     if Math.abs(lod) >= zthresh
                         cells.push({lod: lod, chr:chr, pos:pos, poslabel: data.poslabelByChr[chr][i], posindex:+i, lodindex:+j})
-        calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
+        d3panels.calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
 
         # tool tips
         celltip = d3.tip()
                    .attr('class', "d3-tip #{tipclass}")
                    .html((d) ->
                              z = d3.format(".2f")(Math.abs(d.lod))
-                             lodlabel = if data.ycat? then data.ycat[d.lodindex] else formatAxis(data.y)(data.y[d.lodindex])
+                             lodlabel = if data.ycat? then data.ycat[d.lodindex] else d3panels.formatAxis(data.y)(data.y[d.lodindex])
                              return "#{lodlabel}, #{d.poslabel} &rarr; #{z}" if horizontal
                              "#{d.poslabel}, #{lodlabel} &rarr; #{z}")
                    .direction(() ->

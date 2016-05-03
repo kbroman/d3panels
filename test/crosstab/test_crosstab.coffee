@@ -3,7 +3,7 @@
 # Example 1: two autosomal markers
 d3.json "data.json", (data) ->
     markers = ["D1M430", "D1M318"]
-    mychart = crosstab()
+    mychart = d3panels.crosstab()
 
     data2pass =
             x: data.geno[markers[0]]
@@ -18,7 +18,7 @@ d3.json "data.json", (data) ->
 # Example 2: two X-linked markers
 d3.json "data.json", (data) ->
     markers = ["DXM64", "DXM66"]
-    mychart = crosstab()
+    mychart = d3panels.crosstab()
 
     data2pass =
             x: data.geno[markers[0]]
@@ -33,7 +33,7 @@ d3.json "data.json", (data) ->
 # Example 3: an autosomal and an X-linked marker
 d3.json "data.json", (data) ->
     markers = ["D1M430", "DXM64"]
-    mychart = crosstab()
+    mychart = d3panels.crosstab()
 
     data2pass =
             x: data.geno[markers[0]]

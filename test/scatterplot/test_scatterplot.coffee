@@ -10,7 +10,7 @@ totalw = halfw*2
 
 # Example 1: simplest use
 d3.json "data.json", (data) ->
-    mychart = scatterplot({
+    mychart = d3panels.scatterplot({
         xlab:"X1"
         ylab:"X2"
         height:h
@@ -48,7 +48,7 @@ d3.json "data.json", (data) ->
     mychart = []
     chart = []
     for i in [0..2]
-        mychart[i] = scatterplot({
+        mychart[i] = d3panels.scatterplot({
             nxticks:6
             height:h
             width:w
@@ -102,7 +102,7 @@ d3.json "data.json", (data) ->
 
 # Example 3: different options regarding treatment of missing values
 d3.json "data.json", (data) ->
-    mychart01 = scatterplot({
+    mychart01 = d3panels.scatterplot({
         height:h
         width:w
         margin:margin
@@ -122,7 +122,7 @@ d3.json "data.json", (data) ->
             gap:10
         title:"X1 vs X2"})
 
-    mychart02 = scatterplot({
+    mychart02 = d3panels.scatterplot({
         height:h
         width:w
         margin:margin
@@ -139,7 +139,7 @@ d3.json "data.json", (data) ->
             gap: 10
         title: "X1 vs X3"})
 
-    mychart12 = scatterplot({
+    mychart12 = d3panels.scatterplot({
         height:h
         width:w
         margin:margin
@@ -184,7 +184,7 @@ d3.json "data.json", (data) ->
 
 # Example 4: color by grouping
 d3.json "data.json", (data) ->
-    mychart = scatterplot({
+    mychart = d3panels.scatterplot({
         xlab:"X"
         ylab:"Y"
         height:h

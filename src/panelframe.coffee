@@ -1,6 +1,6 @@
 # panelframe: create a frame for a plot (rectangle + axes + labels)
 
-panelframe = (chartOpts) ->
+d3panels.panelframe = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -132,9 +132,9 @@ panelframe = (chartOpts) ->
         # if xticks not provided, use nxticks to choose pretty ones
         xticks = xticks ? xscale.ticks(nxticks)
         if xticklab? and xticklab.length != xticks.length
-            displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
+            d3panels.displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
         unless xticklab? and xticklab.length == xticks.length
-            xticklab = (formatAxis(xticks)(d) for d in xticks)
+            xticklab = (d3panels.formatAxis(xticks)(d) for d in xticks)
         xticks = [null].concat(xticks) if xNA
         xticklab = ["NA"].concat(xticklab) if xNA
 
@@ -142,9 +142,9 @@ panelframe = (chartOpts) ->
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = yticks ? yscale.ticks(nyticks)
         if yticklab? and yticklab.length != yticks.length
-            displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
+            d3panels.displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
         unless yticklab? and yticklab.length == yticks.length
-            yticklab = (formatAxis(yticks)(d) for d in yticks)
+            yticklab = (d3panels.formatAxis(yticks)(d) for d in yticks)
         yticks = [null].concat(yticks) if yNA
         yticklab = ["NA"].concat(yticklab) if yNA
 

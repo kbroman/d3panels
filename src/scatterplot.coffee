@@ -1,6 +1,6 @@
 # scatterplot: reuseable scatterplot
 
-scatterplot = (chartOpts) ->
+d3panels.scatterplot = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -25,35 +25,35 @@ scatterplot = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID, group}
         # missing values can be any of null, "NA", or ""; replacing with nulls
-        x = missing2null(data.x)
-        y = missing2null(data.y)
+        x = d3panels.missing2null(data.x)
+        y = d3panels.missing2null(data.y)
 
         if x.length != y.length
-            displayError("x.length (#{x.length}) != y.length (#{y.length})")
+            d3panels.displayError("x.length (#{x.length}) != y.length (#{y.length})")
         # grab indID if it's there
         # if no indID, create a vector of them
         indID = data?.indID ? null
         indID = indID ? [1..x.length]
         if indID.length != x.length
-            displayError("indID.length (#{indID.length}) != x.length (#{x.length})")
+            d3panels.displayError("indID.length (#{indID.length}) != x.length (#{x.length})")
 
         # groups of colors
         group = data?.group ? (1 for i in x)
         ngroup = d3.max(group)
         group = (g-1 for g in group) # changed from (1,2,3,...) to (0,1,2,...)
-        if sumArray(g < 0 or g > ngroup-1 for g in group) > 0
-            displayError("group values out of range")
+        if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
+            d3panels.displayError("group values out of range")
             console.log("ngroup: #{ngroup}")
             console.log("g:")
             console.log(g)
         if group.length != x.length
-            displayError("group.length (#{group.length}) != x.length (#{x.length})")
+            d3panels.displayError("group.length (#{group.length}) != x.length (#{x.length})")
 
         # colors of the points in the different groups
-        pointcolor = pointcolor ? selectGroupColors(ngroup, "dark")
-        pointcolor = expand2vector(pointcolor, ngroup)
+        pointcolor = pointcolor ? d3panels.selectGroupColors(ngroup, "dark")
+        pointcolor = d3panels.expand2vector(pointcolor, ngroup)
         if pointcolor.length != ngroup
-            displayError("pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
+            d3panels.displayError("pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
 
         # whether to include separate boxes for NAs
         xNA.handle = xNA.force or (xNA.handle and !(x.every (v) -> (v?)))
@@ -70,7 +70,7 @@ scatterplot = (chartOpts) ->
         chartOpts.xNA_size = xNA_size
         chartOpts.yNA_size = yNA_size
 
-        myframe = panelframe(chartOpts)
+        myframe = d3panels.panelframe(chartOpts)
 
         # Create SVG
         myframe(selection)
@@ -186,7 +186,7 @@ scatterplot = (chartOpts) ->
                           .on("tick", tick)
                           .start()
             else if jitter != "none"
-                displayError('jitter should be "beeswarm", "random", or "none"')
+                d3panels.displayError('jitter should be "beeswarm", "random", or "none"')
 
 
         # move box to front

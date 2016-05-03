@@ -1,6 +1,6 @@
 # mapchart: reuseable marker map plot
 
-mapchart = (chartOpts) ->
+d3panels.mapchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -27,12 +27,12 @@ mapchart = (chartOpts) ->
 
         n_pos = data.pos.length
         if(data.chr.length != n_pos)
-            displayError("data.chr.length (#{data.chr.length}) != data.pos.length (#{n_pos})")
+            d3panels.displayError("data.chr.length (#{data.chr.length}) != data.pos.length (#{n_pos})")
         if(data.marker.length != n_pos)
-            displayError("data.marker.length (#{data.marker.length}) != data.pos.length (#{n_pos})")
+            d3panels.displayError("data.marker.length (#{data.marker.length}) != data.pos.length (#{n_pos})")
 
         unless data.chrname?
-            data.chrname = unique(data.chr)
+            data.chrname = d3panels.unique(data.chr)
 
         data.adjpos = data.pos.slice(0)
         # shift positions so that each chromosome starts at 0
@@ -85,7 +85,7 @@ mapchart = (chartOpts) ->
             chartOpts.v_over_h = v_over_h
 
         # set up frame
-        myframe = panelframe(chartOpts)
+        myframe = d3panels.panelframe(chartOpts)
 
         # Create SVG
         myframe(selection)

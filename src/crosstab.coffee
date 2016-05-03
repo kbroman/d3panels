@@ -1,6 +1,6 @@
 # crosstab: reusable chart (a table, really) for displaying a cross-tabulation
 
-crosstab = (chartOpts) ->
+d3panels.crosstab = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -23,19 +23,19 @@ crosstab = (chartOpts) ->
 
         n = data.x.length
         if data.y.length != n
-            displayError("data.x.length [#{data.x.length}] != data.y.length [#{data.y.length}]")
+            d3panels.displayError("data.x.length [#{data.x.length}] != data.y.length [#{data.y.length}]")
 
-        data.xcat = data?.xcat ? unique(x)
-        data.ycat = data?.ycat ? unique(y)
+        data.xcat = data?.xcat ? d3panels.unique(x)
+        data.ycat = data?.ycat ? d3panels.unique(y)
 
         ncol = data.xcat.length
         if d3.max(data.x) >= ncol or d3.min(data.x) < 0
-            displayError("data.x should be in range 0-#{ncol-1} [was #{d3.min(data.x)} - #{d3.max(data.x)}]")
+            d3panels.displayError("data.x should be in range 0-#{ncol-1} [was #{d3.min(data.x)} - #{d3.max(data.x)}]")
         nrow = data.ycat.length
         if d3.max(data.y) >= nrow or d3.min(data.y) < 0
-            displayError("data.y should be in range 0-#{nrow-1} [was #{d3.min(data.y)} - #{d3.max(data.y)}]")
+            d3panels.displayError("data.y should be in range 0-#{nrow-1} [was #{d3.min(data.y)} - #{d3.max(data.y)}]")
 
-        tab = calc_crosstab(data)
+        tab = d3panels.calc_crosstab(data)
 
         # in case labels weren't provided
         data.xlabel = data?.xlabel ? ""

@@ -1,6 +1,6 @@
 # curvechart: reuseable chart with many curves
 
-curvechart = (chartOpts) ->
+d3panels.curvechart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -31,48 +31,48 @@ curvechart = (chartOpts) ->
             for j in [2..n_ind]
                 x.push(x[0])
         if(x.length != n_ind)
-            displayError("data.x.length (#{x.length}) != data.y.length (#{n_ind})")
+            d3panels.displayError("data.x.length (#{x.length}) != data.y.length (#{n_ind})")
 
         # grab indID if it's there
         # if no indID, create a vector of them
         indID = data?.indID ? [1..n_ind]
         if(indID.length != n_ind)
-            displayError("data.indID.length (#{indID.length}) != data.y.length (#{n_ind})")
+            d3panels.displayError("data.indID.length (#{indID.length}) != data.y.length (#{n_ind})")
 
         # groups of colors
         group = data?.group ? (1 for i of y)
         ngroup = d3.max(group)
         group = (g-1 for g in group) # changed from (1,2,3,...) to (0,1,2,...)
-        if sumArray(g < 0 or g > ngroup-1 for g in group) > 0
-            displayError("group values out of range")
+        if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
+            d3panels.displayError("group values out of range")
             console.log("groups:")
             console.log(g)
         if(group.length != n_ind)
-            displayError("data.group.length (#{group.length}) != data.y.length (#{n_ind})")
+            d3panels.displayError("data.group.length (#{group.length}) != data.y.length (#{n_ind})")
 
         # check that x's and y's are all of the same length
         for i of y
             if(x[i].length != y[i].length)
-                displayError("length(x) (#{x[i].length}) != length(y) (#{y[i].length}) for individual #{indID[i]} (index #{i+1})")
+                d3panels.displayError("length(x) (#{x[i].length}) != length(y) (#{y[i].length}) for individual #{indID[i]} (index #{i+1})")
 
         # default light stroke colors
-        strokecolor = strokecolor ? selectGroupColors(ngroup, "pastel")
-        strokecolor = expand2vector(strokecolor, ngroup)
+        strokecolor = strokecolor ? d3panels.selectGroupColors(ngroup, "pastel")
+        strokecolor = d3panels.expand2vector(strokecolor, ngroup)
 
         # default dark stroke colors
-        strokecolorhilit = strokecolorhilit ? selectGroupColors(ngroup, "dark")
-        strokecolorhilit = expand2vector(strokecolorhilit, ngroup)
+        strokecolorhilit = strokecolorhilit ? d3panels.selectGroupColors(ngroup, "dark")
+        strokecolorhilit = d3panels.expand2vector(strokecolorhilit, ngroup)
 
         # x- and y-axis limits
-        xlim = xlim ? matrixExtent(x)
-        ylim = ylim ? matrixExtent(y)
+        xlim = xlim ? d3panels.matrixExtent(x)
+        ylim = ylim ? d3panels.matrixExtent(y)
         chartOpts.xlim = xlim
         chartOpts.ylim = ylim
 
         # convert NAs to null
         for i of x
-            x[i] = missing2null(x[i])
-            y[i] = missing2null(y[i])
+            x[i] = d3panels.missing2null(x[i])
+            y[i] = d3panels.missing2null(y[i])
 
         # reorganize data
         dataByPoint = []
@@ -84,7 +84,7 @@ curvechart = (chartOpts) ->
         chartOpts.yNA = false
 
         # set up frame
-        myframe = panelframe(chartOpts)
+        myframe = d3panels.panelframe(chartOpts)
 
         # create SVG
         myframe(selection)

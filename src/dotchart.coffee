@@ -1,6 +1,6 @@
 # dotchart: reuseable dot plot (like a scatter plot where one dimension is categorical)
 
-dotchart = (chartOpts) ->
+d3panels.dotchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -30,8 +30,8 @@ dotchart = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values
-        x = missing2null(data.x)
-        y = missing2null(data.y)
+        x = d3panels.missing2null(data.x)
+        y = d3panels.missing2null(data.y)
 
         # grab indID if it's there
         # if no indID, create a vector of them
@@ -39,18 +39,18 @@ dotchart = (chartOpts) ->
 
         # a few checks
         if x.length != y.length
-            displayError("length(x) [#{x.length}] != length(y) [#{y.length}]")
+            d3panels.displayError("length(x) [#{x.length}] != length(y) [#{y.length}]")
         if indID.length != x.length
-            displayError("length(indID) [#{indID.length}] != length(x) [#{x.length}]")
+            d3panels.displayError("length(indID) [#{indID.length}] != length(x) [#{x.length}]")
 
-        xcategories = xcategories ? unique(x)
+        xcategories = xcategories ? d3panels.unique(x)
         xcatlabels = xcatlabels ? xcategories
         if xcatlabels.length != xcategories.length
-            displayError("xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]")
+            d3panels.displayError("xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]")
 
         # check all x in xcategories
-        if sumArray(xv? and !(xv in xcategories) for xv in x) > 0
-            displayError("Some x values not in xcategories")
+        if d3panels.sumArray(xv? and !(xv in xcategories) for xv in x) > 0
+            d3panels.displayError("Some x values not in xcategories")
             console.log("xcategories:")
             console.log(xcategories)
             console.log("x:")
@@ -96,7 +96,7 @@ dotchart = (chartOpts) ->
             chartOpts.v_over_h = v_over_h
 
         # set up frame
-        myframe = panelframe(chartOpts)
+        myframe = d3panels.panelframe(chartOpts)
 
         # Create SVG
         myframe(selection)
@@ -219,7 +219,7 @@ dotchart = (chartOpts) ->
                       .on("tick", tick)
                       .start()
         else if jitter != "none"
-            displayError('jitter should be "beeswarm", "random", or "none"')
+            d3panels.displayError('jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
         myframe.box().moveToFront()

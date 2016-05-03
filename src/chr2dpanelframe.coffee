@@ -1,6 +1,6 @@
 # chr2dpanelframe: create a frame for a 2d LOD heatmap
 
-chr2dpanelframe = (chartOpts) ->
+d3panels.chr2dpanelframe = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -50,13 +50,13 @@ chr2dpanelframe = (chartOpts) ->
         # if start missing, use 0
         data.start = (0 for c in data.chr) unless data?.start
         if(data.chr.length != data.start.length)
-            displayError("data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
         if(data.chr.length != data.end.length)
-            displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
 
         # scales
-        xscale = calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
-        yscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, !oneAtTop) # last arg is for reverse scale
+        xscale = d3panels.calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
+        yscale = d3panels.calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, !oneAtTop) # last arg is for reverse scale
 
         # solid background
         g.append("rect")

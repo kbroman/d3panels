@@ -5,7 +5,7 @@ w = 1000
 
 # Example: simplest use
 d3.json "data.json", (data) ->
-    mychart = lodheatmap({
+    mychart = d3panels.lodheatmap({
         height:h
         width:w
         zthresh:1
@@ -17,7 +17,7 @@ d3.json "data.json", (data) ->
 
 # Example with use of quantitative y-axis scale
 d3.json "data.json", (data) ->
-    mychart = lodheatmap({
+    mychart = d3panels.lodheatmap({
         height:h
         width:w
         zthresh:1
@@ -29,7 +29,7 @@ d3.json "data.json", (data) ->
 
 # Horizontal
 d3.json "data.json", (data) ->
-    mychart = lodheatmap({
+    mychart = d3panels.lodheatmap({
         height:h
         width:h
         zthresh:1
@@ -42,7 +42,7 @@ d3.json "data.json", (data) ->
 
 # Horizontal, with use of quantitative y-axis scale
 d3.json "data.json", (data) ->
-    mychart = lodheatmap({
+    mychart = d3panels.lodheatmap({
         height:h
         width:h
         zthresh:1

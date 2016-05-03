@@ -1,6 +1,6 @@
 # heatmap: reuseable heat map panel
 
-heatmap = (chartOpts) ->
+d3panels.heatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
@@ -44,10 +44,10 @@ heatmap = (chartOpts) ->
         nx = data.x.length
         ny = data.y.length
         if data.z.length != nx
-            displayError("data.x.length (#{nx}) != data.z.length (#{data.z.length})")
+            d3panels.displayError("data.x.length (#{nx}) != data.z.length (#{data.z.length})")
         for i of data.z
             if data.z[i].length != ny
-                displayError("data.y.length (#{ny}) != data.z[#{i}].length (#{data.z[i].length})")
+                d3panels.displayError("data.y.length (#{ny}) != data.z[#{i}].length (#{data.z[i].length})")
 
         # organize by cell
         cells = []
@@ -56,20 +56,20 @@ heatmap = (chartOpts) ->
                 cells.push({x:data.x[i], y:data.y[j], z:data.z[i][j], xindex: +i, yindex: +j})
 
         # calc x and y midpoints
-        xmid = calc_midpoints(pad_vector(data.x))
-        ymid = calc_midpoints(pad_vector(data.y))
+        xmid = d3panels.calc_midpoints(d3panels.pad_vector(data.x))
+        ymid = d3panels.calc_midpoints(d3panels.pad_vector(data.y))
 
         # x and y axis limits
         xlim = xlim ? d3.extent(xmid)
         ylim = ylim ? d3.extent(ymid)
 
         # z-axis (color) limits; if not provided, make symmetric about 0
-        zmin = matrixMin(data.z)
-        zmax = matrixMax(data.z)
+        zmin = d3panels.matrixMin(data.z)
+        zmax = d3panels.matrixMax(data.z)
         zmax = -zmin if -zmin > zmax
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
-            displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+            d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
         zscale = d3.scale.linear().domain(zlim).range(colors)
 
         # discard cells with |z| < zthresh
@@ -82,7 +82,7 @@ heatmap = (chartOpts) ->
         chartOpts.ylim = ylim
         chartOpts.xNA = false
         chartOpts.yNA = false
-        myframe = panelframe(chartOpts)
+        myframe = d3panels.panelframe(chartOpts)
 
         # create SVG
         myframe(selection)
@@ -99,9 +99,9 @@ heatmap = (chartOpts) ->
         celltip = d3.tip()
                     .attr('class', "d3-tip #{tipclass}")
                     .html((d) ->
-                            x = formatAxis(data.x)(d.x)
-                            y = formatAxis(data.y)(d.y)
-                            z = formatAxis([0, zmax/100])(d.z)
+                            x = d3panels.formatAxis(data.x)(d.x)
+                            y = d3panels.formatAxis(data.y)(d.y)
+                            z = d3panels.formatAxis([0, zmax/100])(d.z)
                             return "#{z}" if data.xcat? and data.ycat?
                             return "(#{y}) &rarr; #{z}" if data.xcat?
                             return "(#{x}) &rarr; #{z}" if data.ycat?
@@ -115,7 +115,7 @@ heatmap = (chartOpts) ->
         ymid_scaled = (yscale(yv) for yv in ymid)
 
         # calculate x,y,width,height of rectangles
-        calc_cell_rect(cells, xmid_scaled, ymid_scaled)
+        d3panels.calc_cell_rect(cells, xmid_scaled, ymid_scaled)
 
         cellrect = svg.append("g").attr("id", "cells")
         cellSelect =

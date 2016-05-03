@@ -6,7 +6,7 @@ margin = {left:60, top:40, right:40, bottom: 40, inner:5}
 
 # simplest use
 d3.json "data.json", (data) ->
-    mychart = lodchart({height:h, width:w, margin:margin})
+    mychart = d3panels.lodchart({height:h, width:w, margin:margin})
 
     data.lod = data.lod_em
     mychart(d3.select("div#chart1"), data)
@@ -30,7 +30,7 @@ d3.json "data.json", (data) ->
 
 # two LOD charts within one SVG
 d3.json "data.json", (data) ->
-    mychart_em = lodchart({
+    mychart_em = d3panels.lodchart({
         height:h*0.7
         width:w
         margin:margin
@@ -40,7 +40,7 @@ d3.json "data.json", (data) ->
         nyticks:9
         title:"Standard interval mapping"})
 
-    mychart_hk = lodchart({
+    mychart_hk = d3panels.lodchart({
         height:h*0.7
         width:w
         margin:margin
@@ -67,7 +67,7 @@ d3.json "data.json", (data) ->
 
 # two curves on one chart
 d3.json "data.json", (data) ->
-    mychart = lodchart({
+    mychart = d3panels.lodchart({
         height:h
         width:w
         margin:margin
@@ -77,12 +77,12 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart3"), data)
 
     data2 = {chr:data.chr, pos:data.pos, lod:data.lod_hk, marker:data.marker}
-    addtochart = add_lodcurve({linecolor:"Crimson", pointcolor:"slateblue", linedash:"4,4"})
+    addtochart = d3panels.add_lodcurve({linecolor:"Crimson", pointcolor:"slateblue", linedash:"4,4"})
     addtochart(mychart, data2)
 
 # horizontal
 d3.json "data.json", (data) ->
-    mychart = lodchart({height:600, width:400, margin:margin, horizontal:true})
+    mychart = d3panels.lodchart({height:600, width:400, margin:margin, horizontal:true})
 
     data.lod = data.lod_em
     mychart(d3.select("div#chart4"), data)
