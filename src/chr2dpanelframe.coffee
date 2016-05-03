@@ -18,6 +18,7 @@ chr2dpanelframe = (chartOpts) ->
     boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
+    oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
     horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     xscale = null
@@ -53,7 +54,7 @@ chr2dpanelframe = (chartOpts) ->
 
         # scales
         xscale = calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
-        yscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, true) # last arg is for reverse scale
+        yscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, !oneAtTop) # last arg is for reverse scale
 
         # solid background
         g.append("rect")

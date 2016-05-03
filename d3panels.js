@@ -1595,7 +1595,7 @@ chrpanelframe = function(chartOpts) {
 var chr2dpanelframe;
 
 chr2dpanelframe = function(chartOpts) {
-  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrGap, chrSelect, height, horizontal, margin, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xlabels, xscale, ylab, ylabels, yscale;
+  var altrectcolor, axispos, box, boxcolor, boxwidth, chart, chrGap, chrSelect, height, horizontal, margin, oneAtTop, rectcolor, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rotate_ylab, svg, title, titlepos, width, xlab, xlabels, xscale, ylab, ylabels, yscale;
   if (chartOpts == null) {
     chartOpts = {};
   }
@@ -1623,7 +1623,8 @@ chr2dpanelframe = function(chartOpts) {
   boxcolor = (ref11 = chartOpts != null ? chartOpts.boxcolor : void 0) != null ? ref11 : "black";
   boxwidth = (ref12 = chartOpts != null ? chartOpts.boxwidth : void 0) != null ? ref12 : 2;
   chrGap = (ref13 = chartOpts != null ? chartOpts.chrGap : void 0) != null ? ref13 : 6;
-  horizontal = (ref14 = chartOpts.horizontal) != null ? ref14 : false;
+  oneAtTop = (ref14 = chartOpts != null ? chartOpts.oneAtTop : void 0) != null ? ref14 : false;
+  horizontal = (ref15 = chartOpts.horizontal) != null ? ref15 : false;
   xscale = null;
   yscale = null;
   xlabels = null;
@@ -1632,7 +1633,7 @@ chr2dpanelframe = function(chartOpts) {
   box = null;
   svg = null;
   chart = function(selection, data) {
-    var c, chrRect, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref15, ref16, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
+    var c, chrRect, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref16, ref17, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1640,11 +1641,11 @@ chr2dpanelframe = function(chartOpts) {
     plot_height = height - (margin.top + margin.bottom);
     if (!(data != null ? data.start : void 0)) {
       data.start = (function() {
-        var j, len, ref15, results;
-        ref15 = data.chr;
+        var j, len, ref16, results;
+        ref16 = data.chr;
         results = [];
-        for (j = 0, len = ref15.length; j < len; j++) {
-          c = ref15[j];
+        for (j = 0, len = ref16.length; j < len; j++) {
+          c = ref16[j];
           results.push(0);
         }
         return results;
@@ -1657,15 +1658,15 @@ chr2dpanelframe = function(chartOpts) {
       displayError("data.end.length (" + data.end.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     xscale = calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end);
-    yscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, true);
+    yscale = calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, !oneAtTop);
     g.append("rect").attr("x", margin.left).attr("width", plot_width).attr("y", margin.top).attr("height", plot_height).attr("fill", rectcolor);
     chrRect = [];
-    ref15 = data.chr;
-    for (x = j = 0, len = ref15.length; j < len; x = ++j) {
-      chrx = ref15[x];
-      ref16 = data.chr;
-      for (y = k = 0, len1 = ref16.length; k < len1; y = ++k) {
-        chry = ref16[y];
+    ref16 = data.chr;
+    for (x = j = 0, len = ref16.length; j < len; x = ++j) {
+      chrx = ref16[x];
+      ref17 = data.chr;
+      for (y = k = 0, len1 = ref17.length; k < len1; y = ++k) {
+        chry = ref17[y];
         chrRect.push({
           chrx: chrx,
           xi: x,
