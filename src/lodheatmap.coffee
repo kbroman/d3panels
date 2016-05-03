@@ -73,7 +73,7 @@ lodheatmap = (chartOpts) ->
         if data.ycat? # categorical labels
             chartOpts.yticks = data.y
             chartOpts.yticklab = data.ycat
-        myframe = lodpanelframe(chartOpts)
+        myframe = chrpanelframe(chartOpts)
 
         # Create SVG
         myframe(selection, {chr:data.chrname,start:data.chrstart,end:data.chrend})

@@ -44,7 +44,7 @@ reorgLodData = (data) ->
 
     data
 
-# calculate chromosome scales for lodpanelframe (and so lodchart)
+# calculate chromosome scales for chrpanelframe (and so lodchart)
 calc_chrscales = (plot_width, left_margin, gap, chr, start, end) ->
     # calculate chromosome lengths, start and end in pixels
     n_chr = chr.length

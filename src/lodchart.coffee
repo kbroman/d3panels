@@ -51,7 +51,7 @@ lodchart = (chartOpts) ->
         chartOpts.ylim = ylim ? [0, d3.max(data.lod)*1.05]
 
         # set up frame
-        myframe = lodpanelframe(chartOpts)
+        myframe = chrpanelframe(chartOpts)
 
         # Create SVG
         myframe(selection, {chr:data.chrname,start:data.chrstart,end:data.chrend})

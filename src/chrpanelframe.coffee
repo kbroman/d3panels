@@ -1,6 +1,6 @@
-# lodpanelframe: create a frame for a lod curve plot (rectangle + axes + labels)
+# chrpanelframe: create a frame for a lod curve plot (rectangle + axes + labels)
 
-lodpanelframe = (chartOpts) ->
+chrpanelframe = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
