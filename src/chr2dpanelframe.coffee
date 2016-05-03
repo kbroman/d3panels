@@ -65,6 +65,7 @@ chr2dpanelframe = (chartOpts) ->
          .attr("y", margin.top)
          .attr("height", plot_height)
          .attr("fill", rectcolor)
+         .attr("shape-rendering", "crispEdges")
 
         chrRect = []
         for chrx,x in data.chr

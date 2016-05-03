@@ -74,6 +74,7 @@ chrpanelframe = (chartOpts) ->
          .attr("y", margin.top)
          .attr("height", plot_height)
          .attr("fill", rectcolor)
+         .attr("shape-rendering", "crispEdges")
 
         # background rectangles, alternating colors
         chrSelect = g.append("g")
@@ -96,6 +97,8 @@ chrpanelframe = (chartOpts) ->
                      .attr("fill", (d,i) ->
                          return rectcolor if i % 2 == 0
                          altrectcolor)
+                     .attr("shape-rendering", "crispEdges")
+
 
         # add title
         g.append("g").attr("class", "title")

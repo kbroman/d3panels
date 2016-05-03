@@ -86,6 +86,7 @@ panelframe = (chartOpts) ->
                  .attr("width", boxes.width[i])
                  .attr("fill", rectcolor)
                  .attr("stroke", "none")
+                 .attr("shape-rendering", "crispEdges")
 
         # add title
         g.append("g").attr("class", "title")
