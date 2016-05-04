@@ -1,4 +1,4 @@
-# lodchart: reuseable LOD score chart
+# lodchart: plot of LOD curves
 
 d3panels.lodchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

@@ -1,4 +1,4 @@
-# scatterplot: reuseable scatterplot
+# scatterplot: plot scatter of points, y versus x
 
 d3panels.scatterplot = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

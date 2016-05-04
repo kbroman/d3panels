@@ -1,4 +1,4 @@
-# lodheatmap: reuseable panel with heat map of LOD curves
+# lodheatmap: heat map for multiple LOD curves (with one dimension broken by chromosomes)
 
 d3panels.lodheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

@@ -1,4 +1,4 @@
-# mapchart: reuseable marker map plot
+# mapchart: plot of a genetic marker map
 
 d3panels.mapchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

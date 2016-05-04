@@ -1,4 +1,4 @@
-# heatmap: reuseable heat map panel
+# heatmap: heat map panel
 
 d3panels.heatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

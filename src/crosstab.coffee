@@ -1,4 +1,4 @@
-# crosstab: reusable chart (a table, really) for displaying a cross-tabulation
+# crosstab: Display of a cross-tabulation (a two-way table)
 
 d3panels.crosstab = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

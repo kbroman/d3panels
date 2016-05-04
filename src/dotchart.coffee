@@ -1,4 +1,4 @@
-# dotchart: reuseable dot plot (like a scatter plot where one dimension is categorical)
+# dotchart: scatter plot where one dimension is categorical (sometimes called a strip chart)
 
 d3panels.dotchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

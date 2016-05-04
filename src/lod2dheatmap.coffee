@@ -1,4 +1,4 @@
-# lod2dheatmap: reuseable heat map panel, broken into chromosomes
+# lod2dheatmap: heat map panel, with the two dimensions broken into chromosomes
 
 d3panels.lod2dheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

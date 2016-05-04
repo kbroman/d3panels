@@ -1,4 +1,4 @@
-# curvechart: reuseable chart with many curves
+# curvechart: chart with multiple curves
 
 d3panels.curvechart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined

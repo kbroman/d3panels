@@ -1,4 +1,4 @@
-# cichart: reuseable CI chart (plot of estimates and confidence intervals for a set of categories)
+# cichart: plot of estimates and confidence intervals for a set of categories
 
 d3panels.cichart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
