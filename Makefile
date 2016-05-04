@@ -26,7 +26,7 @@ tests: test/test-unique.js test/test-stats.js \
 	   test/test-matrixMinMax.js test/test-forceAsArray.js \
 	   test/test-sumArray.js test/test-pad_vector.js \
 	   test/test-missing2null.js test/test-calc_midpoints.js \
-	   test/test-mathfunc.js \
+	   test/test-mathfunc.js test/test-reorgByChr.js \
 	   test/lod2dheatmap/test_lod2dheatmap.js \
 	   test/cichart/test_cichart.js \
 	   test/crosstab/test_crosstab.js \
