@@ -1,6 +1,6 @@
 ## d3panels documentation
 
-This subdirectory contains a Markdown document describing each of the
+This subdirectory contains Markdown documents describing each of the
 panel functions in [d3panels](http://kbroman.org/d3panels).
 
 ### Blank panels (used by other panel functions)
