@@ -16,12 +16,15 @@ d3panels.cichart = (chartOpts) ->
     horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    # further chartOpts: panelframe
     # chartOpts end
-    xscale = null
-    yscale = null
-    segments = null
-    tip = null
-    svg = null
+    # accessors begin
+    xscale = null     # x-axis scale
+    yscale = null     # y-axis scale
+    segments = null   # segments selection
+    tip = null        # tool tip selection
+    svg = null        # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) ->  # {mean, low, high} each vectors

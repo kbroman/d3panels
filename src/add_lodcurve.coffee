@@ -13,8 +13,10 @@ d3panels.add_lodcurve = (chartOpts) ->
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     horizontal = chartOpts?.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
-    markerSelect = null
-    markertip = null
+    # accessors begin
+    markerSelect = null   # points at markers selection
+    markertip = null      # tooltips selection
+    # accessors end
 
     chart = (prevchart, data) -> # prevchart = chart function used to create lodchart to which we're adding
                                  # data = {chr, pos, lod, marker} each an ordered vector

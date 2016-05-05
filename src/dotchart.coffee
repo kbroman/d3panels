@@ -21,12 +21,15 @@ d3panels.dotchart = (chartOpts) ->
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
+    # further chartOpts: panelframe
     # chartOpts end
-    xscale = null
-    yscale = null
-    points = null
-    indtip = null
-    svg = null
+    # accessors begin
+    xscale = null # x-axis scale
+    yscale = null # y-axis scale
+    points = null # point selection
+    indtip = null # tooltip selection
+    svg = null    # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values

@@ -13,13 +13,16 @@ d3panels.heatmap = (chartOpts) ->
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    # further chartOpts: panelframe
     # chartOpts end
-    xscale = null
-    yscale = null
-    zscale = null
-    cellSelect = null
-    celltip = null
-    svg = null
+    # accessors begin
+    xscale = null     # x-axis scale
+    yscale = null     # y-axis scale
+    zscale = null     # z-axis scale
+    cellSelect = null # cell selection
+    celltip = null    # cell tooltip selection
+    svg = null        # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) -> # {x, y, z}  # z should be a double-indexed square matrix, z[xval][yval]

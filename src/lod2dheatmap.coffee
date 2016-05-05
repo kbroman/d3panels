@@ -16,13 +16,16 @@ d3panels.lod2dheatmap = (chartOpts) ->
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    # further chartOpts: chr2dpanelframe
     # chartOpts end
-    xscale = null
-    yscale = null
-    zscale = null
-    celltip = null
-    cellSelect = null
-    svg = null
+    # accessors begin
+    xscale = null      # x-axis scale (vector by chromosome)
+    yscale = null      # y-axis scale (vector by chromosome)
+    zscale = null      # z-axis scale
+    celltip = null     # cell tooltip selection
+    cellSelect = null  # cell selection
+    svg = null         # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])  optionally poslabel (e.g., marker names)

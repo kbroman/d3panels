@@ -15,12 +15,15 @@ d3panels.mapchart = (chartOpts) ->
     v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
     shiftStart = chartOpts?.shiftStart ? false  # if true, shift start of chromosomes to 0
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    # further chartOpts: panelframe
     # chartOpts end
-    xscale = null
-    yscale = null
-    markerSelect = null
-    martip = null
-    svg = null
+    # accessors begin
+    xscale = null       # x-axis scale
+    yscale = null       # y-axis scale
+    markerSelect = null # marker segment selection
+    martip = null       # marker tool tip selection
+    svg = null          # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) -> # {chr, pos, marker, (optionally) chrname}

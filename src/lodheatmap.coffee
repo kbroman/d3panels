@@ -19,13 +19,16 @@ d3panels.lodheatmap = (chartOpts) ->
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes (in pixels)
     equalCells = chartOpts?.equalCells ? false # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    # further chartOpts: chrpanelframe
     # chartOpts end
-    xscale = null
-    yscale = null
-    zscale = null
-    cellSelect = null
-    celltip = null
-    svg = null
+    # accessors begin
+    xscale = null     # x-axis scale (vector by chromosome)
+    yscale = null     # y-axis scale
+    zscale = null     # z-axis scale
+    cellSelect = null # cell selection
+    celltip = null    # cell tooltip selection
+    svg = null        # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) -> # (chr, pos, lod) optionally: y or ycat giving scale for y-axis

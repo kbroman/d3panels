@@ -27,14 +27,16 @@ d3panels.chrpanelframe = (chartOpts) ->
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
     horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
-    xscale = null
-    yscale = null
-    xlabels = null
-    ylabels = null
-    chrSelect = null
-    chrlines = null
-    box = null
-    svg = null
+    # accessors begin
+    xscale = null     # x-axis scale (vector by chromosome)
+    yscale = null     # y-axis scale
+    xlabels = null    # x-axis labels selection
+    ylabels = null    # y-axis labels selection
+    chrSelect = null  # chromosome rectangle selection
+    chrlines = null   # chromosome lines selection
+    box = null        # outer box selection
+    svg = null        # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) -> # data = chr, start, end  (vectors with chromosome IDs, start positions, and end positions)

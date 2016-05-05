@@ -15,8 +15,11 @@ d3panels.crosstab = (chartOpts) ->
     hilitcolor = chartOpts?.hilitcolor ? "#e9cfec" # color of rectangle when highlighted
     bordercolor = chartOpts?.bordercolor ? "black" # color of borders
     # chartOpts end
-    svg = null
-
+    # accessors begin
+    rowrect = null # row header rectangle selection
+    colrect = null # col header rectangle selection
+    svg = null     # SVG selection
+    # accessors end
 
     ## the main function
     chart = (selection, data) -> # {x, y, xcat, ycat, xlabel, ylabel} (xcat, ycat, xlabel, ylabel are optional; x and y in {0,1,2,...})
@@ -232,6 +235,8 @@ d3panels.crosstab = (chartOpts) ->
               .style("font-size", fontsize)
 
     # functions to grab stuff
+    chart.rowrect = () -> rowrect
+    chart.colrect = () -> colrect
     chart.svg = () -> svg
 
     # function to remove chart
