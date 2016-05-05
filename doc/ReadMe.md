@@ -15,6 +15,7 @@ panel functions in [d3panels](http://kbroman.org/d3panels).
 - [`scatterplot`](scatterplot.md)
 - [`cichart`](cichart.md)
 - [`heatmap`](heatmap.md)
+- [`curvechart`](curvechart.md)
 
 ### LOD curve panels
 
