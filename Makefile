@@ -61,6 +61,7 @@ testdata: $(TESTDATA)
 # documentation
 DOCS = doc/add_lodcurve.md \
 	   doc/chrpanelframe.md \
+	   doc/chr2dpanelframe.md \
 	   doc/lodchart.md \
 	   doc/panelframe.md
 docs: $(DOCS)
