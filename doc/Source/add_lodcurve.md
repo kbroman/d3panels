@@ -15,10 +15,7 @@ genome_data = {chr:['1', '2', '3', '4', '5'], start:[0,0,0,0,0], end:[100, 80, 6
 mychart = d3panels.chrpanelframe()
 mychart(d3.select('body'), data)
 
-lod_data = {chr:[1,2,2,4,5],
-    pos:[52.45, 11.91, 55.93, 1.56, 38.84],
-    lod:[3.342, 4.102, 3.002, 0.420, 2.654, 1.731, 2.246],
-    marker:["1", "2", "3", "4", "5"]}
+lod_data = {chr:[1,2,5], pos:[52.45, 11.91, 1.56], lod:[3.342, 4.102, 0.420], marker:["p1", "p2", "p3"]}
 
 addpoints = d3panels.add_lodcurve({linewidth:0, pointsize:4, pointcolor:"slateblue"})
 addpoints(mychart, lod_data)
