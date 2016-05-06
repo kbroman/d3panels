@@ -60,7 +60,8 @@ testdata: $(TESTDATA)
 
 # documentation
 DOCS = doc/add_lodcurve.md \
-	   doc/chrpanelframe.md
+	   doc/chrpanelframe.md \
+	   doc/lodchart.md
 docs: $(DOCS)
 
 # arguments to use when compiling coffeescript -> javascript
