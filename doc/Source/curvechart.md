@@ -1,64 +1,32 @@
-### Reusable curve chart
+## `curvechart`
 
-A reusable chart for making a chart with multiple curves
-following
-[Mike Bostock](http://bost.ocks.org/mike)'s
-[Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
+Plot of a set of curves.
 
-The source code is in [`curvechart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/curvechart.coffee).
+### Data
 
-For an illustration of its use, see [`test_curvechart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/curvechart/test_curvechart.coffee).
+The data is a hash with a set of vectors, all of the same length:
+- `x` &mdash; x variable as a two-dimensional array (potentially
+  ragged), indexed like `x[ind][obs]`
+- `y` &mdash; y variable as a two-dimensional array (potentially
+  ragged), indexed like `y[ind][obs]`
+- `indID` &mdash; individual IDs (optional)
+- `group` &mdash; category in 1,2,3,... (for determining point color)
 
-And see it in action
-[here](http://kbroman.org/d3panels/assets/curvechart/test).
+If `data.x` has length 1, it is then expanded to have the same length
+as `data.y`, in which case each row of `data.y` needs to have the same
+length. The lengths of `data.indID` and `data.group` should be
+the same as the length of `data.y`. Each row of `data.x` should have
+the same length as corresponding row of `data.y`.
 
-Here are all of the options:
-
-```coffeescript
-mychart = cichart().width(800)                                              # internal width of chart
-                   .height(500)                                             # internal height
-                   .margin({left:60, top:40, right:40, bottom:40, inner:5}) # margins
-                   .axispos({xtitle:25, ytitle:30, xlabel:5, ylabel:5})     # spacing for axis titles and labels
-                   .titlepos(20)                                            # spacing for panel title
-                   .xlim(null)                                              # x-axis limits
-                   .ylim(null)                                              # y-axis limits
-                   .nxticks(5)                                              # no. x-axis ticks
-                   .nyticks(5)                                              # no. y-axis ticks
-                   .xticks(null)                                            # locations of x-axis ticks
-                   .yticks(null)                                            # locations of y-axis ticks
-                   .rectcolor("#e6e6e6")                                    # background rectangle color
-                   .strokecolor(null)                                       # color(s) for curves
-                   .strokecolorhilit(null)                                  # color(s) for curves when highlighted
-                   .strokewidth(2)                                          # line width for curves
-                   .strokewidthhilit(2)                                     # line width for curves when highlighted
-                   .title("")                                               # panel title
-                   .xlab("X")                                               # x-axis label
-                   .ylab("Y")                                               # y-axis label
-                   .rotate_ylab(null)                                       # rotate y-axis label
-                   .commonX(true)                                           # Do all curves have a common set of X's?
-```
-
-#### Organization of data
-
-If `commonX == true` (the default), we expect the data to be like `{x:[x1, x2, ..., xt], data:[[y11, y12, .. y1t]...[yn1, .. ynt]]}`.
-
-Alternatively, if `commonX == false` we expect the data to be like `{data:[{x:[x(1,1), ..., x(1,t1)],y:[y(1,1), ..., y(1,t[1])}, ...]}`
-
-The data can also contain a vector `groups` with length equal to the number of individuals, taking values in `(1, 2, ..., k)`, for specifying colors.
-
-Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/curvechart/test/data.json).
-
-#### Additional accessors
+### Example
 
 ```coffeescript
-# x-axis scale
-xscale = mychart.xscale()
-xscale(x)
+data = {x:[[6,8,9,11,13,16]], y:[[10.3,22.8,22.9,32.1,28.6,30.9]]}
 
-# y-axis scale
-yscale = mychart.yscale()
-yscale(y)
-
-# selection of curves, to add .on("click", ...)
-curvesSelect = mychart.curvesSelect()
+mychart = d3panels.curvechart({height:300, width:500})
+mychart(d3.select('body'), data)
 ```
+
+**insert_chartOpts**
+
+**insert_accessors**

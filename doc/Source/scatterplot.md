@@ -1,80 +1,24 @@
-### Reusable scatterplot
+## `scatterplot`
 
-A reusable chart for making a scatterplot,
-following
-[Mike Bostock](http://bost.ocks.org/mike)'s
-[Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
+Scatterplot of one variable against another.
 
-The source code is in [`scatterplot.coffee`](https://github.com/kbroman/d3panels/blob/master/src/scatterplot.coffee).
+### Data
 
-For an illustration of its use, see [`test_scatterplot.coffee`](https://github.com/kbroman/d3panels/blob/master/test/scatterplot/test_scatterplot.coffee).
+The data is a hash with a set of vectors, all of the same length:
+- `x` &mdash; x variable
+- `y` &mdash; y variable
+- `indID` &mdash; individual IDs (optional)
+- `group` &mdash; category in 1,2,3,... (for determining point color)
 
-And see it in action
-[here](http://kbroman.org/d3panels/assets/scatterplot/test),
-including an [example with brushing](http://kbroman.org/d3panels/assets/scatterplot/test/index.html#ex2).
-
-Here are all of the options:
+### Example
 
 ```coffeescript
-mychart = scatterplot().xvar("x")                                               # variable containing x-coordinate
-                       .yvar("y")                                               # variable containing y-coordinate
-                       .width(800)                                              # internal width of chart
-                       .height(500)                                             # internal height
-                       .margin({left:60, top:40, right:40, bottom:40, inner:5}) # margins
-                       .axispos({xtitle:25, ytitle:30, xlabel:5, ylabel:5})     # spacing for axis titles and labels
-                       .titlepos(20)                                            # spacing for panel title
-                       .xlim(null)                                              # x-axis limits
-                       .ylim(null)                                              # y-axis limits
-                       .nxticks(5)                                              # no. x-axis ticks
-                       .nyticks(5)                                              # no. y-axis ticks
-                       .xticks(null)                                            # locations of x-axis ticks
-                       .yticks(null)                                            # locations of y-axis ticks
-                       .rectcolor("#e6e6e6")                                    # background rectangle color
-                       .pointcolor(null)                                        # color for points
-                       .pointstroke("black")                                    # stroke color for points
-                       .pointsize(3)                                            # radius of points at markers
-                       .title("")                                               # panel title
-                       .xlab("X")                                               # x-axis label
-                       .ylab("Y")                                               # y-axis label
-                       .rotate_ylab(null)                                       # rotate y-axis label
-                       .xNA({handle:true, force:false, width:15, gap:10})       # treatment of missing x values
-                       .yNA({handle:true, force:false, width:15, gap:10})       # treatment of missing y values
-                       .dataByInd(true)                                         # is data organized by individual?
+data = {x:[13,6,9,16,11,8], y:[28.6,10.3,22.8,30.9,15.1,22.8]}
+
+mychart = d3panels.scatterplot({height:400, width:400})
+mychart(d3.select('body'), data)
 ```
 
-#### Treatment of missing values through `xNA` and `yNA`:
+**insert_chartOpts**
 
-    handle: if true, plot missing values in separated area; if false, omit missing values
-    force:  force handle==true (with separate area for missing values) even if there are no missing values
-    width:  width of space reserved for missing values
-    gap:    gap between space for missing values and the main panel
-
-#### Organization of data:
-
-The input data should have a component `data` that contains the
-values to be plotted.  If `dataByInd == true` (the default), we
-expect this data to be like `[[x1,y1], [x2,y2], ..., [xn,yn]]`
-Alternatively, if `dataByInd == false` we expect this data to be
-like `[[x1,x2, ..., xn], [y1,y2, ..., yn]]`
-
-The input can include a component `indID` for individual IDs
-(viewable with tool tips) and a component `group` taking values 1,
-2, ..., defining groups to be colored differently.
-
-Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/scatterplot/test/data.json).
-
-
-#### Additional accessors:
-
-```coffeescript
-# x-axis scale
-xscale = mychart.xscale()
-xscale(x)
-
-# y-axis scale
-yscale = mychart.yscale()
-yscale(y)
-
-# selection of points at markers, to add .on("click", ...)
-pointsSelect = mychart.pointsSelect()
-```
+**insert_accessors**
