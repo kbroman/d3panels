@@ -1,5 +1,5 @@
-all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css
-.PHONY: all js tests testdata
+all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css docs
+.PHONY: all js tests testdata docs
 
 JS= src/d3panels_top.js \
 	src/panelutil.js \
@@ -53,6 +53,9 @@ testdata: test/lod2dheatmap/data.json \
 		  test/mapchart/data.json \
 		  test/scatterplot/data.json
 
+DOCS = doc/add_lodcurve.md \
+	   doc/chrpanelframe.md
+docs: $(DOCS)
 
 COFFEE_ARGS = -c # use -cm for debugging; -c otherwise
 
@@ -67,6 +70,9 @@ test/%/%.js: test/%/%.coffee
 
 test/%/data.json: test/%/create_test_data.R
 	cd $(@D);R CMD BATCH --no-save $(<F)
+
+doc/%.md: doc/Source/add_opts_to_doc.rb doc/Source/%.md src/%.coffee
+	cd $(<D);$(<F) $*
 
 d3panels.js: $(JS)
 	cat $(JS) > $@
