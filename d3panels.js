@@ -2052,7 +2052,7 @@ d3panels.curvechart = function(chartOpts) {
     x = data.x;
     y = data.y;
     n_ind = y.length;
-    if (x.length === 1) {
+    if (x.length === 1 && y.length > 1) {
       for (j = k = 2, ref7 = n_ind; 2 <= ref7 ? k <= ref7 : k >= ref7; j = 2 <= ref7 ? ++k : --k) {
         x.push(x[0]);
       }

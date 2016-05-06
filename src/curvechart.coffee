@@ -30,7 +30,7 @@ d3panels.curvechart = (chartOpts) ->
         y = data.y
 
         n_ind = y.length
-        if x.length == 1 # expand to same length
+        if x.length == 1 and y.length > 1 # expand to same length
             for j in [2..n_ind]
                 x.push(x[0])
         if(x.length != n_ind)
