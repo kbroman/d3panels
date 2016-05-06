@@ -45,7 +45,7 @@ d3panels.cichart = (chartOpts) ->
             d3panels.displayError("xcatlabels.length [#{xcatlabels.length}] != mean.length [#{ncat}]")
 
         # x- and y-axis limits + category locations
-        ylim = ylim ? [d3.min(low), d3.max(high)]
+        ylim = ylim ? d3panels.pad_ylim(d3.extent(low.concat(high)))
         xlim = [0.5, mean.length + 0.5]
 
         # expand segcolor and vertsegcolor to length of mean

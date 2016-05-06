@@ -375,3 +375,8 @@ d3panels.ci_by_group = (g, y, m=2) ->
             high: if n[i]>0 then means[i] + m*sds[i]/Math.sqrt(n[i]) else means[i]
 
     ci
+
+# pad y-axis limits a bit
+d3panels.pad_ylim = (ylim, p=0.025) ->
+    d = ylim[1] - ylim[0]
+    [ylim[0] - d*p, ylim[1] + d*p]

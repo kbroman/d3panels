@@ -62,7 +62,7 @@ d3panels.dotchart = (chartOpts) ->
                 x[i] = null if x[i]? and !(x[i] in xcategories)
 
         # x- and y-axis limits
-        ylim = ylim ? d3.extent(y)
+        ylim = ylim ? d3panels.pad_ylim(d3.extent(y))
         xlim = [d3.min(xcategories)-0.5, d3.max(xcategories) + 0.5]
 
         # whether to include separate boxes for NAs

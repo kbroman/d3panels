@@ -62,8 +62,8 @@ d3panels.scatterplot = (chartOpts) ->
         xNA.handle = xNA.force or (xNA.handle and !(x.every (v) -> (v?)))
         yNA.handle = yNA.force or (yNA.handle and !(y.every (v) -> (v?)))
 
-        xlim = xlim ? d3.extent(x)
-        ylim = ylim ? d3.extent(y)
+        xlim = xlim ? d3panels.pad_ylim(d3.extent(x))
+        ylim = ylim ? d3panels.pad_ylim(d3.extent(y))
 
         # set up frame
         chartOpts.xlim = xlim
