@@ -1,7 +1,8 @@
 ## `chrpanelframe`
 
 Creates a blank frame for a chart, with the x-axis split by
-chromosome.
+chromosome.  (Used by [`lodchart`](lodchart.md) and
+[`lodheadmap`](lodheatmap.md).)
 
 ### Data
 

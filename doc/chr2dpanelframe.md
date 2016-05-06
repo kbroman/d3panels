@@ -1,7 +1,7 @@
 ## `chr2dpanelframe`
 
 Creates a blank frame for a chart, with both the x-axis and y-axis split by
-chromosome. (Used by [`lod2dheadmap`](lod2dheatmap).)
+chromosome. (Used by [`lod2dheadmap`](lod2dheatmap.md).)
 
 ### Data
 
