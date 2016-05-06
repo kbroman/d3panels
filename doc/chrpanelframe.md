@@ -56,7 +56,7 @@ mychart(d3.select('body'), data)
 - `box()` &mdash; outer box selection
 - `svg()` &mdash; SVG selection
 
-Use these like:
+Use these like this:
 
 ```coffeescript
 mychart = d3panels.chrpanelframe()

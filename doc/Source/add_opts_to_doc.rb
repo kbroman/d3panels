@@ -124,7 +124,7 @@ def write_accessors(ofp, accessors, func)
     ofp.write("\n")
 
     if func != "add_lodcurve" # add_lodcurve is different :(
-        ofp.write("Use these like:\n\n")
+        ofp.write("Use these like this:\n\n")
         ofp.write("```coffeescript\n")
         ofp.write("mychart = d3panels.#{func}()\n")
         ofp.write("mychart(d3.select(\"body\"), data)\n")

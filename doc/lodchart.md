@@ -46,7 +46,7 @@ You can also use the chart options for [`chrpanelframe`](chrpanelframe.md).
 - `markertip()` &mdash; tooltips selection
 - `svg()` &mdash; SVG selection
 
-Use these like:
+Use these like this:
 
 ```coffeescript
 mychart = d3panels.lodchart()
