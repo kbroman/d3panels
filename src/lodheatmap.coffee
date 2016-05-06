@@ -3,7 +3,7 @@
 d3panels.lodheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
-    # chartOpts begin
+    # chartOpts start
     width = chartOpts?.width ? 800 # overall height of chart in pixels
     height = chartOpts?.height ? 500 # overall width of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40} # margins in pixels (left, top, right, bottom)
