@@ -62,8 +62,17 @@ testdata: $(TESTDATA)
 DOCS = doc/add_lodcurve.md \
 	   doc/chrpanelframe.md \
 	   doc/chr2dpanelframe.md \
+	   doc/cichart.md \
+	   doc/crosstab.md \
+	   doc/curvechart.md \
+	   doc/dotchart.md \
+	   doc/heatmap.md \
 	   doc/lodchart.md \
-	   doc/panelframe.md
+	   doc/lodheatmap.md \
+	   doc/lod2dheatmap.md \
+	   doc/mapchart.md \
+	   doc/panelframe.md \
+	   doc/scatterplot.md
 docs: $(DOCS)
 
 # arguments to use when compiling coffeescript -> javascript

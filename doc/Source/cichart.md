@@ -1,55 +1,23 @@
-### Reusable CI chart
+## `cichart`
 
-A reusable chart for making a CI chart (plot of estimates and confidence intervals for a set of categories), following
-[Mike Bostock](http://bost.ocks.org/mike)'s
-[Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
+Plot estimates and confidence intervals for a set of categories.
 
-The source code is in [`cichart.coffee`](https://github.com/kbroman/d3panels/blob/master/src/cichart.coffee).
+### Data
 
-For an illustration of its use, see [`test_cichart.coffee`](https://github.com/kbroman/d3panels/blob/master/test/cichart/test_cichart.coffee).
+The data is a hash with a set of vectors, all of the same length:
+- `mean` &mdash; Main estimate
+- `low` &mdash; Lower limit of confidence interval
+- `high` &mdash; Upper limit of confidence interval
 
-And see it in action
-[here](http://kbroman.org/d3panels/assets/cichart/test).
-
-Here are all of the options:
+### Example
 
 ```coffeescript
-mychart = cichart().xvar("x")                                               # variable containing x-coordinate
-                   .yvar("y")                                               # variable containing y-coordinate
-                   .width(400)                                              # internal width of chart
-                   .height(500)                                             # internal height
-                   .margin({left:60, top:40, right:40, bottom:40, inner:5}) # margins
-                   .axispos({xtitle:25, ytitle:30, xlabel:5, ylabel:5})     # spacing for axis titles and labels
-                   .titlepos(20)                                            # spacing for panel title
-                   .xcatlabels(null)                                        # labels for x-axis categories
-                   .segwidth(null)                                          # width of horizontal line segments
-                   .ylim(null)                                              # y-axis limits
-                   .nyticks(5)                                              # no. y-axis ticks
-                   .yticks(null)                                            # locations of y-axis ticks
-                   .rectcolor("#e6e6e6")                                    # background rectangle color
-                   .segcolor("slateblue")                                   # color for horizontal line segments
-                   .vertsegcolor("slateblue")                               # color for vertical line segments
-                   .segstrokewidth("2")                                     # stroke width for horiz line segs
-                   .title("")                                               # panel title
-                   .xlab("Group")                                           # x-axis label
-                   .ylab("Response")                                        # y-axis label
-                   .rotate_ylab(null)                                       # rotate y-axis label
+data = {mean:[1,1.5,1.75], low:[0.9,1.4,1.6], high:[1.1,1.6,1.9]}
+
+mychart = d3panels.cichart({height:300, width:300})
+mychart(d3.select('body'), data)
 ```
 
-#### Organization of data
+**insert_chartOpts**
 
-We expect `{means, low, high, categories}`, each a vector of common
-length. Here's an example:
-[`data.json`](http://kbroman.org/d3panels/assets/cichart/test/data.json).
-
-#### Additional accessors
-
-```coffeescript
-# x-axis scale
-xscale = mychart.xscale()
-xscale(x)
-
-# y-axis scale
-yscale = mychart.yscale()
-yscale(y)
-```
+**insert_accessors**
