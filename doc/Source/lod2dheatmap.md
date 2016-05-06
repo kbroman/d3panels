@@ -1,57 +1,32 @@
-### chrheatmap (Reusable heatmap panel, broken into chromosomes)
+## `lod2dheatmap`
 
-A reusable chart for making a heat map image with each dimension
-broken into chromosomes,
-following
-[Mike Bostock](http://bost.ocks.org/mike)'s
-[Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
+Plot a heatmap of a set of lod scores for a two-dimensional scan. Can
+also be used to plot estimated recombination fractions for all marker pairs.
 
-The source code is in [`chrheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/src/chrheatmap.coffee).
+### Data
 
-For an illustration of its use, see [`test_chrheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/chrheatmap/test_chrheatmap.coffee).
+The data is a hash containing
+- `chr` &mdash; vector of chromosome IDs (length `m`)
+- `pos` &mdash; vector of positions (length `m`)
+- `lod` &mdash; matrix of LOD scores, indexed as
+  `lod[pos_x][pos_y]` with dimension `m` &times; `m`
 
-And see it in action
-[here](http://kbroman.org/d3panels/assets/chrheatmap/test).
+Optionally, the data can also contain:
+- `poslabel` &mdash; Same length as `data.chr`, with labels for the
+  positions (length `m`)
+- `chrname` &mdash; vector of distinct chromosome IDs
+- `chrstart` &mdash; starting positions for the chromosomes
+- `chrend` &mdash; ending positions for the chromosomes
 
-Here are all of the options:
-
-```coffeescript
-mychart = chrheatmap().pixelPerCell(3)                                         # number of pixels per cell, both width and height
-                      .margin({left:60, top:40, right:40, bottom:40})          # margins
-                      .axispos({xtitle:25, ytitle:30, xlabel:5, ylabel:5})     # spacing for axis titles and labels
-                      .titlepos(20)                                            # spacing for panel title
-                      .rectcolor("#e6e6e6")                                    # background rectangle color
-                      .nullcolor("#e6e6e6")                                    # color for pixels with null values
-                      .colors(["slateblue", "white", "crimson"]                # colors
-                      .zlim(null)                                              # z-axis limits
-                      .title("")                                               # panel title
-                      .xlab("X")                                               # x-axis label
-                      .ylab("Y")                                               # y-axis label
-                      .rotate_ylab(null)                                       # rotate y-axis label
-                      .zthresh(null)                                           # plot cells with z >= zthresh or <= -zthresh
-                      .oneAtTop(false)                                         # whether chromosome 1 should be at top (and left) vs bottom (and left)
-                      .hover(true)                                             # whether to include mouseover/mouseout with default info
-```
-
-#### Organization of data
-
-The data should be of the form `{z: z:[[z11, ..., z1n], ...,
-[zn1, ..., znn]], nmar: [n1, n2, ..., nC], chrnames: [c1, c2, c3, ..., cC], labels:
-[lab1, lab2, ..., labn]}` where `z` gives the values to be plotted,
-`nmar` contains the number of markers on each of the `C` chromosomes,
-`chrnames` contains the chromosome names for the `C` chromosomes, `labels` are labels for
-each cell (same on x- and y-axis).
-
-Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/chrheatmap/test/data.json).
-
-
-#### Additional accessors
+### Example
 
 ```coffeescript
-# z-axis scale
-zscale = mychart.zscale()
-zscale(z)
+data = {chr:[1,1,1,1,2,2,2], pos:[0,5,10,20,0,8,12], lod:[[0.42,0.22],[1.69,1.73],[1.65,1.53],[2.94,2.21],[0.17,1.34],[0.15,1.85],[0.07,1.92]], ycat:["phe1","phe2"]}
 
-# selection of cells within image, to add .on("click", ...)
-cellSelect = mychart.cellSelect()
+mychart = d3panels.lod2dheatmap({height:150, width:600, colors:['crimson','white','slateblue']})
+mychart(d3.select('body'), data)
 ```
+
+**insert_chartOpts**
+
+**insert_accessors**
