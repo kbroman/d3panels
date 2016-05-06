@@ -127,7 +127,11 @@ def write_accessors(ofp, accessors, func)
         ofp.write("Use these like this:\n\n")
         ofp.write("```coffeescript\n")
         ofp.write("mychart = d3panels.#{func}()\n")
-        ofp.write("mychart(d3.select(\"body\"), data)\n")
+        if func == "panelframe" # panelframe takes no data :(
+            ofp.write("mychart(d3.select(\"body\"))\n")
+        else
+            ofp.write("mychart(d3.select(\"body\"), data)\n")
+        end
         ofp.write("#{accessors[0][:name]} = mychart.#{accessors[0][:name]}()\n")
         ofp.write("```\n\n")
     end
