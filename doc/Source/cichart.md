@@ -4,7 +4,7 @@ Plot estimates and confidence intervals for a set of categories.
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `mean` &mdash; Main estimate
 - `low` &mdash; Lower limit of confidence interval
 - `high` &mdash; Upper limit of confidence interval

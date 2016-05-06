@@ -6,7 +6,7 @@ chromosome.  (Used by [`lodchart`](lodchart.md) and
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `chrname` &mdash; vector of chromosome IDs
 - `chrstart` &mdash; starting positions for the chromosomes
 - `chrend` &mdash; ending positions for the chromosomes

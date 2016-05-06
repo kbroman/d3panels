@@ -5,7 +5,7 @@ strip chart).
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `x` &mdash; categories (as values 1, 2, 3, ...)
 - `y` &mdash; responses
 - `indID` &mdash; individual IDs (optional)

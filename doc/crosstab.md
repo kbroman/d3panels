@@ -4,7 +4,7 @@ Display a cross-tabulation (in other words, a two-way table)
 
 ### Data
 
-The data is a hash with two vectors of the same length:
+The data is an associative array with two vectors of the same length:
 - `x` &mdash; vector of x values in 1,2,... (rows in the table)
 - `y` &mdash; vector of y values in 1,2,... (columns in the table)
 

@@ -4,7 +4,7 @@ Plot a genetic marker map.
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `chr` &mdash; chromosome IDs
 - `pos` &mdash; marker positions
 - `marker` &mdash; marker names

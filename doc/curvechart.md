@@ -4,7 +4,7 @@ Plot of a set of curves.
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `x` &mdash; x variable as a two-dimensional array (potentially
   ragged), indexed like `x[ind][obs]`
 - `y` &mdash; y variable as a two-dimensional array (potentially

@@ -4,7 +4,7 @@ Scatterplot of one variable against another.
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `x` &mdash; x variable
 - `y` &mdash; y variable
 - `indID` &mdash; individual IDs (optional)

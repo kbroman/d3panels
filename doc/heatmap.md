@@ -5,7 +5,7 @@ points (_x_,_y_) on a grid.
 
 ### Data
 
-The data is a hash with a set of vectors, all of the same length:
+The data is an associative array with a set of vectors, all of the same length:
 - `x` &mdash; vector of x values
 - `y` &mdash; vector of y values
 - `z` &mdash; 2d-array of z values, indexed as `z[x][y]`

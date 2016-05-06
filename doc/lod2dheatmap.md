@@ -5,7 +5,7 @@ also be used to plot estimated recombination fractions for all marker pairs.
 
 ### Data
 
-The data is a hash containing
+The data is an associative array containing
 - `chr` &mdash; vector of chromosome IDs (length `m`)
 - `pos` &mdash; vector of positions (length `m`)
 - `lod` &mdash; matrix of LOD scores, indexed as
