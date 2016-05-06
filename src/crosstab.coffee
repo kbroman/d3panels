@@ -32,11 +32,15 @@ d3panels.crosstab = (chartOpts) ->
         data.ycat = data?.ycat ? d3panels.unique(y)
 
         ncol = data.xcat.length
-        if d3.max(data.x) >= ncol or d3.min(data.x) < 0
-            d3panels.displayError("data.x should be in range 0-#{ncol-1} [was #{d3.min(data.x)} - #{d3.max(data.x)}]")
+        if d3.max(data.x) > ncol or d3.min(data.x) <= 0
+            d3panels.displayError("data.x should be in range 1-#{ncol} [was #{d3.min(data.x)} - #{d3.max(data.x)}]")
         nrow = data.ycat.length
-        if d3.max(data.y) >= nrow or d3.min(data.y) < 0
-            d3panels.displayError("data.y should be in range 0-#{nrow-1} [was #{d3.min(data.y)} - #{d3.max(data.y)}]")
+        if d3.max(data.y) > nrow or d3.min(data.y) <= 0
+            d3panels.displayError("data.y should be in range 1-#{nrow} [was #{d3.min(data.y)} - #{d3.max(data.y)}]")
+
+        # convert x and y to 0,1,2,...
+        data.x = (xv-1 for xv in data.x)
+        data.y = (yv-1 for yv in data.y)
 
         tab = d3panels.calc_crosstab(data)
 

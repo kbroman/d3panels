@@ -1863,7 +1863,7 @@ d3panels.crosstab = function(chartOpts) {
   colrect = null;
   svg = null;
   chart = function(selection, data) {
-    var borders, cell, cellHeight, cellWidth, cells, collab, denom, i, j, k, l, m, n, ncol, nrow, o, plot_height, plot_width, rect, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, results, results1, rowlab, tab, titles, values, xscale, yscale;
+    var borders, cell, cellHeight, cellWidth, cells, collab, denom, i, j, k, l, m, n, ncol, nrow, o, plot_height, plot_width, rect, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, results, results1, rowlab, tab, titles, values, xscale, xv, yscale, yv;
     n = data.x.length;
     if (data.y.length !== n) {
       d3panels.displayError("data.x.length [" + data.x.length + "] != data.y.length [" + data.y.length + "]");
@@ -1871,13 +1871,33 @@ d3panels.crosstab = function(chartOpts) {
     data.xcat = (ref10 = data != null ? data.xcat : void 0) != null ? ref10 : d3panels.unique(x);
     data.ycat = (ref11 = data != null ? data.ycat : void 0) != null ? ref11 : d3panels.unique(y);
     ncol = data.xcat.length;
-    if (d3.max(data.x) >= ncol || d3.min(data.x) < 0) {
-      d3panels.displayError("data.x should be in range 0-" + (ncol - 1) + " [was " + (d3.min(data.x)) + " - " + (d3.max(data.x)) + "]");
+    if (d3.max(data.x) > ncol || d3.min(data.x) <= 0) {
+      d3panels.displayError("data.x should be in range 1-" + ncol + " [was " + (d3.min(data.x)) + " - " + (d3.max(data.x)) + "]");
     }
     nrow = data.ycat.length;
-    if (d3.max(data.y) >= nrow || d3.min(data.y) < 0) {
-      d3panels.displayError("data.y should be in range 0-" + (nrow - 1) + " [was " + (d3.min(data.y)) + " - " + (d3.max(data.y)) + "]");
+    if (d3.max(data.y) > nrow || d3.min(data.y) <= 0) {
+      d3panels.displayError("data.y should be in range 1-" + nrow + " [was " + (d3.min(data.y)) + " - " + (d3.max(data.y)) + "]");
     }
+    data.x = (function() {
+      var k, len, ref12, results;
+      ref12 = data.x;
+      results = [];
+      for (k = 0, len = ref12.length; k < len; k++) {
+        xv = ref12[k];
+        results.push(xv - 1);
+      }
+      return results;
+    })();
+    data.y = (function() {
+      var k, len, ref12, results;
+      ref12 = data.y;
+      results = [];
+      for (k = 0, len = ref12.length; k < len; k++) {
+        yv = ref12[k];
+        results.push(yv - 1);
+      }
+      return results;
+    })();
     tab = d3panels.calc_crosstab(data);
     data.xlabel = (ref12 = data != null ? data.xlabel : void 0) != null ? ref12 : "";
     data.ylabel = (ref13 = data != null ? data.ylabel : void 0) != null ? ref13 : "";
