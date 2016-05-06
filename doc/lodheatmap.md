@@ -14,7 +14,7 @@ The data is a hash containing
 
 Optionally, the data can also contain:
 - `poslabel` &mdash; Same length as `data.chr`, with labels for the
-  positions (lenght `m`)
+  positions (length `m`)
 - `chrname` &mdash; vector of distinct chromosome IDs
 - `chrstart` &mdash; starting positions for the chromosomes
 - `chrend` &mdash; ending positions for the chromosomes
