@@ -16,9 +16,9 @@ d3panels.lod2dheatmap = (chartOpts) ->
     zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    # further chartOpts: chr2dpanelframe
     # chartOpts end
-    # accessors begin
+    # further chartOpts: chr2dpanelframe
+    # accessors start
     xscale = null      # x-axis scale (vector by chromosome)
     yscale = null      # y-axis scale (vector by chromosome)
     zscale = null      # z-axis scale

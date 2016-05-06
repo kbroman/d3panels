@@ -15,9 +15,9 @@ d3panels.scatterplot = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 3 # color of points
     jitter = chartOpts?.jitter ? "beeswarm" # method for jittering NA points (beeswarm|random|none)
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    # further chartOpts: panelframe
     # chartOpts end
-    # accessors begin
+    # further chartOpts: panelframe
+    # accessors start
     xscale = null # x-axis scale
     yscale = null # y-axis scale
     points = null # points selection

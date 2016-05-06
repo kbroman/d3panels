@@ -15,7 +15,7 @@ d3panels.crosstab = (chartOpts) ->
     hilitcolor = chartOpts?.hilitcolor ? "#e9cfec" # color of rectangle when highlighted
     bordercolor = chartOpts?.bordercolor ? "black" # color of borders
     # chartOpts end
-    # accessors begin
+    # accessors start
     rowrect = null # row header rectangle selection
     colrect = null # col header rectangle selection
     svg = null     # SVG selection

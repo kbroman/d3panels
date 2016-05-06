@@ -22,7 +22,7 @@ d3panels.chr2dpanelframe = (chartOpts) ->
     chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
     oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
     # chartOpts end
-    # accessors begin
+    # accessors start
     xscale = null     # x-axis scale (vector by chromosome)
     yscale = null     # y-axis scale (vector by chromosome)
     xlabels = null    # x-axis labels selection

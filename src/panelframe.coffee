@@ -32,7 +32,7 @@ d3panels.panelframe = (chartOpts) ->
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     v_over_h = chartOpts?.v_over_h ? false # whether the vertical grid lines should be on top of the horizontal lines
     # chartOpts end
-    # accessors begin
+    # accessors start
     xscale = null         # x-axis scale
     yscale = null         # y-axis scale
     xscale_wnull = null   # x-axis scale, with treatment of null values

@@ -11,9 +11,9 @@ d3panels.lodchart = (chartOpts) ->
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
     ylim = chartOpts?.ylim ? null # y-axis limits; if null, use range of data
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    # further chartOpts: chrpanelframe
     # chartOpts end
-    # accessors begin
+    # further chartOpts: chrpanelframe
+    # accessors start
     xscale = null         # x-axis scale (vector by chromosome)
     yscale = null         # y-axis scale
     chrSelect = null      # chromosome rectangle selection

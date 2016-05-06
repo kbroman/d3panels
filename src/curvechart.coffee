@@ -11,9 +11,9 @@ d3panels.curvechart = (chartOpts) ->
     strokewidth = chartOpts?.strokewidth ? 2           # width of curve
     strokewidthhilit = chartOpts?.strokewidthhilit ? 2 # width of highlighted curve
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    # further chartOpts: panelframe
     # chartOpts end
-    # accessors begin
+    # further chartOpts: panelframe
+    # accessors start
     xscale = null        # x-axis scale
     yscale = null        # y-axis scale
     curvesSelect = null  # curves selection
