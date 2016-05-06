@@ -3,6 +3,13 @@
 Creates a blank frame for a chart, with the x-axis split by
 chromosome.
 
+### Data
+
+The data is a hash with a set of vectors, all of the same length:
+- `chrname` &mdash; vector of chromosome IDs
+- `chrstart` &mdash; starting positions for the chromosomes
+- `chrend` &mdash; ending positions for the chromosomes
+
 ### Example
 
 ```coffeescript
