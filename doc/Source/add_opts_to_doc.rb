@@ -85,7 +85,7 @@ def write_chartOpts(ofp, chartOpts)
     ofp.write("### Chart options (`chartOpts`)\n\n")
 
     chartOpts.each do |opt|
-        ofp.write("- `#{opt[:name]}` &mdash; #{opt[:comment]} (default `#{opt[:default]}`)\n")
+        ofp.write("- `#{opt[:name]}` &mdash; #{opt[:comment]} \\[default `#{opt[:default]}`\\]\n")
     end
     ofp.write("\n")
 end

@@ -26,14 +26,14 @@ addpoints(mychart, lod_data)
 
 ### Chart options (`chartOpts`)
 
-- `linecolor` &mdash; color for LOD curves (default `"darkslateblue"`)
-- `linewidth` &mdash; width (pixels) for LOD curves (if 0, no curves plotted) (default `2`)
-- `linedash` &mdash; 'dash array' to make dotted lines (default `""`)
-- `pointcolor` &mdash; e9cfec" (default `"`)
-- `pointsize` &mdash; pointsize at markers (if 0, no points plotted) (default `0`)
-- `pointstroke` &mdash; color of circle around points at markers (default `"black"`)
-- `tipclass` &mdash; class name for tool tips (default `"tooltip"`)
-- `horizontal` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same) (default `false`)
+- `linecolor` &mdash; color for LOD curves \[default `"darkslateblue"`\]
+- `linewidth` &mdash; width (pixels) for LOD curves (if 0, no curves plotted) \[default `2`\]
+- `linedash` &mdash; 'dash array' to make dotted lines \[default `""`\]
+- `pointcolor` &mdash; e9cfec" \[default `"`\]
+- `pointsize` &mdash; pointsize at markers (if 0, no points plotted) \[default `0`\]
+- `pointstroke` &mdash; color of circle around points at markers \[default `"black"`\]
+- `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
+- `horizontal` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same) \[default `false`\]
 
 
 ### Accessors
