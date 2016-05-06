@@ -47,9 +47,9 @@ def parse_chartOpts(ifp)
         comment = (split_line[1]).strip()
 
         split_again = split_line[0].split(/ \? /)
-        default = ( split_again[1] ).strip()
+        default = (split_again[1]).strip()
 
-        name = ( (split_again[0].split(/=/))[0] ).strip()
+        name = ((split_again[0].split(/=/))[0]).strip()
 
         chartOpts.push({:name => name,
                         :default => default,
@@ -67,11 +67,9 @@ def parse_accessors(ifp)
         end
 
         split_line = line.split(/\#/)
-        comment = split_line[1]
-        comment.strip()
+        comment = (split_line[1]).strip()
 
-        name = (split_line[0].split(/=/))[0]
-        name.strip()
+        name = ((split_line[0].split(/=/))[0]).strip()
 
         accessors.push({:name => name,
                         :comment => comment})
@@ -147,7 +145,7 @@ def add_opts_to_doc(ifile, ofile, source_info, func)
             write_chartOpts(ofp, source_info[:chartOpts])
             write_depends(ofp, source_info[:depends])
         elsif line =~ /\*\*insert_accessors\*\*/
-            write_accessors(ofp, source_info[:chartOpts], func)
+            write_accessors(ofp, source_info[:accessors], func)
         else
             ofp.write(line)
         end

@@ -39,19 +39,18 @@ You can also use the chart options for [`chrpanelframe`](chrpanelframe.md).
 
 ### Accessors
 
-- `linecolor()` &mdash; color for LOD curves
-- `linewidth()` &mdash; width (pixels) for LOD curves
-- `pointcolor()` &mdash; e9cfec"
-- `pointsize()` &mdash; pointsize at markers (if 0, no points plotted)
-- `pointstroke()` &mdash; color of circle around points at markers
-- `ylim()` &mdash; y-axis limits; if null, use range of data
-- `tipclass()` &mdash; class name for tool tips
+- `xscale()` &mdash; x-axis scale (vector by chromosome)
+- `yscale()` &mdash; y-axis scale
+- `chrSelect()` &mdash; chromosome rectangle selection
+- `markerSelect()` &mdash; points at markers selection
+- `markertip()` &mdash; tooltips selection
+- `svg()` &mdash; SVG selection
 
 Use these like:
 
 ```coffeescript
 mychart = d3panels.lodchart()
 mychart(d3.select("body"), data)
-linecolor = mychart.linecolor()
+xscale = mychart.xscale()
 ```
 

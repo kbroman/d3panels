@@ -43,12 +43,6 @@ addpoints(mychart, lod_data)
 
 ### Accessors
 
-- `linecolor()` &mdash; color for LOD curves
-- `linewidth()` &mdash; width (pixels) for LOD curves (if 0, no curves plotted)
-- `linedash()` &mdash; 'dash array' to make dotted lines
-- `pointcolor()` &mdash; e9cfec"
-- `pointsize()` &mdash; pointsize at markers (if 0, no points plotted)
-- `pointstroke()` &mdash; color of circle around points at markers
-- `tipclass()` &mdash; class name for tool tips
-- `horizontal()` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
+- `markerSelect()` &mdash; points at markers selection
+- `markertip()` &mdash; tooltips selection
 

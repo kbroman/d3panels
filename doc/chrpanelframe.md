@@ -47,34 +47,20 @@ mychart(d3.select('body'), data)
 
 ### Accessors
 
-- `width()` &mdash; overall height of chart in pixels
-- `height()` &mdash; overall width of chart in pixels
-- `margin()` &mdash; margins in pixels (left, top, right, bottom)
-- `axispos()` &mdash; position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
-- `titlepos()` &mdash; position of chart title in pixels
-- `title()` &mdash; chart title
-- `xlab()` &mdash; x-axis label
-- `ylab()` &mdash; y-axis label
-- `rotate_ylab()` &mdash; whether to rotate the y-axis label
-- `ylim()` &mdash; y-axis limits
-- `nyticks()` &mdash; no. ticks on y-axis
-- `yticks()` &mdash; vector of tick positions on y-axis
-- `yticklab()` &mdash; vector of y-axis tick labels
-- `rectcolor()` &mdash; e6e6e6"
-- `altrectcolor()` &mdash; d4d4d4"
-- `chrlinecolor()` &mdash; color of lines between chromosomes (if "", leave off)
-- `chrlinewidth()` &mdash; width of lines between chromosomes
-- `boxcolor()` &mdash; color of outer rectangle box
-- `boxwidth()` &mdash; width of outer box in pixels
-- `ylineOpts()` &mdash; color and width of horizontal lines
-- `chrGap()` &mdash; gap between chromosomes in pixels
-- `horizontal()` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
+- `xscale()` &mdash; x-axis scale (vector by chromosome)
+- `yscale()` &mdash; y-axis scale
+- `xlabels()` &mdash; x-axis labels selection
+- `ylabels()` &mdash; y-axis labels selection
+- `chrSelect()` &mdash; chromosome rectangle selection
+- `chrlines()` &mdash; chromosome lines selection
+- `box()` &mdash; outer box selection
+- `svg()` &mdash; SVG selection
 
 Use these like:
 
 ```coffeescript
 mychart = d3panels.chrpanelframe()
 mychart(d3.select("body"), data)
-width = mychart.width()
+xscale = mychart.xscale()
 ```
 
