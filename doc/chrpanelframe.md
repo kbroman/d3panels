@@ -40,14 +40,6 @@ mychart(d3.select('body'), data)
 
 ### Accessors
 
-Use these like:
-
-```coffeescript
-mychart = d3panels.chrpanelframe()
-mychart(d3.select("body"), data)
-width = mychart.width()
-```
-
 - `width()` &mdash; overall height of chart in pixels
 - `height()` &mdash; overall width of chart in pixels
 - `margin()` &mdash; margins in pixels (left, top, right, bottom)
@@ -70,4 +62,12 @@ width = mychart.width()
 - `ylineOpts()` &mdash; color and width of horizontal lines
 - `chrGap()` &mdash; gap between chromosomes in pixels
 - `horizontal()` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
+
+Use these like:
+
+```coffeescript
+mychart = d3panels.chrpanelframe()
+mychart(d3.select("body"), data)
+width = mychart.width()
+```
 

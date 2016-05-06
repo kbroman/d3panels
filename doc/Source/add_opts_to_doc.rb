@@ -119,6 +119,12 @@ def write_accessors(ofp, accessors, func)
 
     ofp.write("### Accessors\n\n")
 
+    accessors.each do |a|
+        ofp.write("- `#{a[:name]}()` &mdash; #{a[:comment]}\n")
+    end
+
+    ofp.write("\n")
+
     if func != "add_lodcurve" # add_lodcurve is different :(
         ofp.write("Use these like:\n\n")
         ofp.write("```coffeescript\n")
@@ -128,11 +134,6 @@ def write_accessors(ofp, accessors, func)
         ofp.write("```\n\n")
     end
 
-    accessors.each do |a|
-        ofp.write("- `#{a[:name]}()` &mdash; #{a[:comment]}\n")
-    end
-
-    ofp.write("\n")
 end
 
 
