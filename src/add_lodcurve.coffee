@@ -27,6 +27,8 @@ d3panels.add_lodcurve = (chartOpts) ->
             d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
         if(data.lod.length != data.chr.length)
             d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
+        unless data.marker? # if data.marker not included, create it with a bunch of blanks
+            data.marker = ['' for i of data.chr]
         if(data.marker.length != data.chr.length)
             d3panels.displayError("data.marker.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
 

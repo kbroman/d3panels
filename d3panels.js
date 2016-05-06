@@ -2834,6 +2834,18 @@ d3panels.lodchart = function(chartOpts) {
     if (data.lod.length !== data.chr.length) {
       d3panels.displayError("data.lod.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
     }
+    if (data.marker == null) {
+      data.marker = [
+        (function() {
+          var results;
+          results = [];
+          for (i in data.chr) {
+            results.push('');
+          }
+          return results;
+        })()
+      ];
+    }
     if (data.marker.length !== data.chr.length) {
       d3panels.displayError("data.marker.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
     }
@@ -2953,6 +2965,18 @@ d3panels.add_lodcurve = function(chartOpts) {
     }
     if (data.lod.length !== data.chr.length) {
       d3panels.displayError("data.lod.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
+    }
+    if (data.marker == null) {
+      data.marker = [
+        (function() {
+          var results;
+          results = [];
+          for (i in data.chr) {
+            results.push('');
+          }
+          return results;
+        })()
+      ];
     }
     if (data.marker.length !== data.chr.length) {
       d3panels.displayError("data.marker.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
