@@ -2,6 +2,19 @@
 
 Plot a lod curve.
 
+### Data
+
+The data is a hash with a set of vectors, all of the same length:
+- `chr` &mdash; chromosome IDs
+- `pos` &mdash; positions
+- `lod` &mdash; LOD scores
+- `marker` &mdash; marker names (with `""` denoting a pseudomarker that won't have a tool tip)
+
+Optionally, the data can also contain:
+- `chrname` &mdash; vector of distinct chromosome IDs
+- `chrstart` &mdash; starting positions for the chromosomes
+- `chrend` &mdash; ending positions for the chromosomes
+
 ### Example
 
 ```coffeescript
