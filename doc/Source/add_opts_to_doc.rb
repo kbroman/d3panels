@@ -20,7 +20,7 @@ def read_source(filename)
         line.strip()
         if line =~ /^\s+\# chartOpts start/
             chartOpts = parse_chartOpts(ifp)
-        elsif line =~ /^\s+\# further chartOpts:(.*)/
+        elsif line =~ /^\s+\# further chartOpts:\s*(.*)/
             depends = $1.split(/\s+/)
         elsif line =~ /^\s+\# accessors start/
             accessors = parse_accessors(ifp)
@@ -90,8 +90,28 @@ def write_chartOpts(ofp, chartOpts)
     ofp.write("\n")
 end
 
+# url for dependency
+def url_depends(depends)
+    "[`#{depends}`](#{depends}.md)"
+end
+
 # write dependencies
 def write_depends(ofp, depends)
+    return() if depends.nil? or depends.length==0
+
+    depends = depends.map{|d| url_depends(d)}
+
+    ofp.write("You can also use the chart options for ")
+    if depends.length > 2
+        depends[0..-2].each {|d| ofp.write(d + ', ')}
+        ofp.write('and ' + depends[-1])
+    elsif depends.length > 1
+        ofp.write(depends[0] + ' and ' + depends[1])
+    else
+        ofp.write(depends[0])
+    end
+
+    ofp.write(".\n\n")
 end
 
 # write accessor info
@@ -99,12 +119,14 @@ def write_accessors(ofp, accessors, func)
 
     ofp.write("### Accessors\n\n")
 
-    ofp.write("Use these like:\n\n")
-    ofp.write("```coffeescript\n")
-    ofp.write("mychart = d3panels.#{func}()\n")
-    ofp.write("mychart(d3.select(\"body\"), data)\n")
-    ofp.write("#{accessors[0][:name]} = mychart.#{accessors[0][:name]}()\n")
-    ofp.write("```\n\n")
+    if func != "add_lodcurve" # add_lodcurve is different :(
+        ofp.write("Use these like:\n\n")
+        ofp.write("```coffeescript\n")
+        ofp.write("mychart = d3panels.#{func}()\n")
+        ofp.write("mychart(d3.select(\"body\"), data)\n")
+        ofp.write("#{accessors[0][:name]} = mychart.#{accessors[0][:name]}()\n")
+        ofp.write("```\n\n")
+    end
 
     accessors.each do |a|
         ofp.write("- `#{a[:name]}()` &mdash; #{a[:comment]}\n")
