@@ -28,8 +28,8 @@ d3panels.crosstab = (chartOpts) ->
         if data.y.length != n
             d3panels.displayError("data.x.length [#{data.x.length}] != data.y.length [#{data.y.length}]")
 
-        data.xcat = data?.xcat ? d3panels.unique(x)
-        data.ycat = data?.ycat ? d3panels.unique(y)
+        data.xcat = data?.xcat ? (xv+1 for xv in d3.range(d3.max(data.x)))
+        data.ycat = data?.ycat ? (yv+1 for yv in d3.range(d3.max(data.y)))
 
         ncol = data.xcat.length
         if d3.max(data.x) > ncol or d3.min(data.x) <= 0

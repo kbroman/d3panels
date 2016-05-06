@@ -1868,8 +1868,26 @@ d3panels.crosstab = function(chartOpts) {
     if (data.y.length !== n) {
       d3panels.displayError("data.x.length [" + data.x.length + "] != data.y.length [" + data.y.length + "]");
     }
-    data.xcat = (ref10 = data != null ? data.xcat : void 0) != null ? ref10 : d3panels.unique(x);
-    data.ycat = (ref11 = data != null ? data.ycat : void 0) != null ? ref11 : d3panels.unique(y);
+    data.xcat = (ref10 = data != null ? data.xcat : void 0) != null ? ref10 : (function() {
+      var k, len, ref11, results;
+      ref11 = d3.range(d3.max(data.x));
+      results = [];
+      for (k = 0, len = ref11.length; k < len; k++) {
+        xv = ref11[k];
+        results.push(xv + 1);
+      }
+      return results;
+    })();
+    data.ycat = (ref11 = data != null ? data.ycat : void 0) != null ? ref11 : (function() {
+      var k, len, ref12, results;
+      ref12 = d3.range(d3.max(data.y));
+      results = [];
+      for (k = 0, len = ref12.length; k < len; k++) {
+        yv = ref12[k];
+        results.push(yv + 1);
+      }
+      return results;
+    })();
     ncol = data.xcat.length;
     if (d3.max(data.x) > ncol || d3.min(data.x) <= 0) {
       d3panels.displayError("data.x should be in range 1-" + ncol + " [was " + (d3.min(data.x)) + " - " + (d3.max(data.x)) + "]");
