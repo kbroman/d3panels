@@ -1,73 +1,33 @@
-### Reusable panel for heatmap of LOD curves
+## `lodheatmap`
 
-A reusable chart for making a heat map image of LOD curves,
-following
-[Mike Bostock](http://bost.ocks.org/mike)'s
-[Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
+Plot a heatmap of a set of lod curves.
 
-The source code is in [`lodheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/src/lodheatmap.coffee).
+### Data
 
-For an illustration of its use, see [`test_lodheatmap.coffee`](https://github.com/kbroman/d3panels/blob/master/test/lodheatmap/test_lodheatmap.coffee).
+The data is a hash containing
+- `chr` &mdash; vector of chromosome IDs (length `m`)
+- `pos` &mdash; vector of positions (length `m`)
+- `lod` &mdash; matrix of LOD scores, indexed as
+  `lod[position][phenotype]` with dimension `m` &times; `p`
+- `y` or `ycat` &mdash; vector of numeric values (if `y`) or phenotype
+  labels (if `ycat`), of length `p`.
 
-And see it in action
-[here](http://kbroman.org/d3panels/assets/lodheatmap/test).
+Optionally, the data can also contain:
+- `poslabel` &mdash; Same length as `data.chr`, with labels for the
+  positions (lenght `m`)
+- `chrname` &mdash; vector of distinct chromosome IDs
+- `chrstart` &mdash; starting positions for the chromosomes
+- `chrend` &mdash; ending positions for the chromosomes
 
-Here are all of the options:
-
-```coffeescript
-mychart = lodheatmap().width(1200)                                             # internal width of chart
-                      .height(600)                                             # internal height
-                      .margin({left:60, top:40, right:40, bottom:40})          # margins
-                      .axispos({xtitle:25, ytitle:30, xlabel:5, ylabel:5})     # spacing for axis titles and labels
-                      .titlepos(20)                                            # spacing for panel title
-                      .rectcolor("#e6e6e6")                                    # background rectangle color
-                      .colors(["slateblue", "white", "crimson"]                # colors
-                      .zlim(null)                                              # z-axis limits
-                      .title("")                                               # panel title
-                      .xlab("X")                                               # x-axis label
-                      .ylab("Y")                                               # y-axis label
-                      .rotate_ylab(null)                                       # rotate y-axis label
-                      .zthresh(null)                                           # plot cells with z >= zthresh or <= -zthresh
-                      .chrGap(5)                                               # gap between chromosomes (in pixels)
-                      .quantScale(null)                                        # optional vector of numbers, for y-axis scale
-                      .lod_labels(null)                                        # optional vector of strings, for LOD column labels
-                      .nyticks(5)                                              # no. y-axis ticks if quantitative scale
-                      .yticks(null)                                            # positions of y-axis ticks if quantitative scale
-```
-
-#### Organization of data
-
-The data is organized as for the [lodchart panel](lodchart.md):  a hash with a number of components:
-
-- `"chrnames`" is an ordered list of chromosome names
-- `"lodnames"` is an ordered list of the names of LOD score columns
-- `"chr"` is an ordered list of chromosome IDs for the markers/pseudomarkers
-  at which LOD scores were calculated (length `n`)
-- `"pos"` is an ordered list of numeric positions for the markers/pseudomarkers
-  at which LOD scores were calculated (length `n`)
-- additional ordered lists, named as in `"lodnames"`, containing LOD
-  scores, each also of length `n`.
-- `"markernames"` vector of marker names, of length `n`. Pseudomarkers
-  should have an empty string (`""`).
-
-Here's an example dataset: [`data.json`](http://kbroman.org/d3panels/assets/lodheatmap/test/data.json).
-
-
-#### Additional accessors
+### Example
 
 ```coffeescript
-# x-axis scale
-xscale = mychart.xscale()
-xscale(x)
+data = {chr:[1,1,1,1,2,2,2], pos:[0,5,10,20,0,8,12], lod:[[0.42,0.22],[1.69,1.73],[1.65,1.53],[2.94,2.21],[0.17,1.34],[0.15,1.85],[0.07,1.92]], ycat:["phe1","phe2"]}
 
-# y-axis scale
-yscale = mychart.yscale()
-yscale(y)
-
-# z-axis scale
-zscale = mychart.zscale()
-zscale(z)
-
-# selection of cells within image, to add .on("click", ...)
-cellSelect = mychart.cellSelect()
+mychart = d3panels.lodheatmap({height:150, width:600, colors:['crimson','white','slateblue']})
+mychart(d3.select('body'), data)
 ```
+
+**insert_chartOpts**
+
+**insert_accessors**
