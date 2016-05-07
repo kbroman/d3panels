@@ -5,10 +5,8 @@ tagline: D3-based graphics panels
 description: A set of D3-based graphics panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
-This is a set of [D3](http://d3js.org)-based graphics panels, following
-[Mike Bostock](http://bost.ocks.org/mike)'s
-[Towards Reuseable Charts](http://bost.ocks.org/mike/chart/).
-They were developed the basis for visualizations in the
+This is a set of [D3](http://d3js.org)-based graphics panels.
+They were developed to form the basis for visualizations in the
 [R/qtlcharts](http://kbroman.org/qtlcharts) package.
 
 The intent is for these panel functions to be usable by others, for
@@ -18,6 +16,10 @@ or [C3.js](http://c3js.org/).
 
 They are developed in [CoffeeScript](http://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
+
+**Update:** The d3panels library has been re-written, changing the
+functions' usage and data structures. Hopefully now it's all more
+consistent and simpler to use and maintain.
 
 ---
 
