@@ -86,6 +86,56 @@ Click on a panel for a corresponding interactive illustration.
 </table>
 ---
 
+## Usage
+
+All of the functions work are called as `d3panels.blah()`. And for each
+chart, you first call the chart function with a set of options, like
+this:
+
+```coffeescript
+mychart = d3panels.lodchart({height:600, width:800, ylab="LOD score"})
+```
+
+And then you call the function that's created with some selection and
+the data:
+
+```coffeescript
+mychart(d3.select("div#chart"), mydata)
+```
+
+(The one exception is [`add_lodcurve`](add_lodcurve.md); for that
+function, you need to have first called [`lodchart`](lodchart.md) or
+[`chrpanelframe`](chrpanelframe.md), and then you use the chart
+function created by that call in place of a selection. See the
+[documentation for `add_lodcurve`](add_lodcurve.md).)
+
+## Links
+
+To use the code, you need link to `d3panels.js` and `d3panels.css` (or
+to `d3panels.min.js` and `d3panels.min.css`):
+
+```html
+<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/master/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
+```
+
+You also need to link to [D3.js](https://d3js.org) and
+[d3-tip](https://github.com/Caged/d3-tip):
+
+```html
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
+```
+
+For a couple of panels (`curvechart` and `scatterplot`) you may also need
+to link to [colorbrewer.js](https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js):
+
+```html
+<script type="text/javascript" src="https://rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.js"></script>
+```
+
+---
+
 Sources on [github](http://github.com):
 
 - The [source for the package](https://github.com/kbroman/d3panels/tree/master)
