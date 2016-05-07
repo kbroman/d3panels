@@ -63,3 +63,28 @@ documented.
   contains CSS used by the panels
 
 For snapshots and live tests, see <http://kbroman.org/d3panels>.
+
+### Links
+
+To use the code, you need link to `d3panels.js` and `d3panels.css` (or
+to `d3panels.min.js` and `d3panels.min.css`):
+
+```html
+<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/master/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
+```
+
+You also need to link to [D3.js](https://d3js.org) and
+[d3-tip](https://github.com/Caged/d3-tip):
+
+```html
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
+```
+
+For a couple of panels (`curvechart` and `scatterplot`) you may also need
+to link to [colorbrewer.js](https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js):
+
+```html
+<script type="text/javascript" src="https://rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.js"></script>
+```
