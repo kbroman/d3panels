@@ -9,17 +9,14 @@ This is a set of [D3](http://d3js.org)-based graphics panels.
 They were developed to form the basis for visualizations in the
 [R/qtlcharts](http://kbroman.org/qtlcharts) package.
 
-The intent is for these panel functions to be usable by others, for
-other purposes, along the lines of
-[d3.Chart](http://misoproject.com/d3-chart/)
-or [C3.js](http://c3js.org/).
-
 They are developed in [CoffeeScript](http://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
-**Update: The d3panels library has been re-written, changing the
-functions' usage and data structures,** to make it all more
-consistent and simpler to use and maintain.
+**Update: The d3panels library has been completely re-written, changing the
+functions' usage and data structures,** to make it simpler
+and more consistent.
+
+[Documentation on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc).
 
 ---
 
