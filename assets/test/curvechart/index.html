@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Test of reusable curve plot</title>
+    <title>Test curvechart</title>
     <script charset="utf-8" type="text/javascript" src="../../libs/d3/d3.min.js"></script>
-    <script type="text/javascript" src="../../libs/d3-tip/index-min.js"></script>
+    <script type="text/javascript" src="../../libs/d3-tip/d3-tip.min.js"></script>
     <script type="text/javascript" src="../../libs/colorbrewer/colorbrewer.js"></script>
 
-    <script type="text/javascript" src="../../src/panelutil.js"></script>
-    <link rel=stylesheet type="text/css" href="../../src/panelutil.css">
-
-    <script type="text/javascript" src="../../src/curvechart.js"></script>
+    <script type="text/javascript" src="../../d3panels.js"></script>
+    <link rel=stylesheet type="text/css" href="../../d3panels.css">
     <style>body { font-family: sans-serif; }</style>
 </head>
 
 
 <body>
-<h3>Test of reusable curve plot</h3>
+<h3>Test curvechart (plot of multiple curves)</h3>
 
 <h4><a name="ex">Example</a></h4>
-<div class="qtlcharts" id="chart"></div>
-
+<div class="qtlcharts" id="chart1"></div>
 <p class="caption">Hover over a curve to highlight it.</p>
+<hr/>
 
+<h4><a name="ex">Swap x and y</a></h4>
+<div class="qtlcharts" id="chart2"></div>
+<p class="caption">Hover over a curve to highlight it.</p>
 <hr/>
 
 <p class="caption">Source at GitHub:
