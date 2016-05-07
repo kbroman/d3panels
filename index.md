@@ -16,7 +16,7 @@ source is on [GitHub](https://github.com/kbroman/d3panels).
 functions' usage and data structures,** to make it simpler
 and more consistent.
 
-[Documentation on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc).
+[Documentation on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
 
 ---
 
