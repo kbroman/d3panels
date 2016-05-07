@@ -17,8 +17,8 @@ or [C3.js](http://c3js.org/).
 They are developed in [CoffeeScript](http://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
-**Update:** The d3panels library has been re-written, changing the
-functions' usage and data structures. Hopefully now it's all more
+**Update: The d3panels library has been re-written, changing the
+functions' usage and data structures,** to make it all more
 consistent and simpler to use and maintain.
 
 ---
