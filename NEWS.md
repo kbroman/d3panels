@@ -1,3 +1,8 @@
+## d3panels 1.0.1
+
+- Include dependencies in `bower.json`
+
+
 ## d3panels 1.0.0
 
 - **Completely rewritten**, changing the functions' usage and data
@@ -7,7 +12,7 @@
 
 ## d3panels 0.6.3
 
-- Assign a class to the d3-tip tool tips.
+- Assign a class to the [d3-tip](https://github.com/Caged/d3-tip) tool tips.
 
 
 ## d3panels 0.6.2
