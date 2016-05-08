@@ -88,7 +88,7 @@ Click on a panel for a corresponding interactive illustration.
 
 ## Usage
 
-All of the functions work are called as `d3panels.blah()`. And for each
+All of the functions are called as `d3panels.blah()`. And for each
 chart, you first call the chart function with a set of options, like
 this:
 
