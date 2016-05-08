@@ -12,13 +12,17 @@
   ],
   "license": "MIT",
   "ignore": [
-        "**/.*",
-        "Makefile",
-        "ToDo.md",
-        "Web",
-        "doc",
-        "libs",
-        "src",
-        "test"
-  ]
+    "**/.*",
+    "Makefile",
+    "ToDo.md",
+    "Web",
+    "doc",
+    "libs",
+    "src",
+    "test"
+  ],
+  "dependencies": {
+    "d3": "~3.5.5",
+    "d3-tip": "~0.6.7"
+  }
 }
