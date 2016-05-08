@@ -45,6 +45,8 @@ TESTDATA = assets/test/cichart/data.json \
 		   assets/test/curvechart/data.json \
 		   assets/test/dotchart/data.json \
 		   assets/test/heatmap/data.json \
+		   assets/test/heatmap/data_categorical.json \
+		   assets/test/heatmap/data_unequal.json \
 		   assets/test/lod2dheatmap/data.json \
 		   assets/test/lodchart/data.json \
 		   assets/test/lodheatmap/data.json \
@@ -53,6 +55,9 @@ TESTDATA = assets/test/cichart/data.json \
 testdata: $(TESTDATA)
 
 assets/test/%/data.json: ../test/%/data.json
+	cp $< $(@D)/
+
+assets/test/heatmap/data_%.json: ../test/heatmap/data_%.json
 	cp $< $(@D)/
 
 # test js code
