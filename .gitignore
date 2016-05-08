@@ -3,5 +3,5 @@ src/*.js
 *.Rout
 test/*/*.json
 test/*/*.js
-libs/
+bower_components
 Web/
