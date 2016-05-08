@@ -24,8 +24,7 @@ assets/bower_components/d3/%: ../bower_components/d3/%
 # d3-tip
 d3-tip: assets/bower_components/d3-tip/LICENSE \
 		assets/bower_components/d3-tip/README.md \
-		assets/bower_components/d3-tip/d3-tip.min.js \
-		assets/bower_components/d3-tip/d3-tip.min.css
+		assets/bower_components/d3-tip/index.js
 
 assets/bower_components/d3-tip/%: ../bower_components/d3-tip/%
 	cp $< $(@D)/
