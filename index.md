@@ -1,13 +1,13 @@
 ---
 layout: page
 title: d3panels
-tagline: D3-based graphics panels
-description: A set of D3-based graphics panels that form the basis for the visualizations in R/qtlcharts.
+tagline: D3-based graphic panels
+description: A set of D3-based graphic panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
-This is a set of [D3](http://d3js.org)-based graphics panels.
-They were developed to form the basis for visualizations in the
-[R/qtlcharts](http://kbroman.org/qtlcharts) package.
+This is a set of [D3](http://d3js.org)-based graphic panels,
+developed for the [R/qtlcharts](http://kbroman.org/qtlcharts) package
+but useful more generally.
 
 They are developed in [CoffeeScript](http://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
