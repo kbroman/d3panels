@@ -73,8 +73,8 @@ Click on a panel for a corresponding interactive illustration.
 </tr>
 <tr>
   <td class="left">
-    <a href="assets/test/chrheatmap">
-        <img src="assets/pics/chrheatmap.png" alt="chrheatmap example" title="chrheatmap example"/>
+    <a href="assets/test/lod2dheatmap">
+        <img src="assets/pics/lod2dheatmap.png" alt="chrheatmap example" title="chrheatmap example"/>
     </a>
   </td>
   <td class="right">
