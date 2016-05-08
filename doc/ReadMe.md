@@ -3,7 +3,7 @@
 This subdirectory contains Markdown documents describing each of the
 panel functions in [d3panels](http://kbroman.org/d3panels).
 
-All of the functions work are called as `d3panels.blah()`. And for each
+All of the functions are called as `d3panels.blah()`. And for each
 chart, you first call the chart function with a set of options, like
 this:
 
