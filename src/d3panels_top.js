@@ -1,4 +1,4 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.0.3"
+        version: "1.0.4"
     };

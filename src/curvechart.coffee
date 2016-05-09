@@ -6,17 +6,17 @@ d3panels.curvechart = (chartOpts) ->
     # chartOpts start
     xlim = chartOpts?.xlim ? null # x-axis limits (if null, taken from data)
     ylim = chartOpts?.ylim ? null # y-axis limits (if null, taken from data)
-    strokecolor = chartOpts?.strokecolor ? null           # color of curves (if null, use paste colors by group)
-    strokecolorhilit = chartOpts?.strokecolorhilit ? null # color of highlighted curve (if null, use dark colors by group)
-    strokewidth = chartOpts?.strokewidth ? 2           # width of curve
-    strokewidthhilit = chartOpts?.strokewidthhilit ? 2 # width of highlighted curve
+    linecolor = chartOpts?.linecolor ? null           # color of curves (if null, use pastel colors by group)
+    linecolorhilit = chartOpts?.linecolorhilit ? null # color of highlighted curve (if null, use dark colors by group)
+    linewidth = chartOpts?.linewidth ? 2           # width of curve
+    linewidthhilit = chartOpts?.linewidthhilit ? 2 # width of highlighted curve
     tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start
     xscale = null        # x-axis scale
     yscale = null        # y-axis scale
-    curvesSelect = null  # curves selection
+    curves = null        # curves selection
     indtip = null        # tooltip selection
     svg = null           # SVG selection
     # accessors end
@@ -77,11 +77,6 @@ d3panels.curvechart = (chartOpts) ->
             x[i] = d3panels.missing2null(x[i])
             y[i] = d3panels.missing2null(y[i])
 
-        # reorganize data
-        dataByPoint = []
-        for i of y
-            dataByPoint.push({x:x[i][j], y:y[i][j]} for j of y[i] when x[i][j]? and y[i][j]?)
-
         # don't allow NA boxes
         chartOpts.xNA = false
         chartOpts.yNA = false
@@ -97,53 +92,15 @@ d3panels.curvechart = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        indtip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d) -> indID[d])
-                   .direction('e')
-                   .offset([0,10])
-        svg.call(indtip)
-
-        curve = d3.svg.line()
-                 .x((d) -> xscale(d.x))
-                 .y((d) -> yscale(d.y))
-
-        curves = svg.append("g").attr("id", "curves")
-        curvesSelect =
-           curves.selectAll("empty")
-                 .data(d3.range(n_ind))
-                 .enter()
-                 .append("path")
-                 .datum((d) -> dataByPoint[d])
-                 .attr("d", curve)
-                 .attr("class", (d,i) -> "path#{i}")
-                 .attr("fill", "none")
-                 .attr("stroke", (d,i) -> strokecolor[group[i]])
-                 .attr("stroke-width", strokewidth)
-                 .on "mouseover.panel", (d,i) ->
-                                           d3.select(this).attr("stroke", strokecolorhilit[group[i]]).moveToFront()
-                                           circle = svg.select("circle#hiddenpoint#{i}")
-                                           indtip.show(i, circle.node())
-                 .on "mouseout.panel", (d,i) ->
-                                           d3.select(this).attr("stroke", strokecolor[group[i]]).moveToBack()
-                                           indtip.hide()
-
-        # grab the last non-null point from each curve
-        lastpoint = ({x:null, y:null} for i of data)
-        for i of dataByPoint
-            for v in dataByPoint[i]
-                lastpoint[i] = v if v.x? and v.y?
-
-        pointsg = svg.append("g").attr("id", "invisiblepoints")
-        points = pointsg.selectAll("empty")
-                        .data(lastpoint)
-                        .enter()
-                        .append("circle")
-                        .attr("id", (d,i) -> "hiddenpoint#{i}")
-                        .attr("cx", (d) -> xscale(d.x))
-                        .attr("cy", (d) -> yscale(d.y))
-                        .attr("r", 1)
-                        .attr("opacity", 0)
+        add_curves = d3panels.add_curves({
+            linecolor:linecolor
+            linecolorhilit:linecolorhilit
+            linewidth:linewidth
+            linewidthhilit:linewidthhilit
+            tipclass:tipclass})
+        add_curves(myframe, data)
+        curves = add_curves.curves()
+        indtip = add_curves.indtip()
 
         # move box to front
         myframe.box().moveToFront()
@@ -151,7 +108,7 @@ d3panels.curvechart = (chartOpts) ->
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
-    chart.curvesSelect = () -> curvesSelect
+    chart.curves = () -> curves
     chart.indtip = () -> indtip
     chart.svg = () -> svg
 

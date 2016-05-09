@@ -15,6 +15,7 @@ JS= src/d3panels_top.js \
 	src/heatmap.js \
 	src/lodchart.js \
 	src/add_lodcurve.js \
+	src/add_curves.js \
 	src/lodheatmap.js \
 	src/mapchart.js \
 	src/scatterplot.js \
@@ -31,6 +32,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/test-mathfunc.js test/test-reorgByChr.js \
 		test/test-reorgLodData.js \
 		test/lod2dheatmap/test_lod2dheatmap.js \
+		test/add_curves/test_add_curves.js \
 		test/cichart/test_cichart.js \
 		test/crosstab/test_crosstab.js \
 		test/curvechart/test_curvechart.js \
@@ -50,6 +52,7 @@ TESTDATA = test/lod2dheatmap/data.json \
 		   test/cichart/data.json \
 		   test/crosstab/data.json \
 		   test/curvechart/data.json \
+		   test/add_curves/data.json \
 		   test/dotchart/data.json \
 		   test/heatmap/data.json \
 		   test/lodchart/data.json \
@@ -60,6 +63,7 @@ testdata: $(TESTDATA)
 
 # documentation
 DOCS = doc/add_lodcurve.md \
+	   doc/add_curves.md \
 	   doc/chrpanelframe.md \
 	   doc/chr2dpanelframe.md \
 	   doc/cichart.md \

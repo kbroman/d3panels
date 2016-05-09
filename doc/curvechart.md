@@ -31,10 +31,10 @@ mychart(d3.select('body'), data)
 
 - `xlim` &mdash; x-axis limits (if null, taken from data) \[default `null`\]
 - `ylim` &mdash; y-axis limits (if null, taken from data) \[default `null`\]
-- `strokecolor` &mdash; color of curves (if null, use paste colors by group) \[default `null`\]
-- `strokecolorhilit` &mdash; color of highlighted curve (if null, use dark colors by group) \[default `null`\]
-- `strokewidth` &mdash; width of curve \[default `2`\]
-- `strokewidthhilit` &mdash; width of highlighted curve \[default `2`\]
+- `linecolor` &mdash; color of curves (if null, use pastel colors by group) \[default `null`\]
+- `linecolorhilit` &mdash; color of highlighted curve (if null, use dark colors by group) \[default `null`\]
+- `linewidth` &mdash; width of curve \[default `2`\]
+- `linewidthhilit` &mdash; width of highlighted curve \[default `2`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):
@@ -71,7 +71,7 @@ You can also use the chart options for [`panelframe`](panelframe.md):
 
 - `xscale()` &mdash; x-axis scale
 - `yscale()` &mdash; y-axis scale
-- `curvesSelect()` &mdash; curves selection
+- `curves()` &mdash; curves selection
 - `indtip()` &mdash; tooltip selection
 - `svg()` &mdash; SVG selection
 
