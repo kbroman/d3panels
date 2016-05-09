@@ -43,7 +43,7 @@ def parse_chartOpts(ifp)
             return(chartOpts)
         end
 
-        split_line = line.split(/\#/)
+        split_line = line.split(/ \# /)
         comment = (split_line[1]).strip()
 
         split_again = split_line[0].split(/ \? /)
@@ -66,7 +66,7 @@ def parse_accessors(ifp)
             return(accessors)
         end
 
-        split_line = line.split(/\#/)
+        split_line = line.split(/ \# /)
         comment = (split_line[1]).strip()
 
         name = ((split_line[0].split(/=/))[0]).strip()

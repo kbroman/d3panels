@@ -35,8 +35,8 @@ mychart(d3.select('body'), data)
 - `titlepos` &mdash; position of title in pixels \[default `50`\]
 - `title` &mdash; chart title \[default `""`\]
 - `fontsize` &mdash; font size (if null, we take cell height * 0.5) \[default `null`\]
-- `rectcolor` &mdash; e6e6e6" \[default `"`\]
-- `hilitcolor` &mdash; e9cfec" \[default `"`\]
+- `rectcolor` &mdash; color of rectangle \[default `"#e6e6e6"`\]
+- `hilitcolor` &mdash; color of rectangle when highlighted \[default `"#e9cfec"`\]
 - `bordercolor` &mdash; color of borders \[default `"black"`\]
 
 

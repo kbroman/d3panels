@@ -58,7 +58,7 @@ You can also use the chart options for [`panelframe`](panelframe.md):
 - `nyticks` &mdash; no. ticks on y-axis \[default `5`\]
 - `yticks` &mdash; vector of tick positions on y-axis \[default `null`\]
 - `yticklab` &mdash; vector of y-axis tick labels \[default `null`\]
-- `rectcolor` &mdash; e6e6e6" \[default `"`\]
+- `rectcolor` &mdash; color of background rectangle \[default `"#e6e6e6"`\]
 - `boxcolor` &mdash; color of outer rectangle box \[default `"black"`\]
 - `boxwidth` &mdash; width of outer box in pixels \[default `2`\]
 - `xlineOpts` &mdash; color and width of vertical lines \[default `{color:"white", width:2}`\]
