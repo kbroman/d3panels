@@ -1,3 +1,8 @@
+## d3panels 1.0.2
+
+- Depend on D3 version 3.5.17
+
+
 ## d3panels 1.0.1
 
 - Include dependencies in `bower.json`
