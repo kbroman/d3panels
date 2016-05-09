@@ -18,15 +18,24 @@ the data:
 mychart(d3.select("div#chart"), mydata)
 ```
 
-There are two exceptions to this: for the
-[`add_lodcurve`](add_lodcurve.md) and [`add_curves`](add_curves.md)
-functions, you need to have first called a function to create a panel
-([`lodchart`](lodchart.md) or [`chrpanelframe`](chrpanelframe.md) in
+There are three exceptions to this:
+[`add_lodcurve`](add_lodcurve.md), [`add_curves`](add_curves.md), and [`add_points`](add_points.md).
+For these functions, you first need to call another function that
+creates a panel
+(for example, [`lodchart`](lodchart.md) or [`chrpanelframe`](chrpanelframe.md) in
 the case of [`add_lodcurve`](add_lodcurve.md), or
 [`panelframe`](panelframe.md) in the case of
-[`add_curves`](add_curves.md)).  You use the chart function created by
-that first call in place of a selection. See the documentation for
-[`add_lodcurve`](add_lodcurve.md) and [`add_curves`](add_curves.md).
+[`add_curves`](add_curves.md) or [`add_points`](add_points.md)).  You
+then use the chart function created by
+that first call in place of a selection. For example:
+
+```coffeescript
+myframe = d3panels.panelframe({xlim:[0,100],ylim:[0,100]})
+myframe(d3.select("body"))
+
+addpts = d3panels.add_points()
+addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]})
+```
 
 
 ### Blank panels (used by other panel functions)
@@ -43,6 +52,7 @@ that first call in place of a selection. See the documentation for
 - [`heatmap`](heatmap.md)
 - [`curvechart`](curvechart.md)
 - [`add_curves`](add_curves.md)
+- [`add_points`](add_points.md)
 
 ### LOD curve panels
 

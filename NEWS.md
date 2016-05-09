@@ -1,3 +1,7 @@
+## d3panels 1.0.4
+
+- New functions `add_points()` and `add_curves()`.
+
 ## d3panels 1.0.3
 
 - Fix bug in d3panels.mapchart re linecolorhilit
