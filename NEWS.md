@@ -1,3 +1,8 @@
+## d3panels 1.0.3
+
+- Fix bug in d3panels.mapchart re linecolorhilit
+
+
 ## d3panels 1.0.2
 
 - Depend on D3 version 3.5.17

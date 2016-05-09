@@ -6,7 +6,7 @@ d3panels.mapchart = (chartOpts) ->
     # chartOpts start
     tickwidth = chartOpts?.tickwidth ? 10                 # width of ticks at markers
     linecolor = chartOpts?.linecolor ? "slateblue"        # line color
-    linecolorhilit = chartopts?.linecolorhilit ? "Orchid" # line color when highlighted
+    linecolorhilit = chartOpts?.linecolorhilit ? "Orchid" # line color when highlighted
     linewidth = chartOpts?.linewidth ? 3                  # line width (pixels)
     xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
     ylab = chartOpts?.ylab ? "Position (cM)" # y-axis label
