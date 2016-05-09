@@ -39,7 +39,27 @@ mychart(d3.select('body'), data)
 - `horizontal` &mdash; whether to interchange x and y-axes \[default `false`\]
 - `v_over_h` &mdash; whether vertical lines should be on top of horizontal lines \[default `horizontal`\]
 
-You can also use the chart options for [`panelframe`](panelframe.md).
+You can also use the chart options for [`panelframe`](panelframe.md):
+
+- `width` &mdash; overall width of chart in pixels \[default `800`\]
+- `height` &mdash; overall height of chart in pixels \[default `500`\]
+- `margin` &mdash; margins in pixels (left, top, right, bottom, inner) \[default `{left:60, top:40, right:40, bottom: 40, inner:3}`\]
+- `axispos` &mdash; position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel) \[default `{xtitle:25, ytitle:45, xlabel:5, ylabel:5}`\]
+- `titlepos` &mdash; position of chart title in pixels \[default `20`\]
+- `title` &mdash; chart title \[default `""`\]
+- `rotate_ylab` &mdash; whether to rotate the y-axis label \[default `null`\]
+- `xlim` &mdash; x-axis limits \[default `[0,1]`\]
+- `nxticks` &mdash; no. ticks on x-axis \[default `5`\]
+- `xticks` &mdash; vector of tick positions on x-axis \[default `null`\]
+- `xticklab` &mdash; vector of x-axis tick labels \[default `null`\]
+- `nyticks` &mdash; no. ticks on y-axis \[default `5`\]
+- `yticks` &mdash; vector of tick positions on y-axis \[default `null`\]
+- `yticklab` &mdash; vector of y-axis tick labels \[default `null`\]
+- `rectcolor` &mdash; e6e6e6" \[default `"`\]
+- `boxcolor` &mdash; color of outer rectangle box \[default `"black"`\]
+- `boxwidth` &mdash; width of outer box in pixels \[default `2`\]
+- `ylineOpts` &mdash; color and width of horizontal lines \[default `{color:"white", width:2}`\]
+
 
 
 ### Accessors

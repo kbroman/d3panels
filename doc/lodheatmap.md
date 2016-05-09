@@ -46,7 +46,23 @@ mychart(d3.select('body'), data)
 - `equalCells` &mdash; if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored \[default `false`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 
-You can also use the chart options for [`chrpanelframe`](chrpanelframe.md).
+You can also use the chart options for [`chrpanelframe`](chrpanelframe.md):
+
+- `axispos` &mdash; position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel) \[default `{xtitle:25, ytitle:45, xlabel:5, ylabel:5}`\]
+- `titlepos` &mdash; position of chart title in pixels \[default `20`\]
+- `title` &mdash; chart title \[default `""`\]
+- `rotate_ylab` &mdash; whether to rotate the y-axis label \[default `null`\]
+- `nyticks` &mdash; no. ticks on y-axis \[default `5`\]
+- `yticks` &mdash; vector of tick positions on y-axis \[default `null`\]
+- `yticklab` &mdash; vector of y-axis tick labels \[default `null`\]
+- `rectcolor` &mdash; e6e6e6" \[default `"`\]
+- `altrectcolor` &mdash; d4d4d4" \[default `"`\]
+- `chrlinecolor` &mdash; color of lines between chromosomes (if "", leave off) \[default `""`\]
+- `chrlinewidth` &mdash; width of lines between chromosomes \[default `2`\]
+- `boxcolor` &mdash; color of outer rectangle box \[default `"black"`\]
+- `boxwidth` &mdash; width of outer box in pixels \[default `2`\]
+- `ylineOpts` &mdash; color and width of horizontal lines \[default `{color:"white", width:2}`\]
+
 
 
 ### Accessors

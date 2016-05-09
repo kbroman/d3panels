@@ -42,7 +42,21 @@ mychart(d3.select('body'), data)
 - `hilitcolor` &mdash; color of box around highlighted cell \[default `"black"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 
-You can also use the chart options for [`chr2dpanelframe`](chr2dpanelframe.md).
+You can also use the chart options for [`chr2dpanelframe`](chr2dpanelframe.md):
+
+- `axispos` &mdash; position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel) \[default `{xtitle:25, ytitle:45, xlabel:5, ylabel:5}`\]
+- `titlepos` &mdash; position of chart title in pixels \[default `20`\]
+- `title` &mdash; chart title \[default `""`\]
+- `xlab` &mdash; x-axis label \[default `"Chromosome"`\]
+- `ylab` &mdash; y-axis label \[default `"Chromosome"`\]
+- `rotate_ylab` &mdash; whether to rotate the y-axis label \[default `null`\]
+- `rectcolor` &mdash; e6e6e6" \[default `"`\]
+- `altrectcolor` &mdash; d4d4d4" \[default `"`\]
+- `chrlinecolor` &mdash; color of lines between chromosomes (if "", leave off) \[default `""`\]
+- `chrlinewidth` &mdash; width of lines between chromosomes \[default `2`\]
+- `boxcolor` &mdash; color of outer rectangle box \[default `"black"`\]
+- `boxwidth` &mdash; width of outer box in pixels \[default `2`\]
+
 
 
 ### Accessors

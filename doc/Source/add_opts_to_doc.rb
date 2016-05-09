@@ -93,23 +93,39 @@ def url_depends(depends)
     "[`#{depends}`](#{depends}.md)"
 end
 
+# remove chartOpts options from depend_opts
+def remove_opts(depend_opts, chartOpts)
+    optnames = chartOpts.map{|z| z[:name]}
+
+    # remove options that are also in chartOpts
+    depend_opts = depend_opts.select{|z| !(optnames.include?(z[:name]))}
+
+    return(depend_opts)
+end
+
 # write dependencies
-def write_depends(ofp, depends)
+def write_depends(ofp, depends, chartOpts)
     return() if depends.nil? or depends.length==0
 
-    depends = depends.map{|d| url_depends(d)}
+    depends_url = depends.map{|d| url_depends(d)}
 
     ofp.write("You can also use the chart options for ")
-    if depends.length > 2
-        depends[0..-2].each {|d| ofp.write(d + ', ')}
-        ofp.write('and ' + depends[-1])
-    elsif depends.length > 1
-        ofp.write(depends[0] + ' and ' + depends[1])
+    if depends.length > 1
+        abort("Expecting no more than one dependency")
     else
-        ofp.write(depends[0])
+        ofp.write(depends_url[0] + ':')
+        ofp.write("\n\n")
+
+        # write chartOpts from dependency file if not in current chartOpts
+        sfile = "../../src/#{depends[0]}.coffee"
+        depends_opts = read_source(sfile)
+        depends_opts = remove_opts(depends_opts[:chartOpts], chartOpts)
+        for opt in depends_opts
+            ofp.write("- `#{opt[:name]}` &mdash; #{opt[:comment]} \\[default `#{opt[:default]}`\\]\n")
+        end
     end
 
-    ofp.write(".\n\n")
+    ofp.write("\n\n")
 end
 
 # write accessor info
@@ -147,7 +163,7 @@ def add_opts_to_doc(ifile, ofile, source_info, func)
     ifp.each_line do |line|
         if line =~ /\*\*insert_chartOpts\*\*/
             write_chartOpts(ofp, source_info[:chartOpts])
-            write_depends(ofp, source_info[:depends])
+            write_depends(ofp, source_info[:depends], source_info[:chartOpts])
         elsif line =~ /\*\*insert_accessors\*\*/
             write_accessors(ofp, source_info[:accessors], func)
         else
