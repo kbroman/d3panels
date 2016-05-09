@@ -18,11 +18,15 @@ the data:
 mychart(d3.select("div#chart"), mydata)
 ```
 
-(The one exception is [`add_lodcurve`](add_lodcurve.md); for that
-function, you need to have first called [`lodchart`](lodchart.md) or
-[`chrpanelframe`](chrpanelframe.md), and then you use the chart
-function created by that call in place of a selection. See the
-[documentation for `add_lodcurve`](add_lodcurve.md).)
+There are two exceptions to this: for the
+[`add_lodcurve`](add_lodcurve.md) and [`add_curves`](add_curves.md)
+functions, you need to have first called a function to create a panel
+([`lodchart`](lodchart.md) or [`chrpanelframe`](chrpanelframe.md) in
+the case of [`add_lodcurve`](add_lodcurve.md), or
+[`panelframe`](panelframe.md) in the case of
+[`add_curves`](add_curves.md)).  You use the chart function created by
+that first call in place of a selection. See the documentation for
+[`add_lodcurve`](add_lodcurve.md) and [`add_curves`](add_curves.md).
 
 
 ### Blank panels (used by other panel functions)
@@ -38,13 +42,14 @@ function created by that call in place of a selection. See the
 - [`cichart`](cichart.md)
 - [`heatmap`](heatmap.md)
 - [`curvechart`](curvechart.md)
+- [`add_curves`](add_curves.md)
 
 ### LOD curve panels
 
 - [`lodchart`](lodchart.md)
-- [`add_lodcurve`](add_lodcurve.md)
 - [`lodheatmap`](lodheatmap)
 - [`lod2dheatmap`](lod2dheatmap)
+- [`add_lodcurve`](add_lodcurve.md)
 
 ### Other panels
 
