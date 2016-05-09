@@ -93,7 +93,7 @@ chart, you first call the chart function with a set of options, like
 this:
 
 ```coffeescript
-mychart = d3panels.lodchart({height:600, width:800, ylab="LOD score"})
+mychart = d3panels.lodchart({height:600, width:800})
 ```
 
 And then you call the function that's created with some selection and
