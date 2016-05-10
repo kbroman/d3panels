@@ -50,8 +50,8 @@ mychart(d3.select('body'))
 
 - `xscale()` &mdash; x-axis scale
 - `yscale()` &mdash; y-axis scale
-- `xscale_wnull()` &mdash; x-axis scale, with treatment of null values
-- `yscale_wnull()` &mdash; y-axis scale, with treatment of null values
+- `xNA()` &mdash; true if x-axis NAs are handled in a separate box
+- `yNA()` &mdash; true if y-axis NAs are handled in a separate box
 - `xlines()` &mdash; xlines selection
 - `ylines()` &mdash; ylines selection
 - `xlabels()` &mdash; x-axis labels selection

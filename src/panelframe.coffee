@@ -35,8 +35,8 @@ d3panels.panelframe = (chartOpts) ->
     # accessors start
     xscale = null         # x-axis scale
     yscale = null         # y-axis scale
-    xscale_wnull = null   # x-axis scale, with treatment of null values
-    yscale_wnull = null   # y-axis scale, with treatment of null values
+    xNA = xNA             # true if x-axis NAs are handled in a separate box
+    yNA = yNA             # true if y-axis NAs are handled in a separate box
     xlines = null         # xlines selection
     ylines = null         # ylines selection
     xlabels = null        # x-axis labels selection
@@ -46,6 +46,8 @@ d3panels.panelframe = (chartOpts) ->
     box = null            # outer box selection
     svg = null            # SVG selection
     # accessors end
+    xscale_wnull = null
+    yscale_wnull = null
 
     ## the main function
     chart = (selection) ->
@@ -229,6 +231,8 @@ d3panels.panelframe = (chartOpts) ->
     # functions to grab stuff
     chart.xscale = () -> xscale_wnull
     chart.yscale = () -> yscale_wnull
+    chart.xNA = () -> xNA
+    chart.yNA = () -> yNA
     chart.xlines = () -> xlines
     chart.ylines = () -> ylines
     chart.xlabels = () -> xlabels

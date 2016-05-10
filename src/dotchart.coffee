@@ -26,6 +26,8 @@ d3panels.dotchart = (chartOpts) ->
     # accessors start
     xscale = null # x-axis scale
     yscale = null # y-axis scale
+    xNA = xNA     # true if x-axis NAs are handled in a separate box
+    yNA = yNA     # true if y-axis NAs are handled in a separate box
     points = null # point selection
     indtip = null # tooltip selection
     svg = null    # SVG selection
@@ -230,6 +232,8 @@ d3panels.dotchart = (chartOpts) ->
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
+    chart.xNA = () -> xNA.handle
+    chart.yNA = () -> yNA.handle
     chart.points = () -> points
     chart.indtip = () -> indtip
     chart.svg = () -> svg

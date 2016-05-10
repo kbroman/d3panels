@@ -20,6 +20,8 @@ d3panels.scatterplot = (chartOpts) ->
     # accessors start
     xscale = null # x-axis scale
     yscale = null # y-axis scale
+    xNA = xNA     # true if x-axis NAs are handled in a separate box
+    yNA = yNA     # true if y-axis NAs are handled in a separate box
     points = null # points selection
     indtip = null # tooltip selection
     svg = null    # SVG selection
@@ -83,121 +85,22 @@ d3panels.scatterplot = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        # individual tooltips
-        indtip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d,i) -> indID[i])
-                   .direction('e')
-                   .offset([0,10+pointsize])
-        svg.call(indtip)
-
-        pointGroup = svg.append("g").attr("id", "points")
-        points =
-            pointGroup.selectAll("empty")
-                  .data(d3.range(x.length))
-                  .enter()
-                  .append("circle")
-                  .attr("cx", (d,i) -> xscale(x[i]))
-                  .attr("cy", (d,i) -> yscale(y[i]))
-                  .attr("class", (d,i) -> "pt#{i}")
-                  .attr("r", pointsize)
-                  .attr("fill", (d,i) -> pointcolor[group[i]])
-                  .attr("stroke", pointstroke)
-                  .attr("stroke-width", "1")
-                  .on("mouseover.paneltip", indtip.show)
-                  .on("mouseout.paneltip", indtip.hide)
-
-        # jitter missing values?
-        if xNA.handle or yNA.handle
-            if jitter == "random"
-                xwid = xNA_size.width-pointsize-2
-                xwid = if xwid <= 2 then 2 else xwid
-                ywid = yNA_size.width-pointsize-2
-                ywid = if ywid <= 2 then 2 else ywid
-                ux = ((Math.random()-0.5)*xwid for i of x)
-                uy = ((Math.random()-0.5)*ywid for i of x)
-                points.attr("cx", (d,i) ->
-                            return xscale(x[i]) if x[i]?
-                            xscale(x[i])+ux[i])
-                      .attr("cy", (d,i) ->
-                            return yscale(y[i]) if y[i]?
-                            yscale(y[i])+uy[i])
-
-            else if jitter == "beeswarm"
-
-                scaledPoints = ({x:xscale(x[i]),y:yscale(y[i]),xnull:!x[i]?,ynull:!y[i]?} for i of x)
-
-                for p in scaledPoints
-                    p.true_x = p.x
-                    p.true_y = p.y
-
-                # nearby points
-                nearbyPoints = []
-                for i of scaledPoints
-                    p = scaledPoints[i]
-                    p.index = i
-                    nearbyPoints[i] = []
-                    for j of scaledPoints
-                        if j != i
-                            q = scaledPoints[j]
-                            if p.xnull == q.xnull and p.ynull == q.ynull and (p.xnull or p.ynull)
-                                if p.xnull and p.ynull
-                                    nearbyPoints[i].push(j)
-                                else if p.xnull
-                                    nearbyPoints[i].push(j) if Math.abs(p.y-q.y)<pointsize*2
-                                else if p.ynull
-                                    nearbyPoints[i].push(j) if Math.abs(p.x-q.x)<pointsize*2
-
-                gravity = (p, alpha) ->
-                    if p.xnull
-                            p.x -= (p.x - p.true_x)*alpha
-                    if p.ynull
-                            p.y -= (p.y - p.true_y)*alpha
-
-                collision = (p, alpha) ->
-                    for i in nearbyPoints[p.index]
-                        q = scaledPoints[i]
-                        dx = p.x - q.x
-                        dy = p.y - q.y
-                        d = Math.sqrt(dx*dx + dy*dy)
-                        if d < pointsize*2
-                            if p.xnull
-                                if dx < 0
-                                    p.x -= (pointsize*2 - d)*alpha
-                                    q.x += (pointsize*2 - d)*alpha
-                                else
-                                    p.x += (pointsize*2 - d)*alpha
-                                    q.x -= (pointsize*2 - d)*alpha
-                            if p.ynull
-                                p.y -= (pointsize*2 - d)*alpha
-                                q.y += (pointsize*2 - d)*alpha
-
-                tick = (e) ->
-                    for p in scaledPoints
-                        collision(p, e.alpha*5)
-
-                    for p in scaledPoints
-                        gravity(p, e.alpha/5)
-
-                    points.attr("cx", (d,i) -> scaledPoints[i].x)
-                          .attr("cy", (d,i) -> scaledPoints[i].y)
-
-                force = d3.layout.force()
-                          .gravity(0)
-                          .charge(0)
-                          .nodes(scaledPoints)
-                          .on("tick", tick)
-                          .start()
-            else if jitter != "none"
-                d3panels.displayError('jitter should be "beeswarm", "random", or "none"')
-
-
-        # move box to front
-        myframe.box().moveToFront()
+        # add points
+        addpts = d3panels.add_points({
+            pointcolor:pointcolor
+            pointstroke:pointstroke
+            pointsize:pointsize
+            jitter:jitter
+            tipclass:tipclass})
+        addpts(myframe, {x:x, y:y, indID:indID, group:(g+1 for g in group)})
+        points = addpts.points()
+        indtip = addpts.indtip()
 
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
+    chart.xNA = () -> xNA.handle
+    chart.yNA = () -> yNA.handle
     chart.points = () -> points
     chart.indtip = () -> indtip
     chart.svg = () -> svg

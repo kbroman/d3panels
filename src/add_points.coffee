@@ -79,6 +79,91 @@ d3panels.add_points = (chartOpts) ->
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
+
+        # jitter missing values?
+        if prevchart.xNA() or prevchart.yNA()
+            if jitter == "random"
+                xwid = 20-pointsize-2
+                xwid = if xwid <= 2 then 2 else xwid
+                ywid = 20-pointsize-2
+                ywid = if ywid <= 2 then 2 else ywid
+                ux = ((Math.random()-0.5)*xwid for i of x)
+                uy = ((Math.random()-0.5)*ywid for i of x)
+                points.attr("cx", (d,i) ->
+                            return xscale(x[i]) if x[i]?
+                            xscale(x[i])+ux[i])
+                      .attr("cy", (d,i) ->
+                            return yscale(y[i]) if y[i]?
+                            yscale(y[i])+uy[i])
+
+            else if jitter == "beeswarm"
+
+                scaledPoints = ({x:xscale(x[i]),y:yscale(y[i]),xnull:!x[i]?,ynull:!y[i]?} for i of x)
+
+                for p in scaledPoints
+                    p.true_x = p.x
+                    p.true_y = p.y
+
+                # nearby points
+                nearbyPoints = []
+                for i of scaledPoints
+                    p = scaledPoints[i]
+                    p.index = i
+                    nearbyPoints[i] = []
+                    for j of scaledPoints
+                        if j != i
+                            q = scaledPoints[j]
+                            if p.xnull == q.xnull and p.ynull == q.ynull and (p.xnull or p.ynull)
+                                if p.xnull and p.ynull
+                                    nearbyPoints[i].push(j)
+                                else if p.xnull
+                                    nearbyPoints[i].push(j) if Math.abs(p.y-q.y)<pointsize*2
+                                else if p.ynull
+                                    nearbyPoints[i].push(j) if Math.abs(p.x-q.x)<pointsize*2
+
+                gravity = (p, alpha) ->
+                    if p.xnull
+                            p.x -= (p.x - p.true_x)*alpha
+                    if p.ynull
+                            p.y -= (p.y - p.true_y)*alpha
+
+                collision = (p, alpha) ->
+                    for i in nearbyPoints[p.index]
+                        q = scaledPoints[i]
+                        dx = p.x - q.x
+                        dy = p.y - q.y
+                        d = Math.sqrt(dx*dx + dy*dy)
+                        if d < pointsize*2
+                            if p.xnull
+                                if dx < 0
+                                    p.x -= (pointsize*2 - d)*alpha
+                                    q.x += (pointsize*2 - d)*alpha
+                                else
+                                    p.x += (pointsize*2 - d)*alpha
+                                    q.x -= (pointsize*2 - d)*alpha
+                            if p.ynull
+                                p.y -= (pointsize*2 - d)*alpha
+                                q.y += (pointsize*2 - d)*alpha
+
+                tick = (e) ->
+                    for p in scaledPoints
+                        collision(p, e.alpha*5)
+
+                    for p in scaledPoints
+                        gravity(p, e.alpha/5)
+
+                    points.attr("cx", (d,i) -> scaledPoints[i].x)
+                          .attr("cy", (d,i) -> scaledPoints[i].y)
+
+                force = d3.layout.force()
+                          .gravity(0)
+                          .charge(0)
+                          .nodes(scaledPoints)
+                          .on("tick", tick)
+                          .start()
+            else if jitter != "none"
+                d3panels.displayError('jitter should be "beeswarm", "random", or "none"')
+
         # move box to front
         prevchart.box().moveToFront()
 

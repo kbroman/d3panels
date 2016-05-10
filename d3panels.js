@@ -952,8 +952,8 @@ d3panels.panelframe = function(chartOpts) {
   v_over_h = (ref26 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref26 : false;
   xscale = null;
   yscale = null;
-  xscale_wnull = null;
-  yscale_wnull = null;
+  xNA = xNA;
+  yNA = yNA;
   xlines = null;
   ylines = null;
   xlabels = null;
@@ -962,6 +962,8 @@ d3panels.panelframe = function(chartOpts) {
   plot_height = null;
   box = null;
   svg = null;
+  xscale_wnull = null;
+  yscale_wnull = null;
   chart = function(selection) {
     var boxes, boxes2include, d, g, i, inner_height, inner_width, xNA_xpos, xaxis, xrange, yNA_ypos, yaxis, ylabpos_x, ylabpos_y, yrange;
     svg = selection.append("svg");
@@ -1133,6 +1135,12 @@ d3panels.panelframe = function(chartOpts) {
   };
   chart.yscale = function() {
     return yscale_wnull;
+  };
+  chart.xNA = function() {
+    return xNA;
+  };
+  chart.yNA = function() {
+    return yNA;
   };
   chart.xlines = function() {
     return xlines;
@@ -2240,6 +2248,8 @@ d3panels.dotchart = function(chartOpts) {
   v_over_h = (ref16 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref16 : horizontal;
   xscale = null;
   yscale = null;
+  xNA = xNA;
+  yNA = yNA;
   points = null;
   indtip = null;
   svg = null;
@@ -2495,6 +2505,12 @@ d3panels.dotchart = function(chartOpts) {
   };
   chart.yscale = function() {
     return yscale;
+  };
+  chart.xNA = function() {
+    return xNA.handle;
+  };
+  chart.yNA = function() {
+    return yNA.handle;
   };
   chart.points = function() {
     return points;
@@ -3248,7 +3264,7 @@ d3panels.add_points = function(chartOpts) {
   indtip = null;
   pointGroup = null;
   chart = function(prevchart, data) {
-    var g, group, i, indID, j, ngroup, ref5, ref6, ref7, results, svg, x, xscale, y, yscale;
+    var collision, force, g, gravity, group, i, indID, j, k, l, len, nearbyPoints, ngroup, p, q, ref5, ref6, ref7, results, scaledPoints, svg, tick, ux, uy, x, xscale, xwid, y, yscale, ywid;
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     if (x.length !== y.length) {
@@ -3257,36 +3273,36 @@ d3panels.add_points = function(chartOpts) {
     indID = (ref5 = data != null ? data.indID : void 0) != null ? ref5 : null;
     indID = indID != null ? indID : (function() {
       results = [];
-      for (var j = 1, ref6 = x.length; 1 <= ref6 ? j <= ref6 : j >= ref6; 1 <= ref6 ? j++ : j--){ results.push(j); }
+      for (var k = 1, ref6 = x.length; 1 <= ref6 ? k <= ref6 : k >= ref6; 1 <= ref6 ? k++ : k--){ results.push(k); }
       return results;
     }).apply(this);
     if (indID.length !== x.length) {
       d3panels.displayError("indID.length (" + indID.length + ") != x.length (" + x.length + ")");
     }
     group = (ref7 = data != null ? data.group : void 0) != null ? ref7 : (function() {
-      var k, len, results1;
+      var l, len, results1;
       results1 = [];
-      for (k = 0, len = x.length; k < len; k++) {
-        i = x[k];
+      for (l = 0, len = x.length; l < len; l++) {
+        i = x[l];
         results1.push(1);
       }
       return results1;
     })();
     ngroup = d3.max(group);
     group = (function() {
-      var k, len, results1;
+      var l, len, results1;
       results1 = [];
-      for (k = 0, len = group.length; k < len; k++) {
-        g = group[k];
+      for (l = 0, len = group.length; l < len; l++) {
+        g = group[l];
         results1.push(g - 1);
       }
       return results1;
     })();
     if (d3panels.sumArray((function() {
-      var k, len, results1;
+      var l, len, results1;
       results1 = [];
-      for (k = 0, len = group.length; k < len; k++) {
-        g = group[k];
+      for (l = 0, len = group.length; l < len; l++) {
+        g = group[l];
         results1.push(g < 0 || g > ngroup - 1);
       }
       return results1;
@@ -3321,6 +3337,143 @@ d3panels.add_points = function(chartOpts) {
     }).attr("r", pointsize).attr("fill", function(d, i) {
       return pointcolor[group[i]];
     }).attr("stroke", pointstroke).attr("stroke-width", "1").on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
+    if (prevchart.xNA() || prevchart.yNA()) {
+      if (jitter === "random") {
+        xwid = 20 - pointsize - 2;
+        xwid = xwid <= 2 ? 2 : xwid;
+        ywid = 20 - pointsize - 2;
+        ywid = ywid <= 2 ? 2 : ywid;
+        ux = (function() {
+          var results1;
+          results1 = [];
+          for (i in x) {
+            results1.push((Math.random() - 0.5) * xwid);
+          }
+          return results1;
+        })();
+        uy = (function() {
+          var results1;
+          results1 = [];
+          for (i in x) {
+            results1.push((Math.random() - 0.5) * ywid);
+          }
+          return results1;
+        })();
+        points.attr("cx", function(d, i) {
+          if (x[i] != null) {
+            return xscale(x[i]);
+          }
+          return xscale(x[i]) + ux[i];
+        }).attr("cy", function(d, i) {
+          if (y[i] != null) {
+            return yscale(y[i]);
+          }
+          return yscale(y[i]) + uy[i];
+        });
+      } else if (jitter === "beeswarm") {
+        scaledPoints = (function() {
+          var results1;
+          results1 = [];
+          for (i in x) {
+            results1.push({
+              x: xscale(x[i]),
+              y: yscale(y[i]),
+              xnull: x[i] == null,
+              ynull: y[i] == null
+            });
+          }
+          return results1;
+        })();
+        for (l = 0, len = scaledPoints.length; l < len; l++) {
+          p = scaledPoints[l];
+          p.true_x = p.x;
+          p.true_y = p.y;
+        }
+        nearbyPoints = [];
+        for (i in scaledPoints) {
+          p = scaledPoints[i];
+          p.index = i;
+          nearbyPoints[i] = [];
+          for (j in scaledPoints) {
+            if (j !== i) {
+              q = scaledPoints[j];
+              if (p.xnull === q.xnull && p.ynull === q.ynull && (p.xnull || p.ynull)) {
+                if (p.xnull && p.ynull) {
+                  nearbyPoints[i].push(j);
+                } else if (p.xnull) {
+                  if (Math.abs(p.y - q.y) < pointsize * 2) {
+                    nearbyPoints[i].push(j);
+                  }
+                } else if (p.ynull) {
+                  if (Math.abs(p.x - q.x) < pointsize * 2) {
+                    nearbyPoints[i].push(j);
+                  }
+                }
+              }
+            }
+          }
+        }
+        gravity = function(p, alpha) {
+          if (p.xnull) {
+            p.x -= (p.x - p.true_x) * alpha;
+          }
+          if (p.ynull) {
+            return p.y -= (p.y - p.true_y) * alpha;
+          }
+        };
+        collision = function(p, alpha) {
+          var d, dx, dy, len1, m, ref8, results1;
+          ref8 = nearbyPoints[p.index];
+          results1 = [];
+          for (m = 0, len1 = ref8.length; m < len1; m++) {
+            i = ref8[m];
+            q = scaledPoints[i];
+            dx = p.x - q.x;
+            dy = p.y - q.y;
+            d = Math.sqrt(dx * dx + dy * dy);
+            if (d < pointsize * 2) {
+              if (p.xnull) {
+                if (dx < 0) {
+                  p.x -= (pointsize * 2 - d) * alpha;
+                  q.x += (pointsize * 2 - d) * alpha;
+                } else {
+                  p.x += (pointsize * 2 - d) * alpha;
+                  q.x -= (pointsize * 2 - d) * alpha;
+                }
+              }
+              if (p.ynull) {
+                p.y -= (pointsize * 2 - d) * alpha;
+                results1.push(q.y += (pointsize * 2 - d) * alpha);
+              } else {
+                results1.push(void 0);
+              }
+            } else {
+              results1.push(void 0);
+            }
+          }
+          return results1;
+        };
+        tick = function(e) {
+          var len1, len2, m, n;
+          for (m = 0, len1 = scaledPoints.length; m < len1; m++) {
+            p = scaledPoints[m];
+            collision(p, e.alpha * 5);
+          }
+          for (n = 0, len2 = scaledPoints.length; n < len2; n++) {
+            p = scaledPoints[n];
+            gravity(p, e.alpha / 5);
+          }
+          return points.attr("cx", function(d, i) {
+            return scaledPoints[i].x;
+          }).attr("cy", function(d, i) {
+            return scaledPoints[i].y;
+          });
+        };
+        force = d3.layout.force().gravity(0).charge(0).nodes(scaledPoints).on("tick", tick).start();
+      } else if (jitter !== "none") {
+        d3panels.displayError('jitter should be "beeswarm", "random", or "none"');
+      }
+    }
     return prevchart.box().moveToFront();
   };
   chart.points = function() {
@@ -3941,11 +4094,13 @@ d3panels.scatterplot = function(chartOpts) {
   tipclass = (ref10 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref10 : "tooltip";
   xscale = null;
   yscale = null;
+  xNA = xNA;
+  yNA = yNA;
   points = null;
   indtip = null;
   svg = null;
   chart = function(selection, data) {
-    var collision, force, g, gravity, group, i, indID, j, k, l, len, myframe, nearbyPoints, ngroup, p, pointGroup, q, ref11, ref12, ref13, results, scaledPoints, tick, ux, uy, x, xwid, y, ywid;
+    var addpts, g, group, i, indID, j, myframe, ngroup, ref11, ref12, ref13, results, x, y;
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     if (x.length !== y.length) {
@@ -3954,36 +4109,36 @@ d3panels.scatterplot = function(chartOpts) {
     indID = (ref11 = data != null ? data.indID : void 0) != null ? ref11 : null;
     indID = indID != null ? indID : (function() {
       results = [];
-      for (var k = 1, ref12 = x.length; 1 <= ref12 ? k <= ref12 : k >= ref12; 1 <= ref12 ? k++ : k--){ results.push(k); }
+      for (var j = 1, ref12 = x.length; 1 <= ref12 ? j <= ref12 : j >= ref12; 1 <= ref12 ? j++ : j--){ results.push(j); }
       return results;
     }).apply(this);
     if (indID.length !== x.length) {
       d3panels.displayError("indID.length (" + indID.length + ") != x.length (" + x.length + ")");
     }
     group = (ref13 = data != null ? data.group : void 0) != null ? ref13 : (function() {
-      var l, len, results1;
+      var k, len, results1;
       results1 = [];
-      for (l = 0, len = x.length; l < len; l++) {
-        i = x[l];
+      for (k = 0, len = x.length; k < len; k++) {
+        i = x[k];
         results1.push(1);
       }
       return results1;
     })();
     ngroup = d3.max(group);
     group = (function() {
-      var l, len, results1;
+      var k, len, results1;
       results1 = [];
-      for (l = 0, len = group.length; l < len; l++) {
-        g = group[l];
+      for (k = 0, len = group.length; k < len; k++) {
+        g = group[k];
         results1.push(g - 1);
       }
       return results1;
     })();
     if (d3panels.sumArray((function() {
-      var l, len, results1;
+      var k, len, results1;
       results1 = [];
-      for (l = 0, len = group.length; l < len; l++) {
-        g = group[l];
+      for (k = 0, len = group.length; k < len; k++) {
+        g = group[k];
         results1.push(g < 0 || g > ngroup - 1);
       }
       return results1;
@@ -4020,164 +4175,41 @@ d3panels.scatterplot = function(chartOpts) {
     svg = myframe.svg();
     xscale = myframe.xscale();
     yscale = myframe.yscale();
-    indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
-      return indID[i];
-    }).direction('e').offset([0, 10 + pointsize]);
-    svg.call(indtip);
-    pointGroup = svg.append("g").attr("id", "points");
-    points = pointGroup.selectAll("empty").data(d3.range(x.length)).enter().append("circle").attr("cx", function(d, i) {
-      return xscale(x[i]);
-    }).attr("cy", function(d, i) {
-      return yscale(y[i]);
-    }).attr("class", function(d, i) {
-      return "pt" + i;
-    }).attr("r", pointsize).attr("fill", function(d, i) {
-      return pointcolor[group[i]];
-    }).attr("stroke", pointstroke).attr("stroke-width", "1").on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
-    if (xNA.handle || yNA.handle) {
-      if (jitter === "random") {
-        xwid = xNA_size.width - pointsize - 2;
-        xwid = xwid <= 2 ? 2 : xwid;
-        ywid = yNA_size.width - pointsize - 2;
-        ywid = ywid <= 2 ? 2 : ywid;
-        ux = (function() {
-          var results1;
-          results1 = [];
-          for (i in x) {
-            results1.push((Math.random() - 0.5) * xwid);
-          }
-          return results1;
-        })();
-        uy = (function() {
-          var results1;
-          results1 = [];
-          for (i in x) {
-            results1.push((Math.random() - 0.5) * ywid);
-          }
-          return results1;
-        })();
-        points.attr("cx", function(d, i) {
-          if (x[i] != null) {
-            return xscale(x[i]);
-          }
-          return xscale(x[i]) + ux[i];
-        }).attr("cy", function(d, i) {
-          if (y[i] != null) {
-            return yscale(y[i]);
-          }
-          return yscale(y[i]) + uy[i];
-        });
-      } else if (jitter === "beeswarm") {
-        scaledPoints = (function() {
-          var results1;
-          results1 = [];
-          for (i in x) {
-            results1.push({
-              x: xscale(x[i]),
-              y: yscale(y[i]),
-              xnull: x[i] == null,
-              ynull: y[i] == null
-            });
-          }
-          return results1;
-        })();
-        for (l = 0, len = scaledPoints.length; l < len; l++) {
-          p = scaledPoints[l];
-          p.true_x = p.x;
-          p.true_y = p.y;
+    addpts = d3panels.add_points({
+      pointcolor: pointcolor,
+      pointstroke: pointstroke,
+      pointsize: pointsize,
+      jitter: jitter,
+      tipclass: tipclass
+    });
+    addpts(myframe, {
+      x: x,
+      y: y,
+      indID: indID,
+      group: (function() {
+        var k, len, results1;
+        results1 = [];
+        for (k = 0, len = group.length; k < len; k++) {
+          g = group[k];
+          results1.push(g + 1);
         }
-        nearbyPoints = [];
-        for (i in scaledPoints) {
-          p = scaledPoints[i];
-          p.index = i;
-          nearbyPoints[i] = [];
-          for (j in scaledPoints) {
-            if (j !== i) {
-              q = scaledPoints[j];
-              if (p.xnull === q.xnull && p.ynull === q.ynull && (p.xnull || p.ynull)) {
-                if (p.xnull && p.ynull) {
-                  nearbyPoints[i].push(j);
-                } else if (p.xnull) {
-                  if (Math.abs(p.y - q.y) < pointsize * 2) {
-                    nearbyPoints[i].push(j);
-                  }
-                } else if (p.ynull) {
-                  if (Math.abs(p.x - q.x) < pointsize * 2) {
-                    nearbyPoints[i].push(j);
-                  }
-                }
-              }
-            }
-          }
-        }
-        gravity = function(p, alpha) {
-          if (p.xnull) {
-            p.x -= (p.x - p.true_x) * alpha;
-          }
-          if (p.ynull) {
-            return p.y -= (p.y - p.true_y) * alpha;
-          }
-        };
-        collision = function(p, alpha) {
-          var d, dx, dy, len1, m, ref14, results1;
-          ref14 = nearbyPoints[p.index];
-          results1 = [];
-          for (m = 0, len1 = ref14.length; m < len1; m++) {
-            i = ref14[m];
-            q = scaledPoints[i];
-            dx = p.x - q.x;
-            dy = p.y - q.y;
-            d = Math.sqrt(dx * dx + dy * dy);
-            if (d < pointsize * 2) {
-              if (p.xnull) {
-                if (dx < 0) {
-                  p.x -= (pointsize * 2 - d) * alpha;
-                  q.x += (pointsize * 2 - d) * alpha;
-                } else {
-                  p.x += (pointsize * 2 - d) * alpha;
-                  q.x -= (pointsize * 2 - d) * alpha;
-                }
-              }
-              if (p.ynull) {
-                p.y -= (pointsize * 2 - d) * alpha;
-                results1.push(q.y += (pointsize * 2 - d) * alpha);
-              } else {
-                results1.push(void 0);
-              }
-            } else {
-              results1.push(void 0);
-            }
-          }
-          return results1;
-        };
-        tick = function(e) {
-          var len1, len2, m, n;
-          for (m = 0, len1 = scaledPoints.length; m < len1; m++) {
-            p = scaledPoints[m];
-            collision(p, e.alpha * 5);
-          }
-          for (n = 0, len2 = scaledPoints.length; n < len2; n++) {
-            p = scaledPoints[n];
-            gravity(p, e.alpha / 5);
-          }
-          return points.attr("cx", function(d, i) {
-            return scaledPoints[i].x;
-          }).attr("cy", function(d, i) {
-            return scaledPoints[i].y;
-          });
-        };
-        force = d3.layout.force().gravity(0).charge(0).nodes(scaledPoints).on("tick", tick).start();
-      } else if (jitter !== "none") {
-        d3panels.displayError('jitter should be "beeswarm", "random", or "none"');
-      }
-    }
-    return myframe.box().moveToFront();
+        return results1;
+      })()
+    });
+    points = addpts.points();
+    return indtip = addpts.indtip();
   };
   chart.xscale = function() {
     return xscale;
   };
   chart.yscale = function() {
     return yscale;
+  };
+  chart.xNA = function() {
+    return xNA.handle;
+  };
+  chart.yNA = function() {
+    return yNA.handle;
   };
   chart.points = function() {
     return points;

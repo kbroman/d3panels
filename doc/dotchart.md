@@ -66,6 +66,8 @@ You can also use the chart options for [`panelframe`](panelframe.md):
 
 - `xscale()` &mdash; x-axis scale
 - `yscale()` &mdash; y-axis scale
+- `xNA()` &mdash; true if x-axis NAs are handled in a separate box
+- `yNA()` &mdash; true if y-axis NAs are handled in a separate box
 - `points()` &mdash; point selection
 - `indtip()` &mdash; tooltip selection
 - `svg()` &mdash; SVG selection
