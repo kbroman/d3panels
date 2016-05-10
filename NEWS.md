@@ -1,7 +1,12 @@
+## d3panels 1.0.5
+
+- Fix bug in `add_points` and `add_curves`
+
+
 ## d3panels 1.0.4
 
 - New functions `add_points` and `add_curves`. (`scatterplot`
-  and `curveschart` now call these two functions.)
+  and `curvechart` now call these two functions.)
 
 - `panelframe` `scatterplot`, `dotchart` have additional accessors
   `.xNA()` and `.yNA()` that indicate whether missing values on the x

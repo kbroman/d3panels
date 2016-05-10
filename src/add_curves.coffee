@@ -22,8 +22,8 @@ d3panels.add_curves = (chartOpts) ->
                                  #    x and y both ragged arrays indexed as y[subject][response_index]
                                  # if x has one subject, y's should all have same length, and x is then expanded to match
 
-        x = data.x
-        y = data.y
+        x = d3panels.missing2null(data.x)
+        y = d3panels.missing2null(data.y)
 
         n_ind = y.length
         if x.length == 1 and y.length > 1 # expand to same length
@@ -64,11 +64,6 @@ d3panels.add_curves = (chartOpts) ->
         # grab scale functions
         xscale = prevchart.xscale()
         yscale = prevchart.yscale()
-
-        # convert NAs to null
-        for i of x
-            x[i] = d3panels.missing2null(x[i])
-            y[i] = d3panels.missing2null(y[i])
 
         # reorganize data
         dataByPoint = []
