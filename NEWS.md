@@ -1,3 +1,11 @@
+## d3panels 1.0.7
+
+- Fix bugs in `add_lodcurve`, `lodheatmap`, and `lod2dheatmap`
+
+- Change accessors in `heatmap`, `lodheatmap`, and `lod2dheatmap`
+  (`.cellSelect()` to `.cells()`)
+
+
 ## d3panels 1.0.6
 
 - Fix bug in `cichart`

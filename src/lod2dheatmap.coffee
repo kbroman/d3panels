@@ -23,9 +23,10 @@ d3panels.lod2dheatmap = (chartOpts) ->
     yscale = null      # y-axis scale (vector by chromosome)
     zscale = null      # z-axis scale
     celltip = null     # cell tooltip selection
-    cellSelect = null  # cell selection
+    cells = null       # cell selection
     svg = null         # SVG selection
     # accessors end
+    cellSelect = null  # actual name for the cell selection
 
     ## the main function
     chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])  optionally poslabel (e.g., marker names)
@@ -98,8 +99,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
 
         # z-axis (color) limits; if not provided, make symmetric about 0
         zmin = d3panels.matrixMin(data.lod)
-        zmax = d3panels.matrixMax(data.lod)
-        zmax = -zmin if -zmin > zmax
+        zmax = d3panels.matrixMaxAbs(data.lod)
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
             d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
@@ -163,8 +163,8 @@ d3panels.lod2dheatmap = (chartOpts) ->
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
     chart.zscale = () -> zscale
-    chart.chrSelect = () -> chrSelect
-    chart.celltip = () -> chrSelect
+    chart.cells = () -> cellSelect
+    chart.celltip = () -> celltip
     chart.svg = () -> svg
 
     # function to remove chart

@@ -19,10 +19,11 @@ d3panels.heatmap = (chartOpts) ->
     xscale = null     # x-axis scale
     yscale = null     # y-axis scale
     zscale = null     # z-axis scale
-    cellSelect = null # cell selection
+    cells = null      # cell selection
     celltip = null    # cell tooltip selection
     svg = null        # SVG selection
     # accessors end
+    cellSelect = null # actual name for the cell selection
 
     ## the main function
     chart = (selection, data) -> # {x, y, z}  # z should be a double-indexed square matrix, z[xval][yval]
@@ -68,8 +69,7 @@ d3panels.heatmap = (chartOpts) ->
 
         # z-axis (color) limits; if not provided, make symmetric about 0
         zmin = d3panels.matrixMin(data.z)
-        zmax = d3panels.matrixMax(data.z)
-        zmax = -zmin if -zmin > zmax
+        zmax = d3panels.matrixMaxAbs(data.z)
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
             d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
@@ -168,7 +168,7 @@ d3panels.heatmap = (chartOpts) ->
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
     chart.zscale = () -> zscale
-    chart.cellSelect = () -> cellSelect
+    chart.cells = () -> cellSelect
     chart.celltip = () -> celltip
     chart.svg = () -> svg
 

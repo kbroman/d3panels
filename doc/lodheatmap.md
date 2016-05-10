@@ -70,7 +70,7 @@ You can also use the chart options for [`chrpanelframe`](chrpanelframe.md):
 - `xscale()` &mdash; x-axis scale (vector by chromosome)
 - `yscale()` &mdash; y-axis scale
 - `zscale()` &mdash; z-axis scale
-- `cellSelect()` &mdash; cell selection
+- `cells()` &mdash; cell selection
 - `celltip()` &mdash; cell tooltip selection
 - `svg()` &mdash; SVG selection
 

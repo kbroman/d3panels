@@ -65,7 +65,7 @@ You can also use the chart options for [`chr2dpanelframe`](chr2dpanelframe.md):
 - `yscale()` &mdash; y-axis scale (vector by chromosome)
 - `zscale()` &mdash; z-axis scale
 - `celltip()` &mdash; cell tooltip selection
-- `cellSelect()` &mdash; cell selection
+- `cells()` &mdash; cell selection
 - `svg()` &mdash; SVG selection
 
 Use these like this:
