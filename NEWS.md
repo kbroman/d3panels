@@ -1,10 +1,19 @@
 ## d3panels 1.0.4
 
-- New functions `add_points()` and `add_curves()`.
+- New functions `add_points` and `add_curves`. (`scatterplot`
+  and `curveschart` now call these two functions.)
+
+- `panelframe` `scatterplot`, `dotchart` have additional accessors
+  `.xNA()` and `.yNA()` that indicate whether missing values on the x
+  and y axes are handled in separate boxes.
+
+- Renamed some options for `curvechart`: `linecolor` and `linewidth`
+  rather than `strokecolor` and `strokewidth`.
+
 
 ## d3panels 1.0.3
 
-- Fix bug in d3panels.mapchart re linecolorhilit
+- Fix bug in `mapchart` re `linecolorhilit` option
 
 
 ## d3panels 1.0.2
