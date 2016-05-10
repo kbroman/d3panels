@@ -15,8 +15,9 @@ rather more specific to my particular applications (and style).
 
 For snapshots and live tests, see <http://kbroman.org/d3panels>.
 
-I'm in the process of completely re-writing the library so that it
-will be simpler to use, maintain, and extend.
+#### Documentation
+
+For documentation, see <https://github.com/kbroman/d3panels/doc>.
 
 #### Usage
 
@@ -34,6 +35,28 @@ the data:
 ```coffeescript
 mychart(d3.select("div#chart"), mydata)
 ```
+
+There are three exceptions to this:
+[`add_lodcurve`](add_lodcurve.md), [`add_curves`](add_curves.md), and [`add_points`](add_points.md).
+For these functions, you first need to call another function that
+creates a panel
+(for example, [`lodchart`](lodchart.md) or [`chrpanelframe`](chrpanelframe.md) in
+the case of [`add_lodcurve`](add_lodcurve.md), or
+[`panelframe`](panelframe.md) in the case of
+[`add_curves`](add_curves.md) or [`add_points`](add_points.md)).  You
+then use the chart function created by
+that first call in place of a selection. For example:
+
+```coffeescript
+myframe = d3panels.panelframe({xlim:[0,100],ylim:[0,100]})
+myframe(d3.select("body"))
+
+addpts = d3panels.add_points()
+addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]})
+```
+
+
+#### Links
 
 You'll need to link to the `d3panels.js` and `d3panels.css` files (or
 to `d3panels.min.js` and `d3panels.min.css`):
