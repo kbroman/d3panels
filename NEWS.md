@@ -5,6 +5,7 @@
 - Change accessors in `heatmap`, `lodheatmap`, and `lod2dheatmap`
   (`.cellSelect()` to `.cells()`)
 
+- Clean up chartOpts comments
 
 ## d3panels 1.0.6
 
