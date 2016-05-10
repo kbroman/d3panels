@@ -139,7 +139,7 @@ def write_accessors(ofp, accessors, func)
 
     ofp.write("\n")
 
-    if func != "add_lodcurve" # add_lodcurve is different :(
+    if !(func =~ /^add_/) # add_lodcurve, add_curves, add_points behave differently
         ofp.write("Use these like this:\n\n")
         ofp.write("```coffeescript\n")
         ofp.write("mychart = d3panels.#{func}()\n")

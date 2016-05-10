@@ -40,11 +40,3 @@ add_points(myframe, data)
 - `points()` &mdash; points selection
 - `indtip()` &mdash; tooltip selection
 
-Use these like this:
-
-```coffeescript
-mychart = d3panels.add_points()
-mychart(d3.select("body"), data)
-points = mychart.points()
-```
-

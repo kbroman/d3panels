@@ -48,11 +48,3 @@ add_curve(myframe, data)
 - `curves()` &mdash; select the curve
 - `indtip()` &mdash; tool tip selection
 
-Use these like this:
-
-```coffeescript
-mychart = d3panels.add_curves()
-mychart(d3.select("body"), data)
-curves = mychart.curves()
-```
-
