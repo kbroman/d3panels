@@ -8,13 +8,13 @@ d3panels.mapchart = (chartOpts) ->
     linecolor = chartOpts?.linecolor ? "slateblue"        # line color
     linecolorhilit = chartOpts?.linecolorhilit ? "Orchid" # line color when highlighted
     linewidth = chartOpts?.linewidth ? 3                  # line width (pixels)
-    xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
-    ylab = chartOpts?.ylab ? "Position (cM)" # y-axis label
+    xlab = chartOpts?.xlab ? "Chromosome"                 # x-axis label
+    ylab = chartOpts?.ylab ? "Position (cM)"              # y-axis label
     xlineOpts = chartOpts?.xlineOpts ? {color:"#cdcdcd", width:5} # color and width of vertical lines
-    horizontal = chartOpts?.horizontal ? false # whether chromosomes should be laid at horizontally
-    v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
-    shiftStart = chartOpts?.shiftStart ? false  # if true, shift start of chromosomes to 0
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    horizontal = chartOpts?.horizontal ? false            # whether chromosomes should be laid at horizontally
+    v_over_h = chartOpts?.v_over_h ? horizontal           # whether vertical lines should be on top of horizontal lines
+    shiftStart = chartOpts?.shiftStart ? false            # if true, shift start of chromosomes to 0
+    tipclass = chartOpts?.tipclass ? "tooltip"            # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

@@ -5,14 +5,14 @@ d3panels.heatmap = (chartOpts) ->
 
     # chartOpts start
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40, inner:0} # margins in pixels (left, top, right, bottom, inner)
-    xlim = chartOpts?.xlim ? null # x-axis limits (if null take from data)
-    ylim = chartOpts?.ylim ? null # y-axis limits (if null take from data)
-    nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
+    xlim = chartOpts?.xlim ? null                                  # x-axis limits (if null take from data)
+    ylim = chartOpts?.ylim ? null                                  # y-axis limits (if null take from data)
+    nullcolor = chartOpts?.nullcolor ? "#e6e6e6"                   # color for empty cells
     colors = chartOpts?.colors ? ["slateblue", "white", "crimson"] # vector of three colors for the color scale (negative - zero - positive)
-    zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
-    zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
-    hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    zlim = chartOpts?.zlim ? null                                  # z-axis limits (if null take from data, symmetric about 0)
+    zthresh = chartOpts?.zthresh ? null                            # z threshold; if |z| < zthresh, not shown
+    hilitcolor = chartOpts?.hilitcolor ? "black"                   # color of box around highlighted cell
+    tipclass = chartOpts?.tipclass ? "tooltip"                     # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

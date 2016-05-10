@@ -4,23 +4,23 @@ d3panels.dotchart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    xcategories = chartOpts?.xcategories ? null # group categories
-    xcatlabels = chartOpts?.xcatlabels ? null # labels for group categories
-    xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
-    yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    xcategories = chartOpts?.xcategories ? null         # group categories
+    xcatlabels = chartOpts?.xcatlabels ? null           # labels for group categories
+    xNA = chartOpts?.xNA ? {handle:true, force:false}   # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    yNA = chartOpts?.yNA ? {handle:true, force:false}   # handle: include separate boxes for NAs; force: include whether or not NAs in data
     xNA_size = chartOpts?.xNA_size ? {width:20, gap:10} # width and gap for x=NA box
     yNA_size = chartOpts?.yNA_size ? {width:20, gap:10} # width and gap for y=NA box
-    ylim = chartOpts?.ylim ? null # y-axis limits
-    xlab = chartOpts?.xlab ? "Group" # x-axis title
-    ylab = chartOpts?.ylab ? "Response" # y-axis title
+    ylim = chartOpts?.ylim ? null                       # y-axis limits
+    xlab = chartOpts?.xlab ? "Group"                    # x-axis title
+    ylab = chartOpts?.ylab ? "Response"                 # y-axis title
     xlineOpts = chartOpts?.xlineOpts ? {color:"#cdcdcd", width:5} # color and width of vertical lines
-    pointcolor = chartOpts?.pointcolor ? "slateblue" # fill color of points
-    pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
-    pointsize = chartOpts?.pointsize ? 3 # color of points
-    jitter = chartOpts?.jitter ? "beeswarm" # method for jittering points (beeswarm|random|none)
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
-    v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
+    pointcolor = chartOpts?.pointcolor ? "slateblue"    # fill color of points
+    pointstroke = chartOpts?.pointstroke ? "black"      # color of points' outer circle
+    pointsize = chartOpts?.pointsize ? 3                # color of points
+    jitter = chartOpts?.jitter ? "beeswarm"             # method for jittering points (beeswarm|random|none)
+    tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
+    horizontal = chartOpts?.horizontal ? false          # whether to interchange x and y-axes
+    v_over_h = chartOpts?.v_over_h ? horizontal         # whether vertical lines should be on top of horizontal lines
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

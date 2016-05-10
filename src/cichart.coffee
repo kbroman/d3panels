@@ -4,18 +4,18 @@ d3panels.cichart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    xcatlabels = chartOpts?.xcatlabels ? null # category labels
-    segwidth = chartOpts?.segwidth ? 0.4 # segment width as proportion of distance between categories
-    segcolor = chartOpts?.segcolor ? "slateblue" # color for segments
-    segstrokewidth = chartOpts?.segstrokewidth ? "3" # stroke width for segments
-    vertsegcolor = chartOpts?.vertsegcolor ? "slateblue" # color for vertical segments
-    xlab = chartOpts?.xlab ? "Group" # x-axis label
-    ylab = chartOpts?.ylab ? "Response" # y-axis label
-    ylim = chartOpts?.ylim ? null # y-axis limits
+    xcatlabels = chartOpts?.xcatlabels ? null                     # category labels
+    segwidth = chartOpts?.segwidth ? 0.4                          # segment width as proportion of distance between categories
+    segcolor = chartOpts?.segcolor ? "slateblue"                  # color for segments
+    segstrokewidth = chartOpts?.segstrokewidth ? "3"              # stroke width for segments
+    vertsegcolor = chartOpts?.vertsegcolor ? "slateblue"          # color for vertical segments
+    xlab = chartOpts?.xlab ? "Group"                              # x-axis label
+    ylab = chartOpts?.ylab ? "Response"                           # y-axis label
+    ylim = chartOpts?.ylim ? null                                 # y-axis limits
     xlineOpts = chartOpts?.xlineOpts ? {color:"#CDCDCD", width:5} # color and width of vertical lines
-    horizontal = chartOpts?.horizontal ? false # whether to interchange x and y-axes
-    v_over_h = chartOpts?.v_over_h ? horizontal # whether vertical lines should be on top of horizontal lines
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    horizontal = chartOpts?.horizontal ? false                    # whether to interchange x and y-axes
+    v_over_h = chartOpts?.v_over_h ? horizontal                   # whether vertical lines should be on top of horizontal lines
+    tipclass = chartOpts?.tipclass ? "tooltip"                    # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

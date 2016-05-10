@@ -4,11 +4,11 @@ d3panels.add_curves = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    linecolor = chartOpts?.linecolor ? null # color for curves (if null, use pastel colors by group)
-    linecolorhilit = chartOpts?.linecolorhilit ? null # color for curves when hightlighted (if null, use dark colors by group)
+    linecolor = chartOpts?.linecolor ? null            # color for curves (if null, use pastel colors by group)
+    linecolorhilit = chartOpts?.linecolorhilit ? null  # color for curves when hightlighted (if null, use dark colors by group)
     linewidth = chartOpts?.linewidth ? 2               # width (pixels) for curves
-    linewidthhilit = chartOpts?.linewidthhilit ? 2               # width (pixels) for curves
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    linewidthhilit = chartOpts?.linewidthhilit ? 2     # width (pixels) for curves
+    tipclass = chartOpts?.tipclass ? "tooltip"         # class name for tool tips
     # chartOpts end
     # accessors start
     curves = null   # select the curve

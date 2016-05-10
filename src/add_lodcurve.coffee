@@ -10,13 +10,14 @@ d3panels.add_lodcurve = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? "#e9cfec"     # color of points at markers
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
-    horizontal = chartOpts?.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
+    tipclass = chartOpts?.tipclass ? "tooltip"         # class name for tool tips
+    horizontal = chartOpts?.horizontal ? false         # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     # accessors start
     markerSelect = null   # points at markers selection
     markertip = null      # tooltips selection
     # accessors end
+    g = null # group for lod curve
 
     chart = (prevchart, data) -> # prevchart = chart function used to create lodchart to which we're adding
                                  # data = {chr, pos, lod, marker} each an ordered vector
@@ -49,6 +50,7 @@ d3panels.add_lodcurve = (chartOpts) ->
         data = d3panels.reorgLodData(data) unless data.posByChr? and data.lodByChr? and data.markerinfo?
 
         svg = prevchart.svg()
+        g = svg.append("g").attr("id", "lod_curve")
 
         # grab scale functions
         xscale = prevchart.xscale()
@@ -66,7 +68,7 @@ d3panels.add_lodcurve = (chartOpts) ->
 
         # add curves
         if linewidth > 0
-            curves = svg.append("g").attr("id", "curves")
+            curves = g.append("g").attr("id", "curves")
             for chr in data.chrname
                 curves.append("path")
                       .datum(data.posByChr[chr])
@@ -79,7 +81,7 @@ d3panels.add_lodcurve = (chartOpts) ->
 
         # points at markers
         if pointsize > 0
-            markerpoints = svg.append("g").attr("id", "markerpoints_visible")
+            markerpoints = g.append("g").attr("id", "markerpoints_visible")
             markerpoints.selectAll("empty")
                         .data(data.markerinfo)
                         .enter()
@@ -96,7 +98,7 @@ d3panels.add_lodcurve = (chartOpts) ->
                         .attr("pointer-events", "hidden")
 
         # these hidden points are what get selected...a bit larger
-        hiddenpoints = svg.append("g").attr("id", "markerpoints_hidden")
+        hiddenpoints = g.append("g").attr("id", "markerpoints_hidden")
 
         markertip = d3.tip()
                       .attr('class', "d3-tip #{tipclass}")
@@ -142,7 +144,7 @@ d3panels.add_lodcurve = (chartOpts) ->
 
     # function to remove chart
     chart.remove = () ->
-                      svg.remove()
+                      g.remove()
                       markertip.destroy()
                       return null
 

@@ -29,8 +29,8 @@ add_points(myframe, data)
 ### Chart options (`chartOpts`)
 
 - `pointcolor` &mdash; fill color of points \[default `null`\]
+- `pointsize` &mdash; size of points \[default `3`\]
 - `pointstroke` &mdash; color of points' outer circle \[default `"black"`\]
-- `pointsize` &mdash; color of points \[default `3`\]
 - `jitter` &mdash; method for jittering NA points (beeswarm|random|none) \[default `"beeswarm"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 

@@ -4,28 +4,28 @@ d3panels.chrpanelframe = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    width = chartOpts?.width ? 800 # overall height of chart in pixels
-    height = chartOpts?.height ? 500 # overall width of chart in pixels
-    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40} # margins in pixels (left, top, right, bottom)
+    width = chartOpts?.width ? 800                     # overall height of chart in pixels
+    height = chartOpts?.height ? 500                   # overall width of chart in pixels
+    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40}      # margins in pixels (left, top, right, bottom)
     axispos = chartOpts?.axispos ? {xtitle:25, ytitle:45, xlabel:5, ylabel:5} # position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
-    titlepos = chartOpts?.titlepos ? 20 # position of chart title in pixels
-    title = chartOpts?.title ? "" # chart title
-    xlab = chartOpts?.xlab ? "Chromosome"  # x-axis label
-    ylab = chartOpts?.ylab ? "LOD score"  # y-axis label
-    rotate_ylab = chartOpts?.rotate_ylab ? null # whether to rotate the y-axis label
-    ylim = chartOpts?.ylim ? [0,1] # y-axis limits
-    nyticks = chartOpts?.nyticks ? 5  # no. ticks on y-axis
-    yticks = chartOpts?.yticks ? null # vector of tick positions on y-axis
-    yticklab = chartOpts?.yticklab ? null # vector of y-axis tick labels
-    rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
+    titlepos = chartOpts?.titlepos ? 20                # position of chart title in pixels
+    title = chartOpts?.title ? ""                      # chart title
+    xlab = chartOpts?.xlab ? "Chromosome"              # x-axis label
+    ylab = chartOpts?.ylab ? "LOD score"               # y-axis label
+    rotate_ylab = chartOpts?.rotate_ylab ? null        # whether to rotate the y-axis label
+    ylim = chartOpts?.ylim ? [0,1]                     # y-axis limits
+    nyticks = chartOpts?.nyticks ? 5                   # no. ticks on y-axis
+    yticks = chartOpts?.yticks ? null                  # vector of tick positions on y-axis
+    yticklab = chartOpts?.yticklab ? null              # vector of y-axis tick labels
+    rectcolor = chartOpts?.rectcolor ? "#e6e6e6"       # color of background rectangle
     altrectcolor = chartOpts?.altrectcolor ? "#d4d4d4" # color of background rectangle for alternate chromosomes (if "", not created)
-    chrlinecolor = chartOpts?.chrlinecolor ? "" # color of lines between chromosomes (if "", leave off)
-    chrlinewidth = chartOpts?.chrlinewidth ? 2 # width of lines between chromosomes
-    boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
-    boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
+    chrlinecolor = chartOpts?.chrlinecolor ? ""        # color of lines between chromosomes (if "", leave off)
+    chrlinewidth = chartOpts?.chrlinewidth ? 2         # width of lines between chromosomes
+    boxcolor = chartOpts?.boxcolor ? "black"           # color of outer rectangle box
+    boxwidth = chartOpts?.boxwidth ? 2                 # width of outer box in pixels
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
-    chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
-    horizontal = chartOpts.horizontal ? false # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
+    chrGap = chartOpts?.chrGap ? 6                     # gap between chromosomes in pixels
+    horizontal = chartOpts.horizontal ? false          # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     # accessors start
     xscale = null     # x-axis scale (vector by chromosome)

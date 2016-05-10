@@ -4,18 +4,18 @@ d3panels.lod2dheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    width = chartOpts?.width ? 800 # overall height of chart in pixels
-    height = chartOpts?.height ? 800 # overall width of chart in pixels
+    width = chartOpts?.width ? 800               # overall height of chart in pixels
+    height = chartOpts?.height ? 800             # overall width of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 60} # margins in pixels (left, top, right, bottom)
-    chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes in pixels
-    equalCells = chartOpts?.equalCells ? false # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
-    oneAtTop = chartOpts?.oneAtTop ? false # if true, put chromosome 1 at the top rather than bottom
-    colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
+    chrGap = chartOpts?.chrGap ? 6               # gap between chromosomes in pixels
+    equalCells = chartOpts?.equalCells ? false   # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
+    oneAtTop = chartOpts?.oneAtTop ? false       # if true, put chromosome 1 at the top rather than bottom
+    colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]       # vector of three colors for the color scale (negative - zero - positive)
     nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
-    zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
-    zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
+    zlim = chartOpts?.zlim ? null                # z-axis limits (if null take from data, symmetric about 0)
+    zthresh = chartOpts?.zthresh ? null          # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    tipclass = chartOpts?.tipclass ? "tooltip"   # class name for tool tips
     # chartOpts end
     # further chartOpts: chr2dpanelframe
     # accessors start

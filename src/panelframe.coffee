@@ -4,33 +4,33 @@ d3panels.panelframe = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    width = chartOpts?.width ? 800 # overall width of chart in pixels
-    height = chartOpts?.height ? 500 # overall height of chart in pixels
+    width = chartOpts?.width ? 800                      # overall width of chart in pixels
+    height = chartOpts?.height ? 500                    # overall height of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40, inner:3} # margins in pixels (left, top, right, bottom, inner)
-    axispos = chartOpts?.axispos ? {xtitle:25, ytitle:45, xlabel:5, ylabel:5} # position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
-    titlepos = chartOpts?.titlepos ? 20 # position of chart title in pixels
-    title = chartOpts?.title ? "" # chart title
-    xlab = chartOpts?.xlab ? "X"  # x-axis label
-    ylab = chartOpts?.ylab ? "Y"  # y-axis label
-    rotate_ylab = chartOpts?.rotate_ylab ? null # whether to rotate the y-axis label
-    xNA = chartOpts?.xNA ? false   # include box for x=NA values
-    yNA = chartOpts?.yNA ? false   # include box for y=NA values
+    axispos = chartOpts?.axispos ? {xtitle:25, ytitle:45, xlabel:5, ylabel:5}     # position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
+    titlepos = chartOpts?.titlepos ? 20                 # position of chart title in pixels
+    title = chartOpts?.title ? ""                       # chart title
+    xlab = chartOpts?.xlab ? "X"                        # x-axis label
+    ylab = chartOpts?.ylab ? "Y"                        # y-axis label
+    rotate_ylab = chartOpts?.rotate_ylab ? null         # whether to rotate the y-axis label
+    xNA = chartOpts?.xNA ? false                        # include box for x=NA values
+    yNA = chartOpts?.yNA ? false                        # include box for y=NA values
     xNA_size = chartOpts?.xNA_size ? {width:20, gap:10} # width and gap for x=NA box
     yNA_size = chartOpts?.yNA_size ? {width:20, gap:10} # width and gap for y=NA box
-    xlim = chartOpts?.xlim ? [0,1] # x-axis limits
-    ylim = chartOpts?.ylim ? [0,1] # y-axis limits
-    nxticks = chartOpts?.nxticks ? 5  # no. ticks on x-axis
-    xticks = chartOpts?.xticks ? null # vector of tick positions on x-axis
-    xticklab = chartOpts?.xticklab ? null # vector of x-axis tick labels
-    nyticks = chartOpts?.nyticks ? 5  # no. ticks on y-axis
-    yticks = chartOpts?.yticks ? null # vector of tick positions on y-axis
-    yticklab = chartOpts?.yticklab ? null # vector of y-axis tick labels
-    rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of background rectangle
-    boxcolor = chartOpts?.boxcolor ? "black"     # color of outer rectangle box
-    boxwidth = chartOpts?.boxwidth ? 2           # width of outer box in pixels
+    xlim = chartOpts?.xlim ? [0,1]                      # x-axis limits
+    ylim = chartOpts?.ylim ? [0,1]                      # y-axis limits
+    nxticks = chartOpts?.nxticks ? 5                    # no. ticks on x-axis
+    xticks = chartOpts?.xticks ? null                   # vector of tick positions on x-axis
+    xticklab = chartOpts?.xticklab ? null               # vector of x-axis tick labels
+    nyticks = chartOpts?.nyticks ? 5                    # no. ticks on y-axis
+    yticks = chartOpts?.yticks ? null                   # vector of tick positions on y-axis
+    yticklab = chartOpts?.yticklab ? null               # vector of y-axis tick labels
+    rectcolor = chartOpts?.rectcolor ? "#e6e6e6"        # color of background rectangle
+    boxcolor = chartOpts?.boxcolor ? "black"            # color of outer rectangle box
+    boxwidth = chartOpts?.boxwidth ? 2                  # width of outer box in pixels
     xlineOpts = chartOpts?.xlineOpts ? {color:"white", width:2} # color and width of vertical lines
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
-    v_over_h = chartOpts?.v_over_h ? false # whether the vertical grid lines should be on top of the horizontal lines
+    v_over_h = chartOpts?.v_over_h ? false              # whether the vertical grid lines should be on top of the horizontal lines
     # chartOpts end
     # accessors start
     xscale = null         # x-axis scale

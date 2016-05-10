@@ -4,13 +4,13 @@ d3panels.curvechart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    xlim = chartOpts?.xlim ? null # x-axis limits (if null, taken from data)
-    ylim = chartOpts?.ylim ? null # y-axis limits (if null, taken from data)
+    xlim = chartOpts?.xlim ? null                     # x-axis limits (if null, taken from data)
+    ylim = chartOpts?.ylim ? null                     # y-axis limits (if null, taken from data)
     linecolor = chartOpts?.linecolor ? null           # color of curves (if null, use pastel colors by group)
     linecolorhilit = chartOpts?.linecolorhilit ? null # color of highlighted curve (if null, use dark colors by group)
-    linewidth = chartOpts?.linewidth ? 2           # width of curve
-    linewidthhilit = chartOpts?.linewidthhilit ? 2 # width of highlighted curve
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    linewidth = chartOpts?.linewidth ? 2              # width of curve
+    linewidthhilit = chartOpts?.linewidthhilit ? 2    # width of highlighted curve
+    tipclass = chartOpts?.tipclass ? "tooltip"        # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

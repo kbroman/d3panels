@@ -5,10 +5,10 @@ d3panels.add_points = (chartOpts) ->
 
     # chartOpts start
     pointcolor = chartOpts?.pointcolor ? null      # fill color of points
+    pointsize = chartOpts?.pointsize ? 3           # size of points
     pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
-    pointsize = chartOpts?.pointsize ? 3 # color of points
-    jitter = chartOpts?.jitter ? "beeswarm" # method for jittering NA points (beeswarm|random|none)
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    jitter = chartOpts?.jitter ? "beeswarm"        # method for jittering NA points (beeswarm|random|none)
+    tipclass = chartOpts?.tipclass ? "tooltip"     # class name for tool tips
     # chartOpts end
     # accessors start
     points = null # points selection

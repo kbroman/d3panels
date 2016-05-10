@@ -4,14 +4,14 @@ d3panels.crosstab = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    width = chartOpts?.width ? 600 # overall width of chart in pixels
-    height = chartOpts?.height ? 300 # overall height of chart in pixels
+    width = chartOpts?.width ? 600                # overall width of chart in pixels
+    height = chartOpts?.height ? 300               # overall height of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:80, right:40, bottom: 20} # margins in pixels
-    cellPad = chartOpts?.cellPad ? null # padding of cells (if null, we take cell width * 0.1
-    titlepos = chartOpts?.titlepos ? 50 # position of title in pixels
-    title = chartOpts?.title ? "" # chart title
-    fontsize = chartOpts?.fontsize ? null # font size (if null, we take cell height * 0.5)
-    rectcolor = chartOpts?.rectcolor ? "#e6e6e6" # color of rectangle
+    cellPad = chartOpts?.cellPad ? null            # padding of cells (if null, we take cell width * 0.1
+    titlepos = chartOpts?.titlepos ? 50            # position of title in pixels
+    title = chartOpts?.title ? ""                  # chart title
+    fontsize = chartOpts?.fontsize ? null          # font size (if null, we take cell height * 0.5)
+    rectcolor = chartOpts?.rectcolor ? "#e6e6e6"   # color of rectangle
     hilitcolor = chartOpts?.hilitcolor ? "#e9cfec" # color of rectangle when highlighted
     bordercolor = chartOpts?.bordercolor ? "black" # color of borders
     # chartOpts end

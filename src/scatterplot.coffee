@@ -4,17 +4,17 @@ d3panels.scatterplot = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    xNA = chartOpts?.xNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
-    yNA = chartOpts?.yNA ? {handle:true, force:false} # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    xNA = chartOpts?.xNA ? {handle:true, force:false}   # handle: include separate boxes for NAs; force: include whether or not NAs in data
+    yNA = chartOpts?.yNA ? {handle:true, force:false}   # handle: include separate boxes for NAs; force: include whether or not NAs in data
     xNA_size = chartOpts?.xNA_size ? {width:20, gap:10} # width and gap for x=NA box
     yNA_size = chartOpts?.yNA_size ? {width:20, gap:10} # width and gap for y=NA box
-    xlim = chartOpts?.xlim ? null # x-axis limits
-    ylim = chartOpts?.ylim ? null # y-axis limits
-    pointcolor = chartOpts?.pointcolor ? null      # fill color of points
-    pointstroke = chartOpts?.pointstroke ? "black" # color of points' outer circle
-    pointsize = chartOpts?.pointsize ? 3 # color of points
-    jitter = chartOpts?.jitter ? "beeswarm" # method for jittering NA points (beeswarm|random|none)
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    xlim = chartOpts?.xlim ? null                       # x-axis limits
+    ylim = chartOpts?.ylim ? null                       # y-axis limits
+    pointcolor = chartOpts?.pointcolor ? null           # fill color of points
+    pointstroke = chartOpts?.pointstroke ? "black"      # color of points' outer circle
+    pointsize = chartOpts?.pointsize ? 3                # color of points
+    jitter = chartOpts?.jitter ? "beeswarm"             # method for jittering NA points (beeswarm|random|none)
+    tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

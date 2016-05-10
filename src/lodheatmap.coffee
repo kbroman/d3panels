@@ -4,21 +4,21 @@ d3panels.lodheatmap = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    width = chartOpts?.width ? 800 # overall height of chart in pixels
-    height = chartOpts?.height ? 500 # overall width of chart in pixels
+    width = chartOpts?.width ? 800               # overall height of chart in pixels
+    height = chartOpts?.height ? 500             # overall width of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40} # margins in pixels (left, top, right, bottom)
-    colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]  # vector of three colors for the color scale (negative - zero - positive)
+    colors = chartOpts?.colors ? ["slateblue", "white", "crimson"]       # vector of three colors for the color scale (negative - zero - positive)
     nullcolor = chartOpts?.nullcolor ? "#e6e6e6" # color for empty cells
-    xlab = chartOpts?.xlab ? "Chromosome" # x-axis label
-    ylab = chartOpts?.ylab ? ""           # y-axis label
-    ylim = chartOpts?.ylim ? null # y-axis limits (if null take from data)
-    zlim = chartOpts?.zlim ? null # z-axis limits (if null take from data, symmetric about 0)
-    zthresh = chartOpts?.zthresh ? null # z threshold; if |z| < zthresh, not shown
-    horizontal = chartOpts?.horizontal ? false # if true, have chromosomes arranged vertically
+    xlab = chartOpts?.xlab ? "Chromosome"        # x-axis label
+    ylab = chartOpts?.ylab ? ""                  # y-axis label
+    ylim = chartOpts?.ylim ? null                # y-axis limits (if null take from data)
+    zlim = chartOpts?.zlim ? null                # z-axis limits (if null take from data, symmetric about 0)
+    zthresh = chartOpts?.zthresh ? null          # z threshold; if |z| < zthresh, not shown
+    horizontal = chartOpts?.horizontal ? false   # if true, have chromosomes arranged vertically
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
-    chrGap = chartOpts?.chrGap ? 6 # gap between chromosomes (in pixels)
-    equalCells = chartOpts?.equalCells ? false # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    chrGap = chartOpts?.chrGap ? 6               # gap between chromosomes (in pixels)
+    equalCells = chartOpts?.equalCells ? false   # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
+    tipclass = chartOpts?.tipclass ? "tooltip"   # class name for tool tips
     # chartOpts end
     # further chartOpts: chrpanelframe
     # accessors start

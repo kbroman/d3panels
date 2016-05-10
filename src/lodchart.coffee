@@ -9,8 +9,8 @@ d3panels.lodchart = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? "#e9cfec"     # color of points at markers
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
-    ylim = chartOpts?.ylim ? null # y-axis limits; if null, use range of data
-    tipclass = chartOpts?.tipclass ? "tooltip" # class name for tool tips
+    ylim = chartOpts?.ylim ? null                      # y-axis limits; if null, use range of data
+    tipclass = chartOpts?.tipclass ? "tooltip"         # class name for tool tips
     # chartOpts end
     # further chartOpts: chrpanelframe
     # accessors start
