@@ -1,3 +1,8 @@
+## d3panels 1.0.6
+
+- Fix bug in `cichart`
+
+
 ## d3panels 1.0.5
 
 - Fix bug in `add_points` and `add_curves`

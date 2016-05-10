@@ -177,7 +177,7 @@ d3panels.cichart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      indtip.destroy()
+                      tip.destroy()
                       return null
 
     # return the chart function
