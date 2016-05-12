@@ -31,7 +31,7 @@ mychart(d3.select('body'), data)
 - `width` &mdash; overall width of chart in pixels \[default `600`\]
 - `height` &mdash; overall height of chart in pixels \[default `300`\]
 - `margin` &mdash; margins in pixels \[default `{left:60, top:80, right:40, bottom: 20}`\]
-- `cellPad` &mdash; padding of cells (if null, we take cell width * 0.1 \[default `null`\]
+- `cellPad` &mdash; padding of cells (if null, we take cell width * 0.1) \[default `null`\]
 - `titlepos` &mdash; position of title in pixels \[default `50`\]
 - `title` &mdash; chart title \[default `""`\]
 - `fontsize` &mdash; font size (if null, we take cell height * 0.5) \[default `null`\]
