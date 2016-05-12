@@ -3236,8 +3236,7 @@ d3panels.add_points = function(chartOpts) {
     })()) > 0) {
       d3panels.displayError("group values out of range");
       console.log("ngroup: " + ngroup);
-      console.log("g:");
-      console.log(g);
+      console.log("distinct groups: " + (d3panels.unique(group)));
     }
     if (group.length !== x.length) {
       d3panels.displayError("group.length (" + group.length + ") != x.length (" + x.length + ")");
@@ -3992,61 +3991,11 @@ d3panels.scatterplot = function(chartOpts) {
   indtip = null;
   svg = null;
   chart = function(selection, data) {
-    var addpts, g, group, i, indID, j, myframe, ngroup, ref11, ref12, ref13, results, x, y;
+    var addpts, myframe, x, y;
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     if (x.length !== y.length) {
       d3panels.displayError("x.length (" + x.length + ") != y.length (" + y.length + ")");
-    }
-    indID = (ref11 = data != null ? data.indID : void 0) != null ? ref11 : null;
-    indID = indID != null ? indID : (function() {
-      results = [];
-      for (var j = 1, ref12 = x.length; 1 <= ref12 ? j <= ref12 : j >= ref12; 1 <= ref12 ? j++ : j--){ results.push(j); }
-      return results;
-    }).apply(this);
-    if (indID.length !== x.length) {
-      d3panels.displayError("indID.length (" + indID.length + ") != x.length (" + x.length + ")");
-    }
-    group = (ref13 = data != null ? data.group : void 0) != null ? ref13 : (function() {
-      var k, len, results1;
-      results1 = [];
-      for (k = 0, len = x.length; k < len; k++) {
-        i = x[k];
-        results1.push(1);
-      }
-      return results1;
-    })();
-    ngroup = d3.max(group);
-    group = (function() {
-      var k, len, results1;
-      results1 = [];
-      for (k = 0, len = group.length; k < len; k++) {
-        g = group[k];
-        results1.push(g - 1);
-      }
-      return results1;
-    })();
-    if (d3panels.sumArray((function() {
-      var k, len, results1;
-      results1 = [];
-      for (k = 0, len = group.length; k < len; k++) {
-        g = group[k];
-        results1.push(g < 0 || g > ngroup - 1);
-      }
-      return results1;
-    })()) > 0) {
-      d3panels.displayError("group values out of range");
-      console.log("ngroup: " + ngroup);
-      console.log("g:");
-      console.log(g);
-    }
-    if (group.length !== x.length) {
-      d3panels.displayError("group.length (" + group.length + ") != x.length (" + x.length + ")");
-    }
-    pointcolor = pointcolor != null ? pointcolor : d3panels.selectGroupColors(ngroup, "dark");
-    pointcolor = d3panels.expand2vector(pointcolor, ngroup);
-    if (pointcolor.length !== ngroup) {
-      d3panels.displayError("pointcolor.length (" + pointcolor.length + ") != ngroup (" + ngroup + ")");
     }
     xNA.handle = xNA.force || (xNA.handle && !(x.every(function(v) {
       return v != null;
@@ -4077,16 +4026,8 @@ d3panels.scatterplot = function(chartOpts) {
     addpts(myframe, {
       x: x,
       y: y,
-      indID: indID,
-      group: (function() {
-        var k, len, results1;
-        results1 = [];
-        for (k = 0, len = group.length; k < len; k++) {
-          g = group[k];
-          results1.push(g + 1);
-        }
-        return results1;
-      })()
+      indID: data.indID,
+      group: data.group
     });
     points = addpts.points();
     return indtip = addpts.indtip();

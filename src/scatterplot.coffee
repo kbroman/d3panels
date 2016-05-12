@@ -35,30 +35,6 @@ d3panels.scatterplot = (chartOpts) ->
 
         if x.length != y.length
             d3panels.displayError("x.length (#{x.length}) != y.length (#{y.length})")
-        # grab indID if it's there
-        # if no indID, create a vector of them
-        indID = data?.indID ? null
-        indID = indID ? [1..x.length]
-        if indID.length != x.length
-            d3panels.displayError("indID.length (#{indID.length}) != x.length (#{x.length})")
-
-        # groups of colors
-        group = data?.group ? (1 for i in x)
-        ngroup = d3.max(group)
-        group = (g-1 for g in group) # changed from (1,2,3,...) to (0,1,2,...)
-        if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
-            d3panels.displayError("group values out of range")
-            console.log("ngroup: #{ngroup}")
-            console.log("g:")
-            console.log(g)
-        if group.length != x.length
-            d3panels.displayError("group.length (#{group.length}) != x.length (#{x.length})")
-
-        # colors of the points in the different groups
-        pointcolor = pointcolor ? d3panels.selectGroupColors(ngroup, "dark")
-        pointcolor = d3panels.expand2vector(pointcolor, ngroup)
-        if pointcolor.length != ngroup
-            d3panels.displayError("pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
 
         # whether to include separate boxes for NAs
         xNA.handle = xNA.force or (xNA.handle and !(x.every (v) -> (v?)))
@@ -92,7 +68,7 @@ d3panels.scatterplot = (chartOpts) ->
             pointsize:pointsize
             jitter:jitter
             tipclass:tipclass})
-        addpts(myframe, {x:x, y:y, indID:indID, group:(g+1 for g in group)})
+        addpts(myframe, {x:x, y:y, indID:data.indID, group:data.group})
         points = addpts.points()
         indtip = addpts.indtip()
 
