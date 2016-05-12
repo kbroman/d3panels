@@ -38,8 +38,7 @@ d3panels.add_points = (chartOpts) ->
         if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
             d3panels.displayError("group values out of range")
             console.log("ngroup: #{ngroup}")
-            console.log("g:")
-            console.log(g)
+            console.log("distinct groups: #{d3panels.unique(group)}")
         if group.length != x.length
             d3panels.displayError("group.length (#{group.length}) != x.length (#{x.length})")
 
