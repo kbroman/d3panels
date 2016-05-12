@@ -114,8 +114,10 @@ d3panels.lod2dheatmap = (chartOpts) ->
                         chry:data.chr[j]
                         poslabelx:data.poslabel[i]
                         poslabely:data.poslabel[j]
-                        posxindex:indexWithinChr[i]
-                        posyindex:indexWithinChr[j]})
+                        xindex:i
+                        yindex:j
+                        xindexByChr:indexWithinChr[i]
+                        yindexByChr:indexWithinChr[j]})
 
         # calc cell height, width
         d3panels.calc_2dchrcell_rect(cells, xmid_scaled, ymid_scaled)

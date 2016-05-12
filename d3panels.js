@@ -842,8 +842,10 @@ d3panels.lod2dheatmap = function(chartOpts) {
             chry: data.chr[j],
             poslabelx: data.poslabel[i],
             poslabely: data.poslabel[j],
-            posxindex: indexWithinChr[i],
-            posyindex: indexWithinChr[j]
+            xindex: i,
+            yindex: j,
+            xindexByChr: indexWithinChr[i],
+            yindexByChr: indexWithinChr[j]
           });
         }
       }
