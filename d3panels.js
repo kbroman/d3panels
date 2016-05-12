@@ -2811,7 +2811,7 @@ d3panels.lodchart = function(chartOpts) {
       ];
     }
     if (data.marker.length !== data.chr.length) {
-      d3panels.displayError("data.marker.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("data.marker.length (" + data.marker.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     data = d3panels.add_chrname_start_end(data);
     data = d3panels.reorgLodData(data);
