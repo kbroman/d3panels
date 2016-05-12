@@ -1980,8 +1980,8 @@ d3panels.crosstab = function(chartOpts) {
     }
     plot_width = width - margin.left - margin.right;
     plot_height = height - margin.top - margin.bottom;
-    cellWidth = plot_width / (ncol + 3);
-    cellHeight = plot_height / (nrow + 3);
+    cellWidth = plot_width / (ncol + 2);
+    cellHeight = plot_height / (nrow + 2);
     fontsize = fontsize != null ? fontsize : cellHeight * 0.5;
     cellPad = cellPad != null ? cellPad : cellWidth * 0.1;
     xscale = d3.scale.ordinal().domain((function() {
