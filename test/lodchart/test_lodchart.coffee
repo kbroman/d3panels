@@ -86,3 +86,16 @@ d3.json "data.json", (data) ->
 
     data.lod = data.lod_em
     mychart(d3.select("div#chart4"), data)
+
+
+# single chromosome
+d3.json "data.json", (data) ->
+    mychart = d3panels.lodchart({height:400, width:600, margin:margin, title:"Chromosome 4"})
+
+    # subset to chromosome 4
+    data.lod = (data.lod_em[i] for i of data.chr when data.chr[i] == '4')
+    data.pos = (data.pos[i] for i of data.chr when data.chr[i] == '4')
+    data.marker = (data.marker[i] for i of data.chr when data.chr[i] == '4')
+    data.chr = (data.chr[i] for i of data.chr when data.chr[i] == '4')
+
+    mychart(d3.select("div#chart5"), data)
