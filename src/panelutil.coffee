@@ -169,10 +169,10 @@ d3panels.calc_chrcell_rect = (cells, xmid, ymid) ->
 # calc chr cell rectangles (left, right, top, bottom)
 d3panels.calc_2dchrcell_rect = (cells, xmid, ymid) ->
     for cell in cells
-        left = xmid[cell.chrx][cell.posxindex]
-        right = xmid[cell.chrx][1 + cell.posxindex]
-        top = ymid[cell.chry][cell.posyindex]
-        bottom = ymid[cell.chry][1 + cell.posyindex]
+        left = xmid[cell.chrx][cell.xindexByChr]
+        right = xmid[cell.chrx][1 + cell.xindexByChr]
+        top = ymid[cell.chry][cell.yindexByChr]
+        bottom = ymid[cell.chry][1 + cell.yindexByChr]
 
         cell.left = d3.min([left, right])
         cell.width = Math.abs(right-left)
