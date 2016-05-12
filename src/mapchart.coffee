@@ -36,6 +36,7 @@ d3panels.mapchart = (chartOpts) ->
 
         unless data.chrname?
             data.chrname = d3panels.unique(data.chr)
+        data.chrname = d3panels.forceAsArray(data.chrname)
 
         data.adjpos = data.pos.slice(0)
         # shift positions so that each chromosome starts at 0

@@ -380,3 +380,21 @@ d3panels.ci_by_group = (g, y, m=2) ->
 d3panels.pad_ylim = (ylim, p=0.025) ->
     d = ylim[1] - ylim[0]
     [ylim[0] - d*p, ylim[1] + d*p]
+
+d3panels.add_chrname_start_end = (data) ->
+    data.chrname = d3panels.unique(data.chr) unless data.chrname?
+    data.chrname = d3panels.forceAsArray(data.chrname)
+    unless data.chrstart?
+        data.chrstart = []
+        for c in data.chrname
+            these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
+            data.chrstart.push(d3.min(these_pos))
+    unless data.chrend?
+        data.chrend = []
+        for c in data.chrname
+            these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
+            data.chrend.push(d3.max(these_pos))
+    data.start = d3panels.forceAsArray(data.start)
+    data.end = d3panels.forceAsArray(data.end)
+
+    data

@@ -49,6 +49,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
 
         # create chrname if missing
         data.chrname = d3panels.unique(data.chr) unless data.chrname?
+        data.chrname = d3panels.forceAsArray(data.chrname)
 
         # if equalCells, change positions to dummy values
         if equalCells
@@ -57,16 +58,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
                 data.pos = data.pos.concat(+i for i of data.chr when data.chr[i] == chr)
 
         # create chrstart, chrend if missing
-        unless data.chrstart?
-            data.chrstart = []
-            for c in data.chrname
-                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
-                data.chrstart.push(d3.min(these_pos))
-        unless data.chrend?
-            data.chrend = []
-            for c in data.chrname
-                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
-                data.chrend.push(d3.max(these_pos))
+        data = d3panels.add_chrname_start_end(data)
 
         # if equalCells, adjust chrGap to make chromosome ends equal
         if equalCells

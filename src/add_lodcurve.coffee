@@ -34,17 +34,7 @@ d3panels.add_lodcurve = (chartOpts) ->
             d3panels.displayError("data.marker.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
 
         # create chrname, chrstart, chrend if missing
-        data.chrname = d3panels.unique(data.chr) unless data.chrname?
-        unless data.chrstart?
-            data.chrstart = []
-            for c in data.chrname
-                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
-                data.chrstart.push(d3.min(these_pos))
-        unless data.chrend?
-            data.chrend = []
-            for c in data.chrname
-                these_pos = (data.pos[i] for i of data.chr when data.chr[i] == c)
-                data.chrend.push(d3.max(these_pos))
+        data = d3panels.add_chrname_start_end(data)
 
         # organize positions and LOD scores by chromosomes
         data = d3panels.reorgLodData(data) unless data.posByChr? and data.lodByChr? and data.markerinfo?
