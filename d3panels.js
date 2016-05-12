@@ -1980,12 +1980,10 @@ d3panels.crosstab = function(chartOpts) {
     }
     plot_width = width - margin.left - margin.right;
     plot_height = height - margin.top - margin.bottom;
-    cellWidth = width / (ncol + 2);
-    cellHeight = height / (nrow + 2);
+    cellWidth = plot_width / (ncol + 3);
+    cellHeight = plot_height / (nrow + 3);
     fontsize = fontsize != null ? fontsize : cellHeight * 0.5;
     cellPad = cellPad != null ? cellPad : cellWidth * 0.1;
-    width = margin.left + margin.right + (ncol + 2) * cellWidth;
-    height = margin.top + margin.bottom + (nrow + 2) * cellHeight;
     xscale = d3.scale.ordinal().domain((function() {
       results = [];
       for (var m = 0, ref16 = ncol + 1; 0 <= ref16 ? m <= ref16 : m >= ref16; 0 <= ref16 ? m++ : m--){ results.push(m); }

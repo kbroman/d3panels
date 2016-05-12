@@ -78,13 +78,10 @@ d3panels.crosstab = (chartOpts) ->
         # widths and heights
         plot_width = width - margin.left - margin.right
         plot_height = height - margin.top - margin.bottom
-        cellWidth = width/(ncol+2)
-        cellHeight = height/(nrow+2)
+        cellWidth = plot_width/(ncol+3)
+        cellHeight = plot_height/(nrow+3)
         fontsize = fontsize ? cellHeight*0.5
         cellPad = cellPad ? cellWidth*0.1
-
-        width = margin.left + margin.right + (ncol+2)*cellWidth
-        height = margin.top + margin.bottom + (nrow+2)*cellHeight
 
         xscale = d3.scale.ordinal()
                          .domain([0..(ncol+1)])
