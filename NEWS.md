@@ -1,23 +1,14 @@
-## d3panels 1.0.7
+## d3panels 1.0.7 (2016-05-12)
 
-- Fix bugs in `add_lodcurve`, `lodheatmap`, and `lod2dheatmap`
+- Fix a bunch of bugs
 
 - Change accessors in `heatmap`, `lodheatmap`, and `lod2dheatmap`
   (`.cellSelect()` to `.cells()`)
 
 - Clean up chartOpts comments
 
-## d3panels 1.0.6
 
-- Fix bug in `cichart`
-
-
-## d3panels 1.0.5
-
-- Fix bug in `add_points` and `add_curves`
-
-
-## d3panels 1.0.4
+## d3panels 1.0.4 (2016-05-09)
 
 - New functions `add_points` and `add_curves`. (`scatterplot`
   and `curvechart` now call these two functions.)
@@ -29,44 +20,35 @@
 - Renamed some options for `curvechart`: `linecolor` and `linewidth`
   rather than `strokecolor` and `strokewidth`.
 
-
-## d3panels 1.0.3
-
 - Fix bug in `mapchart` re `linecolorhilit` option
 
-
-## d3panels 1.0.2
-
 - Depend on D3 version 3.5.17
-
-
-## d3panels 1.0.1
 
 - Include dependencies in `bower.json`
 
 
-## d3panels 1.0.0
+## d3panels 1.0.0 (2016-05-07)
 
 - **Completely rewritten**, changing the functions' usage and data
   structures, and encapsulating everything into a `d3panels` object.
   See the [documentation](https://github.com/kbroman/d3panels/tree/master/doc).
 
 
-## d3panels 0.6.3
+## d3panels 0.6.3 (2015-11-11)
 
 - Assign a class to the [d3-tip](https://github.com/Caged/d3-tip) tool tips.
 
 
-## d3panels 0.6.2
+## d3panels 0.6.2 (2015-11-10)
 
 - Implement `chart.remove()` to avoid proliferation of tool tips.
 
 
-## d3panels 0.5.3
+## d3panels 0.5.3 (2015-06-24)
 
 - Deal with changes to [d3-tip](https://github.com/Caged/d3-tip)
 
 
-## d3panels 0.5.1
+## d3panels 0.5.1 (2015-03-05)
 
 - Initial release
