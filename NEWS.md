@@ -1,11 +1,20 @@
-## d3panels 1.0.7 (2016-05-12)
+## (devel)
 
-- Fix a bunch of bugs
+- Handle missing values in `group` in `add_curves`, `add_points`, and
+  `curvechart`.
+
+- In `add_points`, allow `pointcolor` to be longer than the number of
+  groups.
+
+
+## d3panels 1.0.7 (2016-05-12)
 
 - Change accessors in `heatmap`, `lodheatmap`, and `lod2dheatmap`
   (`.cellSelect()` to `.cells()`)
 
 - Clean up chartOpts comments
+
+- Fix a bunch of bugs
 
 
 ## d3panels 1.0.4 (2016-05-09)
