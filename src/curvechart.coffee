@@ -45,7 +45,7 @@ d3panels.curvechart = (chartOpts) ->
         # groups of colors
         group = data?.group ? (1 for i of y)
         ngroup = d3.max(group)
-        group = (g-1 for g in group) # changed from (1,2,3,...) to (0,1,2,...)
+        group = (if g? then g-1 else null for g in group) # changed from (1,2,3,...) to (0,1,2,...)
         if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
             d3panels.displayError("group values out of range")
             console.log("groups:")

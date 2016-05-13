@@ -2134,15 +2134,19 @@ d3panels.curvechart = function(chartOpts) {
       return results1;
     })();
     ngroup = d3.max(group);
-    group = (function() {
+    group = ((function() {
       var len, m, results1;
-      results1 = [];
-      for (m = 0, len = group.length; m < len; m++) {
-        g = group[m];
-        results1.push(g - 1);
+      if (typeof g !== "undefined" && g !== null) {
+        return g - 1;
+      } else {
+        results1 = [];
+        for (m = 0, len = group.length; m < len; m++) {
+          g = group[m];
+          results1.push(null);
+        }
+        return results1;
       }
-      return results1;
-    })();
+    })());
     if (d3panels.sumArray((function() {
       var len, m, results1;
       results1 = [];
@@ -3054,15 +3058,19 @@ d3panels.add_curves = function(chartOpts) {
       return results1;
     })();
     ngroup = d3.max(group);
-    group = (function() {
+    group = ((function() {
       var len, m, results1;
-      results1 = [];
-      for (m = 0, len = group.length; m < len; m++) {
-        g = group[m];
-        results1.push(g - 1);
+      if (typeof g !== "undefined" && g !== null) {
+        return g - 1;
+      } else {
+        results1 = [];
+        for (m = 0, len = group.length; m < len; m++) {
+          g = group[m];
+          results1.push(null);
+        }
+        return results1;
       }
-      return results1;
-    })();
+    })());
     if (d3panels.sumArray((function() {
       var len, m, results1;
       results1 = [];
@@ -3222,15 +3230,19 @@ d3panels.add_points = function(chartOpts) {
       return results1;
     })();
     ngroup = d3.max(group);
-    group = (function() {
+    group = ((function() {
       var l, len, results1;
-      results1 = [];
-      for (l = 0, len = group.length; l < len; l++) {
-        g = group[l];
-        results1.push(g - 1);
+      if (typeof g !== "undefined" && g !== null) {
+        return g - 1;
+      } else {
+        results1 = [];
+        for (l = 0, len = group.length; l < len; l++) {
+          g = group[l];
+          results1.push(null);
+        }
+        return results1;
       }
-      return results1;
-    })();
+    })());
     if (d3panels.sumArray((function() {
       var l, len, results1;
       results1 = [];
