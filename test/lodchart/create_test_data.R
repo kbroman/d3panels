@@ -16,4 +16,4 @@ data <- list(chr = out.em[,1],
              lod_hk = out.hk[,3],
              marker = marker)
 
-cat(jsonlite::toJSON(data), file="data.json")
+cat(jsonlite::toJSON(data, digits=I(4)), file="data.json")

@@ -8,4 +8,4 @@ y <- x*2+3 + rnorm(n, 0, 2)
 
 group <- as.numeric((y < 20) + (y < 30))+1
 
-cat(jsonlite::toJSON(list(x=x, y=y, group=group)), file="data.json")
+cat(jsonlite::toJSON(list(x=x, y=y, group=group), digits=I(4)), file="data.json")

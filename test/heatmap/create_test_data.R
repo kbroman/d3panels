@@ -32,5 +32,5 @@ X[,1:5] <- -X[,1:5]
 z <- cor(X)
 
 xcat <- paste0("var", 1:p)
-cat(jsonlite::toJSON(list(xcat=xcat, ycat=xcat, z=z)),
+cat(jsonlite::toJSON(list(xcat=xcat, ycat=xcat, z=z), digits=I(4)),
     file="data_categorical.json")

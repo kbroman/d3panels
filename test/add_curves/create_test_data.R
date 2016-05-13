@@ -30,4 +30,4 @@ group <- rbinom(n, 1, prob=means/max(means))+1
 
 dat <- list(x=list(times), y=y, group=group)
 
-cat(jsonlite::toJSON(dat), file="data.json")
+cat(jsonlite::toJSON(dat, digits=I(4)), file="data.json")

@@ -20,4 +20,4 @@ data <- list(chr = out[,1],
              time = time,
              time_str = time_str)
 
-cat(jsonlite::toJSON(data), file="data.json")
+cat(jsonlite::toJSON(data, digits=I(4)), file="data.json")

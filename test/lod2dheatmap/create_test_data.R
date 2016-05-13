@@ -13,5 +13,6 @@ chr <- rep(chrnames(badorder), nmar(badorder))
 pos <- unlist(lapply(nmar(badorder), function(a) 1:a))
 names(pos) <- NULL
 
-cat(jsonlite::toJSON(list(chr=chr, pos=pos, lod=lod, marker=marker)),
+cat(jsonlite::toJSON(list(chr=chr, pos=pos, lod=lod, marker=marker),
+                     digits=I(4)),
     file="data.json")
