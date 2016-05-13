@@ -3192,10 +3192,16 @@ d3panels.add_points = function(chartOpts) {
   pointGroup = null;
   chart = function(prevchart, data) {
     var collision, force, g, gravity, group, i, indID, j, k, l, len, nearbyPoints, ngroup, p, q, ref5, ref6, ref7, results, scaledPoints, svg, tick, ux, uy, x, xscale, xwid, y, yscale, ywid;
+    if (data.x == null) {
+      d3panels.displayError("add_points: data.x is missing");
+    }
+    if (data.x == null) {
+      d3panels.displayError("add_points: data.y is missing");
+    }
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     if (x.length !== y.length) {
-      d3panels.displayError("x.length (" + x.length + ") != y.length (" + y.length + ")");
+      d3panels.displayError("add_points: x.length (" + x.length + ") != y.length (" + y.length + ")");
     }
     indID = (ref5 = data != null ? data.indID : void 0) != null ? ref5 : null;
     indID = indID != null ? indID : (function() {
@@ -3204,7 +3210,7 @@ d3panels.add_points = function(chartOpts) {
       return results;
     }).apply(this);
     if (indID.length !== x.length) {
-      d3panels.displayError("indID.length (" + indID.length + ") != x.length (" + x.length + ")");
+      d3panels.displayError("add_points: indID.length (" + indID.length + ") != x.length (" + x.length + ")");
     }
     group = (ref7 = data != null ? data.group : void 0) != null ? ref7 : (function() {
       var l, len, results1;
@@ -3234,17 +3240,17 @@ d3panels.add_points = function(chartOpts) {
       }
       return results1;
     })()) > 0) {
-      d3panels.displayError("group values out of range");
+      d3panels.displayError("add_points: group values out of range");
       console.log("ngroup: " + ngroup);
       console.log("distinct groups: " + (d3panels.unique(group)));
     }
     if (group.length !== x.length) {
-      d3panels.displayError("group.length (" + group.length + ") != x.length (" + x.length + ")");
+      d3panels.displayError("add_points: group.length (" + group.length + ") != x.length (" + x.length + ")");
     }
     pointcolor = pointcolor != null ? pointcolor : d3panels.selectGroupColors(ngroup, "dark");
     pointcolor = d3panels.expand2vector(pointcolor, ngroup);
     if (pointcolor.length !== ngroup) {
-      d3panels.displayError("pointcolor.length (" + pointcolor.length + ") != ngroup (" + ngroup + ")");
+      d3panels.displayError("add_points: pointcolor.length (" + pointcolor.length + ") != ngroup (" + ngroup + ")");
     }
     svg = prevchart.svg();
     xscale = prevchart.xscale();
@@ -3397,7 +3403,7 @@ d3panels.add_points = function(chartOpts) {
         };
         force = d3.layout.force().gravity(0).charge(0).nodes(scaledPoints).on("tick", tick).start();
       } else if (jitter !== "none") {
-        d3panels.displayError('jitter should be "beeswarm", "random", or "none"');
+        d3panels.displayError('add_points: jitter should be "beeswarm", "random", or "none"');
       }
     }
     return prevchart.box().moveToFront();
@@ -3992,10 +3998,16 @@ d3panels.scatterplot = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var addpts, myframe, x, y;
+    if (data.x == null) {
+      d3panels.displayError("scatterplot: data.x is missing");
+    }
+    if (data.x == null) {
+      d3panels.displayError("scatterplot: data.y is missing");
+    }
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     if (x.length !== y.length) {
-      d3panels.displayError("x.length (" + x.length + ") != y.length (" + y.length + ")");
+      d3panels.displayError("scatterplot: x.length (" + x.length + ") != y.length (" + y.length + ")");
     }
     xNA.handle = xNA.force || (xNA.handle && !(x.every(function(v) {
       return v != null;

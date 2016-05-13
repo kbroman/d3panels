@@ -29,12 +29,16 @@ d3panels.scatterplot = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID, group}
+
+        d3panels.displayError("scatterplot: data.x is missing") unless data.x?
+        d3panels.displayError("scatterplot: data.y is missing") unless data.x?
+
         # missing values can be any of null, "NA", or ""; replacing with nulls
         x = d3panels.missing2null(data.x)
         y = d3panels.missing2null(data.y)
 
         if x.length != y.length
-            d3panels.displayError("x.length (#{x.length}) != y.length (#{y.length})")
+            d3panels.displayError("scatterplot: x.length (#{x.length}) != y.length (#{y.length})")
 
         # whether to include separate boxes for NAs
         xNA.handle = xNA.force or (xNA.handle and !(x.every (v) -> (v?)))

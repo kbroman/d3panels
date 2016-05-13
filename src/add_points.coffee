@@ -19,34 +19,37 @@ d3panels.add_points = (chartOpts) ->
     chart = (prevchart, data) -> # prevchart = chart function used to create lodchart to which we're adding
                                  # data = {x, y, indID, group}
 
+        d3panels.displayError("add_points: data.x is missing") unless data.x?
+        d3panels.displayError("add_points: data.y is missing") unless data.x?
+
         x = d3panels.missing2null(data.x)
         y = d3panels.missing2null(data.y)
 
         if x.length != y.length
-            d3panels.displayError("x.length (#{x.length}) != y.length (#{y.length})")
+            d3panels.displayError("add_points: x.length (#{x.length}) != y.length (#{y.length})")
         # grab indID if it's there
         # if no indID, create a vector of them
         indID = data?.indID ? null
         indID = indID ? [1..x.length]
         if indID.length != x.length
-            d3panels.displayError("indID.length (#{indID.length}) != x.length (#{x.length})")
+            d3panels.displayError("add_points: indID.length (#{indID.length}) != x.length (#{x.length})")
 
         # groups of colors
         group = data?.group ? (1 for i in x)
         ngroup = d3.max(group)
         group = (g-1 for g in group) # changed from (1,2,3,...) to (0,1,2,...)
         if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
-            d3panels.displayError("group values out of range")
+            d3panels.displayError("add_points: group values out of range")
             console.log("ngroup: #{ngroup}")
             console.log("distinct groups: #{d3panels.unique(group)}")
         if group.length != x.length
-            d3panels.displayError("group.length (#{group.length}) != x.length (#{x.length})")
+            d3panels.displayError("add_points: group.length (#{group.length}) != x.length (#{x.length})")
 
         # colors of the points in the different groups
         pointcolor = pointcolor ? d3panels.selectGroupColors(ngroup, "dark")
         pointcolor = d3panels.expand2vector(pointcolor, ngroup)
         if pointcolor.length != ngroup
-            d3panels.displayError("pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
+            d3panels.displayError("add_points: pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
 
         svg = prevchart.svg()
 
@@ -161,7 +164,7 @@ d3panels.add_points = (chartOpts) ->
                           .on("tick", tick)
                           .start()
             else if jitter != "none"
-                d3panels.displayError('jitter should be "beeswarm", "random", or "none"')
+                d3panels.displayError('add_points: jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
         prevchart.box().moveToFront()
