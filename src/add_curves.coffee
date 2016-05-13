@@ -25,8 +25,8 @@ d3panels.add_curves = (chartOpts) ->
         d3panels.displayError("add_curves: data.x is missing") unless data.x?
         d3panels.displayError("add_curves: data.y is missing") unless data.y?
 
-        x = d3panels.missing2null(data.x)
-        y = d3panels.missing2null(data.y)
+        x = (d3panels.missing2null(x) for x in data.x)
+        y = (d3panels.missing2null(y) for y in data.y)
 
         n_ind = y.length
         if x.length == 1 and y.length > 1 # expand to same length
