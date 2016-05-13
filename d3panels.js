@@ -2141,74 +2141,24 @@ d3panels.curvechart = function(chartOpts) {
   indtip = null;
   svg = null;
   chart = function(selection, data) {
-    var add_curves, g, group, i, indID, j, k, l, myframe, n_ind, ngroup, ref7, ref8, ref9, results, strokecolor, strokecolorhilit, x, y;
+    var add_curves, i, j, myframe, n_ind, ref7, x, y;
     if (data.x == null) {
       d3panels.displayError("curvechart: data.x is missing");
     }
     if (data.y == null) {
       d3panels.displayError("curvechart: data.y is missing");
     }
-    x = d3panels.missing2null(data.x);
-    y = d3panels.missing2null(data.y);
+    x = data.x;
+    y = data.y;
     n_ind = y.length;
     if (x.length === 1 && y.length > 1) {
-      for (j = k = 2, ref7 = n_ind; 2 <= ref7 ? k <= ref7 : k >= ref7; j = 2 <= ref7 ? ++k : --k) {
+      for (j = i = 2, ref7 = n_ind; 2 <= ref7 ? i <= ref7 : i >= ref7; j = 2 <= ref7 ? ++i : --i) {
         x.push(x[0]);
       }
     }
     if (x.length !== n_ind) {
       d3panels.displayError("curvechart: data.x.length (" + x.length + ") != data.y.length (" + n_ind + ")");
     }
-    indID = (ref8 = data != null ? data.indID : void 0) != null ? ref8 : (function() {
-      results = [];
-      for (var l = 1; 1 <= n_ind ? l <= n_ind : l >= n_ind; 1 <= n_ind ? l++ : l--){ results.push(l); }
-      return results;
-    }).apply(this);
-    if (indID.length !== n_ind) {
-      d3panels.displayError("curvechart: data.indID.length (" + indID.length + ") != data.y.length (" + n_ind + ")");
-    }
-    group = (ref9 = data != null ? data.group : void 0) != null ? ref9 : (function() {
-      var results1;
-      results1 = [];
-      for (i in y) {
-        results1.push(1);
-      }
-      return results1;
-    })();
-    ngroup = d3.max(group);
-    group = (function() {
-      var len, m, results1;
-      results1 = [];
-      for (m = 0, len = group.length; m < len; m++) {
-        g = group[m];
-        results1.push(g != null ? g - 1 : g);
-      }
-      return results1;
-    })();
-    if (d3panels.sumArray((function() {
-      var len, m, results1;
-      results1 = [];
-      for (m = 0, len = group.length; m < len; m++) {
-        g = group[m];
-        results1.push(g < 0 || g > ngroup - 1);
-      }
-      return results1;
-    })()) > 0) {
-      d3panels.displayError("curvechart: group values out of range");
-      console.log("distinct groups: " + (d3panels.unique(group)));
-    }
-    if (group.length !== n_ind) {
-      d3panels.displayError("curvechart: data.group.length (" + group.length + ") != data.y.length (" + n_ind + ")");
-    }
-    for (i in y) {
-      if (x[i].length !== y[i].length) {
-        d3panels.displayError("curvechart: length(x) (" + x[i].length + ") != length(y) (" + y[i].length + ") for individual " + indID[i] + " (index " + (i + 1) + ")");
-      }
-    }
-    strokecolor = strokecolor != null ? strokecolor : d3panels.selectGroupColors(ngroup, "pastel");
-    strokecolor = d3panels.expand2vector(strokecolor, ngroup);
-    strokecolorhilit = strokecolorhilit != null ? strokecolorhilit : d3panels.selectGroupColors(ngroup, "dark");
-    strokecolorhilit = d3panels.expand2vector(strokecolorhilit, ngroup);
     xlim = xlim != null ? xlim : d3panels.matrixExtent(x);
     ylim = ylim != null ? ylim : d3panels.matrixExtent(y);
     chartOpts.xlim = xlim;
@@ -3112,8 +3062,26 @@ d3panels.add_curves = function(chartOpts) {
     if (data.y == null) {
       d3panels.displayError("add_curves: data.y is missing");
     }
-    x = d3panels.missing2null(data.x);
-    y = d3panels.missing2null(data.y);
+    x = (function() {
+      var k, len, ref5, results;
+      ref5 = data.x;
+      results = [];
+      for (k = 0, len = ref5.length; k < len; k++) {
+        x = ref5[k];
+        results.push(d3panels.missing2null(x));
+      }
+      return results;
+    })();
+    y = (function() {
+      var k, len, ref5, results;
+      ref5 = data.y;
+      results = [];
+      for (k = 0, len = ref5.length; k < len; k++) {
+        y = ref5[k];
+        results.push(d3panels.missing2null(y));
+      }
+      return results;
+    })();
     n_ind = y.length;
     if (x.length === 1 && y.length > 1) {
       for (j = k = 2, ref5 = n_ind; 2 <= ref5 ? k <= ref5 : k >= ref5; j = 2 <= ref5 ? ++k : --k) {

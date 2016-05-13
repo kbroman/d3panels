@@ -10,6 +10,8 @@
 
 - Add more information to error messages.
 
+- Remove a big chunk of extraneous code from `curvechart`.
+
 
 ## d3panels 1.0.7 (2016-05-12)
 

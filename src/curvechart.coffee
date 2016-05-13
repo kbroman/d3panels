@@ -29,8 +29,8 @@ d3panels.curvechart = (chartOpts) ->
         d3panels.displayError("curvechart: data.x is missing") unless data.x?
         d3panels.displayError("curvechart: data.y is missing") unless data.y?
 
-        x = (d3panels.missing2null(x) for x in data.x)
-        y = (d3panels.missing2null(y) for y in data.y)
+        x = data.x
+        y = data.y
 
         n_ind = y.length
         if x.length == 1 and y.length > 1 # expand to same length
@@ -38,35 +38,6 @@ d3panels.curvechart = (chartOpts) ->
                 x.push(x[0])
         if(x.length != n_ind)
             d3panels.displayError("curvechart: data.x.length (#{x.length}) != data.y.length (#{n_ind})")
-
-        # grab indID if it's there
-        # if no indID, create a vector of them
-        indID = data?.indID ? [1..n_ind]
-        if(indID.length != n_ind)
-            d3panels.displayError("curvechart: data.indID.length (#{indID.length}) != data.y.length (#{n_ind})")
-
-        # groups of colors
-        group = data?.group ? (1 for i of y)
-        ngroup = d3.max(group)
-        group = ((if g? then g-1 else g) for g in group) # changed from (1,2,3,...) to (0,1,2,...)
-        if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
-            d3panels.displayError("curvechart: group values out of range")
-            console.log("distinct groups: #{d3panels.unique(group)}")
-        if(group.length != n_ind)
-            d3panels.displayError("curvechart: data.group.length (#{group.length}) != data.y.length (#{n_ind})")
-
-        # check that x's and y's are all of the same length
-        for i of y
-            if(x[i].length != y[i].length)
-                d3panels.displayError("curvechart: length(x) (#{x[i].length}) != length(y) (#{y[i].length}) for individual #{indID[i]} (index #{i+1})")
-
-        # default light stroke colors
-        strokecolor = strokecolor ? d3panels.selectGroupColors(ngroup, "pastel")
-        strokecolor = d3panels.expand2vector(strokecolor, ngroup)
-
-        # default dark stroke colors
-        strokecolorhilit = strokecolorhilit ? d3panels.selectGroupColors(ngroup, "dark")
-        strokecolorhilit = d3panels.expand2vector(strokecolorhilit, ngroup)
 
         # x- and y-axis limits
         xlim = xlim ? d3panels.matrixExtent(x)
