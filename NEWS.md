@@ -6,6 +6,10 @@
 - In `add_points`, allow `pointcolor` to be longer than the number of
   groups.
 
+- Reduce digits in example data files.
+
+- Add more information to error messages.
+
 
 ## d3panels 1.0.7 (2016-05-12)
 
