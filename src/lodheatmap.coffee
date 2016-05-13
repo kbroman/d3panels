@@ -48,16 +48,16 @@ d3panels.lodheatmap = (chartOpts) ->
 
         # check inputs
         if n_pos != data.pos.length
-            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("lodheatmap: data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
         if n_pos != data.lod.length
-            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("lodheatmap: data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
         for i of data.lod
             if data.lod[i].length != data.y.length
-                d3panels.displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.y.length (#{n_lod})")
+                d3panels.displayError("lodheatmap: data.lod[#{i}].length (#{data.lod[i].length}) != data.y.length (#{n_lod})")
 
         if data.poslabel?
             if(data.poslabel.length != n_pos)
-                d3panels.displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
+                d3panels.displayError("lodheatmap: data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
         else
             # create position labels
             data.poslabel = ("#{data.chr[i]}@#{d3panels.formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
@@ -123,7 +123,7 @@ d3panels.lodheatmap = (chartOpts) ->
         zmax = d3panels.matrixMaxAbs(data.lod)
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
-            d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+            d3panels.displayError("lodheatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
         zscale = d3.scale.linear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 

@@ -33,16 +33,16 @@ d3panels.lod2dheatmap = (chartOpts) ->
 
         n_pos = data.chr.length
         if(data.pos.length != n_pos)
-            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("lod2dheatmap: data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")
         if(data.lod.length != n_pos)
-            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
+            d3panels.displayError("lod2dheatmap: data.lod.length (#{data.lod.length}) != data.chr.length (#{n_pos})")
         for i of data.lod
             if(data.lod[i].length != n_pos)
-                d3panels.displayError("data.lod[#{i}].length (#{data.lod[i].length}) != data.chr.length (#{n_pos})")
+                d3panels.displayError("lod2dheatmap: data.lod[#{i}].length (#{data.lod[i].length}) != data.chr.length (#{n_pos})")
 
         if data.poslabel?
             if(data.poslabel.length != n_pos)
-                d3panels.displayError("data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
+                d3panels.displayError("lod2dheatmap: data.poslabel.length (#{data.poslabel.length}) != data.chr.length (#{n_pos})")
         else
             # create position labels
             data.poslabel = ("#{data.chr[i]}@#{d3panels.formatAxis(data.pos)(data.pos[i])}" for i of data.chr)
@@ -94,7 +94,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
         zmax = d3panels.matrixMaxAbs(data.lod)
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
-            d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+            d3panels.displayError("lod2dheatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
         zscale = d3.scale.linear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 

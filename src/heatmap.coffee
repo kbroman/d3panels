@@ -48,10 +48,10 @@ d3panels.heatmap = (chartOpts) ->
         nx = data.x.length
         ny = data.y.length
         if data.z.length != nx
-            d3panels.displayError("data.x.length (#{nx}) != data.z.length (#{data.z.length})")
+            d3panels.displayError("heatmap: data.x.length (#{nx}) != data.z.length (#{data.z.length})")
         for i of data.z
             if data.z[i].length != ny
-                d3panels.displayError("data.y.length (#{ny}) != data.z[#{i}].length (#{data.z[i].length})")
+                d3panels.displayError("heatmap: data.y.length (#{ny}) != data.z[#{i}].length (#{data.z[i].length})")
 
         # organize by cell
         cells = []
@@ -72,7 +72,7 @@ d3panels.heatmap = (chartOpts) ->
         zmax = d3panels.matrixMaxAbs(data.z)
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
-            d3panels.displayError("zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
+            d3panels.displayError("heatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
         zscale = d3.scale.linear().domain(zlim).range(colors)
 
         # discard cells with |z| < zthresh

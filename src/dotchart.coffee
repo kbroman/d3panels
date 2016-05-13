@@ -44,18 +44,18 @@ d3panels.dotchart = (chartOpts) ->
 
         # a few checks
         if x.length != y.length
-            d3panels.displayError("length(x) [#{x.length}] != length(y) [#{y.length}]")
+            d3panels.displayError("dotchart: length(x) [#{x.length}] != length(y) [#{y.length}]")
         if indID.length != x.length
-            d3panels.displayError("length(indID) [#{indID.length}] != length(x) [#{x.length}]")
+            d3panels.displayError("dotchart: length(indID) [#{indID.length}] != length(x) [#{x.length}]")
 
         xcategories = xcategories ? d3panels.unique(x)
         xcatlabels = xcatlabels ? xcategories
         if xcatlabels.length != xcategories.length
-            d3panels.displayError("xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]")
+            d3panels.displayError("dotchart: xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]")
 
         # check all x in xcategories
         if d3panels.sumArray(xv? and !(xv in xcategories) for xv in x) > 0
-            d3panels.displayError("Some x values not in xcategories")
+            d3panels.displayError("dotchart: Some x values not in xcategories")
             console.log("xcategories:")
             console.log(xcategories)
             console.log("x:")
@@ -224,7 +224,7 @@ d3panels.dotchart = (chartOpts) ->
                       .on("tick", tick)
                       .start()
         else if jitter != "none"
-            d3panels.displayError('jitter should be "beeswarm", "random", or "none"')
+            d3panels.displayError('dotchart: jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
         myframe.box().moveToFront()

@@ -35,14 +35,14 @@ d3panels.cichart = (chartOpts) ->
         high = data.high
         ncat = mean.length
         if ncat != low.length
-            d3panels.displayError("low.length [#{low.length}] != mean.length [#{ncat}]")
+            d3panels.displayError("cichart: low.length [#{low.length}] != mean.length [#{ncat}]")
         if ncat != high.length
-            d3panels.displayError("high.length [#{high.length}] != mean.length [#{ncat}]")
+            d3panels.displayError("cichart: high.length [#{high.length}] != mean.length [#{ncat}]")
 
         xticks = (+i+1 for i of mean)
         xcatlabels = xcatlabels ? xticks
         if xcatlabels.length != mean.length
-            d3panels.displayError("xcatlabels.length [#{xcatlabels.length}] != mean.length [#{ncat}]")
+            d3panels.displayError("cichart: xcatlabels.length [#{xcatlabels.length}] != mean.length [#{ncat}]")
 
         # x- and y-axis limits + category locations
         ylim = ylim ? d3panels.pad_ylim(d3.extent(low.concat(high)))

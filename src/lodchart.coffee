@@ -28,13 +28,13 @@ d3panels.lodchart = (chartOpts) ->
 
         # check lengths
         if(data.pos.length != data.chr.length)
-            d3panels.displayError("data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("lodchart: data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")
         if(data.lod.length != data.chr.length)
-            d3panels.displayError("data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("lodchart: data.lod.length (#{data.lod.length}) != data.chr.length (#{data.chr.length})")
         unless data.marker? # if data.marker not included, create it with a bunch of blanks
             data.marker = ['' for i of data.chr]
         if(data.marker.length != data.chr.length)
-            d3panels.displayError("data.marker.length (#{data.marker.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("lodchart: data.marker.length (#{data.marker.length}) != data.chr.length (#{data.chr.length})")
 
         # create chrname, chrstart, chrend if missing
         data = d3panels.add_chrname_start_end(data)

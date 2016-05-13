@@ -722,19 +722,19 @@ d3panels.lod2dheatmap = function(chartOpts) {
     var cellg, chr, i, indexWithinChr, j, k, l, len, len1, len2, m, myframe, n_pos, posByChr, ref12, ref13, ref14, x, xmid_scaled, y, ymid_scaled, zmax, zmin;
     n_pos = data.chr.length;
     if (data.pos.length !== n_pos) {
-      d3panels.displayError("data.pos.length (" + data.pos.length + ") != data.chr.length (" + n_pos + ")");
+      d3panels.displayError("lod2dheatmap: data.pos.length (" + data.pos.length + ") != data.chr.length (" + n_pos + ")");
     }
     if (data.lod.length !== n_pos) {
-      d3panels.displayError("data.lod.length (" + data.lod.length + ") != data.chr.length (" + n_pos + ")");
+      d3panels.displayError("lod2dheatmap: data.lod.length (" + data.lod.length + ") != data.chr.length (" + n_pos + ")");
     }
     for (i in data.lod) {
       if (data.lod[i].length !== n_pos) {
-        d3panels.displayError("data.lod[" + i + "].length (" + data.lod[i].length + ") != data.chr.length (" + n_pos + ")");
+        d3panels.displayError("lod2dheatmap: data.lod[" + i + "].length (" + data.lod[i].length + ") != data.chr.length (" + n_pos + ")");
       }
     }
     if (data.poslabel != null) {
       if (data.poslabel.length !== n_pos) {
-        d3panels.displayError("data.poslabel.length (" + data.poslabel.length + ") != data.chr.length (" + n_pos + ")");
+        d3panels.displayError("lod2dheatmap: data.poslabel.length (" + data.poslabel.length + ") != data.chr.length (" + n_pos + ")");
       }
     } else {
       data.poslabel = (function() {
@@ -815,7 +815,7 @@ d3panels.lod2dheatmap = function(chartOpts) {
     zmax = d3panels.matrixMaxAbs(data.lod);
     zlim = zlim != null ? zlim : [-zmax, 0, zmax];
     if (zlim.length !== colors.length) {
-      d3panels.displayError("zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
+      d3panels.displayError("lod2dheatmap: zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
     }
     zscale = d3.scale.linear().domain(zlim).range(colors);
     zthresh = zthresh != null ? zthresh : zmin - 1;
@@ -1042,7 +1042,7 @@ d3panels.panelframe = function(chartOpts) {
     };
     xticks = xticks != null ? xticks : xscale.ticks(nxticks);
     if ((xticklab != null) && xticklab.length !== xticks.length) {
-      d3panels.displayError("xticklab.length (" + xticklab.length + ") != xticks.length (" + xticks.length + ")");
+      d3panels.displayError("panelframe: xticklab.length (" + xticklab.length + ") != xticks.length (" + xticks.length + ")");
     }
     if (!((xticklab != null) && xticklab.length === xticks.length)) {
       xticklab = (function() {
@@ -1063,7 +1063,7 @@ d3panels.panelframe = function(chartOpts) {
     }
     yticks = yticks != null ? yticks : yscale.ticks(nyticks);
     if ((yticklab != null) && yticklab.length !== yticks.length) {
-      d3panels.displayError("yticklab.length (" + yticklab.length + ") != yticks.length (" + yticks.length + ")");
+      d3panels.displayError("panelframe: yticklab.length (" + yticklab.length + ") != yticks.length (" + yticks.length + ")");
     }
     if (!((yticklab != null) && yticklab.length === yticks.length)) {
       yticklab = (function() {
@@ -1263,10 +1263,10 @@ d3panels.chrpanelframe = function(chartOpts) {
       })();
     }
     if (data.chr.length !== data.start.length) {
-      d3panels.displayError("data.start.length (" + data.start.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("chrpanelframe: data.start.length (" + data.start.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (data.chr.length !== data.end.length) {
-      d3panels.displayError("data.end.length (" + data.end.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("chrpanelframe: data.end.length (" + data.end.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (horizontal) {
       xscale = d3panels.calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end);
@@ -1338,7 +1338,7 @@ d3panels.chrpanelframe = function(chartOpts) {
     }).attr("y", ylabpos_y).attr("x", ylabpos_x).attr("transform", rotate_ylab ? "rotate(270," + ylabpos_x + "," + ylabpos_y + ")" : "");
     yticks = yticks != null ? yticks : yscale.ticks(nyticks);
     if ((yticklab != null) && yticklab.length !== yticks.length) {
-      displayError("yticklab.length (" + yticklab.length + ") != yticks.length (" + yticks.length + ")");
+      displayError("chrpanelframe: yticklab.length (" + yticklab.length + ") != yticks.length (" + yticks.length + ")");
     }
     if (!((yticklab != null) && yticklab.length === yticks.length)) {
       yticklab = (function() {
@@ -1530,10 +1530,10 @@ d3panels.chr2dpanelframe = function(chartOpts) {
       })();
     }
     if (data.chr.length !== data.start.length) {
-      d3panels.displayError("data.start.length (" + data.start.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("chr2dpanelframe: data.start.length (" + data.start.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (data.chr.length !== data.end.length) {
-      d3panels.displayError("data.end.length (" + data.end.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("chr2dpanelframe: data.end.length (" + data.end.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     xscale = d3panels.calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end);
     yscale = d3panels.calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end, !oneAtTop);
@@ -1697,10 +1697,10 @@ d3panels.cichart = function(chartOpts) {
     high = data.high;
     ncat = mean.length;
     if (ncat !== low.length) {
-      d3panels.displayError("low.length [" + low.length + "] != mean.length [" + ncat + "]");
+      d3panels.displayError("cichart: low.length [" + low.length + "] != mean.length [" + ncat + "]");
     }
     if (ncat !== high.length) {
-      d3panels.displayError("high.length [" + high.length + "] != mean.length [" + ncat + "]");
+      d3panels.displayError("cichart: high.length [" + high.length + "] != mean.length [" + ncat + "]");
     }
     xticks = (function() {
       var results;
@@ -1712,7 +1712,7 @@ d3panels.cichart = function(chartOpts) {
     })();
     xcatlabels = xcatlabels != null ? xcatlabels : xticks;
     if (xcatlabels.length !== mean.length) {
-      d3panels.displayError("xcatlabels.length [" + xcatlabels.length + "] != mean.length [" + ncat + "]");
+      d3panels.displayError("cichart: xcatlabels.length [" + xcatlabels.length + "] != mean.length [" + ncat + "]");
     }
     ylim = ylim != null ? ylim : d3panels.pad_ylim(d3.extent(low.concat(high)));
     xlim = [0.5, mean.length + 0.5];
@@ -1887,7 +1887,7 @@ d3panels.crosstab = function(chartOpts) {
     var borders, cell, cellHeight, cellWidth, cells, collab, denom, i, j, k, l, m, n, ncol, nrow, o, plot_height, plot_width, rect, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, results, results1, rowlab, tab, titles, values, xscale, xv, yscale, yv;
     n = data.x.length;
     if (data.y.length !== n) {
-      d3panels.displayError("data.x.length [" + data.x.length + "] != data.y.length [" + data.y.length + "]");
+      d3panels.displayError("crosstab: data.x.length [" + data.x.length + "] != data.y.length [" + data.y.length + "]");
     }
     data.xcat = (ref10 = data != null ? data.xcat : void 0) != null ? ref10 : (function() {
       var k, len, ref11, results;
@@ -1911,11 +1911,11 @@ d3panels.crosstab = function(chartOpts) {
     })();
     ncol = data.xcat.length;
     if (d3.max(data.x) > ncol || d3.min(data.x) <= 0) {
-      d3panels.displayError("data.x should be in range 1-" + ncol + " [was " + (d3.min(data.x)) + " - " + (d3.max(data.x)) + "]");
+      d3panels.displayError("crosstab: data.x should be in range 1-" + ncol + " [was " + (d3.min(data.x)) + " - " + (d3.max(data.x)) + "]");
     }
     nrow = data.ycat.length;
     if (d3.max(data.y) > nrow || d3.min(data.y) <= 0) {
-      d3panels.displayError("data.y should be in range 1-" + nrow + " [was " + (d3.min(data.y)) + " - " + (d3.max(data.y)) + "]");
+      d3panels.displayError("crosstab: data.y should be in range 1-" + nrow + " [was " + (d3.min(data.y)) + " - " + (d3.max(data.y)) + "]");
     }
     data.x = (function() {
       var k, len, ref12, results;
@@ -2115,7 +2115,7 @@ d3panels.curvechart = function(chartOpts) {
       }
     }
     if (x.length !== n_ind) {
-      d3panels.displayError("data.x.length (" + x.length + ") != data.y.length (" + n_ind + ")");
+      d3panels.displayError("curvechart: data.x.length (" + x.length + ") != data.y.length (" + n_ind + ")");
     }
     indID = (ref8 = data != null ? data.indID : void 0) != null ? ref8 : (function() {
       results = [];
@@ -2123,7 +2123,7 @@ d3panels.curvechart = function(chartOpts) {
       return results;
     }).apply(this);
     if (indID.length !== n_ind) {
-      d3panels.displayError("data.indID.length (" + indID.length + ") != data.y.length (" + n_ind + ")");
+      d3panels.displayError("curvechart: data.indID.length (" + indID.length + ") != data.y.length (" + n_ind + ")");
     }
     group = (ref9 = data != null ? data.group : void 0) != null ? ref9 : (function() {
       var results1;
@@ -2152,16 +2152,15 @@ d3panels.curvechart = function(chartOpts) {
       }
       return results1;
     })()) > 0) {
-      d3panels.displayError("group values out of range");
-      console.log("groups:");
-      console.log(g);
+      d3panels.displayError("curvechart: group values out of range");
+      console.log("distinct groups: " + (d3panels.unique(group)));
     }
     if (group.length !== n_ind) {
-      d3panels.displayError("data.group.length (" + group.length + ") != data.y.length (" + n_ind + ")");
+      d3panels.displayError("curvechart: data.group.length (" + group.length + ") != data.y.length (" + n_ind + ")");
     }
     for (i in y) {
       if (x[i].length !== y[i].length) {
-        d3panels.displayError("length(x) (" + x[i].length + ") != length(y) (" + y[i].length + ") for individual " + indID[i] + " (index " + (i + 1) + ")");
+        d3panels.displayError("curvechart: length(x) (" + x[i].length + ") != length(y) (" + y[i].length + ") for individual " + indID[i] + " (index " + (i + 1) + ")");
       }
     }
     strokecolor = strokecolor != null ? strokecolor : d3panels.selectGroupColors(ngroup, "pastel");
@@ -2270,15 +2269,15 @@ d3panels.dotchart = function(chartOpts) {
       return results;
     }).apply(this);
     if (x.length !== y.length) {
-      d3panels.displayError("length(x) [" + x.length + "] != length(y) [" + y.length + "]");
+      d3panels.displayError("dotchart: length(x) [" + x.length + "] != length(y) [" + y.length + "]");
     }
     if (indID.length !== x.length) {
-      d3panels.displayError("length(indID) [" + indID.length + "] != length(x) [" + x.length + "]");
+      d3panels.displayError("dotchart: length(indID) [" + indID.length + "] != length(x) [" + x.length + "]");
     }
     xcategories = xcategories != null ? xcategories : d3panels.unique(x);
     xcatlabels = xcatlabels != null ? xcatlabels : xcategories;
     if (xcatlabels.length !== xcategories.length) {
-      d3panels.displayError("xcatlabels.length [" + xcatlabels.length + "] != xcategories.length [" + xcategories.length + "]");
+      d3panels.displayError("dotchart: xcatlabels.length [" + xcatlabels.length + "] != xcategories.length [" + xcategories.length + "]");
     }
     if (d3panels.sumArray((function() {
       var l, len, results1;
@@ -2289,7 +2288,7 @@ d3panels.dotchart = function(chartOpts) {
       }
       return results1;
     })()) > 0) {
-      d3panels.displayError("Some x values not in xcategories");
+      d3panels.displayError("dotchart: Some x values not in xcategories");
       console.log("xcategories:");
       console.log(xcategories);
       console.log("x:");
@@ -2503,7 +2502,7 @@ d3panels.dotchart = function(chartOpts) {
       };
       force = d3.layout.force().gravity(0).charge(0).nodes(scaledPoints).on("tick", tick).start();
     } else if (jitter !== "none") {
-      d3panels.displayError('jitter should be "beeswarm", "random", or "none"');
+      d3panels.displayError('dotchart: jitter should be "beeswarm", "random", or "none"');
     }
     return myframe.box().moveToFront();
   };
@@ -2602,11 +2601,11 @@ d3panels.heatmap = function(chartOpts) {
     nx = data.x.length;
     ny = data.y.length;
     if (data.z.length !== nx) {
-      d3panels.displayError("data.x.length (" + nx + ") != data.z.length (" + data.z.length + ")");
+      d3panels.displayError("heatmap: data.x.length (" + nx + ") != data.z.length (" + data.z.length + ")");
     }
     for (i in data.z) {
       if (data.z[i].length !== ny) {
-        d3panels.displayError("data.y.length (" + ny + ") != data.z[" + i + "].length (" + data.z[i].length + ")");
+        d3panels.displayError("heatmap: data.y.length (" + ny + ") != data.z[" + i + "].length (" + data.z[i].length + ")");
       }
     }
     cells = [];
@@ -2629,7 +2628,7 @@ d3panels.heatmap = function(chartOpts) {
     zmax = d3panels.matrixMaxAbs(data.z);
     zlim = zlim != null ? zlim : [-zmax, 0, zmax];
     if (zlim.length !== colors.length) {
-      d3panels.displayError("zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
+      d3panels.displayError("heatmap: zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
     }
     zscale = d3.scale.linear().domain(zlim).range(colors);
     zthresh = zthresh != null ? zthresh : zmin - 1;
@@ -2791,10 +2790,10 @@ d3panels.lodchart = function(chartOpts) {
   chart = function(selection, data) {
     var add2chart, i, myframe, self_chart;
     if (data.pos.length !== data.chr.length) {
-      d3panels.displayError("data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("lodchart: data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (data.lod.length !== data.chr.length) {
-      d3panels.displayError("data.lod.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("lodchart: data.lod.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (data.marker == null) {
       data.marker = [
@@ -2809,7 +2808,7 @@ d3panels.lodchart = function(chartOpts) {
       ];
     }
     if (data.marker.length !== data.chr.length) {
-      d3panels.displayError("data.marker.length (" + data.marker.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("lodchart: data.marker.length (" + data.marker.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     data = d3panels.add_chrname_start_end(data);
     data = d3panels.reorgLodData(data);
@@ -2886,10 +2885,10 @@ d3panels.add_lodcurve = function(chartOpts) {
   chart = function(prevchart, data) {
     var bigpointsize, chr, curves, hiddenpoints, i, j, len, lodcurve, markerpoints, ref8, svg, xscale, yscale;
     if (data.pos.length !== data.chr.length) {
-      d3panels.displayError("data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("add_lodcurve: data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (data.lod.length !== data.chr.length) {
-      d3panels.displayError("data.lod.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("add_lodcurve: data.lod.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     if (data.marker == null) {
       data.marker = [
@@ -2904,7 +2903,7 @@ d3panels.add_lodcurve = function(chartOpts) {
       ];
     }
     if (data.marker.length !== data.chr.length) {
-      d3panels.displayError("data.marker.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
+      d3panels.displayError("add_lodcurve: data.marker.length (" + data.lod.length + ") != data.chr.length (" + data.chr.length + ")");
     }
     data = d3panels.add_chrname_start_end(data);
     if (!((data.posByChr != null) && (data.lodByChr != null) && (data.markerinfo != null))) {
@@ -3035,7 +3034,7 @@ d3panels.add_curves = function(chartOpts) {
       }
     }
     if (x.length !== n_ind) {
-      d3panels.displayError("data.x.length (" + x.length + ") != data.y.length (" + n_ind + ")");
+      d3panels.displayError("add_curves: data.x.length (" + x.length + ") != data.y.length (" + n_ind + ")");
     }
     indID = (ref6 = data != null ? data.indID : void 0) != null ? ref6 : (function() {
       results = [];
@@ -3043,7 +3042,7 @@ d3panels.add_curves = function(chartOpts) {
       return results;
     }).apply(this);
     if (indID.length !== n_ind) {
-      d3panels.displayError("data.indID.length (" + indID.length + ") != data.y.length (" + n_ind + ")");
+      d3panels.displayError("add_curves: data.indID.length (" + indID.length + ") != data.y.length (" + n_ind + ")");
     }
     group = (ref7 = data != null ? data.group : void 0) != null ? ref7 : (function() {
       var results1;
@@ -3072,16 +3071,15 @@ d3panels.add_curves = function(chartOpts) {
       }
       return results1;
     })()) > 0) {
-      d3panels.displayError("group values out of range");
-      console.log("groups:");
-      console.log(g);
+      d3panels.displayError("add_curves: group values out of range");
+      console.log("distinct groups: " + (d3panels.unique(group)));
     }
     if (group.length !== n_ind) {
-      d3panels.displayError("data.group.length (" + group.length + ") != data.y.length (" + n_ind + ")");
+      d3panels.displayError("add_curves: data.group.length (" + group.length + ") != data.y.length (" + n_ind + ")");
     }
     for (i in y) {
       if (x[i].length !== y[i].length) {
-        d3panels.displayError("length(x) (" + x[i].length + ") != length(y) (" + y[i].length + ") for individual " + indID[i] + " (index " + (i + 1) + ")");
+        d3panels.displayError("add_curves: length(x) (" + x[i].length + ") != length(y) (" + y[i].length + ") for individual " + indID[i] + " (index " + (i + 1) + ")");
       }
     }
     linecolor = linecolor != null ? linecolor : d3panels.selectGroupColors(ngroup, "pastel");
@@ -3497,19 +3495,19 @@ d3panels.lodheatmap = function(chartOpts) {
     n_pos = data.chr.length;
     n_lod = data.y.length;
     if (n_pos !== data.pos.length) {
-      d3panels.displayError("data.pos.length (" + data.pos.length + ") != data.chr.length (" + n_pos + ")");
+      d3panels.displayError("lodheatmap: data.pos.length (" + data.pos.length + ") != data.chr.length (" + n_pos + ")");
     }
     if (n_pos !== data.lod.length) {
-      d3panels.displayError("data.lod.length (" + data.lod.length + ") != data.chr.length (" + n_pos + ")");
+      d3panels.displayError("lodheatmap: data.lod.length (" + data.lod.length + ") != data.chr.length (" + n_pos + ")");
     }
     for (i in data.lod) {
       if (data.lod[i].length !== data.y.length) {
-        d3panels.displayError("data.lod[" + i + "].length (" + data.lod[i].length + ") != data.y.length (" + n_lod + ")");
+        d3panels.displayError("lodheatmap: data.lod[" + i + "].length (" + data.lod[i].length + ") != data.y.length (" + n_lod + ")");
       }
     }
     if (data.poslabel != null) {
       if (data.poslabel.length !== n_pos) {
-        d3panels.displayError("data.poslabel.length (" + data.poslabel.length + ") != data.chr.length (" + n_pos + ")");
+        d3panels.displayError("lodheatmap: data.poslabel.length (" + data.poslabel.length + ") != data.chr.length (" + n_pos + ")");
       }
     } else {
       data.poslabel = (function() {
@@ -3598,7 +3596,7 @@ d3panels.lodheatmap = function(chartOpts) {
     zmax = d3panels.matrixMaxAbs(data.lod);
     zlim = zlim != null ? zlim : [-zmax, 0, zmax];
     if (zlim.length !== colors.length) {
-      d3panels.displayError("zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
+      d3panels.displayError("lodheatmap: zlim.length (" + zlim.length + ") != colors.length (" + colors.length + ")");
     }
     zscale = d3.scale.linear().domain(zlim).range(colors);
     zthresh = zthresh != null ? zthresh : zmin - 1;
@@ -3750,10 +3748,10 @@ d3panels.mapchart = function(chartOpts) {
     var chr, chrscale, extentByChr, i, j, k, l, len, len1, markerpos, markers, minpos, myframe, n_chr, n_pos, pos, ref11, ref12, these_index, these_pos, x, xlim, xticklab, xticks, ylim;
     n_pos = data.pos.length;
     if (data.chr.length !== n_pos) {
-      d3panels.displayError("data.chr.length (" + data.chr.length + ") != data.pos.length (" + n_pos + ")");
+      d3panels.displayError("mapchart: data.chr.length (" + data.chr.length + ") != data.pos.length (" + n_pos + ")");
     }
     if (data.marker.length !== n_pos) {
-      d3panels.displayError("data.marker.length (" + data.marker.length + ") != data.pos.length (" + n_pos + ")");
+      d3panels.displayError("mapchart: data.marker.length (" + data.marker.length + ") != data.pos.length (" + n_pos + ")");
     }
     if (data.chrname == null) {
       data.chrname = d3panels.unique(data.chr);

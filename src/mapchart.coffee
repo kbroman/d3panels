@@ -30,9 +30,9 @@ d3panels.mapchart = (chartOpts) ->
 
         n_pos = data.pos.length
         if(data.chr.length != n_pos)
-            d3panels.displayError("data.chr.length (#{data.chr.length}) != data.pos.length (#{n_pos})")
+            d3panels.displayError("mapchart: data.chr.length (#{data.chr.length}) != data.pos.length (#{n_pos})")
         if(data.marker.length != n_pos)
-            d3panels.displayError("data.marker.length (#{data.marker.length}) != data.pos.length (#{n_pos})")
+            d3panels.displayError("mapchart: data.marker.length (#{data.marker.length}) != data.pos.length (#{n_pos})")
 
         unless data.chrname?
             data.chrname = d3panels.unique(data.chr)

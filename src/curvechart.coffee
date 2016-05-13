@@ -34,29 +34,28 @@ d3panels.curvechart = (chartOpts) ->
             for j in [2..n_ind]
                 x.push(x[0])
         if(x.length != n_ind)
-            d3panels.displayError("data.x.length (#{x.length}) != data.y.length (#{n_ind})")
+            d3panels.displayError("curvechart: data.x.length (#{x.length}) != data.y.length (#{n_ind})")
 
         # grab indID if it's there
         # if no indID, create a vector of them
         indID = data?.indID ? [1..n_ind]
         if(indID.length != n_ind)
-            d3panels.displayError("data.indID.length (#{indID.length}) != data.y.length (#{n_ind})")
+            d3panels.displayError("curvechart: data.indID.length (#{indID.length}) != data.y.length (#{n_ind})")
 
         # groups of colors
         group = data?.group ? (1 for i of y)
         ngroup = d3.max(group)
         group = ((if g? then g-1 else g) for g in group) # changed from (1,2,3,...) to (0,1,2,...)
         if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
-            d3panels.displayError("group values out of range")
-            console.log("groups:")
-            console.log(g)
+            d3panels.displayError("curvechart: group values out of range")
+            console.log("distinct groups: #{d3panels.unique(group)}")
         if(group.length != n_ind)
-            d3panels.displayError("data.group.length (#{group.length}) != data.y.length (#{n_ind})")
+            d3panels.displayError("curvechart: data.group.length (#{group.length}) != data.y.length (#{n_ind})")
 
         # check that x's and y's are all of the same length
         for i of y
             if(x[i].length != y[i].length)
-                d3panels.displayError("length(x) (#{x[i].length}) != length(y) (#{y[i].length}) for individual #{indID[i]} (index #{i+1})")
+                d3panels.displayError("curvechart: length(x) (#{x[i].length}) != length(y) (#{y[i].length}) for individual #{indID[i]} (index #{i+1})")
 
         # default light stroke colors
         strokecolor = strokecolor ? d3panels.selectGroupColors(ngroup, "pastel")

@@ -26,17 +26,17 @@ d3panels.crosstab = (chartOpts) ->
 
         n = data.x.length
         if data.y.length != n
-            d3panels.displayError("data.x.length [#{data.x.length}] != data.y.length [#{data.y.length}]")
+            d3panels.displayError("crosstab: data.x.length [#{data.x.length}] != data.y.length [#{data.y.length}]")
 
         data.xcat = data?.xcat ? (xv+1 for xv in d3.range(d3.max(data.x)))
         data.ycat = data?.ycat ? (yv+1 for yv in d3.range(d3.max(data.y)))
 
         ncol = data.xcat.length
         if d3.max(data.x) > ncol or d3.min(data.x) <= 0
-            d3panels.displayError("data.x should be in range 1-#{ncol} [was #{d3.min(data.x)} - #{d3.max(data.x)}]")
+            d3panels.displayError("crosstab: data.x should be in range 1-#{ncol} [was #{d3.min(data.x)} - #{d3.max(data.x)}]")
         nrow = data.ycat.length
         if d3.max(data.y) > nrow or d3.min(data.y) <= 0
-            d3panels.displayError("data.y should be in range 1-#{nrow} [was #{d3.min(data.y)} - #{d3.max(data.y)}]")
+            d3panels.displayError("crosstab: data.y should be in range 1-#{nrow} [was #{d3.min(data.y)} - #{d3.max(data.y)}]")
 
         # convert x and y to 0,1,2,...
         data.x = (xv-1 for xv in data.x)

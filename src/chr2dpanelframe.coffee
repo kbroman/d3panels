@@ -52,9 +52,9 @@ d3panels.chr2dpanelframe = (chartOpts) ->
         # if start missing, use 0
         data.start = (0 for c in data.chr) unless data?.start
         if(data.chr.length != data.start.length)
-            d3panels.displayError("data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("chr2dpanelframe: data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
         if(data.chr.length != data.end.length)
-            d3panels.displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("chr2dpanelframe: data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
 
         # scales
         xscale = d3panels.calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)

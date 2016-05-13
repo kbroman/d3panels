@@ -57,9 +57,9 @@ d3panels.chrpanelframe = (chartOpts) ->
         # if start missing, use 0
         data.start = (0 for c in data.chr) unless data?.start
         if(data.chr.length != data.start.length)
-            d3panels.displayError("data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("chrpanelframe: data.start.length (#{data.start.length}) != data.chr.length (#{data.chr.length})")
         if(data.chr.length != data.end.length)
-            d3panels.displayError("data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
+            d3panels.displayError("chrpanelframe: data.end.length (#{data.end.length}) != data.chr.length (#{data.chr.length})")
 
         # scales (x-axis scale has by chromosome ID)
         if horizontal # when horizontal, vertical is x-axis and horizontal is y-axis
@@ -142,7 +142,7 @@ d3panels.chrpanelframe = (chartOpts) ->
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = yticks ? yscale.ticks(nyticks)
         if yticklab? and yticklab.length != yticks.length
-            displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
+            displayError("chrpanelframe: yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
         unless yticklab? and yticklab.length == yticks.length
             yticklab = (d3panels.formatAxis(yticks)(d) for d in yticks)
 

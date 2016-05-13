@@ -136,7 +136,7 @@ d3panels.panelframe = (chartOpts) ->
         # if xticks not provided, use nxticks to choose pretty ones
         xticks = xticks ? xscale.ticks(nxticks)
         if xticklab? and xticklab.length != xticks.length
-            d3panels.displayError("xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
+            d3panels.displayError("panelframe: xticklab.length (#{xticklab.length}) != xticks.length (#{xticks.length})")
         unless xticklab? and xticklab.length == xticks.length
             xticklab = (d3panels.formatAxis(xticks)(d) for d in xticks)
         xticks = [null].concat(xticks) if xNA
@@ -146,7 +146,7 @@ d3panels.panelframe = (chartOpts) ->
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = yticks ? yscale.ticks(nyticks)
         if yticklab? and yticklab.length != yticks.length
-            d3panels.displayError("yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
+            d3panels.displayError("panelframe: yticklab.length (#{yticklab.length}) != yticks.length (#{yticks.length})")
         unless yticklab? and yticklab.length == yticks.length
             yticklab = (d3panels.formatAxis(yticks)(d) for d in yticks)
         yticks = [null].concat(yticks) if yNA
