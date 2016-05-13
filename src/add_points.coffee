@@ -48,8 +48,8 @@ d3panels.add_points = (chartOpts) ->
         # colors of the points in the different groups
         pointcolor = pointcolor ? d3panels.selectGroupColors(ngroup, "dark")
         pointcolor = d3panels.expand2vector(pointcolor, ngroup)
-        if pointcolor.length != ngroup
-            d3panels.displayError("add_points: pointcolor.length (#{pointcolor.length}) != ngroup (#{ngroup})")
+        if pointcolor.length < ngroup
+            d3panels.displayError("add_points: pointcolor.length (#{pointcolor.length}) < ngroup (#{ngroup})")
 
         svg = prevchart.svg()
 
