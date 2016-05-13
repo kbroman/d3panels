@@ -36,6 +36,10 @@ d3panels.lodheatmap = (chartOpts) ->
                                  # also, optionally poslabel (e.g. marker name)
                                  # also, optionally chrname, chrstart, chrend
 
+        d3panels.displayError("lodheatmap: data.chr is missing") unless data.chr?
+        d3panels.displayError("lodheatmap: data.pos is missing") unless data.pos?
+        d3panels.displayError("lodheatmap: data.lod is missing") unless data.lod?
+
         # for categorical scale
         if data.ycat? # if data.ycat provided (categorical labels), data.y ignored
             data.y = (i+1 for i of data.ycat)

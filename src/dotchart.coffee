@@ -35,6 +35,10 @@ d3panels.dotchart = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values
+
+        d3panels.displayError("dotchart: data.x is missing") unless data.x?
+        d3panels.displayError("dotchart: data.y is missing") unless data.y?
+
         x = d3panels.missing2null(data.x)
         y = d3panels.missing2null(data.y)
 

@@ -24,6 +24,9 @@ d3panels.crosstab = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # {x, y, xcat, ycat, xlabel, ylabel} (xcat, ycat, xlabel, ylabel are optional; x and y in {0,1,2,...})
 
+        d3panels.displayError("crosstab: data.x is missing") unless data.x?
+        d3panels.displayError("crosstab: data.y is missing") unless data.y?
+
         n = data.x.length
         if data.y.length != n
             d3panels.displayError("crosstab: data.x.length [#{data.x.length}] != data.y.length [#{data.y.length}]")

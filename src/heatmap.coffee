@@ -30,6 +30,10 @@ d3panels.heatmap = (chartOpts) ->
                                  #   optionally, include xcat and ycat in place of x and y
                                  #       then: categorial scales on x and y axis
 
+        d3panels.displayError("heatmap: data.x is missing") unless data.x?
+        d3panels.displayError("heatmap: data.y is missing") unless data.y?
+        d3panels.displayError("heatmap: data.z is missing") unless data.z?
+
         # xcat and ycat included?
         if data.xcat?
             data.x = (+i for i of data.xcat)

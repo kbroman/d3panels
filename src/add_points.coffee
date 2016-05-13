@@ -20,7 +20,7 @@ d3panels.add_points = (chartOpts) ->
                                  # data = {x, y, indID, group}
 
         d3panels.displayError("add_points: data.x is missing") unless data.x?
-        d3panels.displayError("add_points: data.y is missing") unless data.x?
+        d3panels.displayError("add_points: data.y is missing") unless data.y?
 
         x = d3panels.missing2null(data.x)
         y = d3panels.missing2null(data.y)

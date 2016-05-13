@@ -720,6 +720,15 @@ d3panels.lod2dheatmap = function(chartOpts) {
   cellSelect = null;
   chart = function(selection, data) {
     var cellg, chr, i, indexWithinChr, j, k, l, len, len1, len2, m, myframe, n_pos, posByChr, ref12, ref13, ref14, x, xmid_scaled, y, ymid_scaled, zmax, zmin;
+    if (data.chr == null) {
+      d3panels.displayError("lod2dheatmap: data.chr is missing");
+    }
+    if (data.pos == null) {
+      d3panels.displayError("lod2dheatmap: data.pos is missing");
+    }
+    if (data.lod == null) {
+      d3panels.displayError("lod2dheatmap: data.lod is missing");
+    }
     n_pos = data.chr.length;
     if (data.pos.length !== n_pos) {
       d3panels.displayError("lod2dheatmap: data.pos.length (" + data.pos.length + ") != data.chr.length (" + n_pos + ")");
@@ -1245,6 +1254,12 @@ d3panels.chrpanelframe = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var c, d, g, plot_height, plot_width, xaxis, yaxis, ylabpos_x, ylabpos_y, ylines;
+    if (data.chr == null) {
+      d3panels.displayError("chrpanelframe: data.chr is missing");
+    }
+    if (data.end == null) {
+      d3panels.displayError("chrpanelframe: data.end is missing");
+    }
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1512,6 +1527,12 @@ d3panels.chr2dpanelframe = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var c, chrRect, chrx, chry, g, j, k, len, len1, plot_height, plot_width, ref17, ref18, x, xaxis, y, yaxis, ylabpos_x, ylabpos_y;
+    if (data.chr == null) {
+      d3panels.displayError("chr2dpanelframe: data.chr is missing");
+    }
+    if (data.end == null) {
+      d3panels.displayError("chr2dpanelframe: data.end is missing");
+    }
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
     g = svg.append("g").attr("id", "frame");
@@ -1692,6 +1713,15 @@ d3panels.cichart = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var high, i, low, mean, myframe, ncat, segmentGroup, xlim, xticks, xval, yval;
+    if (data.mean == null) {
+      d3panels.displayError("cichart: data.mean is missing");
+    }
+    if (data.low == null) {
+      d3panels.displayError("cichart: data.low is missing");
+    }
+    if (data.high == null) {
+      d3panels.displayError("cichart: data.high is missing");
+    }
     mean = data.mean;
     low = data.low;
     high = data.high;
@@ -1885,6 +1915,12 @@ d3panels.crosstab = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var borders, cell, cellHeight, cellWidth, cells, collab, denom, i, j, k, l, m, n, ncol, nrow, o, plot_height, plot_width, rect, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, results, results1, rowlab, tab, titles, values, xscale, xv, yscale, yv;
+    if (data.x == null) {
+      d3panels.displayError("crosstab: data.x is missing");
+    }
+    if (data.y == null) {
+      d3panels.displayError("crosstab: data.y is missing");
+    }
     n = data.x.length;
     if (data.y.length !== n) {
       d3panels.displayError("crosstab: data.x.length [" + data.x.length + "] != data.y.length [" + data.y.length + "]");
@@ -2106,6 +2142,12 @@ d3panels.curvechart = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var add_curves, g, group, i, indID, j, k, l, myframe, n_ind, ngroup, ref7, ref8, ref9, results, strokecolor, strokecolorhilit, x, y;
+    if (data.x == null) {
+      d3panels.displayError("curvechart: data.x is missing");
+    }
+    if (data.y == null) {
+      d3panels.displayError("curvechart: data.y is missing");
+    }
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     n_ind = y.length;
@@ -2261,6 +2303,12 @@ d3panels.dotchart = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var collision, force, gravity, i, indID, j, jitter_width, k, l, len, myframe, nearbyPoints, p, pointGroup, q, ref17, ref18, ref19, results, scaledPoints, tick, u, x, xlim, xv, y;
+    if (data.x == null) {
+      d3panels.displayError("dotchart: data.x is missing");
+    }
+    if (data.y == null) {
+      d3panels.displayError("dotchart: data.y is missing");
+    }
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     indID = (ref17 = data != null ? data.indID : void 0) != null ? ref17 : (function() {
@@ -2564,6 +2612,15 @@ d3panels.heatmap = function(chartOpts) {
   cellSelect = null;
   chart = function(selection, data) {
     var cell, cellrect, i, j, myframe, nx, ny, ref10, ref9, xlabels, xmid, xmid_scaled, xv, ylabels, ymid, ymid_scaled, yv, zmax, zmin;
+    if (data.x == null) {
+      d3panels.displayError("heatmap: data.x is missing");
+    }
+    if (data.y == null) {
+      d3panels.displayError("heatmap: data.y is missing");
+    }
+    if (data.z == null) {
+      d3panels.displayError("heatmap: data.z is missing");
+    }
     if (data.xcat != null) {
       data.x = (function() {
         var results;
@@ -2789,6 +2846,18 @@ d3panels.lodchart = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var add2chart, i, myframe, self_chart;
+    if (data.chr == null) {
+      d3panels.displayError("lodchart: data.chr is missing");
+    }
+    if (data.pos == null) {
+      d3panels.displayError("lodchart: data.pos is missing");
+    }
+    if (data.lod == null) {
+      d3panels.displayError("lodchart: data.lod is missing");
+    }
+    if (data.marker == null) {
+      d3panels.displayError("lodchart: data.marker is missing");
+    }
     if (data.pos.length !== data.chr.length) {
       d3panels.displayError("lodchart: data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
     }
@@ -2884,6 +2953,18 @@ d3panels.add_lodcurve = function(chartOpts) {
   g = null;
   chart = function(prevchart, data) {
     var bigpointsize, chr, curves, hiddenpoints, i, j, len, lodcurve, markerpoints, ref8, svg, xscale, yscale;
+    if (data.chr == null) {
+      d3panels.displayError("add_lodcurve: data.chr is missing");
+    }
+    if (data.pos == null) {
+      d3panels.displayError("add_lodcurve: data.pos is missing");
+    }
+    if (data.lod == null) {
+      d3panels.displayError("add_lodcurve: data.lod is missing");
+    }
+    if (data.marker == null) {
+      d3panels.displayError("add_lodcurve: data.marker is missing");
+    }
     if (data.pos.length !== data.chr.length) {
       d3panels.displayError("add_lodcurve: data.pos.length (" + data.pos.length + ") != data.chr.length (" + data.chr.length + ")");
     }
@@ -3025,6 +3106,12 @@ d3panels.add_curves = function(chartOpts) {
   pointGroup = null;
   chart = function(prevchart, data) {
     var curvefunc, dataByPoint, g, group, i, indID, j, k, l, lastpoint, len, m, n_ind, ngroup, points, ref5, ref6, ref7, ref8, results, svg, v, x, xscale, y, yscale;
+    if (data.x == null) {
+      d3panels.displayError("add_curves: data.x is missing");
+    }
+    if (data.y == null) {
+      d3panels.displayError("add_curves: data.y is missing");
+    }
     x = d3panels.missing2null(data.x);
     y = d3panels.missing2null(data.y);
     n_ind = y.length;
@@ -3193,7 +3280,7 @@ d3panels.add_points = function(chartOpts) {
     if (data.x == null) {
       d3panels.displayError("add_points: data.x is missing");
     }
-    if (data.x == null) {
+    if (data.y == null) {
       d3panels.displayError("add_points: data.y is missing");
     }
     x = d3panels.missing2null(data.x);
@@ -3454,6 +3541,15 @@ d3panels.lodheatmap = function(chartOpts) {
   cellSelect = null;
   chart = function(selection, data) {
     var cellg, chr, i, j, k, l, len, len1, len2, len3, len4, lod, m, myframe, n, n_lod, n_pos, o, pos, ref15, ref16, ref17, ref18, ref19, x, xmid_scaled, y, ylabels, ymid, ymid_scaled, yv, zmax, zmin;
+    if (data.chr == null) {
+      d3panels.displayError("lodheatmap: data.chr is missing");
+    }
+    if (data.pos == null) {
+      d3panels.displayError("lodheatmap: data.pos is missing");
+    }
+    if (data.lod == null) {
+      d3panels.displayError("lodheatmap: data.lod is missing");
+    }
     if (data.ycat != null) {
       data.y = (function() {
         var results;
@@ -3746,6 +3842,15 @@ d3panels.mapchart = function(chartOpts) {
   svg = null;
   chart = function(selection, data) {
     var chr, chrscale, extentByChr, i, j, k, l, len, len1, markerpos, markers, minpos, myframe, n_chr, n_pos, pos, ref11, ref12, these_index, these_pos, x, xlim, xticklab, xticks, ylim;
+    if (data.chr == null) {
+      d3panels.displayError("mapchart: data.chr is missing");
+    }
+    if (data.pos == null) {
+      d3panels.displayError("mapchart: data.pos is missing");
+    }
+    if (data.marker == null) {
+      d3panels.displayError("mapchart: data.marker is missing");
+    }
     n_pos = data.pos.length;
     if (data.chr.length !== n_pos) {
       d3panels.displayError("mapchart: data.chr.length (" + data.chr.length + ") != data.pos.length (" + n_pos + ")");
@@ -3999,7 +4104,7 @@ d3panels.scatterplot = function(chartOpts) {
     if (data.x == null) {
       d3panels.displayError("scatterplot: data.x is missing");
     }
-    if (data.x == null) {
+    if (data.y == null) {
       d3panels.displayError("scatterplot: data.y is missing");
     }
     x = d3panels.missing2null(data.x);

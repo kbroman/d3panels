@@ -40,6 +40,10 @@ d3panels.chrpanelframe = (chartOpts) ->
 
     ## the main function
     chart = (selection, data) -> # data = chr, start, end  (vectors with chromosome IDs, start positions, and end positions)
+
+        d3panels.displayError("chrpanelframe: data.chr is missing") unless data.chr?
+        d3panels.displayError("chrpanelframe: data.end is missing") unless data.end?
+
         # Create SVG
         svg = selection.append("svg")
 

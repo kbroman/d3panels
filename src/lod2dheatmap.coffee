@@ -31,6 +31,10 @@ d3panels.lod2dheatmap = (chartOpts) ->
     ## the main function
     chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])  optionally poslabel (e.g., marker names)
 
+        d3panels.displayError("lod2dheatmap: data.chr is missing") unless data.chr?
+        d3panels.displayError("lod2dheatmap: data.pos is missing") unless data.pos?
+        d3panels.displayError("lod2dheatmap: data.lod is missing") unless data.lod?
+
         n_pos = data.chr.length
         if(data.pos.length != n_pos)
             d3panels.displayError("lod2dheatmap: data.pos.length (#{data.pos.length}) != data.chr.length (#{n_pos})")

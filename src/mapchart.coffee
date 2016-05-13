@@ -28,6 +28,10 @@ d3panels.mapchart = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # {chr, pos, marker, (optionally) chrname}
 
+        d3panels.displayError("mapchart: data.chr is missing") unless data.chr?
+        d3panels.displayError("mapchart: data.pos is missing") unless data.pos?
+        d3panels.displayError("mapchart: data.marker is missing") unless data.marker?
+
         n_pos = data.pos.length
         if(data.chr.length != n_pos)
             d3panels.displayError("mapchart: data.chr.length (#{data.chr.length}) != data.pos.length (#{n_pos})")

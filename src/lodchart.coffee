@@ -26,6 +26,11 @@ d3panels.lodchart = (chartOpts) ->
     chart = (selection, data) -> # data = {chr, pos, lod, marker} each an ordered vector
                                  #    optionally also chrname, chrstart, chrend with chr IDs, start and end positions
 
+        d3panels.displayError("lodchart: data.chr is missing") unless data.chr?
+        d3panels.displayError("lodchart: data.pos is missing") unless data.pos?
+        d3panels.displayError("lodchart: data.lod is missing") unless data.lod?
+        d3panels.displayError("lodchart: data.marker is missing") unless data.marker?
+
         # check lengths
         if(data.pos.length != data.chr.length)
             d3panels.displayError("lodchart: data.pos.length (#{data.pos.length}) != data.chr.length (#{data.chr.length})")

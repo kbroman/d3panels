@@ -29,6 +29,10 @@ d3panels.cichart = (chartOpts) ->
     ## the main function
     chart = (selection, data) ->  # {mean, low, high} each vectors
 
+        d3panels.displayError("cichart: data.mean is missing") unless data.mean?
+        d3panels.displayError("cichart: data.low is missing") unless data.low?
+        d3panels.displayError("cichart: data.high is missing") unless data.high?
+
         # input:
         mean = data.mean
         low = data.low

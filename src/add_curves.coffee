@@ -22,6 +22,9 @@ d3panels.add_curves = (chartOpts) ->
                                  #    x and y both ragged arrays indexed as y[subject][response_index]
                                  # if x has one subject, y's should all have same length, and x is then expanded to match
 
+        d3panels.displayError("add_curves: data.x is missing") unless data.x?
+        d3panels.displayError("add_curves: data.y is missing") unless data.y?
+
         x = d3panels.missing2null(data.x)
         y = d3panels.missing2null(data.y)
 
