@@ -21,9 +21,9 @@ mychart(d3.select('body'), data)
 ### Chart options (`chartOpts`)
 
 - `width` &mdash; overall width of chart in pixels \[default `600`\]
-- `height` &mdash; overall height of chart in pixels \[default `600`\]
-- `margin` &mdash; margins in pixels (left, top, right, bottom, inner) \[default `{left:60, top:40, right:40, bottom: 40, inner:3}`\]
-- `labelpos` &mdash; pixels between vertex and vertex label \[default `5`\]
+- `height` &mdash; overall height of chart in pixels \[default `520`\]
+- `margin` &mdash; margins in pixels (left, top, right, bottom) \[default `{left:60, top:40, right:60, bottom: 10}`\]
+- `labelpos` &mdash; pixels between vertex and vertex label (horizontally) \[default `10`\]
 - `titlepos` &mdash; position of chart title in pixels \[default `20`\]
 - `title` &mdash; chart title \[default `""`\]
 - `labels` &mdash; labels on the corners \[default `["(1,0,0)", "(0,1,0)", "(0,0,1)"]`\]

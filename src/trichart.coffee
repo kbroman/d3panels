@@ -10,9 +10,9 @@ d3panels.trichart = (chartOpts) ->
 
     # chartOpts start
     width = chartOpts?.width ? 600                      # overall width of chart in pixels
-    height = chartOpts?.height ? 600                    # overall height of chart in pixels
-    margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40, inner:3} # margins in pixels (left, top, right, bottom, inner)
-    labelpos = chartOpts?.labelpos ? 5                  # pixels between vertex and vertex label
+    height = chartOpts?.height ? 520                    # overall height of chart in pixels
+    margin = chartOpts?.margin ? {left:60, top:40, right:60, bottom: 10} # margins in pixels (left, top, right, bottom)
+    labelpos = chartOpts?.labelpos ? 10                 # pixels between vertex and vertex label (horizontally)
     titlepos = chartOpts?.titlepos ? 20                 # position of chart title in pixels
     title = chartOpts?.title ? ""                       # chart title
     labels = chartOpts?.labels ? ["(1,0,0)", "(0,1,0)", "(0,0,1)"] # labels on the corners
@@ -48,23 +48,35 @@ d3panels.trichart = (chartOpts) ->
         flag_sum_not_1 = false
         flag_out_of_range = false
         for v in p
-            console.log(v)
             flag_length_not_3 = true if v.length != 3
             sum = d3panels.sumArray(v)
             flag_sum_not_1 if d3panels.abs(sum - 1) > 1e-6
-            for val in v
-                flag_out_of_range = true if val < 0 or val > 1
+            flag_out_of_range = true if d3panels.sumArray(vv < 0 or vv > 1 for vv in v) > 0
         d3panels.displayError("trichart: points not all of length 3") if flag_length_not_3
         d3panels.displayError("trichart: points not all summing to 1") if flag_sum_not_1
         d3panels.displayError("trichart: points not all in [0,1]") if flag_out_of_range
 
         n = p.length
-        indID = data?.indID ? (i+1 for i of p)
-        group = data?.group ? (1 for i of p)
+        indID = data?.indID ? (+i + 1 for i of p)
         if(indID.length != n)
             d3panels.displayError("trichart: data.indID.length (#{indID.length}) != data.p.length (#{n})")
+
+        # groups of colors
+        group = data?.group ? (1 for i of p)
+        ngroup = d3.max(group)
+        group = ((if g? then g-1 else g) for g in group) # changed from (1,2,3,...) to (0,1,2,...)
+        if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
+            d3panels.displayError("add_points: group values out of range")
+            console.log("ngroup: #{ngroup}")
+            console.log("distinct groups: #{d3panels.unique(group)}")
         if(group.length != n)
             d3panels.displayError("trichart: data.group.length (#{group.length}) != data.p.length (#{n})")
+
+        # colors of the points in the different groups
+        pointcolor = pointcolor ? d3panels.selectGroupColors(ngroup, "dark")
+        pointcolor = d3panels.expand2vector(pointcolor, ngroup)
+        if pointcolor.length < ngroup
+            d3panels.displayError("add_points: pointcolor.length (#{pointcolor.length}) < ngroup (#{ngroup})")
 
         xlim = [0, 2/Math.sqrt(3)]
         ylim = [0, 1]
@@ -123,8 +135,31 @@ d3panels.trichart = (chartOpts) ->
              .attr("stroke-width", boxwidth)
 
         # add title
+        frame.append("g").attr("class", "title")
+             .append("text")
+             .text(title)
+             .attr("x", plot_width/2 + margin.left)
+             .attr("y", margin.top - titlepos)
 
         # add labels
+        frame.append("g").attr("id", "labels")
+             .selectAll("empty")
+             .data(vertices)
+             .enter()
+             .append("text")
+             .attr("x", (d,i) -> xscale(d.x) + [-1,+1,+1][i]*labelpos)
+             .attr("y", (d) -> yscale(d.y))
+             .style("dominant-baseline", "middle")
+             .style("text-anchor", (d,i) -> ["end", "start", "start"][i])
+             .text((d,i) -> labels[i])
+
+        # individual tooltips
+        indtip = d3.tip()
+                   .attr('class', "d3-tip #{tipclass}")
+                   .html((d,i) -> indID[i])
+                   .direction('e')
+                   .offset([0,10+pointsize])
+        svg.call(indtip)
 
         # add points
         pts = svg.append("g").attr("id", "points")
@@ -135,8 +170,11 @@ d3panels.trichart = (chartOpts) ->
                  .attr("r", pointsize)
                  .attr("cx", (d) -> pscale(d).x)
                  .attr("cy", (d) -> pscale(d).y)
-                 .attr("fill", pointcolor)
-                 .attr("stroke", pointsize)
+                 .attr("fill", (d,i) -> pointcolor[group[i]])
+                 .attr("stroke", pointstroke)
+                 .attr("stroke-width", 1)
+                 .on("mouseover.paneltip", indtip.show)
+                 .on("mouseout.paneltip", indtip.hide)
 
     # functions to grab stuff
     chart.xscale = () -> xscale

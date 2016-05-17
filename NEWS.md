@@ -1,5 +1,8 @@
 ## (devel)
 
+- Add function `trichart()` for plotting trinomial probabilities in an
+  equilateral triangle.
+
 - Handle missing values in `group` in `add_curves`, `add_points`, and
   `curvechart`.
 

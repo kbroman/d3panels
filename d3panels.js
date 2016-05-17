@@ -4150,15 +4150,14 @@ d3panels.trichart = function(chartOpts) {
     chartOpts = {};
   }
   width = (ref = chartOpts != null ? chartOpts.width : void 0) != null ? ref : 600;
-  height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 600;
+  height = (ref1 = chartOpts != null ? chartOpts.height : void 0) != null ? ref1 : 520;
   margin = (ref2 = chartOpts != null ? chartOpts.margin : void 0) != null ? ref2 : {
     left: 60,
     top: 40,
-    right: 40,
-    bottom: 40,
-    inner: 3
+    right: 60,
+    bottom: 10
   };
-  labelpos = (ref3 = chartOpts != null ? chartOpts.labelpos : void 0) != null ? ref3 : 5;
+  labelpos = (ref3 = chartOpts != null ? chartOpts.labelpos : void 0) != null ? ref3 : 10;
   titlepos = (ref4 = chartOpts != null ? chartOpts.titlepos : void 0) != null ? ref4 : 20;
   title = (ref5 = chartOpts != null ? chartOpts.title : void 0) != null ? ref5 : "";
   labels = (ref6 = chartOpts != null ? chartOpts.labels : void 0) != null ? ref6 : ["(1,0,0)", "(0,1,0)", "(0,0,1)"];
@@ -4176,7 +4175,7 @@ d3panels.trichart = function(chartOpts) {
   indtip = null;
   svg = null;
   chart = function(selection, data) {
-    var d, flag_length_not_3, flag_out_of_range, flag_sum_not_1, frame, framefunc, group, i, indID, indices, j, k, len, len1, n, p, plot_height, plot_width, pts, ref14, ref15, sum, v, val, vertices, xlim, xy, ylim;
+    var d, flag_length_not_3, flag_out_of_range, flag_sum_not_1, frame, framefunc, g, group, i, indID, indices, j, len, n, ngroup, p, plot_height, plot_width, pts, ref14, ref15, sum, v, vertices, vv, xlim, xy, ylim;
     if (data.p == null) {
       d3panels.displayError("trichart: data.p is missing");
     }
@@ -4195,7 +4194,6 @@ d3panels.trichart = function(chartOpts) {
     flag_out_of_range = false;
     for (j = 0, len = p.length; j < len; j++) {
       v = p[j];
-      console.log(v);
       if (v.length !== 3) {
         flag_length_not_3 = true;
       }
@@ -4203,11 +4201,16 @@ d3panels.trichart = function(chartOpts) {
       if (d3panels.abs(sum - 1) > 1e-6) {
         flag_sum_not_1;
       }
-      for (k = 0, len1 = v.length; k < len1; k++) {
-        val = v[k];
-        if (val < 0 || val > 1) {
-          flag_out_of_range = true;
+      if (d3panels.sumArray((function() {
+        var k, len1, results;
+        results = [];
+        for (k = 0, len1 = v.length; k < len1; k++) {
+          vv = v[k];
+          results.push(vv < 0 || vv > 1);
         }
+        return results;
+      })()) > 0) {
+        flag_out_of_range = true;
       }
     }
     if (flag_length_not_3) {
@@ -4224,10 +4227,13 @@ d3panels.trichart = function(chartOpts) {
       var results;
       results = [];
       for (i in p) {
-        results.push(i + 1);
+        results.push(+i + 1);
       }
       return results;
     })();
+    if (indID.length !== n) {
+      d3panels.displayError("trichart: data.indID.length (" + indID.length + ") != data.p.length (" + n + ")");
+    }
     group = (ref15 = data != null ? data.group : void 0) != null ? ref15 : (function() {
       var results;
       results = [];
@@ -4236,11 +4242,36 @@ d3panels.trichart = function(chartOpts) {
       }
       return results;
     })();
-    if (indID.length !== n) {
-      d3panels.displayError("trichart: data.indID.length (" + indID.length + ") != data.p.length (" + n + ")");
+    ngroup = d3.max(group);
+    group = (function() {
+      var k, len1, results;
+      results = [];
+      for (k = 0, len1 = group.length; k < len1; k++) {
+        g = group[k];
+        results.push(g != null ? g - 1 : g);
+      }
+      return results;
+    })();
+    if (d3panels.sumArray((function() {
+      var k, len1, results;
+      results = [];
+      for (k = 0, len1 = group.length; k < len1; k++) {
+        g = group[k];
+        results.push(g < 0 || g > ngroup - 1);
+      }
+      return results;
+    })()) > 0) {
+      d3panels.displayError("add_points: group values out of range");
+      console.log("ngroup: " + ngroup);
+      console.log("distinct groups: " + (d3panels.unique(group)));
     }
     if (group.length !== n) {
       d3panels.displayError("trichart: data.group.length (" + group.length + ") != data.p.length (" + n + ")");
+    }
+    pointcolor = pointcolor != null ? pointcolor : d3panels.selectGroupColors(ngroup, "dark");
+    pointcolor = d3panels.expand2vector(pointcolor, ngroup);
+    if (pointcolor.length < ngroup) {
+      d3panels.displayError("add_points: pointcolor.length (" + pointcolor.length + ") < ngroup (" + ngroup + ")");
     }
     xlim = [0, 2 / Math.sqrt(3)];
     ylim = [0, 1];
@@ -4267,10 +4298,10 @@ d3panels.trichart = function(chartOpts) {
       };
     };
     xy = (function() {
-      var l, len2, results;
+      var k, len1, results;
       results = [];
-      for (l = 0, len2 = p.length; l < len2; l++) {
-        v = p[l];
+      for (k = 0, len1 = p.length; k < len1; k++) {
+        v = p[k];
         results.push({
           x: (v[0] * 2.0 + v[1]) / Math.sqrt(3.0),
           y: v[1]
@@ -4307,11 +4338,27 @@ d3panels.trichart = function(chartOpts) {
       return results;
     })()).concat(0);
     frame.append("path").datum(indices).attr("d", framefunc).attr("fill", rectcolor).attr("stroke", boxcolor).attr("stroke-width", boxwidth);
+    frame.append("g").attr("class", "title").append("text").text(title).attr("x", plot_width / 2 + margin.left).attr("y", margin.top - titlepos);
+    frame.append("g").attr("id", "labels").selectAll("empty").data(vertices).enter().append("text").attr("x", function(d, i) {
+      return xscale(d.x) + [-1, +1, +1][i] * labelpos;
+    }).attr("y", function(d) {
+      return yscale(d.y);
+    }).style("dominant-baseline", "middle").style("text-anchor", function(d, i) {
+      return ["end", "start", "start"][i];
+    }).text(function(d, i) {
+      return labels[i];
+    });
+    indtip = d3.tip().attr('class', "d3-tip " + tipclass).html(function(d, i) {
+      return indID[i];
+    }).direction('e').offset([0, 10 + pointsize]);
+    svg.call(indtip);
     return pts = svg.append("g").attr("id", "points").selectAll("empty").data(p).enter().append("circle").attr("r", pointsize).attr("cx", function(d) {
       return pscale(d).x;
     }).attr("cy", function(d) {
       return pscale(d).y;
-    }).attr("fill", pointcolor).attr("stroke", pointsize);
+    }).attr("fill", function(d, i) {
+      return pointcolor[group[i]];
+    }).attr("stroke", pointstroke).attr("stroke-width", 1).on("mouseover.paneltip", indtip.show).on("mouseout.paneltip", indtip.hide);
   };
   chart.xscale = function() {
     return xscale;
