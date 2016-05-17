@@ -1,4 +1,4 @@
-## (devel)
+## d3panels 1.0.8 (2016-05-17)
 
 - Add function `trichart()` for plotting trinomial probabilities in an
   equilateral triangle.
