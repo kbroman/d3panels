@@ -381,6 +381,7 @@ d3panels.pad_ylim = (ylim, p=0.025) ->
     d = ylim[1] - ylim[0]
     [ylim[0] - d*p, ylim[1] + d*p]
 
+# add to data: unique chromosome names, chr starting values, chr end values
 d3panels.add_chrname_start_end = (data) ->
     data.chrname = d3panels.unique(data.chr) unless data.chrname?
     data.chrname = d3panels.forceAsArray(data.chrname)
@@ -398,3 +399,57 @@ d3panels.add_chrname_start_end = (data) ->
     data.end = d3panels.forceAsArray(data.end)
 
     data
+
+# calculate breakpoints in prepara
+d3panels.calc_breaks = (number, low, high) ->
+    if low >= high
+        d3panels.displayError("calc_breaks: should have low < high")
+        [low,high] = [high,low] if low > high
+        if low == high
+            low -= 0.5
+            high += 0.5
+
+    if number < 2
+        d3panels.displayError("calc_breaks: number should be >= 2")
+        number = 2
+
+    d = (high-low)/(number-1)
+    (low + d*i for i of d3.range(number))
+
+# calculate frequencies for histogram
+d3panels.calc_freq = (values, breaks, return_counts=false) ->
+
+    # clone and sort
+    v = values.slice(0)
+    v.sort()
+    br = breaks.slice(0)
+    br.sort()
+    br[0] -= 1e-6
+    br[br.length - 1] += 1e-6
+
+    result = (0 for i in d3.range(br.length - 1))
+    n = v.length
+    v = (z for z in v when z > br[0] and z < br[br.length - 1])
+    d3panels.displayError("calc_freq: values out of range of breaks") if v.length < n
+    n = v.length
+
+    for i in d3.range(br.length - 1)
+        result[i] = (z for z in v when z >= br[i] and z < br[i+1]).length
+
+        # convert to density?
+        result[i] /= n*(br[i+1]-br[i]) unless return_counts
+
+    result
+
+# calculate points on path to draw histogram
+d3panels.calc_hist_path = (freq, breaks) ->
+    if(freq.length != breaks.length - 1)
+        d3panels.displayError("freq.length (#{freq.length}) should be breaks.length - 1 (#{breaks.length-1})")
+
+    result = [{x:breaks[0], y:0}]
+    for i of freq
+        result.push({x:breaks[i], y:freq[i]})
+        result.push({x:breaks[+i+1], y:freq[i]})
+    result.push({x:breaks[breaks.length-1], y:0})
+
+    result
