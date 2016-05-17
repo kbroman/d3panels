@@ -74,13 +74,22 @@ Click on a panel for a corresponding interactive illustration.
 <tr>
   <td class="left">
     <a href="assets/test/lod2dheatmap">
-        <img src="assets/pics/lod2dheatmap.png" alt="chrheatmap example" title="chrheatmap example"/>
+        <img src="assets/pics/lod2dheatmap.png" alt="lod2dheatmap example" title="lod2dheatmap example"/>
     </a>
   </td>
   <td class="right">
     <a href="assets/test/crosstab">
         <img src="assets/pics/crosstab.png" alt="crosstab example" title="crosstab example"/>
     </a>
+  </td>
+</tr>
+<tr>
+  <td class="left">
+    <a href="assets/test/trichart">
+        <img src="assets/pics/trichart.png" alt="trichart example" title="trichart example"/>
+    </a>
+  </td>
+  <td class="right">
   </td>
 </tr>
 </table>
