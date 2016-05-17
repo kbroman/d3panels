@@ -107,4 +107,55 @@
     return mychart(d3.select("div#chart4"), data);
   });
 
+  d3.json("data.json", function(data) {
+    var i, mychart;
+    mychart = d3panels.lodchart({
+      height: 400,
+      width: 600,
+      margin: margin,
+      title: "Chromosome 4"
+    });
+    data.lod = (function() {
+      var results;
+      results = [];
+      for (i in data.chr) {
+        if (data.chr[i] === '4') {
+          results.push(data.lod_em[i]);
+        }
+      }
+      return results;
+    })();
+    data.pos = (function() {
+      var results;
+      results = [];
+      for (i in data.chr) {
+        if (data.chr[i] === '4') {
+          results.push(data.pos[i]);
+        }
+      }
+      return results;
+    })();
+    data.marker = (function() {
+      var results;
+      results = [];
+      for (i in data.chr) {
+        if (data.chr[i] === '4') {
+          results.push(data.marker[i]);
+        }
+      }
+      return results;
+    })();
+    data.chr = (function() {
+      var results;
+      results = [];
+      for (i in data.chr) {
+        if (data.chr[i] === '4') {
+          results.push(data.chr[i]);
+        }
+      }
+      return results;
+    })();
+    return mychart(d3.select("div#chart5"), data);
+  });
+
 }).call(this);

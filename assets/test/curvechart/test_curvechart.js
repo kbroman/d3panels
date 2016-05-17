@@ -34,7 +34,7 @@
     });
     mychart(d3.select("div#chart1"), data);
     textbox = mychart.svg().append("text").attr("class", "title").text("").attr("y", margin.top / 2).attr("x", margin.left).style("text-anchor", "start");
-    return mychart.curvesSelect().on("mouseover.text", function(d, i) {
+    return mychart.curves().on("mouseover.text", function(d, i) {
       return textbox.text("ind " + (i + 1));
     }).on("mouseout.text", function() {
       return textbox.text("");
