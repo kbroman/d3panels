@@ -9,8 +9,8 @@ d3panels.trichart = (chartOpts) ->
     chartOpts = {} unless chartOpts? # make sure it's defined
 
     # chartOpts start
-    width = chartOpts?.width ? 800                      # overall width of chart in pixels
-    height = chartOpts?.height ? 800                    # overall height of chart in pixels
+    width = chartOpts?.width ? 600                      # overall width of chart in pixels
+    height = chartOpts?.height ? 600                    # overall height of chart in pixels
     margin = chartOpts?.margin ? {left:60, top:40, right:40, bottom: 40, inner:3} # margins in pixels (left, top, right, bottom, inner)
     labelpos = chartOpts?.labelpos ? 5                  # pixels between vertex and vertex label
     titlepos = chartOpts?.titlepos ? 20                 # position of chart title in pixels
@@ -28,6 +28,7 @@ d3panels.trichart = (chartOpts) ->
     # accessors start
     xscale = null # x-axis scale
     yscale = null # y-axis scale
+    pscale = null # pt -> (x,y) in pixels
     points = null # points selection
     indtip = null # tooltip selection
     svg = null    # SVG selection
@@ -42,24 +43,20 @@ d3panels.trichart = (chartOpts) ->
         # missing values can be any of null, "NA", or ""; replacing with nulls
         p = (d3panels.missing2null(v) for v in data.p)
 
-        # convert points to (x,y)
+        # check points
         flag_length_not_3 = false
         flag_sum_not_1 = false
         flag_out_of_range = false
         for v in p
+            console.log(v)
             flag_length_not_3 = true if v.length != 3
             sum = d3panels.sumArray(v)
-            v /= sum
             flag_sum_not_1 if d3panels.abs(sum - 1) > 1e-6
             for val in v
-                val /= sum
                 flag_out_of_range = true if val < 0 or val > 1
-
         d3panels.displayError("trichart: points not all of length 3") if flag_length_not_3
         d3panels.displayError("trichart: points not all summing to 1") if flag_sum_not_1
         d3panels.displayError("trichart: points not all in [0,1]") if flag_out_of_range
-
-
 
         n = p.length
         indID = data?.indID ? (i+1 for i of p)
@@ -93,6 +90,9 @@ d3panels.trichart = (chartOpts) ->
         yscale = d3.scale.linear()
                          .domain(ylim)
                          .range([plot_height + margin.top, margin.top])
+        pscale = (p) ->
+            sum = d3panels.sumArray(p)
+            {x:xscale((p[0]*2.0 + p[1])/Math.sqrt(3.0)/sum), y:yscale(p[1]/sum)}
 
         # convert points to (x,y)
         xy = ({x:(v[0]*2.0 + v[1])/Math.sqrt(3.0), y:v[1]} for v in p)
@@ -106,23 +106,42 @@ d3panels.trichart = (chartOpts) ->
            .attr("class", "d3panels")
 
         # draw triangle
-        svg.append("g").attr("id", "frame")
+        frame = svg.append("g").attr("id", "frame")
         vertices = [{x:xlim[0],   y:ylim[0]},
                     {x:xlim[1]/2, y:ylim[1]},
                     {x:xlim[1],   y:ylim[0]}]
-        path = [0,1,2,0]
+        framefunc = d3.svg.line()
+                      .x((d) -> xscale(vertices[d].x))
+                      .y((d) -> yscale(vertices[d].y))
+
+        indices = (+i for i of vertices).concat(0)
+        frame.append("path")
+             .datum(indices)
+             .attr("d", framefunc)
+             .attr("fill", rectcolor)
+             .attr("stroke", boxcolor)
+             .attr("stroke-width", boxwidth)
 
         # add title
-
 
         # add labels
 
         # add points
-
+        pts = svg.append("g").attr("id", "points")
+                 .selectAll("empty")
+                 .data(p)
+                 .enter()
+                 .append("circle")
+                 .attr("r", pointsize)
+                 .attr("cx", (d) -> pscale(d).x)
+                 .attr("cy", (d) -> pscale(d).y)
+                 .attr("fill", pointcolor)
+                 .attr("stroke", pointsize)
 
     # functions to grab stuff
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
+    chart.pscale = () -> pscale
     chart.points = () -> points
     chart.indtip = () -> indtip
     chart.svg = () -> svg

@@ -20,8 +20,8 @@ mychart(d3.select('body'), data)
 
 ### Chart options (`chartOpts`)
 
-- `width` &mdash; overall width of chart in pixels \[default `800`\]
-- `height` &mdash; overall height of chart in pixels \[default `800`\]
+- `width` &mdash; overall width of chart in pixels \[default `600`\]
+- `height` &mdash; overall height of chart in pixels \[default `600`\]
 - `margin` &mdash; margins in pixels (left, top, right, bottom, inner) \[default `{left:60, top:40, right:40, bottom: 40, inner:3}`\]
 - `labelpos` &mdash; pixels between vertex and vertex label \[default `5`\]
 - `titlepos` &mdash; position of chart title in pixels \[default `20`\]
@@ -63,6 +63,7 @@ You can also use the chart options for [`panelframe`](panelframe.md):
 
 - `xscale()` &mdash; x-axis scale
 - `yscale()` &mdash; y-axis scale
+- `pscale()` &mdash; pt -> (x,y) in pixels
 - `points()` &mdash; points selection
 - `indtip()` &mdash; tooltip selection
 - `svg()` &mdash; SVG selection
