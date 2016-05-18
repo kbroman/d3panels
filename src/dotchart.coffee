@@ -14,7 +14,7 @@ d3panels.dotchart = (chartOpts) ->
     xlab = chartOpts?.xlab ? "Group"                    # x-axis title
     ylab = chartOpts?.ylab ? "Response"                 # y-axis title
     xlineOpts = chartOpts?.xlineOpts ? {color:"#cdcdcd", width:5} # color and width of vertical lines
-    pointcolor = chartOpts?.pointcolor ? "slateblue"    # fill color of points
+    pointcolor = chartOpts?.pointcolor ? null           # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black"      # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3                # color of points
     jitter = chartOpts?.jitter ? "beeswarm"             # method for jittering points (beeswarm|random|none)
@@ -34,7 +34,7 @@ d3panels.dotchart = (chartOpts) ->
     # accessors end
 
     ## the main function
-    chart = (selection, data) -> # data = {x, y, indID} # x should be a set of positive integers; xcategories has the possible values
+    chart = (selection, data) -> # data = {x, y, indID, group} # x should be a set of positive integers; xcategories has the possible values
 
         d3panels.displayError("dotchart: data.x is missing") unless data.x?
         d3panels.displayError("dotchart: data.y is missing") unless data.y?
@@ -51,6 +51,23 @@ d3panels.dotchart = (chartOpts) ->
             d3panels.displayError("dotchart: length(x) [#{x.length}] != length(y) [#{y.length}]")
         if indID.length != x.length
             d3panels.displayError("dotchart: length(indID) [#{indID.length}] != length(x) [#{x.length}]")
+
+        # groups of colors
+        group = data?.group ? (1 for i in x)
+        ngroup = d3.max(group)
+        group = ((if g? then g-1 else g) for g in group) # changed from (1,2,3,...) to (0,1,2,...)
+        if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0
+            d3panels.displayError("dotchart: group values out of range")
+            console.log("ngroup: #{ngroup}")
+            console.log("distinct groups: #{d3panels.unique(group)}")
+        if group.length != x.length
+            d3panels.displayError("dotchart: group.length (#{group.length}) != x.length (#{x.length})")
+
+        # colors of the points in the different groups
+        pointcolor = pointcolor ? d3panels.selectGroupColors(ngroup, "dark")
+        pointcolor = d3panels.expand2vector(pointcolor, ngroup)
+        if pointcolor.length < ngroup
+            d3panels.displayError("add_points: pointcolor.length (#{pointcolor.length}) < ngroup (#{ngroup})")
 
         xcategories = xcategories ? d3panels.unique(x)
         xcatlabels = xcatlabels ? xcategories
@@ -140,7 +157,7 @@ d3panels.dotchart = (chartOpts) ->
                   .append("circle")
                   .attr("class", (d,i) -> "pt#{i}")
                   .attr("r", pointsize)
-                  .attr("fill", pointcolor)
+                  .attr("fill", (d,i) -> pointcolor[group[i]])
                   .attr("stroke", pointstroke)
                   .attr("stroke-width", "1")
                   .attr("cx", (d) -> d.x)

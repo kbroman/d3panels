@@ -9,6 +9,7 @@ The data is an associative array with a set of vectors, all of the same length:
 - `x` &mdash; categories (as values 1, 2, 3, ...)
 - `y` &mdash; responses
 - `indID` &mdash; individual IDs (optional)
+- `group` &mdash; category in 1,2,3,... (for determining point color, optional)
 
 ### Example
 
@@ -31,7 +32,7 @@ mychart(d3.select('body'), data)
 - `xlab` &mdash; x-axis title \[default `"Group"`\]
 - `ylab` &mdash; y-axis title \[default `"Response"`\]
 - `xlineOpts` &mdash; color and width of vertical lines \[default `{color:"#cdcdcd", width:5}`\]
-- `pointcolor` &mdash; fill color of points \[default `"slateblue"`\]
+- `pointcolor` &mdash; fill color of points \[default `null`\]
 - `pointstroke` &mdash; color of points' outer circle \[default `"black"`\]
 - `pointsize` &mdash; color of points \[default `3`\]
 - `jitter` &mdash; method for jittering points (beeswarm|random|none) \[default `"beeswarm"`\]

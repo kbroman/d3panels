@@ -1,8 +1,10 @@
-## d3panels 1.1.3 (2016-05-18)
+## d3panels 1.1.4 (2016-05-18)
 
 - Add functions `trichart()`, for plotting trinomial probabilities in an
   equilateral triangle, and `histchart()`, for plotting histograms (as
   curves).
+
+- `dotchart` can take `group` vector in data, to color points by category.
 
 - Handle missing values in `group` in `add_curves`, `add_points`, and
   `curvechart`.

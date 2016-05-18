@@ -256,3 +256,18 @@ d3.json "data.json", (data) ->
     these_data.x[0] = null
     these_data.y[0] = null
     mychart(d3.select("div#chart14"), these_data)
+
+# Example 15: More data
+mychart15 = d3panels.dotchart({
+    title:"Color by group"
+    height:h
+    width:w
+    margin:margin})
+
+ng = 4
+n = 75*ng
+x = (Math.ceil(Math.random()*ng) for i in [1..n])
+y = (Math.random()*4+20+xv for xv in x)
+group = ((if Math.random() < 0.5 then 1 else 2) for xv in x)
+these_data = {x:x, y:y, group:group}
+mychart15(d3.select("div#chart15"), these_data)
