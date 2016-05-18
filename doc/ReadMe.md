@@ -51,7 +51,7 @@ addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]
 - [`cichart`](cichart.md)
 - [`heatmap`](heatmap.md)
 - [`curvechart`](curvechart.md)
-- [`histchart](histchart.md)
+- [`histchart`](histchart.md)
 - [`trichart`](trichart.md)
 - [`add_curves`](add_curves.md)
 - [`add_points`](add_points.md)
