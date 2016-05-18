@@ -73,7 +73,8 @@ TESTJS = assets/test/chr2dpanelframe/test_chr2dpanelframe.js \
 		 assets/test/mapchart/test_mapchart.js \
 		 assets/test/panelframe/test_panelframe.js \
 		 assets/test/scatterplot/test_scatterplot.js \
-		 assets/test/trichart/test_trichart.js
+		 assets/test/trichart/test_trichart.js \
+		 assets/test/histchart/test_histchart.js
 testjs: $(TESTJS)
 
 assets/test/%/%.js: ../test/%/%.js
@@ -93,7 +94,8 @@ TESTINDEX = assets/test/chr2dpanelframe/index.html \
 			assets/test/mapchart/index.html \
 			assets/test/panelframe/index.html \
 			assets/test/scatterplot/index.html \
-			assets/test/trichart/index.html
+			assets/test/trichart/index.html \
+			assets/test/histchart/index.html
 testindex: $(TESTINDEX)
 
 assets/test/%/index.html: ../test/%/index.html

@@ -90,6 +90,9 @@ Click on a panel for a corresponding interactive illustration.
     </a>
   </td>
   <td class="right">
+    <a href="assets/test/histchart">
+        <img src="assets/pics/histchart.png" alt="histchart example" title="histchart example"/>
+    </a>
   </td>
 </tr>
 </table>
