@@ -1,4 +1,4 @@
-## d3panels 1.1.0 (2016-05-17)
+## d3panels 1.1.1 (2016-05-17)
 
 - Add functions `trichart()`, for plotting trinomial probabilities in an
   equilateral triangle, and `histchart()`, for plotting histograms (as

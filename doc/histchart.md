@@ -29,6 +29,7 @@ mychart(d3.select('body'), data)
 - `linecolorhilit` &mdash; color of highlighted curve (if null, use dark colors by group) \[default `null`\]
 - `linewidth` &mdash; width of curve \[default `2`\]
 - `linewidthhilit` &mdash; width of highlighted curve \[default `2`\]
+- `density` &mdash; density scale (vs counts) \[default `true`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):

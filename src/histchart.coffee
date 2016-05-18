@@ -13,6 +13,7 @@ d3panels.histchart = (chartOpts) ->
     linecolorhilit = chartOpts?.linecolorhilit ? null # color of highlighted curve (if null, use dark colors by group)
     linewidth = chartOpts?.linewidth ? 2              # width of curve
     linewidthhilit = chartOpts?.linewidthhilit ? 2    # width of highlighted curve
+    density = chartOpts?.density ? true               # density scale (vs counts)
     tipclass = chartOpts?.tipclass ? "tooltip"        # class name for tool tips
     # chartOpts end
     # further chartOpts: panelframe
@@ -52,7 +53,7 @@ d3panels.histchart = (chartOpts) ->
         x = ((xv for xv in xx when xv >= brlim[0] & xv <= brlim[1]) for xx in x)
 
         # calculate frequencies
-        freq = (d3panels.calc_freq(xv, breaks) for xv in x)
+        freq = (d3panels.calc_freq(xv, breaks, !density) for xv in x)
 
         # find maximum location for each curve (to use for tool tips)
         maxpos = []
