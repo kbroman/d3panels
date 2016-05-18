@@ -161,19 +161,19 @@ d3panels.trichart = (chartOpts) ->
         svg.call(indtip)
 
         # add points
-        pts = svg.append("g").attr("id", "points")
-                 .selectAll("empty")
-                 .data(p)
-                 .enter()
-                 .append("circle")
-                 .attr("r", pointsize)
-                 .attr("cx", (d) -> pscale(d).x)
-                 .attr("cy", (d) -> pscale(d).y)
-                 .attr("fill", (d,i) -> pointcolor[group[i]])
-                 .attr("stroke", pointstroke)
-                 .attr("stroke-width", 1)
-                 .on("mouseover.paneltip", indtip.show)
-                 .on("mouseout.paneltip", indtip.hide)
+        points = svg.append("g").attr("id", "points")
+                    .selectAll("empty")
+                    .data(p)
+                    .enter()
+                    .append("circle")
+                    .attr("r", pointsize)
+                    .attr("cx", (d) -> pscale(d).x)
+                    .attr("cy", (d) -> pscale(d).y)
+                    .attr("fill", (d,i) -> pointcolor[group[i]])
+                    .attr("stroke", pointstroke)
+                    .attr("stroke-width", 1)
+                    .on("mouseover.paneltip", indtip.show)
+                    .on("mouseout.paneltip", indtip.hide)
 
     # functions to grab stuff
     chart.xscale = () -> xscale
