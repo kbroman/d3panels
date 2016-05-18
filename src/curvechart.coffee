@@ -17,6 +17,7 @@ d3panels.curvechart = (chartOpts) ->
     xscale = null        # x-axis scale
     yscale = null        # y-axis scale
     curves = null        # curves selection
+    points = null        # hidden points where the tool tips attach
     indtip = null        # tooltip selection
     svg = null           # SVG selection
     # accessors end
@@ -68,6 +69,7 @@ d3panels.curvechart = (chartOpts) ->
             tipclass:tipclass})
         add_curves(myframe, data)
         curves = add_curves.curves()
+        points = add_curves.points()
         indtip = add_curves.indtip()
 
         # move box to front
@@ -77,6 +79,7 @@ d3panels.curvechart = (chartOpts) ->
     chart.xscale = () -> xscale
     chart.yscale = () -> yscale
     chart.curves = () -> curves
+    chart.points = () -> points
     chart.indtip = () -> indtip
     chart.svg = () -> svg
 

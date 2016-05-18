@@ -15,6 +15,8 @@
 
 - Remove a big chunk of extraneous code from `curvechart`.
 
+- Add points() accessor to `add_curves` and `curvechart`.
+
 
 ## d3panels 1.0.7 (2016-05-12)
 

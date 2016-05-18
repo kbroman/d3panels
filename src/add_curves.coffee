@@ -12,6 +12,7 @@ d3panels.add_curves = (chartOpts) ->
     # chartOpts end
     # accessors start
     curves = null   # select the curve
+    points = null   # hidden points where the tool tips attach
     indtip = null   # tool tip selection
     # accessors end
     curveGroup = null    # group containing the curves
@@ -107,7 +108,7 @@ d3panels.add_curves = (chartOpts) ->
                                            indtip.hide()
 
         # grab the last non-null point from each curve
-        lastpoint = ({x:null, y:null} for i of data)
+        lastpoint = ({x:null, y:null} for i of data.x)
         for i of dataByPoint
             for v in dataByPoint[i]
                 lastpoint[i] = v if v.x? and v.y?
@@ -129,6 +130,7 @@ d3panels.add_curves = (chartOpts) ->
     # functions to grab stuff
     chart.curves = () -> curves
     chart.indtip = () -> indtip
+    chart.points = () -> points
 
     # function to remove chart
     chart.remove = () ->
