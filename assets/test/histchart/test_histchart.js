@@ -24,7 +24,10 @@
     })()
   ];
 
-  mychart1 = d3panels.histchart();
+  mychart1 = d3panels.histchart({
+    xlab: "Measurements",
+    ylab: "Density"
+  });
 
   mychart1(d3.select("div#chart1"), {
     x: x,
@@ -58,7 +61,11 @@
     })()
   ];
 
-  mychart2 = d3panels.histchart();
+  mychart2 = d3panels.histchart({
+    density: false,
+    xlab: "Measurements",
+    ylab: "Count"
+  });
 
   mychart2(d3.select("div#chart2"), {
     x: y,
