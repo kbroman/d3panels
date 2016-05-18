@@ -24,7 +24,6 @@ d3panels.trichart = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 3                # color of points
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
     # chartOpts end
-    # further chartOpts: panelframe
     # accessors start
     xscale = null # x-axis scale
     yscale = null # y-axis scale
