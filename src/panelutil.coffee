@@ -421,9 +421,9 @@ d3panels.calc_freq = (values, breaks, return_counts=false) ->
 
     # clone and sort
     v = values.slice(0)
-    v.sort()
+    v.sort((a,b) -> +a-b)
     br = breaks.slice(0)
-    br.sort()
+    br.sort((a,b) -> +a-b)
     br[0] -= 1e-6
     br[br.length - 1] += 1e-6
 
@@ -434,7 +434,7 @@ d3panels.calc_freq = (values, breaks, return_counts=false) ->
     n = v.length
 
     for i in d3.range(br.length - 1)
-        result[i] = (z for z in v when z >= br[i] and z < br[i+1]).length
+        result[i] = (z for z in v when (z >= br[i] and z < br[i+1])).length
 
         # convert to density?
         result[i] /= n*(br[i+1]-br[i]) unless return_counts

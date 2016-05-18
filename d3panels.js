@@ -719,9 +719,13 @@ d3panels.calc_freq = function(values, breaks, return_counts) {
     return_counts = false;
   }
   v = values.slice(0);
-  v.sort();
+  v.sort(function(a, b) {
+    return +a - b;
+  });
   br = breaks.slice(0);
-  br.sort();
+  br.sort(function(a, b) {
+    return +a - b;
+  });
   br[0] -= 1e-6;
   br[br.length - 1] += 1e-6;
   result = (function() {

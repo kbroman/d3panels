@@ -33,7 +33,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/test-sumArray.js test/test-pad_vector.js \
 		test/test-missing2null.js test/test-calc_midpoints.js \
 		test/test-mathfunc.js test/test-reorgByChr.js \
-		test/test-reorgLodData.js \
+		test/test-reorgLodData.js test/test-calc_freq.js \
 		test/lod2dheatmap/test_lod2dheatmap.js \
 		test/add_curves/test_add_curves.js \
 		test/add_points/test_add_points.js \
