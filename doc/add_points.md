@@ -12,7 +12,7 @@ The data is an associative array with a set of vectors, all of the same length:
 - `x` &mdash; x variable
 - `y` &mdash; y variable
 - `indID` &mdash; individual IDs (optional)
-- `group` &mdash; category in 1,2,3,... (for determining point color)
+- `group` &mdash; category in 1,2,3,... (for determining point color, optional)
 
 ### Example
 

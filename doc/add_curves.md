@@ -14,7 +14,7 @@ The data is an associative array with a set of vectors, all of the same length:
 - `y` &mdash; y variable as a two-dimensional array (potentially
   ragged), indexed like `y[ind][obs]`
 - `indID` &mdash; individual IDs (optional)
-- `group` &mdash; category in 1,2,3,... (for determining point color)
+- `group` &mdash; category in 1,2,3,... (for determining point color, optional)
 
 If `data.x` has length 1, it is then expanded to have the same length
 as `data.y`, in which case each row of `data.y` needs to have the same
