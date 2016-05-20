@@ -21,7 +21,14 @@ def read_source(filename)
         if line =~ /^\s+\# chartOpts start/
             chartOpts = parse_chartOpts(ifp)
         elsif line =~ /^\s+\# further chartOpts:\s*(.*)/
-            depends = $1.split(/\s+/)
+            line = $1
+            line.gsub!(/[\(\)]/, '')
+            v = line.split(/\s+/)
+            depends = [v[0]]
+            if v.length > 1
+                omit = v[2..(v.length-1)]
+                depends.concat(omit) # assume one dependency; possible
+            end
         elsif line =~ /^\s+\# accessors start/
             accessors = parse_accessors(ifp)
 
@@ -107,22 +114,26 @@ end
 def write_depends(ofp, depends, chartOpts)
     return() if depends.nil? or depends.length==0
 
-    depends_url = depends.map{|d| url_depends(d)}
+    omit = []
+    if depends.length > 1
+        omit = depends[1..(depends.length-1)]
+        omit = omit.map {|z| {:name => z}} # convert to be like chartOpts
+    end
+    depends = depends[0]
+
+    depends_url = url_depends(depends)
 
     ofp.write("You can also use the chart options for ")
-    if depends.length > 1
-        abort("Expecting no more than one dependency")
-    else
-        ofp.write(depends_url[0] + ':')
-        ofp.write("\n\n")
+    ofp.write(depends_url + ':')
+    ofp.write("\n\n")
 
-        # write chartOpts from dependency file if not in current chartOpts
-        sfile = "../../src/#{depends[0]}.coffee"
-        depends_opts = read_source(sfile)
-        depends_opts = remove_opts(depends_opts[:chartOpts], chartOpts)
-        for opt in depends_opts
-            ofp.write("- `#{opt[:name]}` &mdash; #{opt[:comment]} \\[default `#{opt[:default]}`\\]\n")
-        end
+    # write chartOpts from dependency file if not in current chartOpts
+    sfile = "../../src/#{depends}.coffee"
+    depends_opts = read_source(sfile)[:chartOpts]
+    depends_opts = remove_opts(depends_opts, chartOpts)
+    depends_opts = remove_opts(depends_opts, omit)
+    for opt in depends_opts
+        ofp.write("- `#{opt[:name]}` &mdash; #{opt[:comment]} \\[default `#{opt[:default]}`\\]\n")
     end
 
     ofp.write("\n\n")

@@ -12,7 +12,7 @@ d3panels.curvechart = (chartOpts) ->
     linewidthhilit = chartOpts?.linewidthhilit ? 2    # width of highlighted curve
     tipclass = chartOpts?.tipclass ? "tooltip"        # class name for tool tips
     # chartOpts end
-    # further chartOpts: panelframe
+    # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
     xscale = null        # x-axis scale
     yscale = null        # y-axis scale

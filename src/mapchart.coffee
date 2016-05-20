@@ -16,7 +16,7 @@ d3panels.mapchart = (chartOpts) ->
     shiftStart = chartOpts?.shiftStart ? false            # if true, shift start of chromosomes to 0
     tipclass = chartOpts?.tipclass ? "tooltip"            # class name for tool tips
     # chartOpts end
-    # further chartOpts: panelframe
+    # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
     xscale = null       # x-axis scale
     yscale = null       # y-axis scale
@@ -67,7 +67,7 @@ d3panels.mapchart = (chartOpts) ->
         xticks = (i+1 for i in d3.range(n_chr))
         xticklab = data.chrname
 
-        chartOpts.xNA = false
+        chartOpts.xNA = false # don't allow NA boxes
         chartOpts.yNA = false
         if horizontal
             chartOpts.xlim = ylim

@@ -16,7 +16,7 @@ d3panels.histchart = (chartOpts) ->
     density = chartOpts?.density ? true               # density scale (vs counts)
     tipclass = chartOpts?.tipclass ? "tooltip"        # class name for tool tips
     # chartOpts end
-    # further chartOpts: panelframe
+    # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
     xscale = null        # x-axis scale
     yscale = null        # y-axis scale

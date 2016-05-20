@@ -14,7 +14,7 @@ d3panels.heatmap = (chartOpts) ->
     hilitcolor = chartOpts?.hilitcolor ? "black"                   # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip"                     # class name for tool tips
     # chartOpts end
-    # further chartOpts: panelframe
+    # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
     xscale = null     # x-axis scale
     yscale = null     # y-axis scale
@@ -87,7 +87,7 @@ d3panels.heatmap = (chartOpts) ->
         chartOpts.margin = margin
         chartOpts.xlim = xlim
         chartOpts.ylim = ylim
-        chartOpts.xNA = false
+        chartOpts.xNA = false  # don't allow NA boxes
         chartOpts.yNA = false
         myframe = d3panels.panelframe(chartOpts)
 
