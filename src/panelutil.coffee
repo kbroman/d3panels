@@ -2,8 +2,14 @@
 
 # determine rounding of axis labels
 d3panels.formatAxis = (d, extra_digits=0) ->
+
     # gap between values
-    gap = if d[0]? then d[1]-d[0] else d[2] - d[1] # allow first value to be NULL
+    if d[0]?
+        gap = d[1]-d[0]
+    else if d.length > 2 # allow first value to be NULL
+        gap = d[2]-d[1]
+    else # if we just have one non-null value
+        gap = d[1]
 
     # turn gap into number of digits
     ndig = Math.floor( d3panels.log10(Math.abs(gap)) )
