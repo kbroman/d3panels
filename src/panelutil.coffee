@@ -80,7 +80,7 @@ d3panels.calc_chrscales = (plot_width, left_margin, gap, chr, start, end, revers
             domain.reverse()
             range = [right - range[1], right - range[0]]
 
-        xscale[chr[i]] = d3.scale.linear()
+        xscale[chr[i]] = d3.scaleLinear()
                            .domain(domain)
                            .range(range)
 
@@ -98,7 +98,7 @@ d3panels.selectGroupColors = (ngroup, palette) ->
         return ["MediumVioletRed", "slateblue"] if ngroup == 2
         return ["MediumVioletRed", "MediumSeaGreen", "slateblue"] if ngroup == 3
         return colorbrewer.Set1[ngroup] if ngroup <= 9
-        return d3.scale.category20().range()[0...ngroup]
+        return d3.schemeCategory20[0...ngroup]
     else
         return ["#bebebe"] if ngroup == 1
         return ["lightpink", "lightblue"] if ngroup == 2
@@ -214,7 +214,7 @@ d3panels.matrixMaxAbs = (mat) ->
 
 d3panels.matrixExtent = (mat) -> [d3panels.matrixMin(mat), d3panels.matrixMax(mat)]
 
-# move an object to front or back
+# move an object to front or back  (we can now just use .raise() and .lower()
 d3.selection.prototype.moveToFront = () ->
     this.each () -> this.parentNode.appendChild(this)
 
