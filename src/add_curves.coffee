@@ -80,7 +80,7 @@ d3panels.add_curves = (chartOpts) ->
                    .offset([0,10])
         svg.call(indtip)
 
-        curvefunc = d3.svg.line()
+        curvefunc = d3.line()
                  .x((d) -> xscale(d.x))
                  .y((d) -> yscale(d.y))
 
