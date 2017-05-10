@@ -1,3 +1,8 @@
+## d3panels 1.2.0 (2017-05-10)
+
+- Updated for D3 version 4.
+
+
 ## d3panels 1.1.4 (2016-05-18)
 
 - Add functions `trichart()`, for plotting trinomial probabilities in an
