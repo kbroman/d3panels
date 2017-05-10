@@ -179,7 +179,7 @@ d3panels.mapchart = (chartOpts) ->
                                                  martip.hide()
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale

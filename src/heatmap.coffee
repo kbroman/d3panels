@@ -140,7 +140,7 @@ d3panels.heatmap = (chartOpts) ->
                     .attr("stroke-width", "1")
                     .attr("shape-rendering", "crispEdges")
                     .on("mouseover.paneltip", (d) ->
-                                                  d3.select(this).attr("stroke", hilitcolor).moveToFront()
+                                                  d3.select(this).attr("stroke", hilitcolor).raise()
                                                   celltip.show(d)
                                                   if data.xcat? # show categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 1)
@@ -166,7 +166,7 @@ d3panels.heatmap = (chartOpts) ->
                    .attr("id", (d,i) -> "ylab#{data.y[i]}")
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale

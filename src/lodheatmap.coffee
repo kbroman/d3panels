@@ -180,7 +180,7 @@ d3panels.lodheatmap = (chartOpts) ->
                  .attr("stroke-width", "1")
                  .attr("shape-rendering", "crispEdges")
                  .on("mouseover.paneltip", (d) ->
-                                               d3.select(this).attr("stroke", hilitcolor).moveToFront()
+                                               d3.select(this).attr("stroke", hilitcolor).raise()
                                                celltip.show(d)
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",1))
@@ -196,7 +196,7 @@ d3panels.lodheatmap = (chartOpts) ->
             ylabels.attr("opacity", 0)
                    .attr("id", (d,i) -> "ylab#{i}")
 
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
 
     # functions to grab stuff

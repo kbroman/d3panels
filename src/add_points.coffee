@@ -167,7 +167,7 @@ d3panels.add_points = (chartOpts) ->
                 d3panels.displayError('add_points: jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
-        prevchart.box().moveToFront()
+        prevchart.box().raise()
 
     # functions to grab stuff
     chart.points = () -> points

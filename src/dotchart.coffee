@@ -248,7 +248,7 @@ d3panels.dotchart = (chartOpts) ->
             d3panels.displayError('dotchart: jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale

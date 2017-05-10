@@ -73,7 +73,7 @@ d3panels.curvechart = (chartOpts) ->
         indtip = add_curves.indtip()
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale

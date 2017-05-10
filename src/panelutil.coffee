@@ -214,15 +214,6 @@ d3panels.matrixMaxAbs = (mat) ->
 
 d3panels.matrixExtent = (mat) -> [d3panels.matrixMin(mat), d3panels.matrixMax(mat)]
 
-# move an object to front or back  (we can now just use .raise() and .lower()
-d3.selection.prototype.moveToFront = () ->
-    this.each () -> this.parentNode.appendChild(this)
-
-d3.selection.prototype.moveToBack = () ->
-    this.each () ->
-        firstChild = this.parentNode.firstchild
-        this.parentNode.insertBefore(this, firstChild) if firstChild
-
 # force an object to be an array (rather than a scalar)
 d3panels.forceAsArray = (x) ->
     return x unless x? # if null, return null

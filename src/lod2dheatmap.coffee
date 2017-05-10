@@ -151,7 +151,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
                  .on("mouseover.paneltip", (d) ->
-                                               d3.select(this).attr("stroke", hilitcolor).moveToFront()
+                                               d3.select(this).attr("stroke", hilitcolor).raise()
                                                celltip.show(d))
                  .on("mouseout.paneltip", () ->
                                                d3.select(this).attr("stroke", "none")
