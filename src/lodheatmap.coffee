@@ -128,7 +128,7 @@ d3panels.lodheatmap = (chartOpts) ->
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
             d3panels.displayError("lodheatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
-        zscale = d3.scale.linear().domain(zlim).range(colors)
+        zscale = d3.scaleLinear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 
         # create cells for plotting

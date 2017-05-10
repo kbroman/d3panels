@@ -99,7 +99,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
             d3panels.displayError("lod2dheatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
-        zscale = d3.scale.linear().domain(zlim).range(colors)
+        zscale = d3.scaleLinear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 
         # create within-chromosome index
