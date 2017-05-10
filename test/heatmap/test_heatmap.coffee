@@ -15,5 +15,5 @@ d3.json "data_unequal.json", (data) ->
 
 # Example: categorical scales
 d3.json "data_categorical.json", (data) ->
-    mychart2 = d3panels.heatmap({height:h, width:w})
-    mychart2(d3.select("div#chart3"), data)
+    mychart3 = d3panels.heatmap({height:h, width:w})
+    mychart3(d3.select("div#chart3"), data)
