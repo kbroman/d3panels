@@ -8,8 +8,8 @@ mychart1 = d3panels.histchart({xlab:"Measurements", ylab:"Density"})
 mychart1(d3.select("div#chart1"), {x:x, breaks:64, indID:['U(10,13)','U(12,15)']})
 
 # Example 2: random normals
-norm10 = d3.random.normal(10, 3)
-norm12 = d3.random.normal(12, 3)
+norm10 = d3.randomNormal(10, 3)
+norm12 = d3.randomNormal(12, 3)
 y = [(norm10() for i in d3.range(1000)),
      (norm12() for i in d3.range(1000))]
 
