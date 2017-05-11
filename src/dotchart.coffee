@@ -179,6 +179,10 @@ d3panels.dotchart = (chartOpts) ->
                     xscale(x[i]) + u[i]/jitter_width*xNA_size.width/2)
 
         else if jitter == "beeswarm"
+            ticked = () ->
+                points.attr("cx", (d) -> d.x)
+                      .attr("cy", (d) -> d.y)
+
             if horizontal
                 d3.range(scaledPoints.length).map( (i) ->
                     scaledPoints[i].fx = scaledPoints[i].x )
@@ -186,7 +190,7 @@ d3panels.dotchart = (chartOpts) ->
                 force = d3.forceSimulation(scaledPoints)
                       .force("y", d3.forceY((d) -> d.y))
                       .force("collide", d3.forceCollide(pointsize*1.1))
-                      .stop()
+                      .on("tick", ticked)
             else
                 d3.range(scaledPoints.length).map( (i) ->
                     scaledPoints[i].fy = scaledPoints[i].y)
@@ -194,12 +198,7 @@ d3panels.dotchart = (chartOpts) ->
                 force = d3.forceSimulation(scaledPoints)
                       .force("x", d3.forceX((d) -> d.x))
                       .force("collide", d3.forceCollide(pointsize*1.1))
-                      .stop()
-
-            d3.range(100).map((i) -> force.tick())
-
-            points.attr("cx", (d) -> d.x)
-                  .attr("cy", (d) -> d.y)
+                      .on("tick", ticked)
 
         else if jitter != "none"
             d3panels.displayError('dotchart: jitter should be "beeswarm", "random", or "none"')
