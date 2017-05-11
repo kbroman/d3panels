@@ -180,18 +180,23 @@ d3panels.dotchart = (chartOpts) ->
 
         else if jitter == "beeswarm"
             if horizontal
-                x_strength = 8
-                y_strength = 1
-            else
-                y_strength = 8
-                x_strength = 1
+                d3.range(scaledPoints.length).map( (i) ->
+                    scaledPoints[i].fx = scaledPoints[i].x )
 
-            force = d3.forceSimulation(scaledPoints)
-                      .force("x", d3.forceX((d) -> d.x).strength(x_strength))
-                      .force("y", d3.forceY((d) -> d.y).strength(y_strength))
-                      .force("collide", d3.forceCollide(pointsize*1.5))
+                force = d3.forceSimulation(scaledPoints)
+                      .force("y", d3.forceY((d) -> d.y))
+                      .force("collide", d3.forceCollide(pointsize*1.1))
                       .stop()
-            d3.range(128).map((i) -> force.tick())
+            else
+                d3.range(scaledPoints.length).map( (i) ->
+                    scaledPoints[i].fy = scaledPoints[i].y)
+
+                force = d3.forceSimulation(scaledPoints)
+                      .force("x", d3.forceX((d) -> d.x))
+                      .force("collide", d3.forceCollide(pointsize*1.1))
+                      .stop()
+
+            d3.range(100).map((i) -> force.tick())
 
             points.attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
