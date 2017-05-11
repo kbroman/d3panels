@@ -1,4 +1,4 @@
-## d3panels 1.2.0 (2017-05-10)
+## d3panels 1.2.1 (2017-05-11)
 
 - Updated for D3 version 4.
 
