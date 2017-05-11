@@ -12,10 +12,6 @@ but useful more generally.
 They are developed in [CoffeeScript](http://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
-**Update: The d3panels library has been completely re-written, changing the
-functions' usage and data structures,** to make it simpler
-and more consistent.
-
 [Documentation on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
 
 ---
