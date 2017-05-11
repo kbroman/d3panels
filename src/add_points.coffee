@@ -101,15 +101,11 @@ d3panels.add_points = (chartOpts) ->
             else if jitter == "beeswarm"
 
                 scaledPoints = ({x:xscale(x[i]),y:yscale(y[i]),xnull:!x[i]?,ynull:!y[i]?} for i of x)
+
+                # assign .fx and .fy when you don't want .x or .y to change
                 d3.range(scaledPoints.length).map((i) ->
                     scaledPoints[i].fx = scaledPoints[i].x unless scaledPoints[i].xnull
                     scaledPoints[i].fy = scaledPoints[i].y unless scaledPoints[i].ynull)
-
-                isolate = (force, filter) ->
-                    initialize = force.initialize
-                    force.initialize = (nodes) ->
-                        initialize.call(force, nodes.filter(filter))
-                    force
 
                 ticked = () ->
                     points.attr("cx", (d,i) -> scaledPoints[i].x)
