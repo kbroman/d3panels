@@ -105,8 +105,6 @@ d3panels.add_points = (chartOpts) ->
                     scaledPoints[i].fx = scaledPoints[i].x unless scaledPoints[i].xnull
                     scaledPoints[i].fy = scaledPoints[i].y unless scaledPoints[i].ynull)
 
-                console.log("before: #{scaledPoints[0].x}, #{scaledPoints[0].y}")
-
                 isolate = (force, filter) ->
                     initialize = force.initialize
                     force.initialize = (nodes) ->
