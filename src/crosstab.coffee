@@ -86,12 +86,12 @@ d3panels.crosstab = (chartOpts) ->
         fontsize = fontsize ? cellHeight*0.5
         cellPad = cellPad ? cellWidth*0.1
 
-        xscale = d3.scale.ordinal()
+        xscale = d3.scaleBand()
                          .domain([0..(ncol+1)])
-                         .rangeBands([margin.left, width-margin.right], 0, 0)
-        yscale = d3.scale.ordinal()
+                         .range([margin.left, width-margin.right])
+        yscale = d3.scaleBand()
                          .domain([0..(nrow+1)])
-                         .rangeBands([margin.top, height-margin.bottom], 0, 0)
+                         .range([margin.top, height-margin.bottom])
 
         # Select the svg element, if it exists.
         svg = selection.append("svg")

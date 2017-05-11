@@ -4,10 +4,15 @@
 d3panels.formatAxis = (d, extra_digits=0) ->
 
     # gap between values
-    gap = if d[0]? then d[1]-d[0] else d[2] - d[1] # allow first value to be NULL
+    if d[0]?
+        gap = d[1]-d[0]
+    else if d.length > 2 # allow first value to be NULL
+        gap = d[2]-d[1]
+    else # if we just have one non-null value
+        gap = d[1]
 
     # turn gap into number of digits
-    ndig = Math.floor( d3panels.log10(gap) )
+    ndig = Math.floor( d3panels.log10(Math.abs(gap)) )
     ndig = 0 if ndig > 0
     ndig = Math.abs(ndig) + extra_digits
 
@@ -80,7 +85,7 @@ d3panels.calc_chrscales = (plot_width, left_margin, gap, chr, start, end, revers
             domain.reverse()
             range = [right - range[1], right - range[0]]
 
-        xscale[chr[i]] = d3.scale.linear()
+        xscale[chr[i]] = d3.scaleLinear()
                            .domain(domain)
                            .range(range)
 
@@ -98,7 +103,7 @@ d3panels.selectGroupColors = (ngroup, palette) ->
         return ["MediumVioletRed", "slateblue"] if ngroup == 2
         return ["MediumVioletRed", "MediumSeaGreen", "slateblue"] if ngroup == 3
         return colorbrewer.Set1[ngroup] if ngroup <= 9
-        return d3.scale.category20().range()[0...ngroup]
+        return d3.schemeCategory20[0...ngroup]
     else
         return ["#bebebe"] if ngroup == 1
         return ["lightpink", "lightblue"] if ngroup == 2
@@ -213,15 +218,6 @@ d3panels.matrixMaxAbs = (mat) ->
     result
 
 d3panels.matrixExtent = (mat) -> [d3panels.matrixMin(mat), d3panels.matrixMax(mat)]
-
-# move an object to front or back
-d3.selection.prototype.moveToFront = () ->
-    this.each () -> this.parentNode.appendChild(this)
-
-d3.selection.prototype.moveToBack = () ->
-    this.each () ->
-        firstChild = this.parentNode.firstchild
-        this.parentNode.insertBefore(this, firstChild) if firstChild
 
 # force an object to be an array (rather than a scalar)
 d3panels.forceAsArray = (x) ->

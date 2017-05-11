@@ -122,8 +122,8 @@ d3panels.panelframe = (chartOpts) ->
              .attr("transform", if rotate_ylab then "rotate(270,#{ylabpos_x},#{ylabpos_y})" else "")
 
         # scales (ignoring NA business)
-        xscale = d3.scale.linear().domain(xlim).range([xrange[0]+margin.inner, xrange[1]-margin.inner])
-        yscale = d3.scale.linear().domain(ylim).range([yrange[0]-margin.inner, yrange[1]+margin.inner])
+        xscale = d3.scaleLinear().domain(xlim).range([xrange[0]+margin.inner, xrange[1]-margin.inner])
+        yscale = d3.scaleLinear().domain(ylim).range([yrange[0]-margin.inner, yrange[1]+margin.inner])
         # scales (handling nulls)
         xscale_wnull = (val) ->
             return xNA_xpos unless val?

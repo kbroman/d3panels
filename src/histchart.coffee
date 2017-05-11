@@ -110,7 +110,7 @@ d3panels.histchart = (chartOpts) ->
 
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale

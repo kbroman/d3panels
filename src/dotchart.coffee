@@ -179,76 +179,32 @@ d3panels.dotchart = (chartOpts) ->
                     xscale(x[i]) + u[i]/jitter_width*xNA_size.width/2)
 
         else if jitter == "beeswarm"
+            ticked = () ->
+                points.attr("cx", (d) -> d.x)
+                      .attr("cy", (d) -> d.y)
 
-            for p in scaledPoints
-                p.true_x = p.x
-                p.true_y = p.y
+            if horizontal
+                d3.range(scaledPoints.length).map( (i) ->
+                    scaledPoints[i].fx = scaledPoints[i].x )
 
-            # nearby points
-            nearbyPoints = []
-            for i of scaledPoints
-                p = scaledPoints[i]
-                p.index = i
-                nearbyPoints[i] = []
-                for j of scaledPoints
-                    if j != i
-                        q = scaledPoints[j]
-                        if horizontal
-                            nearbyPoints[i].push(j) if p.y == q.y and Math.abs(p.x-q.x)<pointsize*2
-                        else
-                            nearbyPoints[i].push(j) if p.x == q.x and Math.abs(p.y-q.y)<pointsize*2
+                force = d3.forceSimulation(scaledPoints)
+                      .force("y", d3.forceY((d) -> d.y))
+                      .force("collide", d3.forceCollide(pointsize*1.1))
+                      .on("tick", ticked)
+            else
+                d3.range(scaledPoints.length).map( (i) ->
+                    scaledPoints[i].fy = scaledPoints[i].y)
 
-            gravity = (p, alpha) ->
-                if horizontal
-                    p.y -= (p.y - p.true_y)*alpha
-                else
-                    p.x -= (p.x - p.true_x)*alpha
+                force = d3.forceSimulation(scaledPoints)
+                      .force("x", d3.forceX((d) -> d.x))
+                      .force("collide", d3.forceCollide(pointsize*1.1))
+                      .on("tick", ticked)
 
-            collision = (p, alpha) ->
-                for i in nearbyPoints[p.index]
-                    q = scaledPoints[i]
-                    dx = p.x - q.x
-                    dy = p.y - q.y
-                    d = Math.sqrt(dx*dx + dy*dy)
-                    if d < pointsize*2
-                        if horizontal
-                            if dy < 0
-                                p.y -= (pointsize*2 - d)*alpha
-                                q.y += (pointsize*2 - d)*alpha
-                            else
-                                p.y += (pointsize*2 - d)*alpha
-                                q.y -= (pointsize*2 - d)*alpha
-                        else
-                            if dx < 0
-                                p.x -= (pointsize*2 - d)*alpha
-                                q.x += (pointsize*2 - d)*alpha
-                            else
-                                p.x += (pointsize*2 - d)*alpha
-                                q.x -= (pointsize*2 - d)*alpha
-
-            tick = (e) ->
-                for p in scaledPoints
-                    collision(p, e.alpha*5)
-
-                for p in scaledPoints
-                    gravity(p, e.alpha/5)
-
-                if horizontal
-                    points.attr("cy", (d) -> d.y)
-                else
-                    points.attr("cx", (d) -> d.x)
-
-            force = d3.layout.force()
-                      .gravity(0)
-                      .charge(0)
-                      .nodes(scaledPoints)
-                      .on("tick", tick)
-                      .start()
         else if jitter != "none"
             d3panels.displayError('dotchart: jitter should be "beeswarm", "random", or "none"')
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale

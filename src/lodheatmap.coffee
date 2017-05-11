@@ -128,7 +128,7 @@ d3panels.lodheatmap = (chartOpts) ->
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
             d3panels.displayError("lodheatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
-        zscale = d3.scale.linear().domain(zlim).range(colors)
+        zscale = d3.scaleLinear().domain(zlim).range(colors)
         zthresh = zthresh ? zmin - 1
 
         # create cells for plotting
@@ -180,7 +180,7 @@ d3panels.lodheatmap = (chartOpts) ->
                  .attr("stroke-width", "1")
                  .attr("shape-rendering", "crispEdges")
                  .on("mouseover.paneltip", (d) ->
-                                               d3.select(this).attr("stroke", hilitcolor).moveToFront()
+                                               d3.select(this).attr("stroke", hilitcolor).raise()
                                                celltip.show(d)
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",1))
@@ -196,7 +196,7 @@ d3panels.lodheatmap = (chartOpts) ->
             ylabels.attr("opacity", 0)
                    .attr("id", (d,i) -> "ylab#{i}")
 
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
 
     # functions to grab stuff

@@ -80,7 +80,7 @@ d3panels.add_curves = (chartOpts) ->
                    .offset([0,10])
         svg.call(indtip)
 
-        curvefunc = d3.svg.line()
+        curvefunc = d3.line()
                  .x((d) -> xscale(d.x))
                  .y((d) -> yscale(d.y))
 
@@ -99,7 +99,7 @@ d3panels.add_curves = (chartOpts) ->
                  .on "mouseover.panel", (d,i) ->
                                            d3.select(this).attr("stroke", linecolorhilit[group[i]])
                                                           .attr("stroke-width", linewidthhilit)
-                                                          .moveToFront()
+                                                          .raise()
                                            circle = svg.select("circle#hiddenpoint#{i}")
                                            indtip.show(i, circle.node())
                  .on "mouseout.panel", (d,i) ->
@@ -125,7 +125,7 @@ d3panels.add_curves = (chartOpts) ->
                         .attr("opacity", 0)
 
         # move box to front
-        prevchart.box().moveToFront()
+        prevchart.box().raise()
 
     # functions to grab stuff
     chart.curves = () -> curves

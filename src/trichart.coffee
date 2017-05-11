@@ -95,10 +95,10 @@ d3panels.trichart = (chartOpts) ->
             plot_width -= d
 
         # calculate scales
-        xscale = d3.scale.linear()
+        xscale = d3.scaleLinear()
                          .domain(xlim)
                          .range([margin.left, margin.left + plot_width])
-        yscale = d3.scale.linear()
+        yscale = d3.scaleLinear()
                          .domain(ylim)
                          .range([plot_height + margin.top, margin.top])
         pscale = (p) ->
@@ -121,7 +121,7 @@ d3panels.trichart = (chartOpts) ->
         vertices = [{x:xlim[0],   y:ylim[0]},
                     {x:xlim[1]/2, y:ylim[1]},
                     {x:xlim[1],   y:ylim[0]}]
-        framefunc = d3.svg.line()
+        framefunc = d3.line()
                       .x((d) -> xscale(vertices[d].x))
                       .y((d) -> yscale(vertices[d].y))
 

@@ -68,10 +68,10 @@ d3panels.chrpanelframe = (chartOpts) ->
         # scales (x-axis scale has by chromosome ID)
         if horizontal # when horizontal, vertical is x-axis and horizontal is y-axis
             xscale = d3panels.calc_chrscales(plot_height, margin.top, chrGap, data.chr, data.start, data.end)
-            yscale = d3.scale.linear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left])
+            yscale = d3.scaleLinear().domain(ylim.reverse()).range([plot_width + margin.left, margin.left])
         else
             xscale = d3panels.calc_chrscales(plot_width, margin.left, chrGap, data.chr, data.start, data.end)
-            yscale = d3.scale.linear().domain(ylim).range([plot_height + margin.top, margin.top])
+            yscale = d3.scaleLinear().domain(ylim).range([plot_height + margin.top, margin.top])
 
         # solid background
         g.append("rect")

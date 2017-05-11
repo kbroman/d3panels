@@ -169,7 +169,7 @@ d3panels.cichart = (chartOpts) ->
                 .on("mouseout.paneltip", tip.hide)
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.yscale = () -> yscale

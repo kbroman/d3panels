@@ -54,7 +54,7 @@ d3panels.add_lodcurve = (chartOpts) ->
 
         # lod curves by chr
         lodcurve = (chr) ->
-                d3.svg.line()
+                d3.line()
                   .x((d,i) ->
                       return yscale(data.lodByChr[chr][i]) if horizontal
                       xscale[chr](d))

@@ -30,8 +30,8 @@ d3panels.heatmap = (chartOpts) ->
                                  #   optionally, include xcat and ycat in place of x and y
                                  #       then: categorial scales on x and y axis
 
-        d3panels.displayError("heatmap: data.x is missing") unless data.x?
-        d3panels.displayError("heatmap: data.y is missing") unless data.y?
+        d3panels.displayError("heatmap: data.x is missing") unless data.x? or data.xcat?
+        d3panels.displayError("heatmap: data.y is missing") unless data.y? or data.ycat?
         d3panels.displayError("heatmap: data.z is missing") unless data.z?
 
         # xcat and ycat included?
@@ -77,7 +77,7 @@ d3panels.heatmap = (chartOpts) ->
         zlim = zlim ? [-zmax, 0, zmax]
         if zlim.length != colors.length
             d3panels.displayError("heatmap: zlim.length (#{zlim.length}) != colors.length (#{colors.length})")
-        zscale = d3.scale.linear().domain(zlim).range(colors)
+        zscale = d3.scaleLinear().domain(zlim).range(colors)
 
         # discard cells with |z| < zthresh
         zthresh = zthresh ? zmin - 1
@@ -140,7 +140,7 @@ d3panels.heatmap = (chartOpts) ->
                     .attr("stroke-width", "1")
                     .attr("shape-rendering", "crispEdges")
                     .on("mouseover.paneltip", (d) ->
-                                                  d3.select(this).attr("stroke", hilitcolor).moveToFront()
+                                                  d3.select(this).attr("stroke", hilitcolor).raise()
                                                   celltip.show(d)
                                                   if data.xcat? # show categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 1)
@@ -166,7 +166,7 @@ d3panels.heatmap = (chartOpts) ->
                    .attr("id", (d,i) -> "ylab#{data.y[i]}")
 
         # move box to front
-        myframe.box().moveToFront()
+        myframe.box().raise()
 
     # functions to grab stuff
     chart.xscale = () -> xscale
