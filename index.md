@@ -12,6 +12,9 @@ but useful more generally.
 They are developed in [CoffeeScript](http://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
+d3panels was recently updated to use [D3](https://d3js.org)
+[verison 4](https://github.com/d3/d3/blob/master/API.md).
+
 [Documentation on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
 
 ---
