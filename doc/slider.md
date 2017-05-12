@@ -64,7 +64,7 @@ Use these like this:
 
 ```coffeescript
 mychart = d3panels.slider()
-mychart(d3.select("body"), data)
+mychart(d3.select("body"), callback, range)
 value = mychart.value()
 ```
 

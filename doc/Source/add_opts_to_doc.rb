@@ -156,6 +156,10 @@ def write_accessors(ofp, accessors, func)
         ofp.write("mychart = d3panels.#{func}()\n")
         if func == "panelframe" # panelframe takes no data :(
             ofp.write("mychart(d3.select(\"body\"))\n")
+        elsif func == "slider" # slider and double slider are a bit different
+            ofp.write("mychart(d3.select(\"body\"), callback, range)\n")
+        elsif func == "double_slider"
+            ofp.write("mychart(d3.select(\"body\"), callback1, callback2, range)\n")
         else
             ofp.write("mychart(d3.select(\"body\"), data)\n")
         end

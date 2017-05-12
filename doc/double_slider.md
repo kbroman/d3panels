@@ -69,7 +69,7 @@ Use these like this:
 
 ```coffeescript
 mychart = d3panels.double_slider()
-mychart(d3.select("body"), data)
+mychart(d3.select("body"), callback1, callback2, range)
 value = mychart.value()
 ```
 
