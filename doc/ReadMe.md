@@ -95,7 +95,7 @@ You also need to link to [D3.js](https://d3js.org) and
 [d3-tip](https://github.com/Caged/d3-tip):
 
 ```html
-<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
 ```
 
@@ -103,5 +103,5 @@ For a couple of panels (`curvechart` and `scatterplot`) you may also need
 to link to [colorbrewer.js](https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js):
 
 ```html
-<script type="text/javascript" src="https://rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.js"></script>
+<script type="text/javascript" src="https://rawgit.com/jeanlauliac/colorbrewer/master/colorbrewer.js"></script>
 ```
