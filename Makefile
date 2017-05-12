@@ -22,6 +22,8 @@ JS= src/d3panels_top.js \
 	src/scatterplot.js \
 	src/trichart.js \
 	src/histchart.js \
+	src/slider.js \
+	src/double_slider.js \
 	src/d3panels_bottom.js
 js: $(JS)
 
@@ -50,7 +52,9 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/chrpanelframe/test_chrpanelframe.js \
 		test/chr2dpanelframe/test_chr2dpanelframe.js \
 		test/trichart/test_trichart.js \
-		test/histchart/test_histchart.js
+		test/histchart/test_histchart.js \
+		test/slider/test_slider.js \
+		test/double_slider/test_double_slider.js
 tests: $(TESTS)
 
 # data files for the tests
@@ -86,7 +90,9 @@ DOCS = doc/add_lodcurve.md \
 	   doc/panelframe.md \
 	   doc/scatterplot.md \
 	   doc/trichart.md \
-	   doc/histchart.md
+	   doc/histchart.md \
+	   doc/slider.md \
+	   doc/double_slider.md
 docs: $(DOCS)
 
 # arguments to use when compiling coffeescript -> javascript
