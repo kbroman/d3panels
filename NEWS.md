@@ -1,4 +1,4 @@
-## d3panels 1.3.0 (2017-05-12)
+## d3panels 1.3.1 (2017-05-13)
 
 - Added functions `slider()` and `double_slider()`.
 
