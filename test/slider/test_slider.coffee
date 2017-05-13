@@ -53,6 +53,7 @@ fig.insert("line")
    .attr("stroke", "slateblue")
    .attr("stroke-width", 2)
 
+
 # a circle in the figure, whose position will be controlled by the slider
 circle = fig.insert("circle")
             .attr("id", "circle")
@@ -69,7 +70,10 @@ slider_callback = (sl) ->
     circle.attr("cx", xscale(sl.value()))
 
 # insert slider
-my_slider = d3panels.slider()
+my_slider = d3panels.slider({
+    height:slider_height
+    width:slider_width
+    margin:{left:slider_margin, right:slider_margin, top:40, bottom:40, inner:0}})
 my_slider(slider_g, slider_callback, [d3.min(marker_pos), d3.max(marker_pos)], marker_pos)
 
 
@@ -78,14 +82,21 @@ my_slider(slider_g, slider_callback, [d3.min(marker_pos), d3.max(marker_pos)], m
 # does it work if the parent div is shifted to the right?
 ####
 
+left_margin = 25
+right_margin = 100
+width = 600
+figw2 = 600-left_margin-right_margin
+
 # insert svg
 svg2 = d3.select("div#chart2").insert("svg").attr("id", "chart")
          .attr("height", h).attr("width", w)
 
 # insert figure
-fig2 = svg2.insert("g").attr("transform", "translate(" + slider_margin + ",0)")
-fig2.insert("rect").attr("x", 0).attr("y", 0).attr("height", figh).attr("width", figw).attr("fill", "#ddd")
+fig2 = svg2.insert("g").attr("transform", "translate(" + left_margin + ",0)")
+fig2.insert("rect").attr("x", 0).attr("y", 0).attr("height", figh).attr("width", figw2).attr("fill", "#ddd")
 
+# xscale
+xscale2 = d3.scaleLinear().range([0,figw2]).domain([d3.min(marker_pos), d3.max(marker_pos)])
 
 # add vertical lines to figure
 fig2.selectAll("empty")
@@ -94,15 +105,15 @@ fig2.selectAll("empty")
    .insert("line")
    .attr("stroke", "black")
    .attr("stroke-width", 2)
-   .attr("x1", (d) => xscale(d))
-   .attr("x2", (d) => xscale(d))
+   .attr("x1", (d) => xscale2(d))
+   .attr("x2", (d) => xscale2(d))
    .attr("y1", 0)
    .attr("y2", figh)
 
 # central horizontal line
 fig2.insert("line")
    .attr("x1", 0)
-   .attr("x2", figw)
+   .attr("x2", figw2)
    .attr("y1", figh/2)
    .attr("y2", figh/2)
    .attr("stroke", "slateblue")
@@ -111,7 +122,7 @@ fig2.insert("line")
 # a circle in the figure, whose position will be controlled by the slider
 circle2 = fig2.insert("circle")
             .attr("id", "circle")
-            .attr("cx", Math.random()*figw)
+            .attr("cx", Math.random()*figw2)
             .attr("cy", figh/2)
             .attr("r", 10)
             .attr("fill", "slateblue")
@@ -121,12 +132,14 @@ slider2_g = svg2.insert("g").attr("transform", "translate(0," + figh + ")")
 
 # slider callback
 slider2_callback = (sl) ->
-    circle2.attr("cx", xscale(sl.value()))
+    circle2.attr("cx", xscale2(sl.value()))
 
 # insert slider
-my_slider2 = d3panels.slider()
+my_slider2 = d3panels.slider({
+    height:slider_height
+    width:width
+    margin:{left:left_margin, right:right_margin, top:40, bottom:40, inner:0}})
 my_slider2(slider2_g, slider2_callback, [d3.min(marker_pos), d3.max(marker_pos)], marker_pos)
-
 
 #####
 # example from the documentation
@@ -142,7 +155,10 @@ mychart(svg3, data)
 
 slider3_g = svg3.insert("g").attr("transform", "translate(0,400)")
 
-my_slider3 = d3panels.slider({height:100, width:400})
+my_slider3 = d3panels.slider({
+    height:100
+    width:400
+    margin:{left:slider_margin, right:slider_margin, top:40, bottom:40, inner:0}})
 
 callback3 = (sl) -> mychart.points().attr("opacity", sl.value())
 
