@@ -40,11 +40,6 @@ d3panels.slider = (chartOpts) ->
                               .attr("height", height)
                               .attr("width", width)
 
-        # find index of nearest "stop"
-        nearest_stop = (d) ->
-            abs_diff = stops.map((val) -> Math.abs(val-d))
-            abs_diff.indexOf(d3.min(abs_diff))
-
         # fully continuous x scale
         xcscale = d3.scaleLinear()
                     .range([margin, width-margin])
@@ -53,7 +48,7 @@ d3panels.slider = (chartOpts) ->
 
         # xscale that handles stop positions
         xscale = (d) ->
-            return xcscale(stops[nearest_stop(d)]) if stops?
+            return xcscale(stops[d3panels.index_of_nearest(d, stops)]) if stops?
             xcscale(d)
 
         # clamp pixels values to range of slider
@@ -128,7 +123,7 @@ d3panels.slider = (chartOpts) ->
             value = xcscale.invert(clamped_pixels+margin)
             d3.select(this).attr("transform", "translate(" + xcscale(value) + ",0)")
             if stops?
-                stopindex = nearest_stop(value)
+                stopindex = d3panels.index_of_nearest(value, stops)
                 value = stops[stopindex]
             callback(chart) if callback?
 
@@ -138,7 +133,7 @@ d3panels.slider = (chartOpts) ->
             clamped_pixels = clamp_pixels(pixel_value, [0, width-margin*2])
             value = xcscale.invert(clamped_pixels+margin)
             if stops?
-                stopindex = nearest_stop(value)
+                stopindex = d3panels.index_of_nearest(value, stops)
                 value = stops[stopindex]
             callback(chart) if callback?
             d3.select(this).attr("transform", "translate(" + xcscale(value) + ",0)")

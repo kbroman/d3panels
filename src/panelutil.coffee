@@ -449,3 +449,8 @@ d3panels.calc_hist_path = (freq, breaks) ->
     result.push({x:breaks[breaks.length-1], y:0})
 
     result
+
+# find index of nearest value in a vector
+d3panels.index_of_nearest = (d, vec) ->
+    abs_diff = vec.map((val) -> Math.abs(val-d))
+    abs_diff.indexOf(d3.min(abs_diff))
