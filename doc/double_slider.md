@@ -44,7 +44,7 @@ my_slider(g, callback, [0,1])
 
 - `width` &mdash; total width of svg for slider \[default `800`\]
 - `height` &mdash; total height of svg for slider \[default `80`\]
-- `margin` &mdash; margin on left and right of slider \[default `25`\]
+- `margin` &mdash; margins \[default `{left:25, right:25, inner:0, top:40, bottom:40}`\]
 - `rectheight` &mdash; height of slider scale \[default `10`\]
 - `rectcolor` &mdash; color of slider scale \[default `"#ccc"`\]
 - `buttonsize` &mdash; size of buttons \[default `rectheight*2`\]

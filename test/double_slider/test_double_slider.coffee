@@ -91,13 +91,21 @@ my_slider(slider_g, slider_callback1, slider_callback2, [d3.min(marker_pos), d3.
 # does it work if shifted to the right?
 ######
 
+left_margin = 25
+right_margin = 100
+width = 600
+figw2 = 600-left_margin-right_margin
+
 # insert svg
 svg2 = d3.select("div#chart2").insert("svg").attr("id", "chart")
         .attr("height", h).attr("width", w)
 
 # insert figure
-fig2 = svg2.insert("g").attr("transform", "translate(" + slider_margin + ",0)")
-fig2.insert("rect").attr("x", 0).attr("y", 0).attr("height", figh).attr("width", figw).attr("fill", "#ddd")
+fig2 = svg2.insert("g").attr("transform", "translate(" + left_margin + ",0)")
+fig2.insert("rect").attr("x", 0).attr("y", 0).attr("height", figh).attr("width", figw2).attr("fill", "#ddd")
+
+# xscale
+xscale2 = d3.scaleLinear().range([0,figw2]).domain([d3.min(marker_pos), d3.max(marker_pos)])
 
 # add vertical lines to figure
 fig2.selectAll("empty")
@@ -106,8 +114,8 @@ fig2.selectAll("empty")
    .insert("line")
    .attr("stroke", "black")
    .attr("stroke-width", 2)
-   .attr("x1", (d) => xscale(d))
-   .attr("x2", (d) => xscale(d))
+   .attr("x1", (d) => xscale2(d))
+   .attr("x2", (d) => xscale2(d))
    .attr("y1", 0)
    .attr("y2", figh)
 
@@ -117,7 +125,7 @@ fig2.selectAll("empty")
     .enter()
     .insert("line")
     .attr("x1", 0)
-    .attr("x2", figw)
+    .attr("x2", figw2)
     .attr("y1", (d) -> d)
     .attr("y2", (d) -> d)
     .attr("stroke", (d,i) ->
@@ -144,12 +152,15 @@ slider2_g = svg2.insert("g").attr("transform", "translate(0," + figh + ")")
 
 # slider callbacks
 slider2_callback1 = (sl) ->
-    circles2[0].attr("cx", xscale(sl.value()[0]))
+    circles2[0].attr("cx", xscale2(sl.value()[0]))
 slider2_callback2 = (sl) ->
-    circles2[1].attr("cx", xscale(sl.value()[1]))
+    circles2[1].attr("cx", xscale2(sl.value()[1]))
 
 # insert slider
-my_slider2 = d3panels.double_slider()
+my_slider2 = d3panels.double_slider({
+    height:slider_height
+    width:width
+    margin:{left:left_margin, right:right_margin, top:40, bottom:40, inner:0}})
 my_slider2(slider2_g, slider2_callback1, slider2_callback2, [d3.min(marker_pos), d3.max(marker_pos)], marker_pos)
 
 

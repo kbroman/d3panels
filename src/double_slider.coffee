@@ -6,7 +6,7 @@ d3panels.double_slider = (chartOpts) ->
     # chartOpts start
     width = chartOpts?.width ? 800                                          # total width of svg for slider
     height = chartOpts?.height ? 80                                         # total height of svg for slider
-    margin = chartOpts?.margin ? 25                                         # margin on left and right of slider
+    margin = chartOpts?.margin ? {left:25, right:25, inner:0, top:40, bottom:40} # margins
     rectheight = chartOpts?.rectheight ? 10                                 # height of slider scale
     rectcolor = chartOpts?.rectcolor ? "#ccc"                               # color of slider scale
     buttonsize = chartOpts?.buttonsize ? rectheight*2                       # size of buttons
@@ -36,7 +36,21 @@ d3panels.double_slider = (chartOpts) ->
 
         callbacks = [callback1, callback2]
 
-        range = [margin, width-margin*2] unless range?
+        margin.left += margin.inner
+        margin.right += margin.inner
+
+        range = [margin.left, width-margin.right] unless range?
+
+        if margin.top? and margin.top+margin.bottom>0
+            margin.top = height * margin.top / (margin.top+margin.bottom)
+        else
+            margin.top = height/2
+
+        if stops? # stops included; pick random stop index
+            stopindex = Math.floor( Math.random() * stops.length )
+            value = stops[stopindex]
+        else
+            value = (range[1]-range[0])*Math.random() + range[0]
 
         if stops? # stops included; pick random stop index
             stopindex = [0,1].map((i) -> Math.floor( Math.random() * stops.length ))
@@ -50,7 +64,7 @@ d3panels.double_slider = (chartOpts) ->
 
         # fully continuous x scale
         xcscale = d3.scaleLinear()
-                    .range([margin, width-margin])
+                    .range([margin.left, width-margin.right])
                     .domain(range)
                     .clamp(true)
 
@@ -67,11 +81,11 @@ d3panels.double_slider = (chartOpts) ->
 
         # insert bar
         slider_svg.insert("rect")
-                  .attr("x", margin)
-                  .attr("y", height/2 - rectheight/2)
+                  .attr("x", margin.left)
+                  .attr("y", margin.top - rectheight/2)
                   .attr("rx", rectheight*0.3)
                   .attr("ry", rectheight*0.3)
-                  .attr("width", width-margin*2)
+                  .attr("width", width-margin.left-margin.right)
                   .attr("height", rectheight)
                   .attr("fill", rectcolor)
 
@@ -83,8 +97,8 @@ d3panels.double_slider = (chartOpts) ->
                   .insert("line")
                   .attr("x1", (d) -> xcscale(d))
                   .attr("x2", (d) -> xcscale(d))
-                  .attr("y1", height/2 + rectheight/2 + tickgap)
-                  .attr("y2", height/2 + rectheight/2 + tickgap + tickheight)
+                  .attr("y1", margin.top + rectheight/2 + tickgap)
+                  .attr("y2", margin.top + rectheight/2 + tickgap + tickheight)
                   .attr("stroke", "black")
                   .attr("shape-rendering", "crispEdges")
         slider_svg.selectAll("empty")
@@ -92,7 +106,7 @@ d3panels.double_slider = (chartOpts) ->
                   .enter()
                   .insert("text")
                   .attr("x", (d) -> xcscale(d))
-                  .attr("y", height/2 + rectheight/2 + tickgap*2+tickheight)
+                  .attr("y", margin.top + rectheight/2 + tickgap*2+tickheight)
                   .text((d) -> d)
                   .style("font-size", textsize)
                   .style("dominant-baseline", "hanging")
@@ -111,7 +125,7 @@ d3panels.double_slider = (chartOpts) ->
         [0,1].map( (i) ->
             buttons[i].insert("rect")
                .attr("x", -buttonsize/2)
-               .attr("y", height/2 - buttonsize/2)
+               .attr("y", margin.top - buttonsize/2)
                .attr("height", buttonsize)
                .attr("width", buttonsize)
                .attr("rx", buttonround)
@@ -122,7 +136,7 @@ d3panels.double_slider = (chartOpts) ->
 
             buttons[i].insert("circle")
                .attr("cx", 0)
-               .attr("cy", height/2)
+               .attr("cy", margin.top)
                .attr("r", buttondotsize)
                .attr("fill", buttondotcolor[i]))
 
@@ -135,9 +149,9 @@ d3panels.double_slider = (chartOpts) ->
         # function to deal with dragging
         dragged = (i) ->
             (d) ->
-                pixel_value = d3.event.x - margin
-                clamped_pixels = clamp_pixels(pixel_value, [0, width-margin*2])
-                value[i] = xcscale.invert(clamped_pixels+margin)
+                pixel_value = d3.event.x
+                clamped_pixels = clamp_pixels(pixel_value, [margin.left, width-margin.right])
+                value[i] = xcscale.invert(clamped_pixels)
                 d3.select(this).attr("transform", "translate(" + xcscale(value[i]) + ",0)")
                 if stops?
                     stopindex[i] = d3panels.index_of_nearest(value[i], stops)
@@ -147,9 +161,9 @@ d3panels.double_slider = (chartOpts) ->
         # function at end of dragging:
         end_drag = (i) ->
             (d) ->
-                pixel_value = d3.event.x - margin
-                clamped_pixels = clamp_pixels(pixel_value, [0, width-margin*2])
-                value[i] = xcscale.invert(clamped_pixels+margin)
+                pixel_value = d3.event.x
+                clamped_pixels = clamp_pixels(pixel_value, [margin.left, width-margin.right])
+                value[i] = xcscale.invert(clamped_pixels)
                 if stops?
                     stopindex[i] = d3panels.index_of_nearest(value[i], stops)
                     value[i] = stops[stopindex[i]]
