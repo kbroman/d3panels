@@ -20,6 +20,7 @@ d3panels.double_slider = (chartOpts) ->
     textsize = chartOpts?.textsize ? 14                                     # font size for axis labels
     nticks = chartOpts?.nticks ? 5                                          # number of ticks
     ticks = chartOpts?.ticks ? null                                         # vector of ticks
+    ticks_at_stops = chartOpts?.ticks_at_stops ? true                       # if true, include scale (above slider) showing stops
     # chartOpts end
     # accessors start
     value = [0,0] # current values of slider buttons
@@ -118,6 +119,18 @@ d3panels.double_slider = (chartOpts) ->
                   .style("-moz-user-select", "none")
                   .style("-ms-user-select", "none")
 
+        # add scale for stops?
+        if stops? and ticks_at_stops
+            slider_svg.selectAll("empty")
+                      .data(stops)
+                      .enter()
+                      .insert("line")
+                      .attr("x1", (d) -> xcscale(d))
+                      .attr("x2", (d) -> xcscale(d))
+                      .attr("y1", margin.top - rectheight/2 - tickgap)
+                      .attr("y2", margin.top - rectheight/2 - tickgap - tickheight)
+                      .attr("stroke", "black")
+                      .attr("shape-rendering", "crispEdges")
 
         # add buttons
         buttons = [0,1].map( (i) ->

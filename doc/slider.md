@@ -56,6 +56,7 @@ my_slider(g, callback, [0,1])
 - `textsize` &mdash; font size for axis labels \[default `14`\]
 - `nticks` &mdash; number of ticks \[default `5`\]
 - `ticks` &mdash; vector of ticks \[default `null`\]
+- `ticks_at_stops` &mdash; if true, include scale (above slider) showing stops \[default `true`\]
 
 
 ### Accessors
