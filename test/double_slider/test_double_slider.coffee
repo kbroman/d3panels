@@ -161,7 +161,8 @@ my_slider2 = d3panels.double_slider({
     height:slider_height
     width:width
     margin:{left:left_margin, right:right_margin, top:40, bottom:40, inner:0}})
-my_slider2(slider2_g, slider2_callback1, slider2_callback2, [d3.min(marker_pos), d3.max(marker_pos)], marker_pos)
+my_slider2(slider2_g, slider2_callback1, slider2_callback2, [d3.min(marker_pos), d3.max(marker_pos)],
+    marker_pos, [65, 30])
 
 
 
@@ -190,4 +191,4 @@ callback3b = (sl) ->
     value = sl.value()
     mychart3.points().attr("r", value[1]*pointsize)
 
-my_slider3(slider3_g, callback3a, callback3b, [0,1])
+my_slider3(slider3_g, callback3a, callback3b, [0,1], null, [0.7, 0.8])

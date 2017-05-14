@@ -26,7 +26,7 @@ d3panels.slider = (chartOpts) ->
     # accessors end
     slider_svg = null
 
-    chart = (selection, callback, range, stops) ->
+    chart = (selection, callback, range, stops, initial_value) ->
 
         margin.left += margin.inner
         margin.right += margin.inner
@@ -38,11 +38,18 @@ d3panels.slider = (chartOpts) ->
         else
             margin.top = height/2
 
-        if stops? # stops included; pick random stop index
-            stopindex = Math.floor( Math.random() * stops.length )
-            value = stops[stopindex]
-        else
-            value = (range[1]-range[0])*Math.random() + range[0]
+        if initial_value? # initial value provided
+            value = initial_value
+            value = range[0] if value < range[0]
+            value = range[1] if value > range[1]
+            stopindex = d3panels.index_of_nearest(value, stops) if stops?
+            value = stops[stopindex] if stops?
+        else # choose random values
+            if stops? # stops included; pick random stop index
+                stopindex = Math.floor( Math.random() * stops.length )
+                value = stops[stopindex]
+            else
+                value = (range[1]-range[0])*Math.random() + range[0]
 
         slider_svg = selection.insert("svg")
                               .attr("height", height)
@@ -153,11 +160,8 @@ d3panels.slider = (chartOpts) ->
         callback(chart) if callback?
 
     # functions to grab stuff
-    chart.value = () ->
-        value
-
-    chart.stopindex = () ->
-        stopindex
+    chart.value = () -> value
+    chart.stopindex = () -> stopindex
 
     # function to remove the slider
     chart.remove = () ->

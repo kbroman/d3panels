@@ -16,6 +16,9 @@ Then two pieces of data: `range` is an interval over which the slider
 can take values, and an optional array `stops` is a set of discrete values in
 the range that the slider can take.
 
+Finally, you can give an `initial_value` for the slider (a vector of
+two values). Otherwise, the initial value is set randomly.
+
 ### Example
 
 ```coffeescript

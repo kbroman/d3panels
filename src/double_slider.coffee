@@ -32,7 +32,7 @@ d3panels.double_slider = (chartOpts) ->
     buttonstroke = [buttonstroke, buttonstroke] unless Array.isArray(buttonstroke)
     buttondotcolor = [buttondotcolor, buttondotcolor] unless Array.isArray(buttondotcolor)
 
-    chart = (selection, callback1, callback2, range, stops) ->
+    chart = (selection, callback1, callback2, range, stops, initial_value) ->
 
         callbacks = [callback1, callback2]
 
@@ -46,17 +46,19 @@ d3panels.double_slider = (chartOpts) ->
         else
             margin.top = height/2
 
-        if stops? # stops included; pick random stop index
-            stopindex = Math.floor( Math.random() * stops.length )
-            value = stops[stopindex]
-        else
-            value = (range[1]-range[0])*Math.random() + range[0]
-
-        if stops? # stops included; pick random stop index
-            stopindex = [0,1].map((i) -> Math.floor( Math.random() * stops.length ))
-            value = stopindex.map((i) -> stops[i])
-        else
-            value = [0,1].map((i) -> (range[1]-range[0])*Math.random() + range[0])
+        if initial_value? # initial value provided
+            value = initial_value.map((d) ->
+                return range[0] if d < range[0]
+                return range[1] if d > range[1]
+                d)
+            stopindex = value.map((d) -> d3panels.index_of_nearest(d, stops)) if stops?
+            value = stopindex.map((i) -> stops[i]) if stops?
+        else # pick random values
+            if stops? # stops included; pick random stop index
+                stopindex = [0,1].map((i) -> Math.floor( Math.random() * stops.length ))
+                value = stopindex.map((i) -> stops[i])
+            else
+                value = [0,1].map((i) -> (range[1]-range[0])*Math.random() + range[0])
 
         slider_svg = selection.insert("svg")
                               .attr("height", height)
@@ -178,11 +180,8 @@ d3panels.double_slider = (chartOpts) ->
             callbacks[i](chart) if callbacks[i]? )
 
     # functions to grab stuff
-    chart.value = () ->
-        value
-
-    chart.stopindex = () ->
-        stopindex
+    chart.value = () -> value
+    chart.stopindex = () -> stopindex
 
     # function to remove the slider
     chart.remove = () ->
