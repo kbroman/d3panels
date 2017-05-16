@@ -36,6 +36,9 @@ d3panels.lodheatmap = (chartOpts) ->
                                  # also, optionally poslabel (e.g. marker name)
                                  # also, optionally chrname, chrstart, chrend
 
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:40, bottom: 40})
+
         d3panels.displayError("lodheatmap: data.chr is missing") unless data.chr?
         d3panels.displayError("lodheatmap: data.pos is missing") unless data.pos?
         d3panels.displayError("lodheatmap: data.lod is missing") unless data.lod?

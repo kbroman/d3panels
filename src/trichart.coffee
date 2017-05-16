@@ -37,6 +37,9 @@ d3panels.trichart = (chartOpts) ->
     chart = (selection, data) -> # data = {p, indID, group}
                                  # p = [[p00, p01, p02], [p10, p11, p12], ...]
 
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:60, bottom: 10})
+
         d3panels.displayError("trichart: data.p is missing") unless data.p?
 
         # missing values can be any of null, "NA", or ""; replacing with nulls

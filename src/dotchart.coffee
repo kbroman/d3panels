@@ -36,6 +36,12 @@ d3panels.dotchart = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # data = {x, y, indID, group} # x should be a set of positive integers; xcategories has the possible values
 
+        # args that are lists: check that they have all the pieces
+        xNA = d3panels.check_listarg_v_default(xNA, {handle:true, force:false})
+        yNA = d3panels.check_listarg_v_default(yNA, {handle:true, force:false})
+        xNA_size = d3panels.check_listarg_v_default(xNA, {width:20, gap:10})
+        yNA_size = d3panels.check_listarg_v_default(yNA, {width:20, gap:10})
+
         d3panels.displayError("dotchart: data.x is missing") unless data.x?
         d3panels.displayError("dotchart: data.y is missing") unless data.y?
 

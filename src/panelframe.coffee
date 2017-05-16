@@ -51,6 +51,15 @@ d3panels.panelframe = (chartOpts) ->
 
     ## the main function
     chart = (selection) ->
+
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:40, bottom: 40, inner:3})
+        axispos = d3panels.check_listarg_v_default(axispos, {xtitle:25, ytitle:45, xlabel:5, ylabel:5})
+        xNA_size = d3panels.check_listarg_v_default(xNA_size, {width:20, gap:10})
+        yNA_size = d3panels.check_listarg_v_default(yNA_size, {width:20, gap:10})
+        xlineOpts = d3panels.check_listarg_v_default(xlineOpts, {color:"white", width:2})
+        ylineOpts = d3panels.check_listarg_v_default(ylineOpts, {color:"white", width:2})
+
         # Create SVG
         svg = selection.append("svg")
 

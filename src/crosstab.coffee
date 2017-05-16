@@ -24,6 +24,9 @@ d3panels.crosstab = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # {x, y, xcat, ycat, xlabel, ylabel} (xcat, ycat, xlabel, ylabel are optional; x and y in {0,1,2,...})
 
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:40, bottom: 60})
+
         d3panels.displayError("crosstab: data.x is missing") unless data.x?
         d3panels.displayError("crosstab: data.y is missing") unless data.y?
 

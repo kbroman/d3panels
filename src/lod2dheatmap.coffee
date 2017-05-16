@@ -31,6 +31,9 @@ d3panels.lod2dheatmap = (chartOpts) ->
     ## the main function
     chart = (selection, data) ->  # (chr, pos, lod[chrx][chry])  optionally poslabel (e.g., marker names)
 
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:40, bottom: 60})
+
         d3panels.displayError("lod2dheatmap: data.chr is missing") unless data.chr?
         d3panels.displayError("lod2dheatmap: data.pos is missing") unless data.pos?
         d3panels.displayError("lod2dheatmap: data.lod is missing") unless data.lod?

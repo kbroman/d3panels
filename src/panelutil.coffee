@@ -454,3 +454,9 @@ d3panels.calc_hist_path = (freq, breaks) ->
 d3panels.index_of_nearest = (d, vec) ->
     abs_diff = vec.map((val) -> Math.abs(val-d))
     abs_diff.indexOf(d3.min(abs_diff))
+
+# ensure that arguments that are named lists (ie objects) have all the required components
+d3panels.check_listarg_v_default = (arg, defaults) ->
+    for key of defaults
+        arg[key] = defaults[key] unless arg[key]?
+    arg

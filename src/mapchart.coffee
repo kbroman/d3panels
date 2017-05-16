@@ -28,6 +28,9 @@ d3panels.mapchart = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # {chr, pos, marker, (optionally) chrname}
 
+        # args that are lists: check that they have all the pieces
+        xlineOpts = d3panels.check_listarg_v_default(xlineOpts, {color:"#cdcdcd", width:5})
+
         d3panels.displayError("mapchart: data.chr is missing") unless data.chr?
         d3panels.displayError("mapchart: data.pos is missing") unless data.pos?
         d3panels.displayError("mapchart: data.marker is missing") unless data.marker?

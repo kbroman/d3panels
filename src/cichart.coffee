@@ -29,6 +29,9 @@ d3panels.cichart = (chartOpts) ->
     ## the main function
     chart = (selection, data) ->  # {mean, low, high} each vectors
 
+        # args that are lists: check that they have all the pieces
+        xlineOpts = d3panels.check_listarg_v_default(xlineOpts, {color:"#CDCDCD", width:5})
+
         d3panels.displayError("cichart: data.mean is missing") unless data.mean?
         d3panels.displayError("cichart: data.low is missing") unless data.low?
         d3panels.displayError("cichart: data.high is missing") unless data.high?

@@ -41,6 +41,11 @@ d3panels.chrpanelframe = (chartOpts) ->
     ## the main function
     chart = (selection, data) -> # data = chr, start, end  (vectors with chromosome IDs, start positions, and end positions)
 
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:40, bottom: 60})
+        axispos = d3panels.check_listarg_v_default(axispos, {xtitle:25, ytitle:45, xlabel:5, ylabel:5})
+        ylineOpts = d3panels.check_listarg_v_default(ylineOpts, {color:"white", width:2})
+
         d3panels.displayError("chrpanelframe: data.chr is missing") unless data.chr?
         d3panels.displayError("chrpanelframe: data.end is missing") unless data.end?
 

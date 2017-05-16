@@ -29,6 +29,9 @@ d3panels.slider = (chartOpts) ->
 
     chart = (selection, callback, range, stops, initial_value) ->
 
+        # args that are lists: check that they have all the pieces
+        margin = d3panels.check_listarg_v_default(margin, {left:25, right:25, inner:0, top:40, bottom:40})
+
         margin.left += margin.inner
         margin.right += margin.inner
 
