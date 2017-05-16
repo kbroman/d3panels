@@ -24,7 +24,6 @@ QUnit.test "reorgLodData", (assert) ->
             '2':[1.45, 3.39, 0.42]
             'X':[3.34, 4.10, 3.00]}}
 
-
     assert.deepEqual(d3panels.reorgLodData(data), out, 'simplest use')
 
     # add marker
@@ -53,7 +52,7 @@ QUnit.test "reorgLodData", (assert) ->
     uchr = ['1']
     chr = ['1', '1', '1', '1']
     pos = [0, 10.5, 20.5, 30]
-    lod = [1.60, 4.53, 1.81, 3.24, 1.45, 3.39, 0.42, 3.34, 4.10, 3.00]
+    lod = [1.60, 4.53, 1.81, 3.24]
     data = {
         chrname: uchr
         chr: chr
