@@ -134,3 +134,6 @@ d3panels.min.js: d3panels.js
 # minimizing the CSS file
 d3panels.min.css: d3panels.css
 	uglifycss $< > $@
+
+clean:
+	rm d3panels.js d3panels.css d3panels.min.js src/[a-c]*.js arc/[d-z]*.js test/*.js test/*/*.js doc/[a-z]*.md
