@@ -1,6 +1,10 @@
-## d3panels 1.3.4 (2017-05-13)
+## d3panels 1.3.5 (2017-05-16)
 
 - Added functions `slider()` and `double_slider()`.
+
+- Ensure that list arguments have all the necessary bits
+  (e.g. `margin.inner` in `plotframe`),
+  with new utility function `check_listarg_v_default`
 
 
 ## d3panels 1.2.3 (2017-05-11)
