@@ -37,6 +37,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/test-mathfunc.js test/test-reorgByChr.js \
 		test/test-reorgLodData.js test/test-calc_freq.js \
 		test/test-index_of_nearest.js \
+		test/test-check_listarg_v_default.js \
 		test/lod2dheatmap/test_lod2dheatmap.js \
 		test/add_curves/test_add_curves.js \
 		test/add_points/test_add_points.js \
