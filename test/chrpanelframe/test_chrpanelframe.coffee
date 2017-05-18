@@ -57,3 +57,11 @@ mychart7 = d3panels.chrpanelframe({
     altrectcolor:"white"
     horizontal:true})
 mychart7(d3.select("div#chart7"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})
+
+# Example 8: one chromosome
+mychart8 = d3panels.chrpanelframe({title:"One chromosome",ylim:[0,5]})
+mychart8(d3.select("div#chart8"), {chr:[2],end:[90]})
+
+# Example 9: one chromosome, horizontal
+mychart9 = d3panels.chrpanelframe({title:"One chromosome",ylim:[0,5], horizontal:true})
+mychart9(d3.select("div#chart9"), {chr:[2],start:[10],end:[90]})

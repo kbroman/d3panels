@@ -10,7 +10,7 @@ d3panels.chrpanelframe = (chartOpts) ->
     axispos = chartOpts?.axispos ? {xtitle:25, ytitle:45, xlabel:5, ylabel:5} # position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel)
     titlepos = chartOpts?.titlepos ? 20                # position of chart title in pixels
     title = chartOpts?.title ? ""                      # chart title
-    xlab = chartOpts?.xlab ? "Chromosome"              # x-axis label
+    xlab = chartOpts?.xlab ? null                      # x-axis label
     ylab = chartOpts?.ylab ? "LOD score"               # y-axis label
     rotate_ylab = chartOpts?.rotate_ylab ? null        # whether to rotate the y-axis label
     ylim = chartOpts?.ylim ? [0,1]                     # y-axis limits
@@ -48,6 +48,9 @@ d3panels.chrpanelframe = (chartOpts) ->
 
         d3panels.displayError("chrpanelframe: data.chr is missing") unless data.chr?
         d3panels.displayError("chrpanelframe: data.end is missing") unless data.end?
+
+        unless xlab? # "Chromosome" or "Position" depending on whether >1 or ==1 chr
+            xlab = if data.chr.length==1 then "Position" else "Chromosome"
 
         # Create SVG
         svg = selection.append("svg")
@@ -137,6 +140,7 @@ d3panels.chrpanelframe = (chartOpts) ->
                 xlab)
              .attr("x", (width-margin.left-margin.right)/2 + margin.left)
              .attr("y", plot_height + margin.top + axispos.xtitle)
+
         ylabpos_y = (height-margin.top-margin.bottom)/2 + margin.top
         ylabpos_x = margin.left - axispos.ytitle
         yaxis.append("text").attr("class", "title")
@@ -180,18 +184,36 @@ d3panels.chrpanelframe = (chartOpts) ->
                   .style("pointer-events", "none")
 
         # axis labels
-        xlabels = xaxis.append("g").attr("id", "xlabels")
-                   .selectAll("empty")
-                   .data(data.chr)
-                   .enter()
-                   .append("text")
-                   .attr("x", (d,i) ->
-                        return margin.left - axispos.ylabel if horizontal
-                        (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
-                   .attr("y", (d,i) ->
-                        return (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2 if horizontal
-                        height - margin.bottom + axispos.xlabel)
-                   .text((d) -> d)
+        if data.chr.length > 1
+            xlabels = xaxis.append("g").attr("id", "xlabels")
+                       .selectAll("empty")
+                       .data(data.chr)
+                       .enter()
+                       .append("text")
+                       .attr("x", (d,i) ->
+                            return margin.left - axispos.ylabel if horizontal
+                            (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
+                       .attr("y", (d,i) ->
+                            return (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2 if horizontal
+                            height - margin.bottom + axispos.xlabel)
+                       .text((d) -> d)
+        else
+            thechr = data.chr[0]
+            ticks = xscale[thechr].ticks(5)
+            xlabels = xaxis.append("g").attr("id", "xlabels")
+                       .selectAll("empty")
+                       .data(ticks)
+                       .enter()
+                       .append("text")
+                       .attr("x", (d) ->
+                            return margin.left - axispos.ylabel if horizontal
+                            xscale[thechr](d))
+                       .attr("y", (d,i) ->
+                            return xscale[thechr](d) if horizontal
+                            height - margin.bottom + axispos.xlabel)
+                       .text((d) -> d)
+
+
         ylabels = yaxis.append("g").attr("id", "ylabels")
                    .selectAll("empty")
                    .data(yticklab)

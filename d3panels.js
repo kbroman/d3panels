@@ -1382,7 +1382,7 @@ d3panels.chrpanelframe = function(chartOpts) {
   };
   titlepos = (ref4 = chartOpts != null ? chartOpts.titlepos : void 0) != null ? ref4 : 20;
   title = (ref5 = chartOpts != null ? chartOpts.title : void 0) != null ? ref5 : "";
-  xlab = (ref6 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref6 : "Chromosome";
+  xlab = (ref6 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref6 : null;
   ylab = (ref7 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref7 : "LOD score";
   rotate_ylab = (ref8 = chartOpts != null ? chartOpts.rotate_ylab : void 0) != null ? ref8 : null;
   ylim = (ref9 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref9 : [0, 1];
@@ -1410,7 +1410,7 @@ d3panels.chrpanelframe = function(chartOpts) {
   box = null;
   svg = null;
   chart = function(selection, data) {
-    var c, d, g, plot_height, plot_width, xaxis, yaxis, ylabpos_x, ylabpos_y, ylines;
+    var c, d, g, plot_height, plot_width, thechr, ticks, xaxis, yaxis, ylabpos_x, ylabpos_y, ylines;
     margin = d3panels.check_listarg_v_default(margin, {
       left: 60,
       top: 40,
@@ -1432,6 +1432,9 @@ d3panels.chrpanelframe = function(chartOpts) {
     }
     if (data.end == null) {
       d3panels.displayError("chrpanelframe: data.end is missing");
+    }
+    if (xlab == null) {
+      xlab = data.chr.length === 1 ? "Position" : "Chromosome";
     }
     svg = selection.append("svg");
     svg.attr("width", width).attr("height", height).attr("class", "d3panels");
@@ -1560,19 +1563,37 @@ d3panels.chrpanelframe = function(chartOpts) {
       }
       return plot_width + margin.left;
     }).attr("fill", "none").attr("stroke", ylineOpts.color).attr("stroke-width", ylineOpts.width).attr("shape-rendering", "crispEdges").style("pointer-events", "none");
-    xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(data.chr).enter().append("text").attr("x", function(d, i) {
-      if (horizontal) {
-        return margin.left - axispos.ylabel;
-      }
-      return (xscale[d](data.start[i]) + xscale[d](data.end[i])) / 2;
-    }).attr("y", function(d, i) {
-      if (horizontal) {
+    if (data.chr.length > 1) {
+      xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(data.chr).enter().append("text").attr("x", function(d, i) {
+        if (horizontal) {
+          return margin.left - axispos.ylabel;
+        }
         return (xscale[d](data.start[i]) + xscale[d](data.end[i])) / 2;
-      }
-      return height - margin.bottom + axispos.xlabel;
-    }).text(function(d) {
-      return d;
-    });
+      }).attr("y", function(d, i) {
+        if (horizontal) {
+          return (xscale[d](data.start[i]) + xscale[d](data.end[i])) / 2;
+        }
+        return height - margin.bottom + axispos.xlabel;
+      }).text(function(d) {
+        return d;
+      });
+    } else {
+      thechr = data.chr[0];
+      ticks = xscale[thechr].ticks(5);
+      xlabels = xaxis.append("g").attr("id", "xlabels").selectAll("empty").data(ticks).enter().append("text").attr("x", function(d) {
+        if (horizontal) {
+          return margin.left - axispos.ylabel;
+        }
+        return xscale[thechr](d);
+      }).attr("y", function(d, i) {
+        if (horizontal) {
+          return xscale[thechr](d);
+        }
+        return height - margin.bottom + axispos.xlabel;
+      }).text(function(d) {
+        return d;
+      });
+    }
     ylabels = yaxis.append("g").attr("id", "ylabels").selectAll("empty").data(yticklab).enter().append("text").attr("y", function(d, i) {
       if (horizontal) {
         return height - margin.bottom + axispos.xlabel;

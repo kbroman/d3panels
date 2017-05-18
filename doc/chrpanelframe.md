@@ -28,7 +28,7 @@ mychart(d3.select('body'), data)
 - `axispos` &mdash; position of axis labels in pixels (xtitle, ytitle, xlabel, ylabel) \[default `{xtitle:25, ytitle:45, xlabel:5, ylabel:5}`\]
 - `titlepos` &mdash; position of chart title in pixels \[default `20`\]
 - `title` &mdash; chart title \[default `""`\]
-- `xlab` &mdash; x-axis label \[default `"Chromosome"`\]
+- `xlab` &mdash; x-axis label \[default `null`\]
 - `ylab` &mdash; y-axis label \[default `"LOD score"`\]
 - `rotate_ylab` &mdash; whether to rotate the y-axis label \[default `null`\]
 - `ylim` &mdash; y-axis limits \[default `[0,1]`\]
