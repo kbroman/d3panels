@@ -1,10 +1,14 @@
-## d3panels 1.3.5 (2017-05-18)
+## d3panels 1.3.6 (2017-05-18)
 
 - Added functions `slider()` and `double_slider()`.
 
 - `chrpanelframe` (and so also `lodchart`) adds quantitative scale for
   position on the x-axis (plus grid lines) if there is just one
   chromosome.
+
+- Ensure that list arguments have all the necessary bits
+  (e.g. `margin.inner` in `plotframe`),
+  with new utility function `check_listarg_v_default`
 
 
 ## d3panels 1.2.3 (2017-05-11)
