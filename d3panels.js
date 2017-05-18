@@ -3678,7 +3678,7 @@ d3panels.lodheatmap = function(chartOpts) {
   };
   colors = (ref3 = chartOpts != null ? chartOpts.colors : void 0) != null ? ref3 : ["slateblue", "white", "crimson"];
   nullcolor = (ref4 = chartOpts != null ? chartOpts.nullcolor : void 0) != null ? ref4 : "#e6e6e6";
-  xlab = (ref5 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref5 : "Chromosome";
+  xlab = (ref5 = chartOpts != null ? chartOpts.xlab : void 0) != null ? ref5 : null;
   ylab = (ref6 = chartOpts != null ? chartOpts.ylab : void 0) != null ? ref6 : "";
   ylim = (ref7 = chartOpts != null ? chartOpts.ylim : void 0) != null ? ref7 : null;
   zlim = (ref8 = chartOpts != null ? chartOpts.zlim : void 0) != null ? ref8 : null;

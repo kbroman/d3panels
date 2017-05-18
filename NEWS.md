@@ -2,9 +2,9 @@
 
 - Added functions `slider()` and `double_slider()`.
 
-- `chrpanelframe` (and so also `lodchart`) adds quantitative scale for
-  position on the x-axis (plus grid lines) if there is just one
-  chromosome.
+- `chrpanelframe` (and so also `lodchart` and `lodheatmap`) adds
+  quantitative scale for position on the x-axis (plus grid lines) if
+  there is just one chromosome.
 
 - Ensure that list arguments have all the necessary bits
   (e.g. `margin.inner` in `plotframe`),

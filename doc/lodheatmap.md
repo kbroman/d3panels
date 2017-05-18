@@ -35,7 +35,7 @@ mychart(d3.select('body'), data)
 - `margin` &mdash; margins in pixels (left, top, right, bottom) \[default `{left:60, top:40, right:40, bottom: 40}`\]
 - `colors` &mdash; vector of three colors for the color scale (negative - zero - positive) \[default `["slateblue", "white", "crimson"]`\]
 - `nullcolor` &mdash; color for empty cells \[default `"#e6e6e6"`\]
-- `xlab` &mdash; x-axis label \[default `"Chromosome"`\]
+- `xlab` &mdash; x-axis label \[default `null`\]
 - `ylab` &mdash; y-axis label \[default `""`\]
 - `ylim` &mdash; y-axis limits (if null take from data) \[default `null`\]
 - `zlim` &mdash; z-axis limits (if null take from data, symmetric about 0) \[default `null`\]
@@ -61,6 +61,7 @@ You can also use the chart options for [`chrpanelframe`](chrpanelframe.md):
 - `chrlinewidth` &mdash; width of lines between chromosomes \[default `2`\]
 - `boxcolor` &mdash; color of outer rectangle box \[default `"black"`\]
 - `boxwidth` &mdash; width of outer box in pixels \[default `2`\]
+- `xlineOpts` &mdash; color and width of vertical lines (if one chromosome) \[default `{color:"#d4d4d4", width:2}`\]
 - `ylineOpts` &mdash; color and width of horizontal lines \[default `{color:"white", width:2}`\]
 
 
