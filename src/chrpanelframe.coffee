@@ -23,6 +23,7 @@ d3panels.chrpanelframe = (chartOpts) ->
     chrlinewidth = chartOpts?.chrlinewidth ? 2         # width of lines between chromosomes
     boxcolor = chartOpts?.boxcolor ? "black"           # color of outer rectangle box
     boxwidth = chartOpts?.boxwidth ? 2                 # width of outer box in pixels
+    xlineOpts = chartOpts?.xlineOpts ? {color:"#d4d4d4", width:2} # color and width of vertical lines (if one chromosome)
     ylineOpts = chartOpts?.ylineOpts ? {color:"white", width:2} # color and width of horizontal lines
     chrGap = chartOpts?.chrGap ? 6                     # gap between chromosomes in pixels
     horizontal = chartOpts.horizontal ? false          # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
@@ -44,6 +45,7 @@ d3panels.chrpanelframe = (chartOpts) ->
         # args that are lists: check that they have all the pieces
         margin = d3panels.check_listarg_v_default(margin, {left:60, top:40, right:40, bottom: 60})
         axispos = d3panels.check_listarg_v_default(axispos, {xtitle:25, ytitle:45, xlabel:5, ylabel:5})
+        xlineOpts = d3panels.check_listarg_v_default(xlineOpts, {color:"white", width:2})
         ylineOpts = d3panels.check_listarg_v_default(ylineOpts, {color:"white", width:2})
 
         d3panels.displayError("chrpanelframe: data.chr is missing") unless data.chr?
@@ -151,6 +153,60 @@ d3panels.chrpanelframe = (chartOpts) ->
              .attr("x", ylabpos_x)
              .attr("transform", if rotate_ylab then "rotate(270,#{ylabpos_x},#{ylabpos_y})" else "")
 
+        # axis labels
+        if data.chr.length > 1
+            xlabels = xaxis.append("g").attr("id", "xlabels")
+                       .selectAll("empty")
+                       .data(data.chr)
+                       .enter()
+                       .append("text")
+                       .attr("x", (d,i) ->
+                            return margin.left - axispos.ylabel if horizontal
+                            (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
+                       .attr("y", (d,i) ->
+                            return (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2 if horizontal
+                            height - margin.bottom + axispos.xlabel)
+                       .text((d) -> d)
+        else
+            thechr = data.chr[0]
+            xticks = xscale[thechr].ticks(5)
+            xlabels = xaxis.append("g").attr("id", "xlabels")
+                       .selectAll("empty")
+                       .data(xticks)
+                       .enter()
+                       .append("text")
+                       .attr("x", (d) ->
+                            return margin.left - axispos.ylabel if horizontal
+                            xscale[thechr](d))
+                       .attr("y", (d,i) ->
+                            return xscale[thechr](d) if horizontal
+                            height - margin.bottom + axispos.xlabel)
+                       .text((d) -> d)
+
+            # vertical grid lines
+            xlines = xaxis.append("g").attr("id", "xlines")
+                      .selectAll("empty")
+                      .data(xticks)
+                      .enter()
+                      .append("line")
+                      .attr("x1", (d) ->
+                              return margin.left if horizontal
+                              xscale[thechr](d))
+                      .attr("x2", (d) ->
+                              return margin.left+plot_width if horizontal
+                              xscale[thechr](d))
+                      .attr("y1", (d,i) ->
+                              return xscale[thechr](d) if horizontal
+                              margin.top)
+                      .attr("y2", (d,i) ->
+                              return xscale[thechr](d) if horizontal
+                              plot_height + margin.top)
+                      .attr("fill", "none")
+                      .attr("stroke", xlineOpts.color)
+                      .attr("stroke-width", xlineOpts.width)
+                      .attr("shape-rendering", "crispEdges")
+                      .style("pointer-events", "none")
+
         # add Y axis values + ylines
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = yticks ? yscale.ticks(nyticks)
@@ -182,37 +238,6 @@ d3panels.chrpanelframe = (chartOpts) ->
                   .attr("stroke-width", ylineOpts.width)
                   .attr("shape-rendering", "crispEdges")
                   .style("pointer-events", "none")
-
-        # axis labels
-        if data.chr.length > 1
-            xlabels = xaxis.append("g").attr("id", "xlabels")
-                       .selectAll("empty")
-                       .data(data.chr)
-                       .enter()
-                       .append("text")
-                       .attr("x", (d,i) ->
-                            return margin.left - axispos.ylabel if horizontal
-                            (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2)
-                       .attr("y", (d,i) ->
-                            return (xscale[d](data.start[i]) + xscale[d](data.end[i]))/2 if horizontal
-                            height - margin.bottom + axispos.xlabel)
-                       .text((d) -> d)
-        else
-            thechr = data.chr[0]
-            ticks = xscale[thechr].ticks(5)
-            xlabels = xaxis.append("g").attr("id", "xlabels")
-                       .selectAll("empty")
-                       .data(ticks)
-                       .enter()
-                       .append("text")
-                       .attr("x", (d) ->
-                            return margin.left - axispos.ylabel if horizontal
-                            xscale[thechr](d))
-                       .attr("y", (d,i) ->
-                            return xscale[thechr](d) if horizontal
-                            height - margin.bottom + axispos.xlabel)
-                       .text((d) -> d)
-
 
         ylabels = yaxis.append("g").attr("id", "ylabels")
                    .selectAll("empty")

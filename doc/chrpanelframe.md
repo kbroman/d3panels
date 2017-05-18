@@ -41,6 +41,7 @@ mychart(d3.select('body'), data)
 - `chrlinewidth` &mdash; width of lines between chromosomes \[default `2`\]
 - `boxcolor` &mdash; color of outer rectangle box \[default `"black"`\]
 - `boxwidth` &mdash; width of outer box in pixels \[default `2`\]
+- `xlineOpts` &mdash; color and width of vertical lines (if one chromosome) \[default `{color:"#d4d4d4", width:2}`\]
 - `ylineOpts` &mdash; color and width of horizontal lines \[default `{color:"white", width:2}`\]
 - `chrGap` &mdash; gap between chromosomes in pixels \[default `6`\]
 - `horizontal` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same) \[default `false`\]
