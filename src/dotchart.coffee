@@ -171,7 +171,6 @@ d3panels.dotchart = (chartOpts) ->
                   .on("mouseover.paneltip", indtip.show)
                   .on("mouseout.paneltip", indtip.hide)
 
-
         if jitter == "random"
             jitter_width = 0.2
             u = ((Math.random()-0.5)*jitter_width for i of scaledPoints)
@@ -185,10 +184,6 @@ d3panels.dotchart = (chartOpts) ->
                     xscale(x[i]) + u[i]/jitter_width*xNA_size.width/2)
 
         else if jitter == "beeswarm"
-            ticked = () ->
-                points.attr("cx", (d) -> d.x)
-                      .attr("cy", (d) -> d.y)
-
             if horizontal
                 d3.range(scaledPoints.length).map( (i) ->
                     scaledPoints[i].fx = scaledPoints[i].x )
@@ -196,7 +191,8 @@ d3panels.dotchart = (chartOpts) ->
                 force = d3.forceSimulation(scaledPoints)
                       .force("y", d3.forceY((d) -> d.y))
                       .force("collide", d3.forceCollide(pointsize*1.1))
-                      .on("tick", ticked)
+                      .stop()
+
             else
                 d3.range(scaledPoints.length).map( (i) ->
                     scaledPoints[i].fy = scaledPoints[i].y)
@@ -204,7 +200,12 @@ d3panels.dotchart = (chartOpts) ->
                 force = d3.forceSimulation(scaledPoints)
                       .force("x", d3.forceX((d) -> d.x))
                       .force("collide", d3.forceCollide(pointsize*1.1))
-                      .on("tick", ticked)
+                      .stop()
+
+            [0..30].map((d) ->
+                force.tick()
+                points.attr("cx", (d) -> d.x)
+                      .attr("cy", (d) -> d.y))
 
         else if jitter != "none"
             d3panels.displayError('dotchart: jitter should be "beeswarm", "random", or "none"')

@@ -1,4 +1,4 @@
-## d3panels 1.3.6 (2017-05-18)
+## d3panels 1.3.7 (2017-05-18)
 
 - Added functions `slider()` and `double_slider()`.
 
@@ -9,6 +9,9 @@
 - Ensure that list arguments have all the necessary bits
   (e.g. `margin.inner` in `plotframe`),
   with new utility function `check_listarg_v_default`
+
+- In `dotchart` and `add_points`, just run 30 steps of the force
+  simulation.
 
 
 ## d3panels 1.2.3 (2017-05-11)

@@ -107,15 +107,16 @@ d3panels.add_points = (chartOpts) ->
                     scaledPoints[i].fx = scaledPoints[i].x unless scaledPoints[i].xnull
                     scaledPoints[i].fy = scaledPoints[i].y unless scaledPoints[i].ynull)
 
-                ticked = () ->
-                    points.attr("cx", (d,i) -> scaledPoints[i].x)
-                          .attr("cy", (d,i) -> scaledPoints[i].y)
-
                 force = d3.forceSimulation(scaledPoints)
                           .force("x", d3.forceX((d) -> d.x))
                           .force("y", d3.forceY((d) -> d.y))
                           .force("collide", d3.forceCollide(pointsize*1.1))
-                          .on("tick", ticked)
+                          .stop()
+
+                [0..30].map((d) ->
+                    force.tick()
+                    points.attr("cx", (d,i) -> scaledPoints[i].x)
+                          .attr("cy", (d,i) -> scaledPoints[i].y))
 
             else if jitter != "none"
                 d3panels.displayError('add_points: jitter should be "beeswarm", "random", or "none"')
