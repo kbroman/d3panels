@@ -1,10 +1,9 @@
 {
   "name": "d3panels",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "D3-based graphics panels",
-  "authors": [
-    "Karl Broman <kbroman@gmail.com>"
-  ],
+  "author": "Karl Broman <kbroman@gmail.com> (http://kbroman.org)",
+  "repository": "github:kbroman/d3panels",
   "homepage": "http://kbroman.org/d3panels",
   "license": "MIT",
   "dependencies": {
