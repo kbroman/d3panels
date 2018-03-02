@@ -1,6 +1,6 @@
 {
   "name": "d3panels",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "D3-based graphics panels",
   "authors": [
     "Karl Broman <kbroman@gmail.com>"
@@ -12,6 +12,7 @@
     "@bower_components/d3": "mbostock-bower/d3-bower#^4.9.0",
     "@bower_components/d3-tip": "Caged/d3-tip#^0.7.1"
   },
+  "files": ["ReadMe.md", "NEWS.md", "package.json", "License.md", "d3panels.css", "d3panels.js", "d3panels.min.css", "d3panels.min.js"],
   "engines": {
     "yarn": ">= 1.0.0"
   },
