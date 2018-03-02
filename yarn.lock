@@ -12,7 +12,7 @@
   dependencies:
     d3 "^4.2"
 
-"@bower_components/d3@mbostock-bower/d3-bower#^4.8.0":
+"@bower_components/d3@mbostock-bower/d3-bower#^4.9.0":
   version "0.0.0"
   resolved "https://codeload.github.com/mbostock-bower/d3-bower/tar.gz/07add096e6505fed00fb7be78d1e7e471cd18e7c"
 
