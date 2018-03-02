@@ -4,4 +4,5 @@ src/*.js
 test/*/*.json
 test/*/*.js
 bower_components
+node_modules
 Web/
