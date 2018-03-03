@@ -98,7 +98,7 @@ DOCS = doc/add_lodcurve.md \
 docs: $(DOCS)
 
 # arguments to use when compiling coffeescript -> javascript
-COFFEE_ARGS = -c # use -cm for debugging; -c otherwise
+COFFEE_ARGS = -ct # use -cm for debugging; -c otherwise
 
 # compiling main javascript files
 src/%.js: src/%.coffee
