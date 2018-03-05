@@ -102,15 +102,15 @@ COFFEE_ARGS = -ct # use -cm for debugging; -c otherwise
 
 # compiling main javascript files
 src/%.js: src/%.coffee
-	coffee -b ${COFFEE_ARGS} $^
+	cd $(^D);coffee -b ${COFFEE_ARGS} $(^F)
 
 # compiling javascript files for tests
 test/%.js: test/%.coffee
-	coffee ${COFFEE_ARGS} $^
+	cd $(^D);coffee ${COFFEE_ARGS} $(^F)
 
 # compiling the javascript files for tests of the panels
 test/%/%.js: test/%/%.coffee
-	coffee ${COFFEE_ARGS} $^
+	cd $(^D);coffee ${COFFEE_ARGS} $(^F)
 
 # creating the test data
 test/%/data.json: test/%/create_test_data.R
