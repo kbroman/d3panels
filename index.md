@@ -5,17 +5,14 @@ tagline: D3-based graphic panels
 description: A set of D3-based graphic panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
-This is a set of [D3](https://d3js.org)-based graphic panels,
+This is a set of [D3 (version 4)](https://d3js.org)-based graphic panels,
 developed for the [R/qtlcharts](https://kbroman.org/qtlcharts) package
 but useful more generally.
 
 They are developed in [CoffeeScript](https://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
-d3panels was recently updated to use [D3](https://d3js.org)
-[version 4](https://github.com/d3/d3/blob/master/API.md).
-
-[Documentation on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
+[Documentation is on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
 
 ---
 
@@ -115,13 +112,13 @@ mychart(d3.select("div#chart"), mydata)
 ```
 
 There are three exceptions to this:
-[`add_lodcurve`](add_lodcurve.md), [`add_curves`](add_curves.md), and [`add_points`](add_points.md).
+[`add_lodcurve`](https://github.com/kbroman/d3panels/blob/master/doc/add_lodcurve.md), [`add_curves`](https://github.com/kbroman/d3panels/blob/master/doc/add_curves.md), and [`add_points`](https://github.com/kbroman/d3panels/blob/master/doc/add_points.md).
 For these functions, you first need to call another function that
 creates a panel
-(for example, [`lodchart`](lodchart.md) or [`chrpanelframe`](chrpanelframe.md) in
-the case of [`add_lodcurve`](add_lodcurve.md), or
-[`panelframe`](panelframe.md) in the case of
-[`add_curves`](add_curves.md) or [`add_points`](add_points.md)).  You
+(for example, [`lodchart`](https://github.com/kbroman/d3panels/blob/master/doc/lodchart.md) or [`chrpanelframe`](https://github.com/kbroman/d3panels/blob/master/doc/chrpanelframe.md) in
+the case of [`add_lodcurve`](https://github.com/kbroman/d3panels/blob/master/doc/add_lodcurve.md), or
+[`panelframe`](https://github.com/kbroman/d3panels/blob/master/doc/panelframe.md) in the case of
+[`add_curves`](https://github.com/kbroman/d3panels/blob/master/doc/add_curves.md) or [`add_points`](https://github.com/kbroman/d3panels/blob/master/doc/add_points.md)).  You
 then use the chart function created by
 that first call in place of a selection. For example:
 
@@ -132,6 +129,13 @@ myframe(d3.select("body"))
 addpts = d3panels.add_points()
 addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]})
 ```
+
+
+## Documentation
+
+[Documentation](https://github.com/kbroman/d3panels/blob/master/doc/ReadMe.md)
+for each of the available functions is [on
+GitHub](https://github.com/kbroman/d3panels/blob/master/doc/ReadMe.md).
 
 
 ## Links
