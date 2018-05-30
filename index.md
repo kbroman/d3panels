@@ -5,11 +5,11 @@ tagline: D3-based graphic panels
 description: A set of D3-based graphic panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
-This is a set of [D3](http://d3js.org)-based graphic panels,
-developed for the [R/qtlcharts](http://kbroman.org/qtlcharts) package
+This is a set of [D3](https://d3js.org)-based graphic panels,
+developed for the [R/qtlcharts](https://kbroman.org/qtlcharts) package
 but useful more generally.
 
-They are developed in [CoffeeScript](http://coffeescript.org); the
+They are developed in [CoffeeScript](https://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
 d3panels was recently updated to use [D3](https://d3js.org)
@@ -161,7 +161,7 @@ to link to [colorbrewer.js](https://github.com/mbostock/d3/blob/master/lib/color
 
 ---
 
-Sources on [github](http://github.com):
+Sources on [github](https://github.com):
 
 - The [source for the package](https://github.com/kbroman/d3panels/tree/master)
 - The [source for the website](https://github.com/kbroman/d3panels/tree/gh-pages)
