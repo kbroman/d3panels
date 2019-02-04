@@ -1,7 +1,7 @@
 ## d3panels documentation
 
 This subdirectory contains Markdown documents describing each of the
-panel functions in [d3panels](http://kbroman.org/d3panels).
+panel functions in [d3panels](https://kbroman.org/d3panels).
 
 All of the functions are called as `d3panels.blah()`. And for each
 chart, you first call the chart function with a set of options, like
@@ -75,7 +75,7 @@ addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]
 
 ### Utility functions
 
-[d3panels](http://kbroman.org/d3panels) also contains some additional
+[d3panels](https://kbroman.org/d3panels) also contains some additional
 utility functions plus CSS code used by the panels. These are not
 documented.
 
@@ -84,7 +84,7 @@ documented.
 - [`panelutil.css`](https://github.com/kbroman/d3panels/blob/master/src/panelutil.css)
   contains CSS used by the panels
 
-For snapshots and live tests, see <http://kbroman.org/d3panels>.
+For snapshots and live tests, see <https://kbroman.org/d3panels>.
 
 ### Links
 

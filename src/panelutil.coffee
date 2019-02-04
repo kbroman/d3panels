@@ -25,7 +25,8 @@ d3panels.formatAxis = (d, extra_digits=0) ->
 d3panels.unique = (x) ->
     output = {}
     output[v] = v for v in x when v?
-    output[v] for v of output
+    output = (output[v] for v of output)
+    d3panels.forceAsArray(output)
 
 # Pull out a variable (column) from a two-dimensional array
 # [NO LONGER USED]

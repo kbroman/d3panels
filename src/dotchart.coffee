@@ -76,7 +76,9 @@ d3panels.dotchart = (chartOpts) ->
             d3panels.displayError("add_points: pointcolor.length (#{pointcolor.length}) < ngroup (#{ngroup})")
 
         xcategories = xcategories ? d3panels.unique(x)
+        xcategories = d3panels.forceAsArray(xcategories) # force it to be an array rather than a scalar
         xcatlabels = xcatlabels ? xcategories
+        xcatlabels = d3panels.forceAsArray(xcatlabels)
         if xcatlabels.length != xcategories.length
             d3panels.displayError("dotchart: xcatlabels.length [#{xcatlabels.length}] != xcategories.length [#{xcategories.length}]")
 
