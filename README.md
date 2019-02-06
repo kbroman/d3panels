@@ -72,7 +72,7 @@ You'll also want to link to [D3.js](https://d3js.org) and
 [d3-tip](https://github.com/Caged/d3-tip):
 
 ```html
-<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
 ```
 
