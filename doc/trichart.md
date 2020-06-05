@@ -33,6 +33,9 @@ mychart(d3.select('body'), data)
 - `pointcolor` &mdash; fill color of points \[default `null`\]
 - `pointstroke` &mdash; color of points' outer circle \[default `"black"`\]
 - `pointsize` &mdash; color of points \[default `3`\]
+- `gridlines` &mdash; number of grid lines \[default `0`\]
+- `gridcolor` &mdash; color of grid lines \[default `"white"`\]
+- `gridwidth` &mdash; width of grid lines in pixels \[default `1`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 
 

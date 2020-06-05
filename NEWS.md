@@ -1,3 +1,8 @@
+## d3panels 1.4.0 (2020-06-05)
+
+- Added option for grid lines in `trichart()`
+
+
 ## d3panels 1.3.7 (2017-05-18)
 
 - Added functions `slider()` and `double_slider()`.

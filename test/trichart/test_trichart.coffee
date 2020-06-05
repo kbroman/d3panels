@@ -38,5 +38,5 @@ for i in d3.range(n)
     p.push(x)
     g.push(2)
 
-mychart2 = d3panels.trichart()
+mychart2 = d3panels.trichart({gridlines:3})
 mychart2(d3.select("div#chart2"), {p:p, group:g})

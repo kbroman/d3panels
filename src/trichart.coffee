@@ -22,6 +22,9 @@ d3panels.trichart = (chartOpts) ->
     pointcolor = chartOpts?.pointcolor ? null           # fill color of points
     pointstroke = chartOpts?.pointstroke ? "black"      # color of points' outer circle
     pointsize = chartOpts?.pointsize ? 3                # color of points
+    gridlines = chartOpts?.gridlines ? 0                # number of grid lines
+    gridcolor = chartOpts?.gridcolor ? "white"          # color of grid lines
+    gridwidth = chartOpts?.gridwidth ? 1                # width of grid lines in pixels
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
     # chartOpts end
     # accessors start
@@ -135,6 +138,39 @@ d3panels.trichart = (chartOpts) ->
              .attr("fill", rectcolor)
              .attr("stroke", boxcolor)
              .attr("stroke-width", boxwidth)
+
+        # add gridlines
+        if gridlines > 0
+            gr = [1..gridlines].map((i) -> i/(gridlines+1))
+            p1 = gr.map( (x) -> [x, 0, 1-x])
+            p2 = gr.map( (x) -> [x, 1-x, 0])
+            p3 = gr.map( (x) -> [0, 1-x, x])
+            p4 = gr.map( (x) -> [1-x, 0, x])
+            first = p1.concat(p2).concat(p3)
+            second = p2.concat(p3).concat(p4)
+
+            g = frame.append("g").attr("class", "gridlines")
+                     .selectAll("empty")
+                     .data(first)
+                     .enter()
+                     .append("line")
+                     .attr("x1", (d) -> pscale(d).x)
+                     .attr("y1", (d) -> pscale(d).y)
+                     .attr("x2", (d,i) -> pscale(second[i]).x)
+                     .attr("y2", (d,i) -> pscale(second[i]).y)
+                     .attr("stroke", gridcolor)
+                     .attr("stroke-width", gridwidth)
+                     .attr("shape-rendering", "crispEdges")
+                     .style("pointer-events", "none")
+                     .attr("fill", "none")
+
+            # draw outer box again
+            frame.append("path")
+                 .datum(indices)
+                 .attr("d", framefunc)
+                 .attr("fill", "none")
+                 .attr("stroke", boxcolor)
+                 .attr("stroke-width", boxwidth)
 
         # add title
         frame.append("g").attr("class", "title")
