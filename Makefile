@@ -24,6 +24,7 @@ JS= src/d3panels_top.js \
 	src/histchart.js \
 	src/slider.js \
 	src/double_slider.js \
+	src/tooltips.js \
 	src/d3panels_bottom.js
 js: $(JS)
 
