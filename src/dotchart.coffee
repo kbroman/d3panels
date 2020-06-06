@@ -140,17 +140,6 @@ d3panels.dotchart = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        indtip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d,i) -> indID[i])
-                   .direction(() ->
-                       return 'n' if horizontal
-                       'e')
-                   .offset(() ->
-                       return [-10-pointsize,0] if horizontal
-                       [0,10+pointsize])
-        svg.call(indtip)
-
         # scaled versions of points
         if horizontal
             scaledPoints = ({x:xscale(y[i]),y:yscale(x[i])} for i of x)
@@ -170,8 +159,8 @@ d3panels.dotchart = (chartOpts) ->
                   .attr("stroke-width", "1")
                   .attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
-                  .on("mouseover.paneltip", indtip.show)
-                  .on("mouseout.paneltip", indtip.hide)
+
+        indtip = d3panels.tooltip_create(selection, points, {tipclass:tipclass}, (d,i) -> indID[i])
 
         if jitter == "random"
             jitter_width = 0.2
@@ -227,7 +216,7 @@ d3panels.dotchart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      indtip.destroy()
+                      d3panels.tooltip_destroy(indtip)
                       return null
 
     # return the chart function
