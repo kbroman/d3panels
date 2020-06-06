@@ -1,24 +1,27 @@
 # tool tips
 
 d3panels.tooltip_create = (selection, options) ->
-    selection.append("div")
-             .attr("class", "d3panels-tooltip")
-             .style("opacity", 0)
+    d3.select("body").append("div")
+             .attr("class", "d3panels-tooltip #{options.tipclass}")
+             .style("opacity", 1)
 
 
-d3panels.tooltip_activate = (objects, tipdiv, options) ->
-    objects.on("mouseover", (d) ->
-          tipdiv.html(d.tooltip)
+d3panels.tooltip_activate = (objects, tipdiv, options, tooltip_func) ->
+    objects.on("mouseover.d3panels-tooltip", (d,i) ->
+          mouseX = d3.event.pageX
+          mouseY = d3.event.pageY
 
-          h = tipdiv.node().getBoundingClientRect().height
+          tipdiv.html(tooltip_func(d,i))
 
-          tipdiv.style("left", (d3.event.pageX + d.r*3)+"px")
-                .style("top", (d3.event.pageY - h/2)+"px")
+          tipbox_height = tipdiv.node().getBoundingClientRect().height
+
+          tipdiv.style("left", "#{(mouseX + 10)}px")
+                .style("top", "#{(mouseY - tipbox_height/2)}px")
                 .transition()
                 .duration(0)
                 .style("opacity", 0.9))
 
-    objects.on("mouseout", (d) ->
+    objects.on("mouseout.d3panels-tooltip", (d) ->
               tipdiv.transition()
                   .duration(1000)
                   .style("opacity", 0))
