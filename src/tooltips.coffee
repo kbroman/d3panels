@@ -1,7 +1,7 @@
 # tool tips
 
 d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
-    tipdiv = d3.select("body").append("div")
+    tipdiv = selection.append("div")
                .attr("class", "d3panels-tooltip #{options.tipclass}")
                .style("opacity", 0)
 
