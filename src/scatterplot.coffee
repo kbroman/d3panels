@@ -94,7 +94,7 @@ d3panels.scatterplot = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      indtip.destroy()
+                      d3panels.tooltip_destroy(indtip)
                       null
 
     # return the chart function
