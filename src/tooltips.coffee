@@ -44,8 +44,6 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
               posX = mouseX - tipbox_width/2.0
               posY = mouseY + pad
 
-          console.log("#{direction} (#{mouseX},#{mouseY}) (#{posX},#{posY})")
-
           tipdiv.style("left", "#{posX}px")
                 .style("top", "#{posY}px")
                 .transition()
