@@ -68,7 +68,6 @@ You can also use the chart options for [`panelframe`](panelframe.md):
 - `xscale()` &mdash; x-axis scale
 - `yscale()` &mdash; y-axis scale
 - `curves()` &mdash; curves selection
-- `points()` &mdash; hidden points where the tool tips attach
 - `indtip()` &mdash; tooltip selection
 - `svg()` &mdash; SVG selection
 
