@@ -57,13 +57,6 @@ d3panels.add_points = (chartOpts) ->
         xscale = prevchart.xscale()
         yscale = prevchart.yscale()
 
-        # individual tooltips
-        indtip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d,i) -> indID[i])
-                   .direction('e')
-                   .offset([0,10+pointsize])
-        svg.call(indtip)
 
         pointGroup = svg.append("g").attr("id", "points")
         points =
@@ -78,9 +71,8 @@ d3panels.add_points = (chartOpts) ->
                   .attr("fill", (d,i) -> pointcolor[group[i]])
                   .attr("stroke", pointstroke)
                   .attr("stroke-width", "1")
-                  .on("mouseover.paneltip", indtip.show)
-                  .on("mouseout.paneltip", indtip.hide)
 
+        indtip = d3panels.tooltip_create(d3.select("body"), points, {tipclass:tipclass}, (d,i) -> indID[i])
 
         # jitter missing values?
         if prevchart.xNA() or prevchart.yNA()
@@ -131,7 +123,7 @@ d3panels.add_points = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       pointGroup.remove()
-                      indtip.destroy()
+                      d3panels.tooltip_destroy(indtip)
                       return null
 
     # return the chart function
