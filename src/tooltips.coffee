@@ -59,22 +59,31 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
 
               triChar = '\u25C0'
               shiftX = -fontsize - divpad
-              shiftY = tipbox_height/2.0 - fontsize/2
+              shiftY = tipbox_height/2.0 - fontsize/2.0
           else if direction == "west"
               posX = mouseX - tipbox_width*1.0 - pad
               posY = mouseY - tipbox_height/2.0
+
+              divpad = tipdiv.style("padding-right").replace("px", "")*1.0
+
               triChar = '\u25B6'
-              shiftX = -fontsize + tipbox_width
-              shiftY = fontsize/4
+              shiftX = tipbox_width-fontsize+divpad
+              shiftY = tipbox_height/2.0-fontsize/2.0
           else if direction == "north"
               posX = mouseX - tipbox_width/2.0
               posY = mouseY - tipbox_height - pad
+
+              divpad = tipdiv.style("padding-bottom").replace("px", "")*1.0
+
               triChar = '\u25BC'
               shiftX = tipbox_width/2.0-fontsize
               shiftY = pad+fontsize
           else if direction == "south"
               posX = mouseX - tipbox_width/2.0
               posY = mouseY + pad
+
+              divpad = tipdiv.style("padding-top").replace("px", "")*1.0
+
               triChar = '\u25B2'
               shiftX = tipbox_width/2.0-fontsize
               shiftY = -pad+fontsize
