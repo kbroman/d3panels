@@ -122,7 +122,7 @@ d3panels.histchart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      indtip.destroy()
+                      d3panels.tooltip_dstroy(indtip)
                       return null
 
     # return the chart function
