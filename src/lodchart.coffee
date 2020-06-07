@@ -92,7 +92,7 @@ d3panels.lodchart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      markertip.destroy()
+                      d3panels.tooltip_destroy(markertip)
                       return null
 
     # return the chart function
