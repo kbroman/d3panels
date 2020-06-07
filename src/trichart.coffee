@@ -191,14 +191,6 @@ d3panels.trichart = (chartOpts) ->
              .style("text-anchor", (d,i) -> ["end", "start", "start"][i])
              .text((d,i) -> labels[i])
 
-        # individual tooltips
-        indtip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d,i) -> indID[i])
-                   .direction('e')
-                   .offset([0,10+pointsize])
-        svg.call(indtip)
-
         # add points
         points = svg.append("g").attr("id", "points")
                     .selectAll("empty")
@@ -211,8 +203,9 @@ d3panels.trichart = (chartOpts) ->
                     .attr("fill", (d,i) -> pointcolor[group[i]])
                     .attr("stroke", pointstroke)
                     .attr("stroke-width", 1)
-                    .on("mouseover.paneltip", indtip.show)
-                    .on("mouseout.paneltip", indtip.hide)
+
+        # individual tooltips
+        indtip = d3panels.tooltip_create(d3.select("body"), points, {tipclass:tipclass}, (d,i) -> indID[i])
 
     # functions to grab stuff
     chart.xscale = () -> xscale
@@ -225,7 +218,7 @@ d3panels.trichart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      indtip.destroy()
+                      d3panels.tooltip_destroy(indtip)
                       null
 
     # return the chart function
