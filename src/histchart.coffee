@@ -103,12 +103,6 @@ d3panels.histchart = (chartOpts) ->
         curves = add_curves.curves()
         indtip = add_curves.indtip()
 
-        # adjust locations of hidden points
-        add_curves.points()
-                  .attr("cx", (d,i) -> xscale(maxpos[i].x))
-                  .attr("cy", (d,i) -> yscale(maxpos[i].y))
-
-
         # move box to front
         myframe.box().raise()
 
