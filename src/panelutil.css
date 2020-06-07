@@ -90,13 +90,15 @@ div.d3panels-tooltip {
           width: max-content;
           height: min-content;
           max-width: 160px;
-          padding: 3px;
-          font: 12px sans-serif;
+          padding: 5px;
+          font-size: 16px;
+          font-family: sans-serif;
+          font-weight: bold;
           background: darkslateblue;
           color: white;
           text-align: left;
           border: 0px;
-          border-radius: 2px;
+          border-radius: 3px;
           pointer-events: none;
 }
 
