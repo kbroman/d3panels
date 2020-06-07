@@ -120,7 +120,8 @@ d3panels.add_lodcurve = (chartOpts) ->
                         .on "mouseout", ->
                                                        d3.select(this).attr("opacity", 0)
 
-         parent = d3.select(svg.node().parentNode)
+         # parent = d3.select(svg.node().parentNode)
+         parent = d3.select("body")
          markertip = d3panels.tooltip_create(parent, markerSelect, {tipclass:"blah"}, (d,i) ->
                                               [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
 
