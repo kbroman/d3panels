@@ -79,14 +79,14 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
               shiftX = tipbox_width/2.0-fontsize
               shiftY = tipbox_height+divpad/2.0-fontsize/2.0
           else if direction == "south"
-              posX = mouseX + tipbox_width/2.0 - fontsize/2.0
+              posX = mouseX - tipbox_width/2.0
               posY = mouseY + pad
 
               divpad = tipdiv.style("padding-top").replace("px", "")*1.0
 
               triChar = '\u25B2'
-              shiftX = tipbox_width/2.0-fontsize
-              shiftY = -pad+fontsize
+              shiftX = +tipbox_width/2.0-fontsize
+              shiftY = -fontsize
 
           tipdiv.style("left", "#{posX}px")
                 .style("top", "#{posY}px")
