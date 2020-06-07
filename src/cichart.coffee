@@ -93,20 +93,6 @@ d3panels.cichart = (chartOpts) ->
         xscale = myframe.xscale()
         yscale = myframe.yscale()
 
-        tip = d3.tip()
-                .attr('class', "d3-tip #{tipclass}")
-                .html((d,i) ->
-                      index = i % mean.length
-                      f = d3panels.formatAxis([low[index],mean[index]], 1)
-                      "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})")
-                .direction(() ->
-                    return 'n' if horizontal
-                    'e')
-                .offset(() ->
-                    return [-10,0] if horizontal
-                    [0,10])
-        svg.call(tip)
-
         segmentGroup = svg.append("g").attr("id", "segments")
 
         # lines from low to high
@@ -130,8 +116,6 @@ d3panels.cichart = (chartOpts) ->
                 .attr("stroke", (d,i) -> vertsegcolor[i])
                 .attr("stroke-width", segstrokewidth)
                 .attr("shape-rendering", "crispEdges")
-                .on("mouseover.paneltip", tip.show)
-                .on("mouseout.paneltip", tip.hide)
 
         # lines at low, mean, and high
         yval = mean.concat(low,high)
@@ -168,8 +152,13 @@ d3panels.cichart = (chartOpts) ->
                 .attr("stroke", (d,i) -> segcolor[i % mean.length])
                 .attr("stroke-width", segstrokewidth)
                 .attr("shape-rendering", "crispEdges")
-                .on("mouseover.paneltip", tip.show)
-                .on("mouseout.paneltip", tip.hide)
+
+        direction = if horizontal then "north" else "east"
+        tipfunc = (d,i) ->
+                      index = i % mean.length
+                      f = d3panels.formatAxis([low[index],mean[index]], 1)
+                      "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})"
+        tip = d3panels.tooltip_create(d3.select("body"), segments, {direction:direction,tipclass:tipclass}, tipfunc)
 
         # move box to front
         myframe.box().raise()
@@ -184,7 +173,7 @@ d3panels.cichart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      tip.destroy()
+                      d3panels.tooltip_destroy(tip)
                       return null
 
     # return the chart function
