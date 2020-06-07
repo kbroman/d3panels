@@ -39,7 +39,7 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
     tridiv.style("color", fill) if fill?
     tridiv.style("font-size", "#{fontsize}px") if fontsize?
 
-    tripad = tridiv.style("font-size").replace("px", "")/4.0
+    tripad = tridiv.style("font-size").replace("px", "")*1.0
 
     objects.on("mouseover.#{tipclass}", (d,i) ->
           mouseX = d3.event.pageX*1.0
@@ -55,24 +55,27 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
               posX = mouseX + pad
               posY = mouseY - tipbox_height/2.0
               triChar = '\u25C0'
-              shiftX = -tipbox_height/2-tripad
-              shiftY = tripad
+              shiftX = -tripad
+              shiftY = tripad/4
           else if direction == "west"
               posX = mouseX - tipbox_width*1.0 - pad
               posY = mouseY - tipbox_height/2.0
               triChar = '\u25B6'
-              shiftX = +tipbox_height/2.0-tripad
-              shiftY = tripad
+              shiftX = -tripad + tipbox_width
+              shiftY = tripad/4
           else if direction == "north"
               posX = mouseX - tipbox_width/2.0
               posY = mouseY - tipbox_height - pad
               triChar = '\u25BC'
-              shiftX = tipbox_width/2.0
+              shiftX = tipbox_width/2.0-tripad
+              shiftY = pad+tripad
           else if direction == "south"
               posX = mouseX - tipbox_width/2.0
               posY = mouseY + pad
               triChar = '\u25B2'
-              shiftX = tipbox_width/2.0
+              shiftX = tipbox_width/2.0-tripad
+              shiftY = -pad+tripad
+
 
 
           tipdiv.style("left", "#{posX}px")
@@ -86,6 +89,8 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
 
           tridiv.style("left", "#{triX}px")
                 .style("top",  "#{triY}px")
+                .style("width", tipbox_width)
+                .style("height", tipbox_height)
                 .transition()
                 .duration(in_duration/1.2)
                 .style("opacity", 1.0))
