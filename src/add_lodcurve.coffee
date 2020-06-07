@@ -96,18 +96,6 @@ d3panels.add_lodcurve = (chartOpts) ->
         # these hidden points are what get selected...a bit larger
         hiddenpoints = g.append("g").attr("id", "markerpoints_hidden")
 
-        markertip = d3.tip()
-                      .attr('class', "d3-tip #{tipclass}")
-                      .html((d) ->
-                                 [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
-                      .direction(() ->
-                          return "n" if horizontal
-                          "e")
-                      .offset(() ->
-                          return [-10,0] if horizontal
-                          [0,10])
-        svg.call(markertip)
-
         bigpointsize = d3.max([2*pointsize, 3])
 
         markerSelect =
@@ -127,12 +115,14 @@ d3panels.add_lodcurve = (chartOpts) ->
                         .attr("fill", pointcolor)
                         .attr("stroke", pointstroke)
                         .attr("stroke-width", "1")
-                        .on "mouseover.paneltip", (d) ->
+                        .on "mouseover", (d) ->
                                                        d3.select(this).attr("opacity", 1)
-                                                       markertip.show(d)
-                        .on "mouseout.paneltip", ->
+                        .on "mouseout", ->
                                                        d3.select(this).attr("opacity", 0)
-                                                                      .call(markertip.hide)
+
+         parent = d3.select(svg.node().parentNode)
+         markertip = d3panels.tooltip_create(parent, markerSelect, {tipclass:"blah"}, (d,i) ->
+                                              [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
 
     # functions to grab stuff
     chart.markerSelect = () -> markerSelect
@@ -141,7 +131,7 @@ d3panels.add_lodcurve = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       g.remove()
-                      markertip.destroy()
+                      d3panels.tooltip_destroy(markertip)
                       return null
 
     # return the chart function
