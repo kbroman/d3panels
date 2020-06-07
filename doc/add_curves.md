@@ -46,6 +46,5 @@ add_curve(myframe, data)
 ### Accessors
 
 - `curves()` &mdash; select the curve
-- `points()` &mdash; hidden points where the tool tips attach
 - `indtip()` &mdash; tool tip selection
 

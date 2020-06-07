@@ -12,11 +12,9 @@ d3panels.add_curves = (chartOpts) ->
     # chartOpts end
     # accessors start
     curves = null   # select the curve
-    points = null   # hidden points where the tool tips attach
     indtip = null   # tool tip selection
     # accessors end
     curveGroup = null    # group containing the curves
-    pointGroup = null    # group containing the hidden points
 
     chart = (prevchart, data) -> # prevchart = chart function used to create lodchart to which we're adding
                                  # data = {x, y, indID, group}
@@ -73,13 +71,6 @@ d3panels.add_curves = (chartOpts) ->
         for i of y
             dataByPoint.push({x:x[i][j], y:y[i][j]} for j of y[i] when x[i][j]? and y[i][j]?)
 
-        indtip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d) -> indID[d])
-                   .direction('e')
-                   .offset([0,10])
-        svg.call(indtip)
-
         curvefunc = d3.line()
                  .x((d) -> xscale(d.x))
                  .y((d) -> yscale(d.y))
@@ -100,29 +91,11 @@ d3panels.add_curves = (chartOpts) ->
                                            d3.select(this).attr("stroke", linecolorhilit[group[i]])
                                                           .attr("stroke-width", linewidthhilit)
                                                           .raise()
-                                           circle = svg.select("circle#hiddenpoint#{i}")
-                                           indtip.show(i, circle.node())
                  .on "mouseout.panel", (d,i) ->
                                            d3.select(this).attr("stroke", linecolor[group[i]])
                                                           .attr("stroke-width", linewidth)
-                                           indtip.hide()
 
-        # grab the last non-null point from each curve
-        lastpoint = ({x:null, y:null} for i of data.x)
-        for i of dataByPoint
-            for v in dataByPoint[i]
-                lastpoint[i] = v if v.x? and v.y?
-
-        pointGroup = svg.append("g").attr("id", "invisiblepoints")
-        points = pointGroup.selectAll("empty")
-                        .data(lastpoint)
-                        .enter()
-                        .append("circle")
-                        .attr("id", (d,i) -> "hiddenpoint#{i}")
-                        .attr("cx", (d) -> xscale(d.x))
-                        .attr("cy", (d) -> yscale(d.y))
-                        .attr("r", 1)
-                        .attr("opacity", 0)
+        indtip = d3panels.tooltip_create(d3.select("body"), curves, {tipclass:tipclass}, (d,i) -> indID[i])
 
         # move box to front
         prevchart.box().raise()
@@ -130,13 +103,11 @@ d3panels.add_curves = (chartOpts) ->
     # functions to grab stuff
     chart.curves = () -> curves
     chart.indtip = () -> indtip
-    chart.points = () -> points
 
     # function to remove chart
     chart.remove = () ->
                       curveGroup.remove()
-                      pointGroup.remove()
-                      indtip.destroy()
+                      d3panels.tooltip_destroy(indtip)
                       return null
 
     # return the chart function
