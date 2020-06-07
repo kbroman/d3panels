@@ -140,17 +140,6 @@ d3panels.mapchart = (chartOpts) ->
         for i of data.marker
             markerpos[data.marker[i]] = d3.format(".1f")(data.pos[i])
 
-        martip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d) -> "#{d} (#{markerpos[d]})")
-                   .direction(() ->
-                       return 'n' if horizontal
-                       'e')
-                   .offset(() ->
-                       return [-10,0] if horizontal
-                       [0,10])
-        svg.call(martip)
-
         markers = svg.append("g").attr("id", "points")
         markerSelect =
             markers.selectAll("empty")
@@ -181,6 +170,10 @@ d3panels.mapchart = (chartOpts) ->
                                                  d3.select(this).attr("stroke", linecolor)
                                                  martip.hide()
 
+
+        direction = if horizontal then "north" else "east"
+        martip = d3panels.tooltip_create(d3.select("body"), markers, {direction:direction,tipclass:tipclass}, (d,i) -> "#{i} (#{markerpos[i]})")
+
         # move box to front
         myframe.box().raise()
 
@@ -194,7 +187,7 @@ d3panels.mapchart = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      martip.destroy()
+                      d3panels.tooltip_destroy(martip)
                       return null
 
     # return the chart function
