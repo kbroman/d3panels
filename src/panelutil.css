@@ -100,6 +100,7 @@ div.d3panels-tooltip {
           border: 0px;
           border-radius: 3px;
           pointer-events: none;
+          z-index: 999;
 }
 
 /* original d3-tip.min.css */
