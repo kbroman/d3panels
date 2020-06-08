@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.6.2"
+        version: "1.6.3"
     };
 "use strict";
 
@@ -3640,7 +3640,7 @@ d3panels.dotchart = function (chartOpts) {
     }).attr("cy", function (d) {
       return d.y;
     });
-    indtip = d3panels.tooltip_create(selection, points, {
+    indtip = d3panels.tooltip_create(d3.select("body"), points, {
       tipclass: tipclass
     }, function (d, i) {
       return indID[i];
@@ -4312,7 +4312,7 @@ d3panels.add_lodcurve = function (chartOpts) {
 
   chart = function chart(prevchart, data) {
     // prevchart = chart function used to create lodchart to which we're adding
-    var bigpointsize, chr, curves, hiddenpoints, i, j, len, lodcurve, markerpoints, parent, ref8, svg, xscale, yscale;
+    var bigpointsize, chr, curves, hiddenpoints, i, j, len, lodcurve, markerpoints, ref8, svg, xscale, yscale;
 
     if (data.chr == null) {
       // data = {chr, pos, lod, marker} each an ordered vector
@@ -4450,10 +4450,8 @@ d3panels.add_lodcurve = function (chartOpts) {
       return d3.select(this).attr("opacity", 1);
     }).on("mouseout", function () {
       return d3.select(this).attr("opacity", 0);
-    }); // parent = d3.select(svg.node().parentNode)
-
-    parent = d3.select("body");
-    return markertip = d3panels.tooltip_create(parent, markerSelect, {
+    });
+    return markertip = d3panels.tooltip_create(d3.select("body"), markerSelect, {
       tipclass: tipclass
     }, function (d, i) {
       return [d.name, " LOD = " + d3.format('.2f')(d.lod)];

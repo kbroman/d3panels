@@ -160,7 +160,7 @@ d3panels.dotchart = (chartOpts) ->
                   .attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
 
-        indtip = d3panels.tooltip_create(selection, points,
+        indtip = d3panels.tooltip_create(d3.select("body"), points,
                                          {tipclass:tipclass},
                                          (d,i) -> indID[i])
 
