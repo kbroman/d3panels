@@ -1,7 +1,7 @@
 # illustration of use of the crosstab function
 
 # Example 1: two autosomal markers
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     markers = ["D1M430", "D1M318"]
     mychart = d3panels.crosstab()
 
@@ -16,7 +16,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart1"), data2pass)
 
 # Example 2: two X-linked markers
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     markers = ["DXM64", "DXM66"]
     mychart = d3panels.crosstab()
 
@@ -31,7 +31,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart2"), data2pass)
 
 # Example 3: an autosomal and an X-linked marker
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     markers = ["D1M430", "DXM64"]
     mychart = d3panels.crosstab()
 

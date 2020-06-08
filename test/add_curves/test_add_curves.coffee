@@ -13,7 +13,7 @@ add_curve = d3panels.add_curves({linecolor:"slateblue"})
 add_curve(myframe, data)
 
 # Example: multiple curves
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     xlim = d3panels.matrixExtent(data.x)
     ylim = d3panels.matrixExtent(data.y)
 

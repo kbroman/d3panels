@@ -9,7 +9,7 @@ halfw = (w+margin.left+margin.right)
 totalw = halfw*2
 
 # Example 1: simplest use
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.scatterplot({
         xlab:"X1"
         ylab:"X2"
@@ -33,7 +33,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 2: three scatterplots within one SVG, with brushing
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     xvar = [1, 2, 2]
     yvar = [0, 0, 1]
     xshift = [0, halfw, halfw]
@@ -104,7 +104,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 3: different options regarding treatment of missing values
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart01 = d3panels.scatterplot({
         height:h
         width:w
@@ -186,7 +186,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 4: color by grouping
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.scatterplot({
         xlab:"X"
         ylab:"Y"

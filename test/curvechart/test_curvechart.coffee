@@ -9,7 +9,7 @@ halfw = (w+margin.left+margin.right)
 totalw = halfw*2
 
 # Example : simplest use
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.curvechart({
         xlab:"Age (weeks)"
         ylab:"Body weight"
@@ -36,7 +36,7 @@ d3.json "data.json", (data) ->
                                      textbox.text(""))
 
 # Example : swap x and y
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.curvechart({
         xlab:"Age (weeks)"
         ylab:"Body weight"

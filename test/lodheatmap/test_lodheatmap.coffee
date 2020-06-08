@@ -4,7 +4,7 @@ h = 700
 w = 1000
 
 # Example: simplest use
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodheatmap({
         height:h
         width:w
@@ -16,7 +16,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart1"), data)
 
 # Example with use of quantitative y-axis scale
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodheatmap({
         height:h
         width:w
@@ -28,7 +28,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart2"), data)
 
 # Horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodheatmap({
         height:h
         width:h
@@ -41,7 +41,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart3"), data)
 
 # Horizontal, with use of quantitative y-axis scale
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodheatmap({
         height:h
         width:h

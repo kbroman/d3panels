@@ -5,7 +5,7 @@ w = 500
 margin = {left:60, top:40, right:40, bottom: 40, inner:5}
 
 # Example 1: simplest use
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.panelframe({
         xlab:"x"
         ylab:"y"
@@ -23,7 +23,7 @@ d3.json "data.json", (data) ->
     add_points(mychart, data)
 
 # Example 2: missing data
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.panelframe({
         xlab:"x"
         ylab:"y"

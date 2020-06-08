@@ -1,7 +1,7 @@
 # illustration of use of the lod2dheatmap function
 
 # Example: chr 1 at bottom (default)
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lod2dheatmap({
         altrectcolor:""
         chrlinecolor:"black"
@@ -9,7 +9,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart1"), data)
 
 # Example: chr 1 at top
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lod2dheatmap({
         oneAtTop:true
         altrectcolor:""

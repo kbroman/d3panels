@@ -9,7 +9,7 @@ halfw = (w+margin.left+margin.right)
 totalw = halfw*2
 
 # Example 1: simplest use
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -33,7 +33,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 2: horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         height:h
         width:w
@@ -96,7 +96,7 @@ mychart4.points()
                              d3.select(this).attr("fill", "slateblue").attr("r", 3)
 
 # Example 5: random jitter
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -110,7 +110,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart5"), these_data)
 
 # Example 6: random jitter, horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -125,7 +125,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart6"), these_data)
 
 # Example 7: No jitter
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -139,7 +139,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart7"), these_data)
 
 # Example 8: random jitter
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -155,7 +155,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 9: Some missing y data
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -170,7 +170,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart9"), these_data)
 
 # Example 10: Some missing y data, horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -188,7 +188,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 11: Some missing x data
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -203,7 +203,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart11"), these_data)
 
 # Example 12: Some missing x data, horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -221,7 +221,7 @@ d3.json "data.json", (data) ->
 
 
 # Example 13: Some missing x and y data
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"
@@ -239,7 +239,7 @@ d3.json "data.json", (data) ->
     mychart(d3.select("div#chart13"), these_data)
 
 # Example 14: Some missing x and y data, horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.dotchart({
         xlab:"X"
         ylab:"Y"

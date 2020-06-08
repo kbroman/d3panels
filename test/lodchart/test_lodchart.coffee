@@ -5,7 +5,7 @@ w = 600
 margin = {left:60, top:40, right:40, bottom: 40, inner:5}
 
 # simplest use
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodchart({height:h, width:w, margin:margin})
 
     data.lod = data.lod_em
@@ -29,7 +29,7 @@ d3.json "data.json", (data) ->
                               .transition().duration(500).attr("r", r)
 
 # two LOD charts within one SVG
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart_em = d3panels.lodchart({
         height:h*0.7
         width:w
@@ -66,7 +66,7 @@ d3.json "data.json", (data) ->
     mychart_hk(chart2b, data)
 
 # two curves on one chart
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodchart({
         height:h
         width:w
@@ -81,7 +81,7 @@ d3.json "data.json", (data) ->
     addtochart(mychart, data2)
 
 # horizontal
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodchart({height:600, width:400, margin:margin, horizontal:true})
 
     data.lod = data.lod_em
@@ -89,7 +89,7 @@ d3.json "data.json", (data) ->
 
 
 # single chromosome
-d3.json "data.json", (data) ->
+d3.json("data.json").then (data) ->
     mychart = d3panels.lodchart({height:400, width:600, margin:margin, title:"Chromosome 4"})
 
     # subset to chromosome 4
