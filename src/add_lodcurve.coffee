@@ -122,8 +122,9 @@ d3panels.add_lodcurve = (chartOpts) ->
 
          # parent = d3.select(svg.node().parentNode)
          parent = d3.select("body")
-         markertip = d3panels.tooltip_create(parent, markerSelect, {tipclass:tipclass}, (d,i) ->
-                                              [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
+         markertip = d3panels.tooltip_create(parent, markerSelect,
+                                             {tipclass:tipclass},
+                                             (d,i) -> [d.name, " LOD = #{d3.format('.2f')(d.lod)}"])
 
     # functions to grab stuff
     chart.markerSelect = () -> markerSelect

@@ -158,7 +158,9 @@ d3panels.cichart = (chartOpts) ->
                       index = i % mean.length
                       f = d3panels.formatAxis([low[index],mean[index]], 1)
                       "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})"
-        tip = d3panels.tooltip_create(d3.select("body"), segments, {direction:direction,tipclass:tipclass}, tipfunc)
+        tip = d3panels.tooltip_create(d3.select("body"), segments,
+                                      {direction:direction,tipclass:tipclass},
+                                      tipfunc)
 
         # move box to front
         myframe.box().raise()

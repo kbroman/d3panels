@@ -149,7 +149,9 @@ d3panels.heatmap = (chartOpts) ->
                             return "(#{y}) &rarr; #{z}" if data.xcat?
                             return "(#{x}) &rarr; #{z}" if data.ycat?
                             "(#{x}, #{y}) &rarr; #{z}"
-        celltip = d3panels.tooltip_create(d3.select("body"), cellrect.selectAll("rect"), {tipclass: tipclass}, tooltipfunc)
+        celltip = d3panels.tooltip_create(d3.select("body"), cellrect.selectAll("rect"),
+                                          {tipclass: tipclass},
+                                          tooltipfunc)
 
         # handle categorical scales:
         #    replace text with category labels, add IDs, and hide them initially

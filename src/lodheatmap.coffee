@@ -188,7 +188,9 @@ d3panels.lodheatmap = (chartOpts) ->
                              return "#{lodlabel}, #{d.poslabel} &rarr; #{z}" if horizontal
                              "#{d.poslabel}, #{lodlabel} &rarr; #{z}"
         direction = if horizontal then "north" else "east"
-        celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"), {direction:direction, tipclass:tipclass}, celltipfunc)
+        celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"),
+                                          {direction:direction, tipclass:tipclass},
+                                          celltipfunc)
 
         myframe.box().raise()
 

@@ -160,7 +160,9 @@ d3panels.dotchart = (chartOpts) ->
                   .attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
 
-        indtip = d3panels.tooltip_create(selection, points, {direction:"east"}, (d,i) -> indID[i])
+        indtip = d3panels.tooltip_create(selection, points,
+                                         {tipclass:tipclass},
+                                         (d,i) -> indID[i])
 
         if jitter == "random"
             jitter_width = 0.2

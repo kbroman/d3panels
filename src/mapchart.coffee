@@ -172,7 +172,8 @@ d3panels.mapchart = (chartOpts) ->
         tipfunc = (d,i) -> "#{d} (#{markerpos[d]})"
         direction = if horizontal then "north" else "east"
         martip = d3panels.tooltip_create(d3.select("body"), markers.selectAll("line"),
-                                         {direction:direction,tipclass:tipclass}, tipfunc)
+                                         {direction:direction,tipclass:tipclass},
+                                         tipfunc)
 
         # move box to front
         myframe.box().raise()

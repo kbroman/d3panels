@@ -72,7 +72,9 @@ d3panels.add_points = (chartOpts) ->
                   .attr("stroke", pointstroke)
                   .attr("stroke-width", "1")
 
-        indtip = d3panels.tooltip_create(d3.select("body"), points, {tipclass:tipclass}, (d,i) -> indID[i])
+        indtip = d3panels.tooltip_create(d3.select("body"), points,
+                                         {tipclass:tipclass},
+                                         (d,i) -> indID[i])
 
         # jitter missing values?
         if prevchart.xNA() or prevchart.yNA()
