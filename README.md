@@ -7,7 +7,7 @@ be combined into larger multi-panel charts.  They were developed for
 the [R/qtlcharts](https://kbroman.org/qtlcharts) package.
 
 Note that d3panels uses
-[D3 version 4](https://github.com/d3/d3/blob/master/API.md).
+[D3 version 5](https://github.com/d3/d3/blob/master/API.md).
 
 There are other libraries with similar goals that are of more general
 use (e.g., [C3.js](https://c3js.org)); see
