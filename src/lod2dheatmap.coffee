@@ -152,7 +152,9 @@ d3panels.lod2dheatmap = (chartOpts) ->
         tooltipfunc = (d) ->
                             z = d3.format(".2f")(Math.abs(d.lod))
                             "(#{d.poslabelx},#{d.poslabely}) &rarr; #{z}"
-        celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"), {tipclass:tipclass}, tooltipfunc)
+        celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"),
+                                          {tipclass:tipclass},
+                                          tooltipfunc)
 
     # functions to grab stuff
     chart.xscale = () -> xscale

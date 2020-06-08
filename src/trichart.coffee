@@ -205,7 +205,9 @@ d3panels.trichart = (chartOpts) ->
                     .attr("stroke-width", 1)
 
         # individual tooltips
-        indtip = d3panels.tooltip_create(d3.select("body"), points, {tipclass:tipclass}, (d,i) -> indID[i])
+        indtip = d3panels.tooltip_create(d3.select("body"), points,
+                                         {tipclass:tipclass},
+                                         (d,i) -> indID[i])
 
     # functions to grab stuff
     chart.xscale = () -> xscale

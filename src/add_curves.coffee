@@ -95,7 +95,9 @@ d3panels.add_curves = (chartOpts) ->
                                            d3.select(this).attr("stroke", linecolor[group[i]])
                                                           .attr("stroke-width", linewidth)
 
-        indtip = d3panels.tooltip_create(d3.select("body"), curves, {tipclass:tipclass}, (d,i) -> indID[i])
+        indtip = d3panels.tooltip_create(d3.select("body"), curves,
+                                         {tipclass:tipclass},
+                                         (d,i) -> indID[i])
 
         # move box to front
         prevchart.box().raise()

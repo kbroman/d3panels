@@ -3619,7 +3619,7 @@ d3panels.dotchart = function (chartOpts) {
       return d.y;
     });
     indtip = d3panels.tooltip_create(selection, points, {
-      direction: "east"
+      tipclass: tipclass
     }, function (d, i) {
       return indID[i];
     });
@@ -5425,7 +5425,7 @@ d3panels.mapchart = function (chartOpts) {
 
   chart = function chart(selection, data) {
     // {chr, pos, marker, (optionally) chrname}
-    var chr, chrscale, direction, extentByChr, i, j, k, l, len, len1, markerpos, markers, minpos, myframe, n_chr, n_pos, pos, ref11, ref12, these_index, these_pos, x, xlim, xticklab, xticks, ylim; // args that are lists: check that they have all the pieces
+    var chr, chrscale, direction, extentByChr, i, j, k, l, len, len1, markerpos, markers, minpos, myframe, n_chr, n_pos, pos, ref11, ref12, these_index, these_pos, tipfunc, x, xlim, xticklab, xticks, ylim; // args that are lists: check that they have all the pieces
 
     xlineOpts = d3panels.check_listarg_v_default(xlineOpts, {
       color: "#cdcdcd",
@@ -5669,13 +5669,16 @@ d3panels.mapchart = function (chartOpts) {
     }).on("mouseout.paneltip", function () {
       return d3.select(this).attr("stroke", linecolor);
     });
+
+    tipfunc = function tipfunc(d, i) {
+      return d + " (" + markerpos[d] + ")";
+    };
+
     direction = horizontal ? "north" : "east";
-    martip = d3panels.tooltip_create(d3.select("body"), markers, {
+    martip = d3panels.tooltip_create(d3.select("body"), markers.selectAll("line"), {
       direction: direction,
       tipclass: tipclass
-    }, function (d, i) {
-      return i + " (" + markerpos[i] + ")";
-    }); // move box to front
+    }, tipfunc); // move box to front
 
     return myframe.box().raise();
   }; // functions to grab stuff
