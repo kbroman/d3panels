@@ -1,6 +1,22 @@
-## d3panels 1.4.0 (2020-06-05)
+## d3panels 1.6.0 (2020-06-07)
+
+- Implemented custom tool tips in order to drop the
+  [d3-tip]http://labratrevenge.com/d3-tip) library, which is no longer
+  being maintained.
+
+
+## d3panels 1.5.0 (2020-06-05)
 
 - Added option for grid lines in `trichart()`
+
+
+## d3panels 1.4.9 (2019-02-04)
+
+- Fixed bug in `dotchart()` re having a single group.
+
+- Compiling coffeescript to ES5
+
+- Using [yarn](https://yarnpkg.com) rather than [bower](https://bower.io)
 
 
 ## d3panels 1.3.7 (2017-05-18)

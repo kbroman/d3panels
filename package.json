@@ -8,8 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@bower_components/colorbrewer": "undashes/colorbrewer#^1.0.0",
-    "@bower_components/d3": "mbostock-bower/d3-bower#^4.9.0",
-    "@bower_components/d3-tip": "Caged/d3-tip#^0.7.1"
+    "@bower_components/d3": "mbostock-bower/d3-bower#^4.9.0"
   },
   "files": [
     "ReadMe.md",
