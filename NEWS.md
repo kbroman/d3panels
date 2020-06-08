@@ -1,8 +1,15 @@
-## d3panels 1.6.0 (2020-06-07)
+## d3panels 1.6.1 (2020-06-07)
 
 - Implemented custom tool tips in order to drop the
   [d3-tip]http://labratrevenge.com/d3-tip) library, which is no longer
   being maintained.
+
+- Revised to use D3 v5; only real change was in the test code which
+  uses `d3.json()` to load data.
+
+- Dropped the dependency on
+  [colorbrewer](https://github.com/jeanlauliac/colorbrewer), as this
+  is now built into D3 v5.
 
 
 ## d3panels 1.5.0 (2020-06-05)
