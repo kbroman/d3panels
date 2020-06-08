@@ -473,3 +473,10 @@ d3panels.check_listarg_v_default = (arg, defaults) ->
     for key of defaults
         arg[key] = defaults[key] unless arg[key]?
     arg
+
+# get x,y client position of an object
+d3panels.object_position = (object) ->
+    obj = object.node().getBoundingClientRect()
+    x = obj.left/2.0 + obj.right/2.0
+    y = obj.top/2.0 + obj.bottom/2.0
+    {x:x, y:y}

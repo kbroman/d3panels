@@ -1,4 +1,4 @@
-## d3panels 1.6.1 (2020-06-07)
+## d3panels 1.6.2 (2020-06-08)
 
 - Implemented custom tool tips in order to drop the
   [d3-tip]http://labratrevenge.com/d3-tip) library, which is no longer
