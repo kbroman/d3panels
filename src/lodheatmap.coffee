@@ -143,22 +143,6 @@ d3panels.lodheatmap = (chartOpts) ->
                         cells.push({lod: lod, chr:chr, pos:pos, poslabel: data.poslabelByChr[chr][i], posindex:+i, lodindex:+j})
         d3panels.calc_chrcell_rect(cells, xmid_scaled, ymid_scaled)
 
-        # tool tips
-        celltip = d3.tip()
-                   .attr('class', "d3-tip #{tipclass}")
-                   .html((d) ->
-                             z = d3.format(".2f")(Math.abs(d.lod))
-                             lodlabel = if data.ycat? then data.ycat[d.lodindex] else d3panels.formatAxis(data.y)(data.y[d.lodindex])
-                             return "#{lodlabel}, #{d.poslabel} &rarr; #{z}" if horizontal
-                             "#{d.poslabel}, #{lodlabel} &rarr; #{z}")
-                   .direction(() ->
-                       return 'n' if horizontal
-                       'e')
-                   .offset(() ->
-                       return [-10, 0] if horizontal
-                       [0,10])
-        svg.call(celltip)
-
         cellg = svg.append("g").attr("id", "cells")
         cellSelect =
             cellg.selectAll("empty")
@@ -182,14 +166,12 @@ d3panels.lodheatmap = (chartOpts) ->
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
                  .attr("shape-rendering", "crispEdges")
-                 .on("mouseover.paneltip", (d) ->
+                 .on("mouseover", (d) ->
                                                d3.select(this).attr("stroke", hilitcolor).raise()
-                                               celltip.show(d)
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",1))
-                 .on("mouseout.paneltip", (d) ->
+                 .on("mouseout", (d) ->
                                                d3.select(this).attr("stroke", "none")
-                                               celltip.hide()
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",0))
 
@@ -198,6 +180,15 @@ d3panels.lodheatmap = (chartOpts) ->
             svg.selectAll("g#ylines").remove()
             ylabels.attr("opacity", 0)
                    .attr("id", (d,i) -> "ylab#{i}")
+
+        # tool tips
+        celltipfunc = (d) ->
+                             z = d3.format(".2f")(Math.abs(d.lod))
+                             lodlabel = if data.ycat? then data.ycat[d.lodindex] else d3panels.formatAxis(data.y)(data.y[d.lodindex])
+                             return "#{lodlabel}, #{d.poslabel} &rarr; #{z}" if horizontal
+                             "#{d.poslabel}, #{lodlabel} &rarr; #{z}"
+        direction = if horizontal then "north" else "east"
+        celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"), {direction:direction, tipclass:tipclass}, celltipfunc)
 
         myframe.box().raise()
 
@@ -213,7 +204,7 @@ d3panels.lodheatmap = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      celltip.destroy()
+                      d3panels.tooltip_destroy(celltip)
                       return null
 
     # return the chart function
