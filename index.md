@@ -5,11 +5,11 @@ tagline: D3-based graphic panels
 description: A set of D3-based graphic panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
+[![NPM badge](https://img.shields.io/npm/v/d3panels.svg)](https://npmjs.org/package/d3panels)
+
 This is a set of [D3 (version 5)](https://d3js.org)-based graphic panels,
 developed for the [R/qtlcharts](https://kbroman.org/qtlcharts) package
-but useful more generally.
-
-They are developed in [CoffeeScript](https://coffeescript.org); the
+but useful more generally. They are developed in [CoffeeScript](https://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
 [Documentation is on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
