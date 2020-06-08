@@ -8,8 +8,9 @@
   uses `d3.json()` to load data.
 
 - Dropped the dependency on
-  [colorbrewer](https://github.com/jeanlauliac/colorbrewer), as this
-  is now built into D3 v5.
+  [colorbrewer](https://github.com/jeanlauliac/colorbrewer).
+  This is now built into D3 v5, but I ended up just hard-coding the
+  palettes I wanted, so that the library still works with D3 v4.
 
 
 ## d3panels 1.5.0 (2020-06-05)

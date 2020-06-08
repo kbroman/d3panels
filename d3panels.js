@@ -201,9 +201,20 @@ d3panels.calc_chrscales = function (plot_width, left_margin, gap, chr, start, en
 
 
 d3panels.selectGroupColors = function (ngroup, palette) {
+  var cat20, pastel1, pastel20, set1;
+
   if (ngroup === 0) {
     return [];
-  }
+  } // ColorBrewer, now in D3 v5
+
+
+  set1 = ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33", "#a65628", "#f781bf", "#999999"]; // ColorBrewer, now in D3 v5
+
+  pastel1 = ["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]; // from D3 v4
+
+  cat20 = ["#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c", "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5", "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f", "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"]; // my own rough attempt to make a _big_ pastel palette
+
+  pastel20 = ["#8fc7f4", "#fed7f8", "#ffbf8e", "#fffbb8", "#8ce08c", "#d8ffca", "#f68788", "#ffd8d6", "#d4a7fd", "#f5f0f5", "#cc968b", "#f4dcd4", "#f3b7f2", "#f7f6f2", "#bfbfbf", "#f7f7f7", "#fcfd82", "#fbfbcd", "#87feff", "#defaf5"];
 
   if (palette === "dark") {
     if (ngroup === 1) {
@@ -219,10 +230,10 @@ d3panels.selectGroupColors = function (ngroup, palette) {
     }
 
     if (ngroup <= 9) {
-      return d3.schemeSet1.slice(0, ngroup);
+      return set1.slice(0, ngroup);
     }
 
-    return d3.schemeCategory20.slice(0, ngroup);
+    return cat20.slice(0, ngroup);
   } else {
     if (ngroup === 1) {
       return ["#bebebe"];
@@ -233,11 +244,10 @@ d3panels.selectGroupColors = function (ngroup, palette) {
     }
 
     if (ngroup <= 9) {
-      return d3.schemePastel1.slice(0, ngroup);
-    } // below is rough attempt to make _big_ pastel palette
+      return pastel1.slice(0, ngroup);
+    }
 
-
-    return ["#8fc7f4", "#fed7f8", "#ffbf8e", "#fffbb8", "#8ce08c", "#d8ffca", "#f68788", "#ffd8d6", "#d4a7fd", "#f5f0f5", "#cc968b", "#f4dcd4", "#f3b7f2", "#f7f6f2", "#bfbfbf", "#f7f7f7", "#fcfd82", "#fbfbcd", "#87feff", "#defaf5"].slice(0, ngroup);
+    return pastel20.slice(0, ngroup);
   }
 }; // expand element/array (e.g., of colors) to a given length
 //     single elment -> array, then repeated to length n
