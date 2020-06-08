@@ -219,7 +219,7 @@ d3panels.selectGroupColors = function (ngroup, palette) {
     }
 
     if (ngroup <= 9) {
-      return colorbrewer.Set1[ngroup];
+      return d3.schemeSet1.slice(0, ngroup);
     }
 
     return d3.schemeCategory20.slice(0, ngroup);
@@ -233,7 +233,7 @@ d3panels.selectGroupColors = function (ngroup, palette) {
     }
 
     if (ngroup <= 9) {
-      return colorbrewer.Pastel1[ngroup];
+      return d3.schemePastel1.slice(0, ngroup);
     } // below is rough attempt to make _big_ pastel palette
 
 

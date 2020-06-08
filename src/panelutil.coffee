@@ -103,12 +103,12 @@ d3panels.selectGroupColors = (ngroup, palette) ->
         return ["slateblue"] if ngroup == 1
         return ["MediumVioletRed", "slateblue"] if ngroup == 2
         return ["MediumVioletRed", "MediumSeaGreen", "slateblue"] if ngroup == 3
-        return colorbrewer.Set1[ngroup] if ngroup <= 9
+        return d3.schemeSet1[0...ngroup] if ngroup <= 9
         return d3.schemeCategory20[0...ngroup]
     else
         return ["#bebebe"] if ngroup == 1
         return ["lightpink", "lightblue"] if ngroup == 2
-        return colorbrewer.Pastel1[ngroup] if ngroup <= 9
+        return d3.schemePastel1[0...ngroup] if ngroup <= 9
         # below is rough attempt to make _big_ pastel palette
         return ["#8fc7f4", "#fed7f8", "#ffbf8e", "#fffbb8",
                 "#8ce08c", "#d8ffca", "#f68788", "#ffd8d6",

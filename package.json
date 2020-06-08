@@ -7,7 +7,6 @@
   "homepage": "https://kbroman.org/d3panels",
   "license": "MIT",
   "dependencies": {
-    "@bower_components/colorbrewer": "undashes/colorbrewer#^1.0.0",
     "@bower_components/d3": "mbostock-bower/d3-bower#^5.16.0"
   },
   "files": [

@@ -68,11 +68,10 @@ to `d3panels.min.js` and `d3panels.min.css`):
 <link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
 ```
 
-For a couple of panels (`curvechart` and `scatterplot`) you may need
-to link to [colorbrewer.js](https://github.com/mbostock/d3/blob/master/lib/colorbrewer/colorbrewer.js):
+You'll also want to link to [D3.js](https://d3js.org):
 
 ```html
-<script type="text/javascript" src="https://rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
 ```
 
 
@@ -88,8 +87,7 @@ Then use npm to install [yarn](https://yarnpkg.com/en/), [coffeescript](https://
 npm install -g yarn coffeescript uglifycss uglify-js babel-core
 ```
 
-Then install the dependencies ([d3](https://d3js.org) and
-[colorbrewer](https://github.com/jeanlauliac/colorbrewer):
+Then install the dependency ([d3](https://d3js.org):
 
 ```script
 yarn install
