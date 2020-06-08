@@ -129,16 +129,6 @@ d3panels.lod2dheatmap = (chartOpts) ->
         # calc cell height, width
         d3panels.calc_2dchrcell_rect(cells, xmid_scaled, ymid_scaled)
 
-        # tool tip
-        celltip = d3.tip()
-                    .attr('class', "d3-tip #{tipclass}")
-                    .html((d) ->
-                            z = d3.format(".2f")(Math.abs(d.lod))
-                            "(#{d.poslabelx},#{d.poslabely}) &rarr; #{z}")
-                    .direction('e')
-                    .offset([0,10])
-        svg.call(celltip)
-
         cellg = svg.append("g").attr("id", "cells")
         cellSelect =
             cellg.selectAll("empty")
@@ -153,12 +143,18 @@ d3panels.lod2dheatmap = (chartOpts) ->
                  .attr("fill", (d) -> if d.lod? then zscale(d.lod) else nullcolor)
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
-                 .on("mouseover.paneltip", (d) ->
+                 .on("mouseover", (d) ->
                                                d3.select(this).attr("stroke", hilitcolor).raise()
                                                celltip.show(d))
-                 .on("mouseout.paneltip", () ->
+                 .on("mouseout", () ->
                                                d3.select(this).attr("stroke", "none")
                                                celltip.hide())
+
+        # tool tip
+        tooltipfunc = (d) ->
+                            z = d3.format(".2f")(Math.abs(d.lod))
+                            "(#{d.poslabelx},#{d.poslabely}) &rarr; #{z}"
+        celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"), {tipclass:tipclass}, tooltipfunc)
 
     # functions to grab stuff
     chart.xscale = () -> xscale
@@ -171,7 +167,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      celltip.destroy()
+                      d3panels.tooltip_destory(celltip)
                       return null
 
     # return the chart function
