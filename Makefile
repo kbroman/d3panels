@@ -1,5 +1,5 @@
-all: d3panels d3 d3-tip colorbrewer testdata testjs testindex
-.PHONY: all d3panels d3 d3-tip colorbrewer testdata testjs testindex
+all: d3panels d3 testdata testjs testindex
+.PHONY: all d3panels d3 testdata testjs testindex
 
 # Source for d3panels
 d3panels: assets/d3panels.js \
@@ -19,23 +19,6 @@ d3: assets/bower_components/d3/d3.min.js \
 	assets/bower_components/d3/LICENSE
 
 assets/bower_components/d3/%: ../bower_components/d3/%
-	cp $< $(@D)/
-
-# d3-tip
-d3-tip: assets/bower_components/d3-tip/LICENSE \
-		assets/bower_components/d3-tip/README.md \
-		assets/bower_components/d3-tip/index.js
-
-assets/bower_components/d3-tip/%: ../bower_components/d3-tip/%
-	cp $< $(@D)/
-
-# colorbrewer
-colorbrewer: assets/bower_components/colorbrewer/LICENSE \
-			 assets/bower_components/colorbrewer/README.md \
-			 assets/bower_components/colorbrewer/colorbrewer.js \
-			 assets/bower_components/colorbrewer/colorbrewer.css
-
-assets/bower_components/colorbrewer/%: ../bower_components/colorbrewer/%
 	cp $< $(@D)/
 
 # test data

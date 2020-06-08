@@ -5,7 +5,7 @@ tagline: D3-based graphic panels
 description: A set of D3-based graphic panels that form the basis for the visualizations in R/qtlcharts.
 ---
 
-This is a set of [D3 (version 4)](https://d3js.org)-based graphic panels,
+This is a set of [D3 (version 5)](https://d3js.org)-based graphic panels,
 developed for the [R/qtlcharts](https://kbroman.org/qtlcharts) package
 but useful more generally.
 
@@ -148,19 +148,10 @@ to `d3panels.min.js` and `d3panels.min.css`):
 <link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
 ```
 
-You also need to link to [D3.js](https://d3js.org) and
-[d3-tip](https://github.com/Caged/d3-tip):
+You also need to link to [D3.js](https://d3js.org):
 
 ```html
-<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-<script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
-```
-
-For a couple of panels (`curvechart` and `scatterplot`) you may also need
-to link to [colorbrewer.js](https://github.com/undashes/colorbrewer/blob/master/colorbrewer.js):
-
-```html
-<script type="text/javascript" src="https://rawgit.com/undashes/colorbrewer/master/colorbrewer.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
 ```
 
 ---
