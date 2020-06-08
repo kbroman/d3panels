@@ -106,20 +106,6 @@ d3panels.heatmap = (chartOpts) ->
         xlabels = myframe.xlabels()
         ylabels = myframe.ylabels()
 
-        celltip = d3.tip()
-                    .attr('class', "d3-tip #{tipclass}")
-                    .html((d) ->
-                            x = d3panels.formatAxis(data.x)(d.x)
-                            y = d3panels.formatAxis(data.y)(d.y)
-                            z = d3panels.formatAxis([0, zmax/100])(d.z)
-                            return "#{z}" if data.xcat? and data.ycat?
-                            return "(#{y}) &rarr; #{z}" if data.xcat?
-                            return "(#{x}) &rarr; #{z}" if data.ycat?
-                            "(#{x}, #{y}) &rarr; #{z}")
-                    .direction('e')
-                    .offset([0,10])
-        svg.call(celltip)
-
         # scaled x and y midpoints
         xmid_scaled = (xscale(xv) for xv in xmid)
         ymid_scaled = (yscale(yv) for yv in ymid)
@@ -142,20 +128,28 @@ d3panels.heatmap = (chartOpts) ->
                     .attr("stroke", "none")
                     .attr("stroke-width", "1")
                     .attr("shape-rendering", "crispEdges")
-                    .on("mouseover.paneltip", (d) ->
+                    .on("mouseover", (d) ->
                                                   d3.select(this).attr("stroke", hilitcolor).raise()
-                                                  celltip.show(d)
                                                   if data.xcat? # show categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 1)
                                                   if data.ycat?
                                                       svg.select("text#ylab#{d.y}").attr("opacity", 1))
-                    .on("mouseout.paneltip", (d) ->
+                    .on("mouseout", (d) ->
                                                   d3.select(this).attr("stroke", "none")
-                                                  celltip.hide()
                                                   if data.xcat? # hide categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 0)
                                                   if data.ycat?
                                                       svg.select("text#ylab#{d.y}").attr("opacity", 0))
+
+        tooltipfunc = (d,i) ->
+                            x = d3panels.formatAxis(data.x)(d.x)
+                            y = d3panels.formatAxis(data.y)(d.y)
+                            z = d3panels.formatAxis([0, zmax/100])(d.z)
+                            return "#{z}" if data.xcat? and data.ycat?
+                            return "(#{y}) &rarr; #{z}" if data.xcat?
+                            return "(#{x}) &rarr; #{z}" if data.ycat?
+                            "(#{x}, #{y}) &rarr; #{z}"
+        celltip = d3panels.tooltip_create(d3.select("body"), cellrect.selectAll("rect"), {tipclass: tipclass}, tooltipfunc)
 
         # handle categorical scales:
         #    replace text with category labels, add IDs, and hide them initially
@@ -182,7 +176,7 @@ d3panels.heatmap = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      celltip.destroy()
+                      d3panels.tooltip_destroy(celltip)
                       return null
 
     # return the chart function
