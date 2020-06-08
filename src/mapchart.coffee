@@ -165,10 +165,8 @@ d3panels.mapchart = (chartOpts) ->
                    .attr("shape-rendering", "crispEdges")
                    .on "mouseover.paneltip", (d) ->
                                                  d3.select(this).attr("stroke", linecolorhilit)
-                                                 martip.show(d)
                    .on "mouseout.paneltip", () ->
                                                  d3.select(this).attr("stroke", linecolor)
-                                                 martip.hide()
 
 
         direction = if horizontal then "north" else "east"

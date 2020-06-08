@@ -144,11 +144,9 @@ d3panels.lod2dheatmap = (chartOpts) ->
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
                  .on("mouseover", (d) ->
-                                               d3.select(this).attr("stroke", hilitcolor).raise()
-                                               celltip.show(d))
+                                               d3.select(this).attr("stroke", hilitcolor).raise())
                  .on("mouseout", () ->
-                                               d3.select(this).attr("stroke", "none")
-                                               celltip.hide())
+                                               d3.select(this).attr("stroke", "none"))
 
         # tool tip
         tooltipfunc = (d) ->
