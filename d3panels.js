@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.6.3"
+        version: "1.6.4"
     };
 "use strict";
 
@@ -1388,7 +1388,7 @@ d3panels.lod2dheatmap = function (chartOpts) {
 
   chart.remove = function () {
     svg.remove();
-    d3panels.tooltip_destory(celltip);
+    d3panels.tooltip_destroy(celltip);
     return null;
   }; // return the chart function
 

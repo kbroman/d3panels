@@ -167,7 +167,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
     # function to remove chart
     chart.remove = () ->
                       svg.remove()
-                      d3panels.tooltip_destory(celltip)
+                      d3panels.tooltip_destroy(celltip)
                       return null
 
     # return the chart function
