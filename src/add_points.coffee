@@ -36,6 +36,7 @@ d3panels.add_points = (chartOpts) ->
 
         # groups of colors
         group = data?.group ? (1 for i in x)
+        group = d3panels.expand2vector(group, x.length)  # force it to be a vector not scalar
         ngroup = d3.max(group)
         group = ((if g? then g-1 else g) for g in group) # changed from (1,2,3,...) to (0,1,2,...)
         if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0

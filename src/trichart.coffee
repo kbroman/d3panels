@@ -68,6 +68,7 @@ d3panels.trichart = (chartOpts) ->
 
         # groups of colors
         group = data?.group ? (1 for i of p)
+        group = d3panels.expand2vector(group, n)  # force it to be a vector not scalar
         ngroup = d3.max(group)
         group = ((if g? then g-1 else g) for g in group) # changed from (1,2,3,...) to (0,1,2,...)
         if d3panels.sumArray(g < 0 or g > ngroup-1 for g in group) > 0

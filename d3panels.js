@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.6.4"
+        version: "1.7.1"
     };
 "use strict";
 
@@ -3472,6 +3472,8 @@ d3panels.dotchart = function (chartOpts) {
 
       return results;
     }();
+    group = d3panels.expand2vector(group, x.length); // force it to be a vector not scalar
+
     ngroup = d3.max(group);
 
     group = function () {
@@ -4585,6 +4587,8 @@ d3panels.add_curves = function (chartOpts) {
 
       return results;
     }();
+    group = d3panels.expand2vector(group, n_ind); // force it to be a vector not scalar
+
     ngroup = d3.max(group);
 
     group = function () {
@@ -4781,6 +4785,8 @@ d3panels.add_points = function (chartOpts) {
 
       return results;
     }();
+    group = d3panels.expand2vector(group, x.length); // force it to be a vector not scalar
+
     ngroup = d3.max(group);
 
     group = function () {
@@ -6086,6 +6092,8 @@ d3panels.trichart = function (chartOpts) {
 
       return results;
     }();
+    group = d3panels.expand2vector(group, n); // force it to be a vector not scalar
+
     ngroup = d3.max(group);
 
     group = function () {
