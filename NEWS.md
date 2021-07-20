@@ -1,3 +1,9 @@
+## d3panels 1.7.1 (2021-07-20)
+
+- Handle a single data point in trichart; try to do the same thing in
+  add_points, add_curves, dotchart
+
+
 ## d3panels 1.6.4 (2020-06-08)
 
 - Implemented custom tool tips in order to drop the
