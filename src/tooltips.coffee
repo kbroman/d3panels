@@ -38,10 +38,13 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
     tridiv.style("color", fill) if fill?
     tridiv.style("font-size", "#{fontsize}px") if fontsize?
 
-    objects.on("mouseover.#{tipclass}", (d,i) ->
+    objects.on("mouseover.#{tipclass}", (event, d) ->
+          e = objects.nodes()
+          i = e.indexOf(this)
+
           # mouse position; make sure these are numbers
-          mouseX = d3.event.pageX*1.0
-          mouseY = d3.event.pageY*1.0
+          mouseX = event.pageX*1.0
+          mouseY = event.pageY*1.0
 
           tipdiv.html(tooltip_func(d,i))
 

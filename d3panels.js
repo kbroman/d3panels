@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.7.1"
+        version: "1.8.0"
     };
 "use strict";
 
@@ -6777,9 +6777,9 @@ d3panels.slider = function (chartOpts) {
     button.insert("rect").attr("x", -buttonsize / 2).attr("y", margin.top - buttonsize / 2).attr("height", buttonsize).attr("width", buttonsize).attr("rx", buttonround).attr("ry", buttonround).attr("stroke", buttonstroke).attr("stroke-width", 2).attr("fill", buttoncolor);
     button.insert("circle").attr("cx", 0).attr("cy", margin.top).attr("r", buttondotsize).attr("fill", buttondotcolor); // function to deal with dragging
 
-    dragged = function dragged(d) {
+    dragged = function dragged(event, d) {
       var clamped_pixels, pixel_value;
-      pixel_value = d3.event.x;
+      pixel_value = event.x;
       clamped_pixels = clamp_pixels(pixel_value, [margin.left, width - margin.right]);
       value = xcscale.invert(clamped_pixels);
       d3.select(this).attr("transform", "translate(" + xcscale(value) + ",0)");
@@ -6795,9 +6795,9 @@ d3panels.slider = function (chartOpts) {
     }; // function at end of dragging:
 
 
-    end_drag = function end_drag(d) {
+    end_drag = function end_drag(event, d) {
       var clamped_pixels, pixel_value;
-      pixel_value = d3.event.x;
+      pixel_value = event.x;
       clamped_pixels = clamp_pixels(pixel_value, [margin.left, width - margin.right]);
       value = xcscale.invert(clamped_pixels);
 
@@ -7046,9 +7046,9 @@ d3panels.double_slider = function (chartOpts) {
 
 
     dragged = function dragged(i) {
-      return function (d) {
+      return function (event, d) {
         var clamped_pixels, pixel_value;
-        pixel_value = d3.event.x;
+        pixel_value = event.x;
         clamped_pixels = clamp_pixels(pixel_value, [margin.left, width - margin.right]);
         value[i] = xcscale.invert(clamped_pixels);
         d3.select(this).attr("transform", "translate(" + xcscale(value[i]) + ",0)");
@@ -7066,9 +7066,9 @@ d3panels.double_slider = function (chartOpts) {
 
 
     end_drag = function end_drag(i) {
-      return function (d) {
+      return function (event, d) {
         var clamped_pixels, pixel_value;
-        pixel_value = d3.event.x;
+        pixel_value = event.x;
         clamped_pixels = clamp_pixels(pixel_value, [margin.left, width - margin.right]);
         value[i] = xcscale.invert(clamped_pixels);
 
@@ -7166,11 +7166,13 @@ d3panels.tooltip_create = function (selection, objects, options, tooltip_func) {
     tridiv.style("font-size", fontsize + "px");
   }
 
-  objects.on("mouseover." + tipclass, function (d, i) {
-    var mouseX, mouseY; // mouse position; make sure these are numbers
+  objects.on("mouseover." + tipclass, function (event, d) {
+    var e, i, mouseX, mouseY;
+    e = objects.nodes();
+    i = e.indexOf(this); // mouse position; make sure these are numbers
 
-    mouseX = d3.event.pageX * 1.0;
-    mouseY = d3.event.pageY * 1.0;
+    mouseX = event.pageX * 1.0;
+    mouseY = event.pageY * 1.0;
     tipdiv.html(tooltip_func(d, i));
     d3panels.tooltip_move(tipgroup, mouseX, mouseY);
     return d3panels.tooltip_show(tipgroup, in_duration);
