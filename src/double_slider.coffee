@@ -166,8 +166,8 @@ d3panels.double_slider = (chartOpts) ->
 
         # function to deal with dragging
         dragged = (i) ->
-            (d) ->
-                pixel_value = d3.event.x
+            (event, d) ->
+                pixel_value = event.x
                 clamped_pixels = clamp_pixels(pixel_value, [margin.left, width-margin.right])
                 value[i] = xcscale.invert(clamped_pixels)
                 d3.select(this).attr("transform", "translate(" + xcscale(value[i]) + ",0)")
@@ -178,8 +178,8 @@ d3panels.double_slider = (chartOpts) ->
 
         # function at end of dragging:
         end_drag = (i) ->
-            (d) ->
-                pixel_value = d3.event.x
+            (event, d) ->
+                pixel_value = event.x
                 clamped_pixels = clamp_pixels(pixel_value, [margin.left, width-margin.right])
                 value[i] = xcscale.invert(clamped_pixels)
                 if stops?
