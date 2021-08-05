@@ -10,7 +10,7 @@ mychart2 = d3panels.chr2dpanelframe({title:"Select chromosomes on hover"})
 mychart2(d3.select("div#chart2"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})
 chrSelect = mychart2.chrSelect()
 chrSelect.on("mouseover", () -> d3.select(this).attr("fill", "#e9cfec")) # pink on hover
-         .on("mouseout", (d) -> d3.select(this).attr("fill", ->
+         .on("mouseout", (event,d) -> d3.select(this).attr("fill", ->
                                                         return "#d4d4d4" if d.odd
                                                         "#e6e6e6"))
 
