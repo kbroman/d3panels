@@ -166,11 +166,11 @@ d3panels.lodheatmap = (chartOpts) ->
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
                  .attr("shape-rendering", "crispEdges")
-                 .on("mouseover", (d) ->
+                 .on("mouseover", (event, d) ->
                                                d3.select(this).attr("stroke", hilitcolor).raise()
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",1))
-                 .on("mouseout", (d) ->
+                 .on("mouseout", (event, d) ->
                                                d3.select(this).attr("stroke", "none")
                                                if data.ycat?
                                                    svg.select("text#ylab#{d.lodindex}").attr("opacity",0))

@@ -51,7 +51,9 @@ d3.json("data.json").then (data) ->
     addpts = d3panels.add_points({pointcolor:["Orchid", "slateblue", "#8c8"]})
     addpts(mychart, data)
 
-    addpts.points().on("mouseover", (d,i) ->
+    added_points = addpts.points().on("mouseover", (event, d) ->
+                          i = added_points.nodes().indexOf(this)
                           d3.select(this).attr("r", 6))
-                   .on("mouseout", (d,i) ->
+                   .on("mouseout", (event, d) ->
+                          i = added_points.nodes().indexOf(this)
                           d3.select(this).attr("r", 3))

@@ -133,7 +133,7 @@ d3panels.crosstab = (chartOpts) ->
 
         # rectangles for the column headings
         colrect = svg.append("g").attr("id", "colrect")
-        colrect.selectAll("empty")
+        cols = colrect.selectAll("empty")
                .data((data.xcat).concat("Total"))
                .enter()
                .append("rect")
@@ -144,10 +144,12 @@ d3panels.crosstab = (chartOpts) ->
                .attr("fill", "white")
                .attr("stroke", "white")
                .attr("shape-rendering", "crispEdges")
-               .on "mouseover", (d,i) ->
+               .on "mouseover", (event, d) ->
+                    i = cols.nodes().indexOf(this)
                     d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor)
                     values.selectAll(".col#{i}").text((d) -> d.colpercent)
-               .on "mouseout", (d,i) ->
+               .on "mouseout", (event, d) ->
+                    i = cols.nodes().indexOf(this)
                     d3.select(this).attr("fill", "white").attr("stroke", "white")
                     values.selectAll("text.col#{i}").text((d) -> d.value)
 
@@ -166,7 +168,7 @@ d3panels.crosstab = (chartOpts) ->
 
         # rectangles for the row headings
         rowrect = svg.append("g").attr("id", "rowrect")
-        rowrect.selectAll("empty")
+        rows = rowrect.selectAll("empty")
                .data((data.ycat).concat("Total"))
                .enter()
                .append("rect")
@@ -177,10 +179,12 @@ d3panels.crosstab = (chartOpts) ->
                .attr("fill", "white")
                .attr("stroke", "white")
                .attr("shape-rendering", "crispEdges")
-               .on "mouseover", (d,i) ->
+               .on "mouseover", (event, d) ->
+                    i = rows.nodes().indexOf(this)
                     d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor)
                     values.selectAll(".row#{i}").text((d) -> d.rowpercent)
-               .on "mouseout", (d,i) ->
+               .on "mouseout", (event, d) ->
+                    i = rows.nodes().indexOf(this)
                     d3.select(this).attr("fill", "white").attr("stroke", "white")
                     values.selectAll(".row#{i}").text((d) -> d.value)
 

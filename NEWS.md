@@ -1,6 +1,9 @@
 ## d3panels 1.8.0 (2021-08-04)
 
-- Revised to use D3 v7.
+- Revised to use D3 v7. Main changes concern `d3.event` and `.on()`,
+  particularly `.on("mouseover", (d,i) -> )`
+  See the [D3 6.0 migration
+  guide](https://observablehq.com/@d3/d3v6-migration-guide).
 
 
 ## d3panels 1.7.1 (2021-07-20)

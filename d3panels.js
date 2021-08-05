@@ -1343,7 +1343,7 @@ d3panels.lod2dheatmap = function (chartOpts) {
       } else {
         return nullcolor;
       }
-    }).attr("stroke", "none").attr("stroke-width", "1").on("mouseover", function (d) {
+    }).attr("stroke", "none").attr("stroke-width", "1").on("mouseover", function () {
       return d3.select(this).attr("stroke", hilitcolor).raise();
     }).on("mouseout", function () {
       return d3.select(this).attr("stroke", "none");
@@ -2927,7 +2927,7 @@ d3panels.crosstab = function (chartOpts) {
 
   chart = function chart(selection, data) {
     // {x, y, xcat, ycat, xlabel, ylabel} (xcat, ycat, xlabel, ylabel are optional; x and y in {0,1,2,...})
-    var borders, cell, cellHeight, cellWidth, cells, collab, denom, i, j, k, l, n, ncol, nrow, plot_height, plot_width, rect, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, rowlab, tab, titles, values, xscale, xv, yscale, yv; // args that are lists: check that they have all the pieces
+    var borders, cell, cellHeight, cellWidth, cells, collab, cols, denom, i, j, k, l, n, ncol, nrow, plot_height, plot_width, rect, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, rowlab, rows, tab, titles, values, xscale, xv, yscale, yv; // args that are lists: check that they have all the pieces
 
     margin = d3panels.check_listarg_v_default(margin, {
       left: 60,
@@ -3122,14 +3122,16 @@ d3panels.crosstab = function (chartOpts) {
     }).style("font-size", fontsize).style("pointer-events", "none"); // rectangles for the column headings
 
     colrect = svg.append("g").attr("id", "colrect");
-    colrect.selectAll("empty").data(data.xcat.concat("Total")).enter().append("rect").attr("x", function (d, i) {
+    cols = colrect.selectAll("empty").data(data.xcat.concat("Total")).enter().append("rect").attr("x", function (d, i) {
       return xscale(i + 1);
-    }).attr("y", yscale(0)).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").attr("shape-rendering", "crispEdges").on("mouseover", function (d, i) {
+    }).attr("y", yscale(0)).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").attr("shape-rendering", "crispEdges").on("mouseover", function (event, d) {
+      i = cols.nodes().indexOf(this);
       d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor);
       return values.selectAll(".col" + i).text(function (d) {
         return d.colpercent;
       });
-    }).on("mouseout", function (d, i) {
+    }).on("mouseout", function (event, d) {
+      i = cols.nodes().indexOf(this);
       d3.select(this).attr("fill", "white").attr("stroke", "white");
       return values.selectAll("text.col" + i).text(function (d) {
         return d.value;
@@ -3144,14 +3146,16 @@ d3panels.crosstab = function (chartOpts) {
     }).attr("class", "crosstab").style("font-size", fontsize).style("pointer-events", "none"); // rectangles for the row headings
 
     rowrect = svg.append("g").attr("id", "rowrect");
-    rowrect.selectAll("empty").data(data.ycat.concat("Total")).enter().append("rect").attr("x", xscale(0)).attr("y", function (d, i) {
+    rows = rowrect.selectAll("empty").data(data.ycat.concat("Total")).enter().append("rect").attr("x", xscale(0)).attr("y", function (d, i) {
       return yscale(i + 1);
-    }).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").attr("shape-rendering", "crispEdges").on("mouseover", function (d, i) {
+    }).attr("width", cellWidth).attr("height", cellHeight).attr("fill", "white").attr("stroke", "white").attr("shape-rendering", "crispEdges").on("mouseover", function (event, d) {
+      i = rows.nodes().indexOf(this);
       d3.select(this).attr("fill", hilitcolor).attr("stroke", hilitcolor);
       return values.selectAll(".row" + i).text(function (d) {
         return d.rowpercent;
       });
-    }).on("mouseout", function (d, i) {
+    }).on("mouseout", function (event, d) {
+      i = rows.nodes().indexOf(this);
       d3.select(this).attr("fill", "white").attr("stroke", "white");
       return values.selectAll(".row" + i).text(function (d) {
         return d.value;
@@ -4006,7 +4010,7 @@ d3panels.heatmap = function (chartOpts) {
       } else {
         return nullcolor;
       }
-    }).attr("stroke", "none").attr("stroke-width", "1").attr("shape-rendering", "crispEdges").on("mouseover", function (d) {
+    }).attr("stroke", "none").attr("stroke-width", "1").attr("shape-rendering", "crispEdges").on("mouseover", function (event, d) {
       d3.select(this).attr("stroke", hilitcolor).raise();
 
       if (data.xcat != null) {
@@ -4016,7 +4020,7 @@ d3panels.heatmap = function (chartOpts) {
       if (data.ycat != null) {
         return svg.select("text#ylab" + d.y).attr("opacity", 1);
       }
-    }).on("mouseout", function (d) {
+    }).on("mouseout", function (event, d) {
       d3.select(this).attr("stroke", "none");
 
       if (data.xcat != null) {
@@ -4448,7 +4452,7 @@ d3panels.add_lodcurve = function (chartOpts) {
       } else {
         return null;
       }
-    }).attr("opacity", 0).attr("fill", pointcolor).attr("stroke", pointstroke).attr("stroke-width", "1").on("mouseover", function (d) {
+    }).attr("opacity", 0).attr("fill", pointcolor).attr("stroke", pointstroke).attr("stroke-width", "1").on("mouseover", function () {
       return d3.select(this).attr("opacity", 1);
     }).on("mouseout", function () {
       return d3.select(this).attr("opacity", 0);
@@ -4673,9 +4677,13 @@ d3panels.add_curves = function (chartOpts) {
       return "path" + i;
     }).attr("fill", "none").attr("stroke", function (d, i) {
       return linecolor[group[i]];
-    }).attr("stroke-width", linewidth).on("mouseover.panel", function (d, i) {
+    }).attr("stroke-width", linewidth).on("mouseover.panel", function (event, d) {
+      i = curves.nodes().indexOf(this);
       return d3.select(this).attr("stroke", linecolorhilit[group[i]]).attr("stroke-width", linewidthhilit).raise();
-    }).on("mouseout.panel", function (d, i) {
+    }).on("mouseout.panel", function (event, d) {
+      var e;
+      e = curves.nodes();
+      i = e.indexOf(this);
       return d3.select(this).attr("stroke", linecolor[group[i]]).attr("stroke-width", linewidth);
     });
     indtip = d3panels.tooltip_create(d3.select("body"), curves, {
@@ -5321,13 +5329,13 @@ d3panels.lodheatmap = function (chartOpts) {
       } else {
         return nullcolor;
       }
-    }).attr("stroke", "none").attr("stroke-width", "1").attr("shape-rendering", "crispEdges").on("mouseover", function (d) {
+    }).attr("stroke", "none").attr("stroke-width", "1").attr("shape-rendering", "crispEdges").on("mouseover", function (event, d) {
       d3.select(this).attr("stroke", hilitcolor).raise();
 
       if (data.ycat != null) {
         return svg.select("text#ylab" + d.lodindex).attr("opacity", 1);
       }
-    }).on("mouseout", function (d) {
+    }).on("mouseout", function (event, d) {
       d3.select(this).attr("stroke", "none");
 
       if (data.ycat != null) {
@@ -5690,7 +5698,7 @@ d3panels.mapchart = function (chartOpts) {
       return yscale(data.adjpos[i]);
     }).attr("id", function (d) {
       return d;
-    }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).attr("shape-rendering", "crispEdges").on("mouseover.paneltip", function (d) {
+    }).attr("fill", "none").attr("stroke", linecolor).attr("stroke-width", linewidth).attr("shape-rendering", "crispEdges").on("mouseover.paneltip", function () {
       return d3.select(this).attr("stroke", linecolorhilit);
     }).on("mouseout.paneltip", function () {
       return d3.select(this).attr("stroke", linecolor);
@@ -7167,9 +7175,8 @@ d3panels.tooltip_create = function (selection, objects, options, tooltip_func) {
   }
 
   objects.on("mouseover." + tipclass, function (event, d) {
-    var e, i, mouseX, mouseY;
-    e = objects.nodes();
-    i = e.indexOf(this); // mouse position; make sure these are numbers
+    var i, mouseX, mouseY;
+    i = objects.nodes().indexOf(this); // mouse position; make sure these are numbers
 
     mouseX = event.pageX * 1.0;
     mouseY = event.pageY * 1.0;

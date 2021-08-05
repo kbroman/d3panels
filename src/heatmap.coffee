@@ -128,13 +128,13 @@ d3panels.heatmap = (chartOpts) ->
                     .attr("stroke", "none")
                     .attr("stroke-width", "1")
                     .attr("shape-rendering", "crispEdges")
-                    .on("mouseover", (d) ->
+                    .on("mouseover", (event,d) ->
                                                   d3.select(this).attr("stroke", hilitcolor).raise()
                                                   if data.xcat? # show categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 1)
                                                   if data.ycat?
                                                       svg.select("text#ylab#{d.y}").attr("opacity", 1))
-                    .on("mouseout", (d) ->
+                    .on("mouseout", (event,d) ->
                                                   d3.select(this).attr("stroke", "none")
                                                   if data.xcat? # hide categorical scales
                                                       svg.select("text#xlab#{d.x}").attr("opacity", 0)

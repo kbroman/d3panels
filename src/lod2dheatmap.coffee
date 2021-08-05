@@ -143,7 +143,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
                  .attr("fill", (d) -> if d.lod? then zscale(d.lod) else nullcolor)
                  .attr("stroke", "none")
                  .attr("stroke-width", "1")
-                 .on("mouseover", (d) ->
+                 .on("mouseover", () ->
                                                d3.select(this).attr("stroke", hilitcolor).raise())
                  .on("mouseout", () ->
                                                d3.select(this).attr("stroke", "none"))

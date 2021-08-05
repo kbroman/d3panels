@@ -26,4 +26,4 @@ mychart3 = d3panels.chr2dpanelframe({
 mychart3(d3.select("div#chart3"), {chr:[1,2,3,4,5],end:[100,90,70,50,50]})
 chrSelect = mychart3.chrSelect()
 chrSelect.on("mouseover", () -> d3.select(this).attr("fill", "#dff")) # pink on hover
-         .on("mouseout", (d) -> d3.select(this).attr("fill", -> "white"))
+         .on("mouseout", () -> d3.select(this).attr("fill", -> "white"))

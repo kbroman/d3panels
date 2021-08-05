@@ -26,9 +26,9 @@ d3.json("data.json").then (data) ->
 
     # animate points
     mychart.points()
-              .on "mouseover", (d) ->
+              .on "mouseover", () ->
                                    d3.select(this).attr("r", 3*3)
-              .on "mouseout", (d) ->
+              .on "mouseout", () ->
                                    d3.select(this).attr("r", 3)
 
 
@@ -66,10 +66,10 @@ d3.json("data.json").then (data) ->
     brushstart = () ->
             svg.selectAll("circle").attr("opacity", 0.6).classed("selected", false)
 
-    brushmove = () ->
+    brushmove = (event, d) ->
             svg.selectAll("circle").classed("selected", false)
 
-            e = d3.event.selection
+            e = event.selection
 
             [0..2].map((i) ->
                 if e[0][0] <= xshift[i]+w and e[1][0] >= xshift[i] and e[0][1] <= yshift[i]+h and e[1][1] >= yshift[i]

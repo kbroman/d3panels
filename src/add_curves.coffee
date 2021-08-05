@@ -88,11 +88,14 @@ d3panels.add_curves = (chartOpts) ->
                  .attr("fill", "none")
                  .attr("stroke", (d,i) -> linecolor[group[i]])
                  .attr("stroke-width", linewidth)
-                 .on "mouseover.panel", (d,i) ->
+                 .on "mouseover.panel", (event, d) ->
+                                           i = curves.nodes().indexOf(this)
                                            d3.select(this).attr("stroke", linecolorhilit[group[i]])
                                                           .attr("stroke-width", linewidthhilit)
                                                           .raise()
-                 .on "mouseout.panel", (d,i) ->
+                 .on "mouseout.panel", (event, d) ->
+                                           e = curves.nodes()
+                                           i = e.indexOf(this)
                                            d3.select(this).attr("stroke", linecolor[group[i]])
                                                           .attr("stroke-width", linewidth)
 

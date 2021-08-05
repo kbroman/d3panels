@@ -29,8 +29,9 @@ d3.json("data.json").then (data) ->
                      .attr("x", margin.left)
                      .style("text-anchor","start")
 
-    mychart.curves()
-           .on("mouseover.text", (d,i) ->
+    chart_curves = mychart.curves()
+           .on("mouseover.text", (event, d) ->
+                                     i = chart_curves.nodes().indexOf(this)
                                      textbox.text("ind #{i+1}"))
            .on("mouseout.text", () ->
                                      textbox.text(""))

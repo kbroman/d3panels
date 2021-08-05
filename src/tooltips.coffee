@@ -39,8 +39,7 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
     tridiv.style("font-size", "#{fontsize}px") if fontsize?
 
     objects.on("mouseover.#{tipclass}", (event, d) ->
-          e = objects.nodes()
-          i = e.indexOf(this)
+          i = objects.nodes().indexOf(this)
 
           # mouse position; make sure these are numbers
           mouseX = event.pageX*1.0

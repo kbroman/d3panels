@@ -163,7 +163,7 @@ d3panels.mapchart = (chartOpts) ->
                    .attr("stroke", linecolor)
                    .attr("stroke-width", linewidth)
                    .attr("shape-rendering", "crispEdges")
-                   .on "mouseover.paneltip", (d) ->
+                   .on "mouseover.paneltip", () ->
                                                  d3.select(this).attr("stroke", linecolorhilit)
                    .on "mouseout.paneltip", () ->
                                                  d3.select(this).attr("stroke", linecolor)

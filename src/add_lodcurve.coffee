@@ -115,9 +115,9 @@ d3panels.add_lodcurve = (chartOpts) ->
                         .attr("fill", pointcolor)
                         .attr("stroke", pointstroke)
                         .attr("stroke-width", "1")
-                        .on "mouseover", (d) ->
+                        .on "mouseover", () ->
                                                        d3.select(this).attr("opacity", 1)
-                        .on "mouseout", ->
+                        .on "mouseout", () ->
                                                        d3.select(this).attr("opacity", 0)
 
          markertip = d3panels.tooltip_create(d3.select("body"), markerSelect,
