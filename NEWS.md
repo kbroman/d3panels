@@ -1,3 +1,8 @@
+## d3panels 1.8.0 (2021-08-04)
+
+- Revised to use D3 v7.
+
+
 ## d3panels 1.7.1 (2021-07-20)
 
 - Handle a single data point in trichart; try to do the same thing in
