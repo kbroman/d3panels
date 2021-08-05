@@ -56,9 +56,9 @@
 
     mychart(d3.select("div#chart1"), these_data); // animate points
 
-    return mychart.points().on("mouseover", function (d) {
+    return mychart.points().on("mouseover", function () {
       return d3.select(this).attr("r", 3 * 3);
-    }).on("mouseout", function (d) {
+    }).on("mouseout", function () {
       return d3.select(this).attr("r", 3);
     });
   }); // Example 2: three scatterplots within one SVG, with brushing
@@ -115,10 +115,10 @@
       return svg.selectAll("circle").attr("opacity", 0.6).classed("selected", false);
     };
 
-    brushmove = function brushmove() {
+    brushmove = function brushmove(event, d) {
       var e;
       svg.selectAll("circle").classed("selected", false);
-      e = d3.event.selection;
+      e = event.selection;
       return [0, 1, 2].map(function (i) {
         var e_rescaled;
 

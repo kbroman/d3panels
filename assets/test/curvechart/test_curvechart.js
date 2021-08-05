@@ -19,7 +19,7 @@
   totalw = halfw * 2; // Example : simplest use
 
   d3.json("data.json").then(function (data) {
-    var mychart, textbox;
+    var chart_curves, mychart, textbox;
     mychart = d3panels.curvechart({
       xlab: "Age (weeks)",
       ylab: "Body weight",
@@ -31,7 +31,9 @@
     mychart(d3.select("div#chart1"), data); // add indication of individual (initially blank)
 
     textbox = mychart.svg().append("text").attr("class", "title").text("").attr("y", margin.top / 2).attr("x", margin.left).style("text-anchor", "start");
-    return mychart.curves().on("mouseover.text", function (d, i) {
+    return chart_curves = mychart.curves().on("mouseover.text", function (event, d) {
+      var i;
+      i = chart_curves.nodes().indexOf(this);
       return textbox.text("ind " + (i + 1));
     }).on("mouseout.text", function () {
       return textbox.text("");

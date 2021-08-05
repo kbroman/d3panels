@@ -7,7 +7,7 @@ description: A set of D3-based graphic panels that form the basis for the visual
 
 [![NPM badge](https://img.shields.io/npm/v/d3panels.svg)](https://npmjs.org/package/d3panels)
 
-This is a set of [D3 (version 5)](https://d3js.org)-based graphic panels,
+This is a set of [D3 (version 7)](https://d3js.org)-based graphic panels,
 developed for the [R/qtlcharts](https://kbroman.org/qtlcharts) package
 but useful more generally. They are developed in [CoffeeScript](https://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
@@ -151,7 +151,7 @@ to `d3panels.min.js` and `d3panels.min.css`):
 You also need to link to [D3.js](https://d3js.org):
 
 ```html
-<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
 ```
 
 ---

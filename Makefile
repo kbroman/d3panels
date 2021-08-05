@@ -14,11 +14,11 @@ assets/%.css: ../%.css
 	cp $< $(@D)/
 
 # d3 library
-d3: assets/node_modules/@bower_components/d3/d3.min.js \
-	assets/node_modules/@bower_components/d3/README.md \
-	assets/node_modules/@bower_components/d3/LICENSE
+d3: assets/node_modules/d3/dist/d3.min.js \
+	assets/node_modules/d3/README.md \
+	assets/node_modules/d3/LICENSE
 
-assets/node_modules/@bower_components/d3/%: ../node_modules/@bower_components/d3/%
+assets/node_modules/d3/%: ../node_modules/d3/%
 	cp $< $(@D)/
 
 # test data
