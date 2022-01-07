@@ -16,19 +16,15 @@ d3panels.formatAxis = (d, extra_digits=0) ->
         d = (d[i]-d[i-1] for i in [1..(d.length-1)])
         # get median
         d.sort()
-        console.log(d)
         if d.length %% 2 # odd number of values
             gap = d[(d.length-1)/2]
         else
             gap = (d[d.length/2-1] + d[d.length/2])/2
-    console.log(gap)
 
     # turn gap into number of digits
     ndig = Math.round( d3panels.log10(Math.abs(gap)) )
     ndig = 0 if ndig > 0
     ndig = Math.abs(ndig) + extra_digits
-
-    console.log("ndig: #{ndig}")
 
     # function to return
     (val) ->

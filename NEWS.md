@@ -1,3 +1,8 @@
+## d3panels 1.8.2 (2022-01-07)
+
+- Remove some debug code
+
+
 ## d3panels 1.8.1 (2022-01-07)
 
 - Revised `formatAxis()` to consider all gaps rather than just the gap

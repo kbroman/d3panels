@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.8.1"
+        version: "1.8.2"
     };
 "use strict";
 
@@ -52,7 +52,6 @@ d3panels.formatAxis = function (d) {
 
 
     d.sort();
-    console.log(d);
 
     if (modulo(d.length, 2)) {
       // odd number of values
@@ -60,9 +59,8 @@ d3panels.formatAxis = function (d) {
     } else {
       gap = (d[d.length / 2 - 1] + d[d.length / 2]) / 2;
     }
-  }
+  } // turn gap into number of digits
 
-  console.log(gap); // turn gap into number of digits
 
   ndig = Math.round(d3panels.log10(Math.abs(gap)));
 
@@ -70,8 +68,7 @@ d3panels.formatAxis = function (d) {
     ndig = 0;
   }
 
-  ndig = Math.abs(ndig) + extra_digits;
-  console.log("ndig: " + ndig); // function to return
+  ndig = Math.abs(ndig) + extra_digits; // function to return
 
   return function (val) {
     if (val != null && val !== "NA") {
