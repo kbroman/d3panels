@@ -7,10 +7,8 @@ d3panels.formatAxis = (d, extra_digits=0) ->
     ## remove nulls and sort
     d = (x for x in d when x?)
     d.sort()
-    if d.length == 0
-        gap = 0
-    else if d.length == 1
-        gap = d[0]
+    if d.length <= 1
+        gap = 1
     else
         # take differences
         d = (d[i]-d[i-1] for i in [1..(d.length-1)])

@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.8.3"
+        version: "1.8.4"
     };
 "use strict";
 
@@ -29,10 +29,8 @@ d3panels.formatAxis = function (d) {
 
   d.sort();
 
-  if (d.length === 0) {
-    gap = 0;
-  } else if (d.length === 1) {
-    gap = d[0];
+  if (d.length <= 1) {
+    gap = 1;
   } else {
     // take differences
     d = function () {
