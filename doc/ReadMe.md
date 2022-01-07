@@ -79,9 +79,9 @@ addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]
 utility functions plus CSS code used by the panels. These are not
 documented.
 
-- [`panelutil.coffee`](https://github.com/kbroman/d3panels/blob/master/src/panelutil.coffee)
+- [`panelutil.coffee`](https://github.com/kbroman/d3panels/blob/main/src/panelutil.coffee)
   contains various utility functions
-- [`panelutil.css`](https://github.com/kbroman/d3panels/blob/master/src/panelutil.css)
+- [`panelutil.css`](https://github.com/kbroman/d3panels/blob/main/src/panelutil.css)
   contains CSS used by the panels
 
 For snapshots and live tests, see <https://kbroman.org/d3panels>.
@@ -92,8 +92,8 @@ To use the code, you need link to `d3panels.js` and `d3panels.css` (or
 to `d3panels.min.js` and `d3panels.min.css`):
 
 ```html
-<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/master/d3panels.js"></script>
-<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
+<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/main/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/main/d3panels.css">
 ```
 
 You also need to link to [D3.js](https://d3js.org).

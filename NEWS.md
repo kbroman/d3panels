@@ -1,3 +1,9 @@
+## d3panels 1.8.1 (2022-01-07)
+
+- Revised `formatAxis()` to consider all gaps rather than just the gap
+  between the first two values.
+
+
 ## d3panels 1.8.0 (2021-08-04)
 
 - Revised to use D3 v7. Main changes concern `d3.event` and `.on()`,
@@ -118,7 +124,7 @@
 
 - **Completely rewritten**, changing the functions' usage and data
   structures, and encapsulating everything into a `d3panels` object.
-  See the [documentation](https://github.com/kbroman/d3panels/tree/master/doc).
+  See the [documentation](https://github.com/kbroman/d3panels/tree/main/doc).
 
 
 ## d3panels 0.6.3 (2015-11-11)
