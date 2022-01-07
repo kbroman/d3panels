@@ -1,3 +1,8 @@
+## d3panels 1.8.3 (2022-01-07)
+
+- Further tweaks to `formatAxis()` to avoid an Infinity error.
+
+
 ## d3panels 1.8.2 (2022-01-07)
 
 - Remove some debug code
