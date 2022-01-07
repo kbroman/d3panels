@@ -1,5 +1,8 @@
-all: d3panels d3 testdata testjs testindex
+all: d3panels d3 testdata testjs testindex LICENSE.md
 .PHONY: all d3panels d3 testdata testjs testindex
+
+LICENSE.md: ../LICENSE.md
+	cp $< $@
 
 # Source for d3panels
 d3panels: assets/d3panels.js \
