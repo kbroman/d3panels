@@ -12,7 +12,7 @@ developed for the [R/qtlcharts](https://kbroman.org/qtlcharts) package
 but useful more generally. They are developed in [CoffeeScript](https://coffeescript.org); the
 source is on [GitHub](https://github.com/kbroman/d3panels).
 
-[Documentation is on GitHub.](https://github.com/kbroman/d3panels/tree/master/doc)
+[Documentation is on GitHub.](https://github.com/kbroman/d3panels/tree/main/doc)
 
 ---
 
@@ -112,13 +112,13 @@ mychart(d3.select("div#chart"), mydata)
 ```
 
 There are three exceptions to this:
-[`add_lodcurve`](https://github.com/kbroman/d3panels/blob/master/doc/add_lodcurve.md), [`add_curves`](https://github.com/kbroman/d3panels/blob/master/doc/add_curves.md), and [`add_points`](https://github.com/kbroman/d3panels/blob/master/doc/add_points.md).
+[`add_lodcurve`](https://github.com/kbroman/d3panels/blob/main/doc/add_lodcurve.md), [`add_curves`](https://github.com/kbroman/d3panels/blob/main/doc/add_curves.md), and [`add_points`](https://github.com/kbroman/d3panels/blob/main/doc/add_points.md).
 For these functions, you first need to call another function that
 creates a panel
-(for example, [`lodchart`](https://github.com/kbroman/d3panels/blob/master/doc/lodchart.md) or [`chrpanelframe`](https://github.com/kbroman/d3panels/blob/master/doc/chrpanelframe.md) in
-the case of [`add_lodcurve`](https://github.com/kbroman/d3panels/blob/master/doc/add_lodcurve.md), or
-[`panelframe`](https://github.com/kbroman/d3panels/blob/master/doc/panelframe.md) in the case of
-[`add_curves`](https://github.com/kbroman/d3panels/blob/master/doc/add_curves.md) or [`add_points`](https://github.com/kbroman/d3panels/blob/master/doc/add_points.md)).  You
+(for example, [`lodchart`](https://github.com/kbroman/d3panels/blob/main/doc/lodchart.md) or [`chrpanelframe`](https://github.com/kbroman/d3panels/blob/main/doc/chrpanelframe.md) in
+the case of [`add_lodcurve`](https://github.com/kbroman/d3panels/blob/main/doc/add_lodcurve.md), or
+[`panelframe`](https://github.com/kbroman/d3panels/blob/main/doc/panelframe.md) in the case of
+[`add_curves`](https://github.com/kbroman/d3panels/blob/main/doc/add_curves.md) or [`add_points`](https://github.com/kbroman/d3panels/blob/main/doc/add_points.md)).  You
 then use the chart function created by
 that first call in place of a selection. For example:
 
@@ -133,9 +133,9 @@ addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]
 
 ## Documentation
 
-[Documentation](https://github.com/kbroman/d3panels/blob/master/doc/ReadMe.md)
+[Documentation](https://github.com/kbroman/d3panels/blob/main/doc/ReadMe.md)
 for each of the available functions is [on
-GitHub](https://github.com/kbroman/d3panels/blob/master/doc/ReadMe.md).
+GitHub](https://github.com/kbroman/d3panels/blob/main/doc/ReadMe.md).
 
 
 ## Links
@@ -144,8 +144,8 @@ To use the code, you need link to `d3panels.js` and `d3panels.css` (or
 to `d3panels.min.js` and `d3panels.min.css`):
 
 ```html
-<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/master/d3panels.js"></script>
-<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/master/d3panels.css">
+<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/main/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/main/d3panels.css">
 ```
 
 You also need to link to [D3.js](https://d3js.org):
@@ -158,5 +158,5 @@ You also need to link to [D3.js](https://d3js.org):
 
 Sources on [github](https://github.com):
 
-- The [source for the package](https://github.com/kbroman/d3panels/tree/master)
+- The [source for the package](https://github.com/kbroman/d3panels/tree/main)
 - The [source for the website](https://github.com/kbroman/d3panels/tree/gh-pages)
