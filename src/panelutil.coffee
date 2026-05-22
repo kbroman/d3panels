@@ -16,7 +16,7 @@ d3panels.formatAxis = (d, extra_digits=0) ->
         gap = d3.mean(d)
 
     # turn gap into number of digits
-    ndig = Math.round( d3panels.log10(Math.abs(gap)) )
+    ndig = Math.floor( d3panels.log10(Math.abs(gap)) )
     ndig = -8 if ndig < -8
     ndig = 0 if ndig > 0
     ndig = Math.abs(ndig) + extra_digits
