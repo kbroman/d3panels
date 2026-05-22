@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.8.6"
+        version: "1.8.7"
     };
 "use strict";
 
@@ -12,14 +12,14 @@ d3panels.formatAxis = function (d) {
   var extra_digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var gap, i, ndig, x;
   // determine typical gap between values
-  //# remove nulls and sort
+  //# remove nulls, subtract off minimum, and sort
   d = function () {
     var k, len, results;
     results = [];
     for (k = 0, len = d.length; k < len; k++) {
       x = d[k];
       if (x != null) {
-        results.push(x);
+        results.push(x - d3.min(d));
       }
     }
     return results;

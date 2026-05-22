@@ -1,4 +1,4 @@
-## d3panels 1.8.6 (2026-05-22)
+## d3panels 1.8.7 (2026-05-22)
 
 - Tweak to `formatAxis()` to get more digits in some cases
   ([qtlcharts issue #78](https://github.com/kbroman/qtlcharts/issues/78))

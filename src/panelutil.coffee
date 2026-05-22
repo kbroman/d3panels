@@ -4,8 +4,8 @@
 d3panels.formatAxis = (d, extra_digits=0) ->
 
     # determine typical gap between values
-    ## remove nulls and sort
-    d = (x for x in d when x?)
+    ## remove nulls, subtract off minimum, and sort
+    d = (x - d3.min(d) for x in d when x?)
     d.sort()
     if d.length <= 1
         gap = 1
