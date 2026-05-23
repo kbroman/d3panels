@@ -4,8 +4,11 @@
 (function () {
   // illustration of use of the cichart function
   var axispos, height, margin, width;
+
   height = 400;
+
   width = 300;
+
   margin = {
     left: 80,
     top: 40,
@@ -13,6 +16,7 @@
     bottom: 40,
     inner: 5
   };
+
   axispos = {
     xtitle: 25,
     ytitle: 50,
