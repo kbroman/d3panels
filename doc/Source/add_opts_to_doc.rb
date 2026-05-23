@@ -7,7 +7,7 @@ func = ARGV[0]
 ifile = "#{func}.md"
 ofile = "../#{func}.md"
 sfile = "../../src/#{func}.coffee"
-abort("No file \"#{ifile}\"") if !File.exists?(ifile)
+abort("No file \"#{ifile}\"") if !File.exist?(ifile)
 
 # read chartOpts, dependencies, and accessors
 #     from coffescript source file
