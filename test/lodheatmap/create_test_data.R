@@ -1,5 +1,6 @@
 # create test data in JSON format
 
+library(qtl)
 library(qtlcharts)
 data(grav)
 grav <- reduce2grid(calc.genoprob(grav, step=2))
