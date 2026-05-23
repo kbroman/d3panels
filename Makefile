@@ -138,4 +138,8 @@ d3panels.min.css: d3panels.css
 	uglifycss $< > $@
 
 clean:
-	rm d3panels.js d3panels.css d3panels.min.js src/[a-z][^3]*.js test/*.js test/*/*.js doc/[a-z]*.md
+	mkdir tmp
+	mv src/d3panels_*.js tmp/
+	rm d3panels.js d3panels.css d3panels.min.js src/*.js test/*.js test/*/*.js doc/[a-z]*.md
+	mv tmp/d3panels_*.js src/
+	rmdir tmp
