@@ -1,9 +1,9 @@
-all: yarn.lock js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css docs
-.PHONY: all js tests testdata docs
+all: js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css docs
+.PHONY: all js tests testdata docs d3
 
 # install js dependencies
-d3: node_modules/d3/dist/d3.js
-node_modules/d3/dist/d3.js: package.json
+D3= node_modules/d3/dist/d3.js
+node_modules/d3/dist/d3.js:
 	yarn install
 
 # javascript files
@@ -107,15 +107,15 @@ docs: $(DOCS)
 COFFEE_ARGS = -ct # use -cm for debugging; -c otherwise
 
 # compiling main javascript files
-src/%.js: src/%.coffee d3
+src/%.js: src/%.coffee $(D3)
 	cd $(<D);coffee -b ${COFFEE_ARGS} $(<F)
 
 # compiling javascript files for tests
-test/%.js: test/%.coffee d3
+test/%.js: test/%.coffee $(D3)
 	cd $(<D);coffee ${COFFEE_ARGS} $(<F)
 
 # compiling the javascript files for tests of the panels
-test/%/%.js: test/%/%.coffee d3
+test/%/%.js: test/%/%.coffee $(D3)
 	cd $(<D);coffee ${COFFEE_ARGS} $(<F)
 
 # creating the test data
@@ -127,7 +127,7 @@ doc/%.md: doc/Source/add_opts_to_doc.rb doc/Source/%.md src/%.coffee
 	cd $(<D);$(<F) $*
 
 # combining the javascript files
-d3panels.js: $(JS) yarn.lock package.json
+d3panels.js: $(JS) $(D3)
 	cat $(JS) > $@
 
 # renaming and moving the CSS file
@@ -135,7 +135,7 @@ d3panels.css: src/panelutil.css
 	cp $< $@
 
 # minimizing the main javascript file
-d3panels.min.js: d3panels.js package.json yarn.lock
+d3panels.min.js: d3panels.js $(D3)
 	uglifyjs $< -o $@
 
 # minimizing the CSS file
