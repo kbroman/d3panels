@@ -1,6 +1,11 @@
 all: yarn.lock js tests testdata d3panels.js d3panels.css d3panels.min.js d3panels.min.css docs
 .PHONY: all js tests testdata docs
 
+# install js dependencies
+d3: node_modules/d3/dist/d3.js
+node_modules/d3/dist/d3.js: package.json
+	yarn install
+
 # javascript files
 JS= src/d3panels_top.js \
 	src/panelutil.js \
@@ -26,7 +31,7 @@ JS= src/d3panels_top.js \
 	src/double_slider.js \
 	src/tooltips.js \
 	src/d3panels_bottom.js
-js: $(JS) package.json yarn.lock
+js: $(JS)
 
 # javascript files for the tests
 TESTS = test/test-unique.js test/test-stats.js \
@@ -58,7 +63,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/histchart/test_histchart.js \
 		test/slider/test_slider.js \
 		test/double_slider/test_double_slider.js
-tests: $(TESTS) package.json yarn.lock
+tests: $(TESTS)
 
 # data files for the tests
 TESTDATA = test/lod2dheatmap/data.json \
@@ -102,15 +107,15 @@ docs: $(DOCS)
 COFFEE_ARGS = -ct # use -cm for debugging; -c otherwise
 
 # compiling main javascript files
-src/%.js: src/%.coffee package.json yarn.lock
+src/%.js: src/%.coffee d3
 	cd $(<D);coffee -b ${COFFEE_ARGS} $(<F)
 
 # compiling javascript files for tests
-test/%.js: test/%.coffee package.json yarn.lock
+test/%.js: test/%.coffee d3
 	cd $(<D);coffee ${COFFEE_ARGS} $(<F)
 
 # compiling the javascript files for tests of the panels
-test/%/%.js: test/%/%.coffee package.json yarn.lock
+test/%/%.js: test/%/%.coffee d3
 	cd $(<D);coffee ${COFFEE_ARGS} $(<F)
 
 # creating the test data
@@ -136,10 +141,6 @@ d3panels.min.js: d3panels.js package.json yarn.lock
 # minimizing the CSS file
 d3panels.min.css: d3panels.css
 	uglifycss $< > $@
-
-# install js dependencies
-yarn.lock: package.json
-	yarn install
 
 clean:
 	mkdir tmp
