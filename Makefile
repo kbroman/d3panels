@@ -140,6 +140,6 @@ d3panels.min.css: d3panels.css
 clean:
 	mkdir tmp
 	mv src/d3panels_*.js tmp/
-	rm d3panels.js d3panels.css d3panels.min.js src/*.js test/*.js test/*/*.js doc/[a-z]*.md
+	rm d3panels.js d3panels.css d3panels.min.js src/*.js test/*.js test/*/*.js doc/[a-z]*.md test/*/*.json
 	mv tmp/d3panels_*.js src/
 	rmdir tmp
