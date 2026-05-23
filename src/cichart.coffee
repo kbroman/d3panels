@@ -153,6 +153,8 @@ d3panels.cichart = (chartOpts) ->
                 .attr("stroke-width", segstrokewidth)
                 .attr("shape-rendering", "crispEdges")
 
+        segments = segmentGroup
+
         direction = if horizontal then "north" else "east"
         tipfunc = (d,i) ->
                       index = i % mean.length
@@ -168,7 +170,7 @@ d3panels.cichart = (chartOpts) ->
     # functions to grab stuff
     chart.yscale = () -> yscale
     chart.xscale = () -> xscale
-    chart.segments = () -> segments
+    chart.segments = () -> segments # horizontal + vertical segments
     chart.tip = () -> tip
     chart.svg = () -> svg
 

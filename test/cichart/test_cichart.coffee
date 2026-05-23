@@ -28,3 +28,21 @@ d3.json("data.json").then (data) ->
     data.high  = [data.high[0], data.high[1], null, data.high[2]]
     mychart = d3panels.cichart({height:height, width:width, margin:margin, axispos:axispos, xcatlabels:["A","B","C","D"]})
     mychart(d3.select("div#chart4"), data)
+
+# Example 5: change to a random color when you hover
+d3.json("data.json").then (data) ->
+    mychart = d3panels.cichart({height:height, width:width, margin:margin, axispos:axispos, xcatlabels:["A","B","C"]})
+    mychart(d3.select("div#chart5"), data)
+
+    getRandomColor = () ->
+        letters = '0123456789ABCDEF'
+        color = "#"
+        for i in [1..6]
+            color += letters[Math.floor(Math.random() * 16)]
+        color
+
+    # grab all the line segments and change their color
+    a= mychart.segments()
+    a.selectAll("line")
+      .on("mouseover", () ->
+          d3.select(this).attr("stroke", getRandomColor()))

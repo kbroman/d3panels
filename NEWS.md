@@ -1,3 +1,9 @@
+## d3panels 1.8.8 (2026-05-22)
+
+- In cichart, now get confidence interval when you hover over the
+  vertical segments, not just the horizontal segments. (Issue #14)
+
+
 ## d3panels 1.8.7 (2026-05-22)
 
 - Tweak to `formatAxis()` to get more digits in some cases
