@@ -1,3 +1,10 @@
+## d3panels 1.8.9 (2026-05-31)
+
+- In d3panels.object_position, add window.scrollX and window.scrollY
+  to get absolute rather than relative position.
+  (See <https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect>.)
+
+
 ## d3panels 1.8.8 (2026-05-22)
 
 - In cichart, now get confidence interval when you hover over the
