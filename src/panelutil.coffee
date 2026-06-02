@@ -494,3 +494,9 @@ d3panels.padzeros = (object, totlength=2) ->
 
 d3panels.formatdate = (object) ->
     "#{object.getFullYear()}-#{d3panels.padzeros(object.getMonth()+1)}-#{d3panels.padzeros(object.getDate())}"
+
+d3panels.formattime = (object) ->
+    "#{object.getHours()}:#{d3panels.padzeros(object.getMinutes())}"
+
+d3panels.formatdatetime = (object) ->
+    d3panels.formattime(object) + " " + d3panels.formatdate(object)

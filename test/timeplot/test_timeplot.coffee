@@ -22,7 +22,7 @@ d3.json("data.json").then (data) ->
     # reorg data
     these_data = {x:(d.time for d in data),
                   y:(d.download for d in data),
-                  indID:("#{new Date(d.time).toDateString()} #{Math.round(d.download)} Mbp" for d in data)}
+                  indID:("#{d3panels.formatdatetime(new Date(d.time))} #{Math.round(d.download)} Mbp" for d in data)}
 
     # make plot
     mychart(d3.select("div#chart1"), these_data)
