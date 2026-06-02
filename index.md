@@ -98,6 +98,9 @@ Click on a panel for a corresponding interactive illustration.
     </a>
   </td>
   <td class="right">
+    <a href="assets/test/timeplot">
+        <img src="assets/pics/timeplot.png" alt="timeplot example" title="timeplot example"/>
+    </a>
   </td>
 </tr>
 </table>
