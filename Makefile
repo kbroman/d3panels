@@ -63,6 +63,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/chr2dpanelframe/test_chr2dpanelframe.js \
 		test/trichart/test_trichart.js \
 		test/histchart/test_histchart.js \
+		test/tooltips/test_tooltips.js \
 		test/slider/test_slider.js \
 		test/double_slider/test_double_slider.js
 tests: $(TESTS)
@@ -80,6 +81,7 @@ TESTDATA = test/lod2dheatmap/data.json \
 		   test/lodheatmap/data.json \
 		   test/mapchart/data.json \
 		   test/timeplot/data.json \
+		   test/tooltips/data.json \
 		   test/scatterplot/data.json
 testdata: $(TESTDATA)
 
