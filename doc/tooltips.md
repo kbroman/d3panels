@@ -21,7 +21,7 @@ tool tip.
 
 ```coffeescript
 data = {x:[13,6,9,16,11,8], y:[28.6,10.3,22.8,30.9,15.1,22.8]}
-data = ((data.x[i],data.y[i]) for i of data.x)
+data = ({x:data.x[i], y:data.y[i]} for i of data.x)
 
 svg = d3.select("body").insert("svg")
         .attr("height", 500).attr("width", 400)
@@ -30,13 +30,16 @@ points = svg.selectAll("circle")
             .data(data)
             .enter()
             .append("circle")
-            .attr("r", 4)
-            .attr("cx", (d) -> d.x*(500/15))
-            .attr("cy", (d) -> d.y*(400/31))
+            .attr("r", 6)
+            .attr("cx", (d) -> d.x*20)
+            .attr("cy", (d) -> d.y*8)
             .attr("fill", "slateblue")
 
+points.on "mouseover", () -> d3.select(this).attr("fill", "violetred")
+      .on "mouseout", () -> d3.select(this).attr("fill", "slateblue")
 
-
+indtip = d3panels.tooltip_create(d3.select("div#chart"), points,
+                                 {direction:"north"}, (d) -> "(#{d.x},#{d.y})")
 ```
 
 ### Chart options (`chartOpts`)
@@ -50,16 +53,3 @@ points = svg.selectAll("circle")
 - `fill` &mdash; background color of tooltip
 - `fontcolor` &mdash; color of text
 - `fontsize` &mdash; size of font
-
-### Accessors
-
-- `value()` &mdash; current value of slider
-- `stopindex()` &mdash; index of currently selected stop value
-
-Use these like this:
-
-```coffeescript
-mychart = d3panels.slider()
-mychart(d3.select("body"), callback, range)
-value = mychart.value()
-```
