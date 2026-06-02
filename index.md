@@ -153,8 +153,8 @@ To use the code, you need link to `d3panels.js` and `d3panels.css` (or
 to `d3panels.min.js` and `d3panels.min.css`):
 
 ```html
-<script type="text/javascript" src="https://raw.githubusercontent.com/kbroman/d3panels/main/d3panels.js"></script>
-<link rel=stylesheet type="text/css" href="https://raw.githubusercontent.com/kbroman/d3panels/main/d3panels.css">
+<script type="text/javascript" src="https://kbroman.org/d3panels/assets/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://kbroman.org/d3panels/assets/d3panels.css">
 ```
 
 You also need to link to [D3.js](https://d3js.org):
