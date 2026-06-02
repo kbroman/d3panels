@@ -36,6 +36,7 @@ TESTDATA = assets/test/cichart/data.json \
 		   assets/test/lodchart/data.json \
 		   assets/test/lodheatmap/data.json \
 		   assets/test/mapchart/data.json \
+		   assets/test/tooltips/data.json \
 		   assets/test/scatterplot/data.json
 testdata: $(TESTDATA)
 
@@ -62,6 +63,7 @@ TESTJS = assets/test/chr2dpanelframe/test_chr2dpanelframe.js \
 		 assets/test/trichart/test_trichart.js \
 		 assets/test/histchart/test_histchart.js \
 		 assets/test/slider/test_slider.js \
+		 assets/test/tooltips/test_tooltips.js \
 		 assets/test/double_slider/test_double_slider.js
 testjs: $(TESTJS)
 
@@ -85,6 +87,7 @@ TESTINDEX = assets/test/chr2dpanelframe/index.html \
 			assets/test/trichart/index.html \
 			assets/test/histchart/index.html \
 			assets/test/slider/index.html \
+			assets/test/tooltips/index.html \
 			assets/test/double_slider/index.html
 testindex: $(TESTINDEX)
 
