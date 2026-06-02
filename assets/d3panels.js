@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.9.1"
+        version: "1.9.2"
     };
 "use strict";
 
@@ -940,7 +940,9 @@ d3panels.formatdate = function (object) {
 };
 
 d3panels.formattime = function (object) {
-  return object.getHours() + ":" + d3panels.padzeros(object.getMinutes());
+  var time;
+  time = object.toISOString().split("T")[1].split(":");
+  return time[0] + ":" + d3panels.padzeros(time[1]);
 };
 
 d3panels.formatdatetime = function (object) {
