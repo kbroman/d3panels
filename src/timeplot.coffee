@@ -84,49 +84,59 @@ d3panels.timeplot = (chartOpts) ->
         ##############################
         # new x-axis scale
         ##############################
-        console.log(xlim)
-        console.log(xscale(x) for x in xlim)
         xscale_new = d3.scaleUtc().domain(xlim).range((xscale(x) for x in xlim))
 
-        # determine number of x-axis ticks
-        vlines = svg.selectAll("g#xlines line")
-        console.log("no. vlines = #{vlines.size()}")
-        console.log("y1: #{vlines.attr('y1')} y2: #{vlines.attr('y2')}")
+        # <g> containing lines and labels
+        xaxis_lineg = svg.select("g#xlines")
+        xaxis_labelg = svg.select("g#xlabels")
 
-        # new x-axis tick locations
+        # determine number of x-axis ticks
+        vlines = xaxis_lineg.selectAll("line")
+
+        # new x-axis tick locations (somehow there are twice as many lines as there should be)
         xtick_new = xscale_new.ticks(vlines.size()/2)
-        console.log("no. ticks: #{vlines.size()} -> #{xtick_new.length}")
         xtick_loc = (xscale_new(x) for x in xtick_new)
-        console.log(d3panels.formatdatetime(x) for x in xtick_new)
-        console.log(Math.round(x) for x in xtick_loc)
 
         # re-place the x-axis lines
+        vlines_y1 = vlines.attr("y1")
+        vlines_y2 = vlines.attr("y2")
+
+        vlines_enter = (enter) ->
+            enter.append("line")
+                 .attr("x1", (d,i) -> xtick_loc[i])
+                 .attr("x2", (d,i) -> xtick_loc[i])
+                 .attr("y1", (d,i) -> vlines_y1)
+                 .attr("y2", (d,i) -> vlines_y2)
+        vlines_exit = (exit) ->
+            exit.remove()
+        vlines_update = (update) ->
+            update.attr("x1", (d,i) -> xtick_loc[i])
+                  .attr("x2", (d,i) -> xtick_loc[i])
+                  .attr("y1", (d,i) -> vlines_y1)
+                  .attr("y2", (d,i) -> vlines_y2)
+
         vlines.data(xtick_loc)
-              .attr("x1", (d,i) -> xtick_loc[i])
-              .attr("x2", (d,i) -> xtick_loc[i])
-              .attr("y1", (d,i) -> vlines.attr("y1"))
-              .attr("y2", (d,i) -> vlines.attr("y2"))
-              .enter()
-              .append("line")
-              .attr("x1", (d,i) -> xtick_loc[i])
-              .attr("x2", (d,i) -> xtick_loc[i])
-              .attr("y1", (d,i) -> vlines.attr("y1"))
-              .attr("y2", (d,i) -> vlines.attr("y2"))
+              .join(vlines_enter, vlines_update, vlines_exit)
+
+        xrange_hours = (xlim[1] - xlim[0])/1000/60/60
+        xaxis_format = if xrange_hours < 47 then d3panels.formattime else d3panels.formatdate
 
         # move and re-label the x-axis labels
-        xlab = svg.selectAll("g#xlabels text")  # grab x-axis labels
+        xlab = xaxis_labelg.selectAll("text")  # grab x-axis labels
+        xlab_y = xlab.attr("y")
 
+        xlab_enter = (enter) ->
+            enter.append("text")
+                 .attr("x", (d,i) -> xtick_loc[i])
+                 .attr("y", xlab_y)
+                 .text((d,i) -> xaxis_format(xtick_new[i]))
+        xlab_exit = (exit) ->
+            exit.remove()
+        xlab_update = (update) ->
+            update.attr("x", (d,i) -> xtick_loc[i])
+                  .text((d,i) -> xaxis_format(xtick_new[i]))
         xlab.data(xtick_loc)
-            .attr("x", (d,i) -> xtick_loc[i])
-            .text((d,i) ->
-                      d3panels.formatdate(xtick_new[i]))
-            .enter()
-            .append("text")
-            .attr("x", (d,i) -> xtick_loc[i])
-            .attr("y", xlab.attr("y"))
-            .text((d,i) ->
-                  d3panels.formatdate(xtick_new[i]))
-
+            .join(xlab_enter, xlab_update, xlab_exit)
 
     # functions to grab stuff
     chart.xscale = () -> xscale

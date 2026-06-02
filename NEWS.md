@@ -1,3 +1,9 @@
+## d3panels 1.9.0 (2026-06-02)
+
+- Added function `timeplot` which is like `scatterplot` but with the
+  x-axis being date/time.
+
+
 ## d3panels 1.8.9 (2026-05-31)
 
 - In d3panels.object_position, add window.scrollX and window.scrollY

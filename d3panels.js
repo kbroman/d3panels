@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.8.9"
+        version: "1.9.0"
     };
 "use strict";
 
@@ -6002,7 +6002,7 @@ d3panels.timeplot = function (chartOpts) {
   //# the main function
   chart = function chart(selection, data) {
     // data = {x, y, indID, group}
-    var addpts, myframe, v, x, y;
+    var addpts, myframe, v, vlines, vlines_enter, vlines_exit, vlines_update, vlines_y1, vlines_y2, x, xaxis_format, xaxis_labelg, xaxis_lineg, xlab, xlab_enter, xlab_exit, xlab_update, xlab_y, xrange_hours, xscale_new, xtick_loc, xtick_new, y;
 
     // args that are lists: check that they have all the pieces
     yNA = d3panels.check_listarg_v_default(yNA, {
@@ -6027,20 +6027,20 @@ d3panels.timeplot = function (chartOpts) {
     }
     // convert x to datetimes
     x = function () {
-      var i, len, results;
+      var j, len, results;
       results = [];
-      for (i = 0, len = x.length; i < len; i++) {
-        v = x[i];
+      for (j = 0, len = x.length; j < len; j++) {
+        v = x[j];
         results.push(new Date(v));
       }
       return results;
     }();
     // convert to milliseconds
     x = function () {
-      var i, len, results;
+      var j, len, results;
       results = [];
-      for (i = 0, len = x.length; i < len; i++) {
-        v = x[i];
+      for (j = 0, len = x.length; j < len; j++) {
+        v = x[j];
         results.push(v.getTime());
       }
       return results;
@@ -6061,12 +6061,8 @@ d3panels.timeplot = function (chartOpts) {
     // Create SVG
     myframe(selection);
     svg = myframe.svg();
-    // TODO
-    // need to delete and re-form the x-axis, if possible
-    // or maybe just the x-axis labels
-
     // grab scale functions
-    xscale = myframe.xscale(); // TODO revise xscale to be time
+    xscale = myframe.xscale();
     yscale = myframe.yscale();
     // add points
     addpts = d3panels.add_points({
@@ -6084,12 +6080,86 @@ d3panels.timeplot = function (chartOpts) {
     });
     points = addpts.points();
     indtip = addpts.indtip();
-    return svg.selectAll("g#xlabels text").text(function (d) {
-      // grab x-axis labels
-      var z;
-      z = new Date(d * 1); // coerce to integer and then to date
-      return d3panels.formatdate(z);
-    });
+    //#############################
+    // new x-axis scale
+    //#############################
+    xscale_new = d3.scaleUtc().domain(xlim).range(function () {
+      var j, len, results;
+      results = [];
+      for (j = 0, len = xlim.length; j < len; j++) {
+        x = xlim[j];
+        results.push(xscale(x));
+      }
+      return results;
+    }());
+    // <g> containing lines and labels
+    xaxis_lineg = svg.select("g#xlines");
+    xaxis_labelg = svg.select("g#xlabels");
+    // determine number of x-axis ticks
+    vlines = xaxis_lineg.selectAll("line");
+    // new x-axis tick locations (somehow there are twice as many lines as there should be)
+    xtick_new = xscale_new.ticks(vlines.size() / 2);
+    xtick_loc = function () {
+      var j, len, results;
+      results = [];
+      for (j = 0, len = xtick_new.length; j < len; j++) {
+        x = xtick_new[j];
+        results.push(xscale_new(x));
+      }
+      return results;
+    }();
+    // re-place the x-axis lines
+    vlines_y1 = vlines.attr("y1");
+    vlines_y2 = vlines.attr("y2");
+    vlines_enter = function vlines_enter(enter) {
+      return enter.append("line").attr("x1", function (d, i) {
+        return xtick_loc[i];
+      }).attr("x2", function (d, i) {
+        return xtick_loc[i];
+      }).attr("y1", function (d, i) {
+        return vlines_y1;
+      }).attr("y2", function (d, i) {
+        return vlines_y2;
+      });
+    };
+    vlines_exit = function vlines_exit(exit) {
+      return exit.remove();
+    };
+    vlines_update = function vlines_update(update) {
+      return update.attr("x1", function (d, i) {
+        return xtick_loc[i];
+      }).attr("x2", function (d, i) {
+        return xtick_loc[i];
+      }).attr("y1", function (d, i) {
+        return vlines_y1;
+      }).attr("y2", function (d, i) {
+        return vlines_y2;
+      });
+    };
+    vlines.data(xtick_loc).join(vlines_enter, vlines_update, vlines_exit);
+    xrange_hours = (xlim[1] - xlim[0]) / 1000 / 60 / 60;
+    xaxis_format = xrange_hours < 47 ? d3panels.formattime : d3panels.formatdate;
+    // move and re-label the x-axis labels
+    xlab = xaxis_labelg.selectAll("text"); // grab x-axis labels
+    xlab_y = xlab.attr("y");
+    xlab_enter = function xlab_enter(enter) {
+      return enter.append("text").attr("x", function (d, i) {
+        return xtick_loc[i];
+      }).attr("y", xlab_y).text(function (d, i) {
+        return xaxis_format(xtick_new[i]);
+      });
+    };
+    xlab_exit = function xlab_exit(exit) {
+      return exit.remove();
+    };
+    xlab_update = function xlab_update(update) {
+      return update.attr("x", function (d, i) {
+        return xtick_loc[i];
+      }).text(function (d, i) {
+        return xaxis_format(xtick_new[i]);
+      });
+    };
+    return xlab.data(xtick_loc).join(xlab_enter, xlab_update, xlab_exit);
   };
   // functions to grab stuff
   chart.xscale = function () {
