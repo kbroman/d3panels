@@ -42,7 +42,7 @@ indtip = d3panels.tooltip_create(d3.select("div#chart"), points,
                                  {direction:"north"}, (d) -> "(#{d.x},#{d.y})")
 ```
 
-### Chart options (`chartOpts`)
+### `options`
 
 - `tipclass` &mdash; CSS class for tooltips
 - `direction` &mdash; direction (north/south/east/west) where the
