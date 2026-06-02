@@ -485,3 +485,9 @@ d3panels.object_position = (object) ->
     x = window.scrollX + obj.left/2.0 + obj.right/2.0
     y = window.scrollY + obj.top/2.0 + obj.bottom/2.0
     {x:x, y:y}
+
+d3panels.padzeros = (object, totlength=2) ->
+    result = "#{object}"
+    while result.length < totlength
+        result = "0" + result
+    result

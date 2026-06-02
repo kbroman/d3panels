@@ -30,6 +30,7 @@ JS= src/d3panels_top.js \
 	src/slider.js \
 	src/double_slider.js \
 	src/tooltips.js \
+	src/timeplot.js \
 	src/d3panels_bottom.js
 js: $(JS)
 
@@ -56,6 +57,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/lodheatmap/test_lodheatmap.js \
 		test/mapchart/test_mapchart.js \
 		test/scatterplot/test_scatterplot.js \
+		test/timeplot/test_timeplot.js \
 		test/panelframe/test_panelframe.js \
 		test/chrpanelframe/test_chrpanelframe.js \
 		test/chr2dpanelframe/test_chr2dpanelframe.js \
@@ -77,6 +79,7 @@ TESTDATA = test/lod2dheatmap/data.json \
 		   test/lodchart/data.json \
 		   test/lodheatmap/data.json \
 		   test/mapchart/data.json \
+		   test/timeplot/data.json \
 		   test/scatterplot/data.json
 testdata: $(TESTDATA)
 
@@ -97,6 +100,7 @@ DOCS = doc/add_lodcurve.md \
 	   doc/mapchart.md \
 	   doc/panelframe.md \
 	   doc/scatterplot.md \
+	   doc/timeplot.md \
 	   doc/trichart.md \
 	   doc/histchart.md \
 	   doc/slider.md \
