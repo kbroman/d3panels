@@ -32,6 +32,7 @@ mychart(d3.select('body'), data)
 - `horizontal` &mdash; whether to interchange x and y-axes \[default `false`\]
 - `v_over_h` &mdash; whether vertical lines should be on top of horizontal lines \[default `horizontal`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):
 

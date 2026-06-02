@@ -8,7 +8,7 @@ totalh = halfh*2
 halfw = (w+margin.left+margin.right)
 totalw = halfw*2
 
-# Example 1: simplest use
+# Example 1: point left
 d3.json("data.json").then (data) ->
     mychart = d3panels.scatterplot({
         xlab:"X1"
@@ -24,6 +24,8 @@ d3.json("data.json").then (data) ->
     # make plot
     mychart(d3.select("div#chart1"), these_data)
 
+    mychart
+
     # animate points
     mychart.points()
               .on "mouseover", () ->
@@ -34,7 +36,7 @@ d3.json("data.json").then (data) ->
 
 
 
-# Example 2: simplest use
+# Example 2: point right
 d3.json("data.json").then (data) ->
     mychart = d3panels.scatterplot({
         xlab:"X1"
@@ -42,6 +44,7 @@ d3.json("data.json").then (data) ->
         height:h
         width:w
         pointsize: 3
+        tipDirection: "west"
         margin:margin})
 
     # reorg data
@@ -59,13 +62,14 @@ d3.json("data.json").then (data) ->
 
 
 
-# Example 3: simplest use
+# Example 3: point up
 d3.json("data.json").then (data) ->
     mychart = d3panels.scatterplot({
         xlab:"X1"
         ylab:"X2"
         height:h
         width:w
+        tipDirection: "south"
         pointsize: 3
         margin:margin})
 
@@ -84,13 +88,14 @@ d3.json("data.json").then (data) ->
 
 
 
-# Example 4: simplest use
+# Example 4: point down
 d3.json("data.json").then (data) ->
     mychart = d3panels.scatterplot({
         xlab:"X1"
         ylab:"X2"
         height:h
         width:w
+        tipDirection: "north"
         pointsize: 3
         margin:margin})
 

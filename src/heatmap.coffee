@@ -13,6 +13,7 @@ d3panels.heatmap = (chartOpts) ->
     zthresh = chartOpts?.zthresh ? null                            # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black"                   # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip"                     # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? "east"                # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
@@ -150,7 +151,7 @@ d3panels.heatmap = (chartOpts) ->
                             return "(#{x}) &rarr; #{z}" if data.ycat?
                             "(#{x}, #{y}) &rarr; #{z}"
         celltip = d3panels.tooltip_create(d3.select("body"), cellrect.selectAll("rect"),
-                                          {tipclass: tipclass},
+                                          {tipclass: tipclass, direction:tipdirection},
                                           tooltipfunc)
 
         # handle categorical scales:

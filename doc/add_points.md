@@ -33,6 +33,7 @@ add_points(myframe, data)
 - `pointstroke` &mdash; color of points' outer circle \[default `"black"`\]
 - `jitter` &mdash; method for jittering NA points (beeswarm|random|none) \[default `"beeswarm"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
+- `tipdirection` &mdash; tool tip direction (east=to the right) \[default `"east"`\]
 
 
 ### Accessors

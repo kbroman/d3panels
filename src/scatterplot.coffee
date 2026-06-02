@@ -15,6 +15,7 @@ d3panels.scatterplot = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 3                # color of points
     jitter = chartOpts?.jitter ? "beeswarm"             # method for jittering NA points (beeswarm|random|none)
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? "west"     # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start
@@ -77,6 +78,7 @@ d3panels.scatterplot = (chartOpts) ->
             pointstroke:pointstroke
             pointsize:pointsize
             jitter:jitter
+            tipdirection:tipdirection
             tipclass:tipclass})
         addpts(myframe, {x:x, y:y, indID:data.indID, group:data.group})
         points = addpts.points()

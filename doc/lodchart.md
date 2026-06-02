@@ -32,7 +32,6 @@ mychart(d3.select('body'), data)
 - `pointsize` &mdash; pointsize at markers (if 0, no points plotted) \[default `0`\]
 - `pointstroke` &mdash; color of circle around points at markers \[default `"black"`\]
 - `ylim` &mdash; y-axis limits; if null, use range of data \[default `null`\]
-- `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
 
 You can also use the chart options for [`chrpanelframe`](chrpanelframe.md):
 

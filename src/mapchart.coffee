@@ -15,6 +15,7 @@ d3panels.mapchart = (chartOpts) ->
     v_over_h = chartOpts?.v_over_h ? horizontal           # whether vertical lines should be on top of horizontal lines
     shiftStart = chartOpts?.shiftStart ? false            # if true, shift start of chromosomes to 0
     tipclass = chartOpts?.tipclass ? "tooltip"            # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? null         # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
@@ -170,9 +171,9 @@ d3panels.mapchart = (chartOpts) ->
 
 
         tipfunc = (d,i) -> "#{d} (#{markerpos[d]})"
-        direction = if horizontal then "north" else "east"
+        tipdirection = tipdirection ? (if horizontal then "north" else "east")
         martip = d3panels.tooltip_create(d3.select("body"), markers.selectAll("line"),
-                                         {direction:direction,tipclass:tipclass},
+                                         {direction:tipdirection,tipclass:tipclass},
                                          tipfunc)
 
         # move box to front

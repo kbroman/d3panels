@@ -19,6 +19,7 @@ d3panels.lodheatmap = (chartOpts) ->
     chrGap = chartOpts?.chrGap ? 6               # gap between chromosomes (in pixels)
     equalCells = chartOpts?.equalCells ? false   # if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored
     tipclass = chartOpts?.tipclass ? "tooltip"   # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? null # direction of tool tips
     # chartOpts end
     # further chartOpts: chrpanelframe
     # accessors start
@@ -187,9 +188,9 @@ d3panels.lodheatmap = (chartOpts) ->
                              lodlabel = if data.ycat? then data.ycat[d.lodindex] else d3panels.formatAxis(data.y)(data.y[d.lodindex])
                              return "#{lodlabel}, #{d.poslabel} &rarr; #{z}" if horizontal
                              "#{d.poslabel}, #{lodlabel} &rarr; #{z}"
-        direction = if horizontal then "north" else "east"
+        tipdirection = tipdirection ? (if horizontal then "north" else "east")
         celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"),
-                                          {direction:direction, tipclass:tipclass},
+                                          {direction:tipdirection, tipclass:tipclass},
                                           celltipfunc)
 
         myframe.box().raise()

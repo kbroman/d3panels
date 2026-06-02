@@ -16,6 +16,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
     zthresh = chartOpts?.zthresh ? null          # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black" # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip"   # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? "east" # direction of tool tips
     # chartOpts end
     # further chartOpts: chr2dpanelframe
     # accessors start
@@ -153,7 +154,7 @@ d3panels.lod2dheatmap = (chartOpts) ->
                             z = d3.format(".2f")(Math.abs(d.lod))
                             "(#{d.poslabelx},#{d.poslabely}) &rarr; #{z}"
         celltip = d3panels.tooltip_create(d3.select("body"), cellg.selectAll("rect"),
-                                          {tipclass:tipclass},
+                                          {tipclass:tipclass,direction:tipdirection},
                                           tooltipfunc)
 
     # functions to grab stuff

@@ -41,6 +41,7 @@ add_curve(myframe, data)
 - `linewidth` &mdash; width (pixels) for curves \[default `2`\]
 - `linewidthhilit` &mdash; width (pixels) for curves \[default `2`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
+- `tipdirection` &mdash; direction of tool tips (east = to the right) \[default `"east"`\]
 
 
 ### Accessors

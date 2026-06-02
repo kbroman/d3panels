@@ -16,6 +16,7 @@ d3panels.cichart = (chartOpts) ->
     horizontal = chartOpts?.horizontal ? false                    # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal                   # whether vertical lines should be on top of horizontal lines
     tipclass = chartOpts?.tipclass ? "tooltip"                    # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? null                 # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start
@@ -155,13 +156,13 @@ d3panels.cichart = (chartOpts) ->
 
         segments = segmentGroup
 
-        direction = if horizontal then "north" else "east"
+        tipdirection = tipdirection ? (if horizontal then "north" else "east")
         tipfunc = (d,i) ->
                       index = i % mean.length
                       f = d3panels.formatAxis([low[index],mean[index]], 1)
                       "#{f(mean[index])} (#{f(low[index])} - #{f(high[index])})"
         tip = d3panels.tooltip_create(d3.select("body"), segments,
-                                      {direction:direction,tipclass:tipclass},
+                                      {direction:tipdirection,tipclass:tipclass},
                                       tipfunc)
 
         # move box to front

@@ -45,6 +45,7 @@ mychart(d3.select('body'), data)
 - `chrGap` &mdash; gap between chromosomes (in pixels) \[default `6`\]
 - `equalCells` &mdash; if true, make all cells equal-sized; in this case, chartOpts.chrGap is ignored \[default `false`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 You can also use the chart options for [`chrpanelframe`](chrpanelframe.md):
 

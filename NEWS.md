@@ -1,3 +1,15 @@
+## d3panels 1.9.1 (2026-06-02)
+
+- Add chart option `tipdirection` for controlling the direction of
+  tool tips, passed down to the function that creates them
+
+- Added tests of tool tips, pointing in the four directions in a
+  scatterplot
+
+- Adjusted the unicode character for the triangle on the tool tip,
+  trying to get it to look better on iOS (Issue #21)
+
+
 ## d3panels 1.9.0 (2026-06-02)
 
 - Added function `timeplot` which is like `scatterplot` but with the

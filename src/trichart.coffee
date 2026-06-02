@@ -26,6 +26,7 @@ d3panels.trichart = (chartOpts) ->
     gridcolor = chartOpts?.gridcolor ? "white"          # color of grid lines
     gridwidth = chartOpts?.gridwidth ? 1                # width of grid lines in pixels
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? "east"     # direction of tool tips
     # chartOpts end
     # accessors start
     xscale = null # x-axis scale
@@ -207,7 +208,7 @@ d3panels.trichart = (chartOpts) ->
 
         # individual tooltips
         indtip = d3panels.tooltip_create(d3.select("body"), points,
-                                         {tipclass:tipclass},
+                                         {tipclass:tipclass, direction:tipdirection},
                                          (d,i) -> indID[i])
 
     # functions to grab stuff

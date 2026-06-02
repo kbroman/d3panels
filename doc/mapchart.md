@@ -34,6 +34,7 @@ mychart(d3.select('body'), data)
 - `v_over_h` &mdash; whether vertical lines should be on top of horizontal lines \[default `horizontal`\]
 - `shiftStart` &mdash; if true, shift start of chromosomes to 0 \[default `false`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):
 

@@ -9,6 +9,7 @@ d3panels.add_curves = (chartOpts) ->
     linewidth = chartOpts?.linewidth ? 2               # width (pixels) for curves
     linewidthhilit = chartOpts?.linewidthhilit ? 2     # width (pixels) for curves
     tipclass = chartOpts?.tipclass ? "tooltip"         # class name for tool tips
+    tipdirection = chartOpts?.tipdirection ? "east"    # direction of tool tips (east = to the right)
     # chartOpts end
     # accessors start
     curves = null   # select the curve
@@ -100,7 +101,7 @@ d3panels.add_curves = (chartOpts) ->
                                                           .attr("stroke-width", linewidth)
 
         indtip = d3panels.tooltip_create(d3.select("body"), curves,
-                                         {tipclass:tipclass},
+                                         {tipclass:tipclass, direction:tipdirection},
                                          (d,i) -> indID[i])
 
         # move box to front
