@@ -106,6 +106,7 @@ DOCS = doc/add_lodcurve.md \
 	   doc/trichart.md \
 	   doc/histchart.md \
 	   doc/slider.md \
+	   doc/tooltips.md \
 	   doc/double_slider.md
 docs: $(DOCS)
 
