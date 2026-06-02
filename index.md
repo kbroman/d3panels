@@ -91,6 +91,15 @@ Click on a panel for a corresponding interactive illustration.
     </a>
   </td>
 </tr>
+<tr>
+  <td class="left">
+    <a href="assets/test/tooltips">
+        <img src="assets/pics/tooltips.png" alt="tooltips example" title="tooltips example"/>
+    </a>
+  </td>
+  <td class="right">
+  </td>
+</tr>
 </table>
 ---
 
