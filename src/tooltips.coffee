@@ -18,9 +18,9 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
                      .attr("class", "d3panels-tooltip #{tipclass}")
 
     if direction == "east"
-        triChar = '\u25C0'        # triangle pointing left
+        triChar = '\u25C4'        # triangle pointing left
     else if direction == "west"
-        triChar = '\u25B6'        # triangle pointing right
+        triChar = '\u25BA'        # triangle pointing right
     else if direction == "north"
         triChar = '\u25BC'        # triangle pointing down
     else if direction == "south"
