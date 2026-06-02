@@ -87,7 +87,7 @@ d3panels.timeplot = (chartOpts) ->
         svg.selectAll("g#xlabels text")  # grab x-axis labels
            .text((d) ->
                z = new Date(d*1) # coerce to integer and then to date
-               "#{z.getFullYear()}-#{d3panels.padzeros(z.getMonth()+1)}-#{d3panels.padzeros(z.getDate())}")
+               d3panels.formatdate(z))
 
     # functions to grab stuff
     chart.xscale = () -> xscale

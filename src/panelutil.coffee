@@ -491,3 +491,6 @@ d3panels.padzeros = (object, totlength=2) ->
     while result.length < totlength
         result = "0" + result
     result
+
+d3panels.formatdate = (object) ->
+    "#{object.getFullYear()}-#{d3panels.padzeros(object.getMonth()+1)}-#{d3panels.padzeros(object.getDate())}"
