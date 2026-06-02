@@ -35,7 +35,7 @@ mychart(d3.select('body'), data)
 - `zthresh` &mdash; z threshold; if |z| < zthresh, not shown \[default `null`\]
 - `hilitcolor` &mdash; color of box around highlighted cell \[default `"black"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
-- `tipdirection` &mdash; direction of tool tips \[default `"east"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):
 

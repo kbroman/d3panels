@@ -37,7 +37,7 @@ mychart(d3.select('body'), data)
 - `pointsize` &mdash; color of points \[default `3`\]
 - `jitter` &mdash; method for jittering points (beeswarm|random|none) \[default `"beeswarm"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
-- `tipdirection` &mdash; direction of tool tips \[default `"east"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 - `horizontal` &mdash; whether to interchange x and y-axes \[default `false`\]
 - `v_over_h` &mdash; whether vertical lines should be on top of horizontal lines \[default `horizontal`\]
 

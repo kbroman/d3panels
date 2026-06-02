@@ -9,7 +9,7 @@ d3panels.add_curves = (chartOpts) ->
     linewidth = chartOpts?.linewidth ? 2               # width (pixels) for curves
     linewidthhilit = chartOpts?.linewidthhilit ? 2     # width (pixels) for curves
     tipclass = chartOpts?.tipclass ? "tooltip"         # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"    # direction of tool tips (east = to the right)
+    tipdirection = chartOpts?.tipdirection ? null      # direction of tool tips
     # chartOpts end
     # accessors start
     curves = null   # select the curve

@@ -19,7 +19,7 @@ d3panels.dotchart = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 3                # color of points
     jitter = chartOpts?.jitter ? "beeswarm"             # method for jittering points (beeswarm|random|none)
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"     # direction of tool tips
+    tipdirection = chartOpts?.tipdirection ? null       # direction of tool tips
     horizontal = chartOpts?.horizontal ? false          # whether to interchange x and y-axes
     v_over_h = chartOpts?.v_over_h ? horizontal         # whether vertical lines should be on top of horizontal lines
     # chartOpts end

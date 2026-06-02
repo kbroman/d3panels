@@ -44,7 +44,7 @@ d3.json("data.json").then (data) ->
         height:h
         width:w
         pointsize: 3
-        tipDirection: "west"
+        tipdirection: "west"
         margin:margin})
 
     # reorg data
@@ -69,7 +69,7 @@ d3.json("data.json").then (data) ->
         ylab:"X2"
         height:h
         width:w
-        tipDirection: "south"
+        tipdirection: "south"
         pointsize: 3
         margin:margin})
 
@@ -95,7 +95,7 @@ d3.json("data.json").then (data) ->
         ylab:"X2"
         height:h
         width:w
-        tipDirection: "north"
+        tipdirection: "north"
         pointsize: 3
         margin:margin})
 

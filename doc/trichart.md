@@ -37,7 +37,7 @@ mychart(d3.select('body'), data)
 - `gridcolor` &mdash; color of grid lines \[default `"white"`\]
 - `gridwidth` &mdash; width of grid lines in pixels \[default `1`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
-- `tipdirection` &mdash; direction of tool tips \[default `"east"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 
 ### Accessors

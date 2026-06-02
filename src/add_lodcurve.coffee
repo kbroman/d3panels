@@ -11,7 +11,7 @@ d3panels.add_lodcurve = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 0               # pointsize at markers (if 0, no points plotted)
     pointstroke = chartOpts?.pointstroke ? "black"     # color of circle around points at markers
     tipclass = chartOpts?.tipclass ? "tooltip"         # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"    # direction of tool tips
+    tipdirection = chartOpts?.tipdirection ? null      # direction of tool tips
     horizontal = chartOpts?.horizontal ? false         # if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
     # chartOpts end
     # accessors start

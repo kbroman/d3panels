@@ -36,7 +36,7 @@ mychart(d3.select('body'), data)
 - `linewidth` &mdash; width of curve \[default `2`\]
 - `linewidthhilit` &mdash; width of highlighted curve \[default `2`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
-- `tipdirection` &mdash; direction of tool tips \[default `"east"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):
 

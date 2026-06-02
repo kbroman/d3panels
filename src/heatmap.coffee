@@ -13,7 +13,7 @@ d3panels.heatmap = (chartOpts) ->
     zthresh = chartOpts?.zthresh ? null                            # z threshold; if |z| < zthresh, not shown
     hilitcolor = chartOpts?.hilitcolor ? "black"                   # color of box around highlighted cell
     tipclass = chartOpts?.tipclass ? "tooltip"                     # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"                # direction of tool tips
+    tipdirection = chartOpts?.tipdirection ? null                  # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start

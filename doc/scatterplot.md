@@ -32,7 +32,7 @@ mychart(d3.select('body'), data)
 - `pointsize` &mdash; color of points \[default `3`\]
 - `jitter` &mdash; method for jittering NA points (beeswarm|random|none) \[default `"beeswarm"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
-- `tipdirection` &mdash; direction of tool tips \[default `"west"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 
 You can also use the chart options for [`panelframe`](panelframe.md):
 

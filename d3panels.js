@@ -974,7 +974,7 @@ d3panels.lod2dheatmap = function (chartOpts) {
   zthresh = (ref9 = chartOpts != null ? chartOpts.zthresh : void 0) != null ? ref9 : null; // z threshold; if |z| < zthresh, not shown
   hilitcolor = (ref10 = chartOpts != null ? chartOpts.hilitcolor : void 0) != null ? ref10 : "black"; // color of box around highlighted cell
   tipclass = (ref11 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref11 : "tooltip"; // class name for tool tips
-  tipdirection = (ref12 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref12 : "east"; // direction of tool tips
+  tipdirection = (ref12 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref12 : null; // direction of tool tips
   // chartOpts end
   // further chartOpts: chr2dpanelframe
   // accessors start
@@ -2708,7 +2708,7 @@ d3panels.curvechart = function (chartOpts) {
   linewidth = (ref4 = chartOpts != null ? chartOpts.linewidth : void 0) != null ? ref4 : 2; // width of curve
   linewidthhilit = (ref5 = chartOpts != null ? chartOpts.linewidthhilit : void 0) != null ? ref5 : 2; // width of highlighted curve
   tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip"; // class name for tool tips
-  tipdirection = (ref7 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref7 : "east"; // direction of tool tips
+  tipdirection = (ref7 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref7 : null; // direction of tool tips
   // chartOpts end
   // further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
   // accessors start
@@ -2840,7 +2840,7 @@ d3panels.dotchart = function (chartOpts) {
   pointsize = (ref12 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref12 : 3; // color of points
   jitter = (ref13 = chartOpts != null ? chartOpts.jitter : void 0) != null ? ref13 : "beeswarm"; // method for jittering points (beeswarm|random|none)
   tipclass = (ref14 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref14 : "tooltip"; // class name for tool tips
-  tipdirection = (ref15 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref15 : "east"; // direction of tool tips
+  tipdirection = (ref15 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref15 : null; // direction of tool tips
   horizontal = (ref16 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref16 : false; // whether to interchange x and y-axes
   v_over_h = (ref17 = chartOpts != null ? chartOpts.v_over_h : void 0) != null ? ref17 : horizontal; // whether vertical lines should be on top of horizontal lines
   // chartOpts end
@@ -3180,7 +3180,7 @@ d3panels.heatmap = function (chartOpts) {
   zthresh = (ref6 = chartOpts != null ? chartOpts.zthresh : void 0) != null ? ref6 : null; // z threshold; if |z| < zthresh, not shown
   hilitcolor = (ref7 = chartOpts != null ? chartOpts.hilitcolor : void 0) != null ? ref7 : "black"; // color of box around highlighted cell
   tipclass = (ref8 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref8 : "tooltip"; // class name for tool tips
-  tipdirection = (ref9 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref9 : "east"; // direction of tool tips
+  tipdirection = (ref9 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref9 : null; // direction of tool tips
   // chartOpts end
   // further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
   // accessors start
@@ -3591,7 +3591,7 @@ d3panels.add_lodcurve = function (chartOpts) {
   pointsize = (ref4 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref4 : 0; // pointsize at markers (if 0, no points plotted)
   pointstroke = (ref5 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref5 : "black"; // color of circle around points at markers
   tipclass = (ref6 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref6 : "tooltip"; // class name for tool tips
-  tipdirection = (ref7 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref7 : "east"; // direction of tool tips
+  tipdirection = (ref7 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref7 : null; // direction of tool tips
   horizontal = (ref8 = chartOpts != null ? chartOpts.horizontal : void 0) != null ? ref8 : false; // if true, chromosomes on vertical axis (xlab, ylab, etc stay the same)
   // chartOpts end
   // accessors start
@@ -3755,7 +3755,7 @@ d3panels.add_curves = function (chartOpts) {
   linewidth = (ref2 = chartOpts != null ? chartOpts.linewidth : void 0) != null ? ref2 : 2; // width (pixels) for curves
   linewidthhilit = (ref3 = chartOpts != null ? chartOpts.linewidthhilit : void 0) != null ? ref3 : 2; // width (pixels) for curves
   tipclass = (ref4 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref4 : "tooltip"; // class name for tool tips
-  tipdirection = (ref5 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref5 : "east"; // direction of tool tips (east = to the right)
+  tipdirection = (ref5 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref5 : null; // direction of tool tips
   // chartOpts end
   // accessors start
   curves = null; // select the curve
@@ -3943,7 +3943,7 @@ d3panels.add_points = function (chartOpts) {
   pointstroke = (ref2 = chartOpts != null ? chartOpts.pointstroke : void 0) != null ? ref2 : "black"; // color of points' outer circle
   jitter = (ref3 = chartOpts != null ? chartOpts.jitter : void 0) != null ? ref3 : "beeswarm"; // method for jittering NA points (beeswarm|random|none)
   tipclass = (ref4 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref4 : "tooltip"; // class name for tool tips
-  tipdirection = (ref5 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref5 : "east"; // tool tip direction (east=to the right)
+  tipdirection = (ref5 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref5 : null; // tool tip direction
   // chartOpts end
   // accessors start
   points = null; // points selection
@@ -4793,7 +4793,7 @@ d3panels.scatterplot = function (chartOpts) {
   pointsize = (ref8 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref8 : 3; // color of points
   jitter = (ref9 = chartOpts != null ? chartOpts.jitter : void 0) != null ? ref9 : "beeswarm"; // method for jittering NA points (beeswarm|random|none)
   tipclass = (ref10 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref10 : "tooltip"; // class name for tool tips
-  tipdirection = (ref11 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref11 : "west"; // direction of tool tips
+  tipdirection = (ref11 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref11 : null; // direction of tool tips
   // chartOpts end
   // further chartOpts: panelframe
   // accessors start
@@ -4949,7 +4949,7 @@ d3panels.trichart = function (chartOpts) {
   gridcolor = (ref14 = chartOpts != null ? chartOpts.gridcolor : void 0) != null ? ref14 : "white"; // color of grid lines
   gridwidth = (ref15 = chartOpts != null ? chartOpts.gridwidth : void 0) != null ? ref15 : 1; // width of grid lines in pixels
   tipclass = (ref16 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref16 : "tooltip"; // class name for tool tips
-  tipdirection = (ref17 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref17 : "east"; // direction of tool tips
+  tipdirection = (ref17 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref17 : null; // direction of tool tips
   // chartOpts end
   // accessors start
   xscale = null; // x-axis scale
@@ -5259,7 +5259,7 @@ d3panels.histchart = function (chartOpts) {
   linewidthhilit = (ref8 = chartOpts != null ? chartOpts.linewidthhilit : void 0) != null ? ref8 : 2; // width of highlighted curve
   density = (ref9 = chartOpts != null ? chartOpts.density : void 0) != null ? ref9 : true; // density scale (vs counts)
   tipclass = (ref10 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref10 : "tooltip"; // class name for tool tips
-  tipdirection = (ref11 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref11 : "east"; // direction of tool tips
+  tipdirection = (ref11 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref11 : null; // direction of tool tips
   // chartOpts end
   // further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
   // accessors start
@@ -6010,7 +6010,7 @@ d3panels.timeplot = function (chartOpts) {
   pointsize = (ref6 = chartOpts != null ? chartOpts.pointsize : void 0) != null ? ref6 : 3; // color of points
   jitter = (ref7 = chartOpts != null ? chartOpts.jitter : void 0) != null ? ref7 : "beeswarm"; // method for jittering NA points (beeswarm|random|none)
   tipclass = (ref8 = chartOpts != null ? chartOpts.tipclass : void 0) != null ? ref8 : "tooltip"; // class name for tool tips
-  tipdirection = (ref9 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref9 : "east"; // direction of tool tips
+  tipdirection = (ref9 = chartOpts != null ? chartOpts.tipdirection : void 0) != null ? ref9 : null; // direction of tool tips
   // chartOpts end
   // further chartOpts: panelframe
   // accessors start

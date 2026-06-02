@@ -38,7 +38,7 @@ addpoints(mychart, lod_data)
 - `pointsize` &mdash; pointsize at markers (if 0, no points plotted) \[default `0`\]
 - `pointstroke` &mdash; color of circle around points at markers \[default `"black"`\]
 - `tipclass` &mdash; class name for tool tips \[default `"tooltip"`\]
-- `tipdirection` &mdash; direction of tool tips \[default `"east"`\]
+- `tipdirection` &mdash; direction of tool tips \[default `null`\]
 - `horizontal` &mdash; if true, chromosomes on vertical axis (xlab, ylab, etc stay the same) \[default `false`\]
 
 

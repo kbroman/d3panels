@@ -26,7 +26,7 @@ d3panels.trichart = (chartOpts) ->
     gridcolor = chartOpts?.gridcolor ? "white"          # color of grid lines
     gridwidth = chartOpts?.gridwidth ? 1                # width of grid lines in pixels
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"     # direction of tool tips
+    tipdirection = chartOpts?.tipdirection ? null       # direction of tool tips
     # chartOpts end
     # accessors start
     xscale = null # x-axis scale

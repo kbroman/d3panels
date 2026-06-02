@@ -13,7 +13,7 @@ d3panels.timeplot = (chartOpts) ->
     pointsize = chartOpts?.pointsize ? 3                # color of points
     jitter = chartOpts?.jitter ? "beeswarm"             # method for jittering NA points (beeswarm|random|none)
     tipclass = chartOpts?.tipclass ? "tooltip"          # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"     # direction of tool tips
+    tipdirection = chartOpts?.tipdirection ? null       # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe
     # accessors start

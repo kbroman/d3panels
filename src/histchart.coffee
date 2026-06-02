@@ -15,7 +15,7 @@ d3panels.histchart = (chartOpts) ->
     linewidthhilit = chartOpts?.linewidthhilit ? 2    # width of highlighted curve
     density = chartOpts?.density ? true               # density scale (vs counts)
     tipclass = chartOpts?.tipclass ? "tooltip"        # class name for tool tips
-    tipdirection = chartOpts?.tipdirection ? "east"   # direction of tool tips
+    tipdirection = chartOpts?.tipdirection ? null     # direction of tool tips
     # chartOpts end
     # further chartOpts: panelframe (omit xNA yNA xNA_size yNA_size)
     # accessors start
