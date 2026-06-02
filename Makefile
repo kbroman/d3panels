@@ -43,6 +43,7 @@ TESTS = test/test-unique.js test/test-stats.js \
 		test/test-missing2null.js test/test-calc_midpoints.js \
 		test/test-mathfunc.js test/test-reorgByChr.js \
 		test/test-reorgLodData.js test/test-calc_freq.js \
+		test/test-padzeros.js test/test-formatdate.js \
 		test/test-index_of_nearest.js \
 		test/test-check_listarg_v_default.js \
 		test/lod2dheatmap/test_lod2dheatmap.js \

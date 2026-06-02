@@ -1,3 +1,9 @@
+## d3panels 1.9.2 (2026-06-02)
+
+- Fix function for formatting times, `d3panels.formattime()` and
+  `d3panels.formatdatetime()`.
+
+
 ## d3panels 1.9.1 (2026-06-02)
 
 - Add chart option `tipdirection` for controlling the direction of
