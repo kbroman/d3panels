@@ -1,3 +1,8 @@
+## d3panels 1.9.3 (2026-06-02)
+
+- Adjust positioning of triangle in tool tips.
+
+
 ## d3panels 1.9.2 (2026-06-02)
 
 - Fix function for formatting times, `d3panels.formattime()` and
