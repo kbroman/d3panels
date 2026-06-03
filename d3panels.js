@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.9.3"
+        version: "1.9.4"
     };
 "use strict";
 
@@ -5882,11 +5882,6 @@ d3panels.tooltip_create = function (selection, objects, options, tooltip_func) {
   fill = options != null ? options.fill : void 0;
   fontcolor = options != null ? options.fontcolor : void 0;
   fontsize = options != null ? options.fontsize : void 0;
-  tipgroup = selection.append("g").attr("class", "d3panels-tooltip " + tipclass).style("opacity", 0).datum({
-    direction: direction,
-    pad: pad
-  });
-  tipdiv = tipgroup.append("div").attr("class", "d3panels-tooltip " + tipclass);
   if (direction === "east") {
     triChar = "\u25C4"; // triangle pointing left
     triChar_shift = "-1px,-3px";
@@ -5901,7 +5896,15 @@ d3panels.tooltip_create = function (selection, objects, options, tooltip_func) {
     triChar_shift = "0,-3px";
   } else {
     d3panels.displayError("tooltip_create: invalid direction (" + direction + ")");
+    direction = "east"; // use east
+    triChar = "\u25C4"; // triangle pointing left
+    triChar_shift = "-1px,-3px";
   }
+  tipgroup = selection.append("g").attr("class", "d3panels-tooltip " + tipclass).style("opacity", 0).datum({
+    direction: direction,
+    pad: pad
+  });
+  tipdiv = tipgroup.append("div").attr("class", "d3panels-tooltip " + tipclass);
   tridiv = tipgroup.append("div").attr("class", "d3panels-tooltip-tri " + tipclass).style("transform", "translate(" + triChar_shift + ")").html(triChar);
   if (fill != null) {
     tipdiv.style("background", fill);

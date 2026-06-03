@@ -10,13 +10,6 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
     fontcolor = options?.fontcolor
     fontsize = options?.fontsize
 
-    tipgroup = selection.append("g")
-                        .attr("class", "d3panels-tooltip #{tipclass}")
-                        .style("opacity",0)
-                        .datum({direction:direction, pad:pad})
-    tipdiv = tipgroup.append("div")
-                     .attr("class", "d3panels-tooltip #{tipclass}")
-
     if direction == "east"
         triChar = '\u25C4'          # triangle pointing left
         triChar_shift = "-1px,-3px"
@@ -31,12 +24,21 @@ d3panels.tooltip_create = (selection, objects, options, tooltip_func) ->
         triChar_shift = "0,-3px"
     else
         d3panels.displayError("tooltip_create: invalid direction (#{direction})")
+        direction = "east"          # use east
+        triChar = '\u25C4'          # triangle pointing left
+        triChar_shift = "-1px,-3px"
+
+    tipgroup = selection.append("g")
+                        .attr("class", "d3panels-tooltip #{tipclass}")
+                        .style("opacity",0)
+                        .datum({direction:direction, pad:pad})
+    tipdiv = tipgroup.append("div")
+                     .attr("class", "d3panels-tooltip #{tipclass}")
 
     tridiv = tipgroup.append("div")
                      .attr("class", "d3panels-tooltip-tri #{tipclass}")
                      .style("transform", "translate(#{triChar_shift})") # adjust positioning
                      .html(triChar)
-
 
     tipdiv.style("background", fill) if fill?
     tipdiv.style("color", fontcolor) if fontcolor?

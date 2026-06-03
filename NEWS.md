@@ -1,4 +1,4 @@
-## d3panels 1.9.3 (2026-06-02)
+## d3panels 1.9.4 (2026-06-02)
 
 - Adjust positioning of triangle in tool tips.
 
