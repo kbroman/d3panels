@@ -135,7 +135,7 @@
   // Example 3: linked charts
   d3.json("data.json").then(function (data) {
     var chart1, chart2, d, data1, data2, h, halfh, hilitcolor, margin, mychart1, mychart2, pointcolor, r, svg, totalh, totalw, w;
-    pointcolor = "slateblue";
+    pointcolor = "lightblue";
     hilitcolor = "pink";
     h = 450;
     w = 900;
@@ -238,8 +238,11 @@
     // animate points
     mychart1.points().on("mouseover", function (d, i) {
       d3.select(this).attr("r", r * 3).attr("fill", hilitcolor);
+      d3panels.tooltip_show(mychart2.indtip());
+      d3panels.tooltip_text(mychart2.indtip(), data2.indID[i]);
       return chart2.selectAll("circle").attr("fill", function (d2, i2) {
         if (i2 === i) {
+          d3panels.tooltip_move(mychart2.indtip(), d3.select(this).attr("cx") * 1 + window.scrollX, d3.select(this).attr("cy") * 1 + window.scrollY + halfh + margin.top);
           return hilitcolor;
         } else {
           return pointcolor;
@@ -253,12 +256,16 @@
       });
     }).on("mouseout", function (d, i) {
       d3.select(this).attr("r", r).attr("fill", pointcolor);
+      d3panels.tooltip_hide(mychart2.indtip());
       return chart2.selectAll("circle").attr("fill", pointcolor).attr("r", r);
     });
     return mychart2.points().on("mouseover", function (d, i) {
       d3.select(this).attr("r", r * 3).attr("fill", hilitcolor);
+      d3panels.tooltip_show(mychart1.indtip());
+      d3panels.tooltip_text(mychart1.indtip(), data1.indID[i]);
       return chart1.selectAll("circle").attr("fill", function (d2, i2) {
         if (i2 === i) {
+          d3panels.tooltip_move(mychart1.indtip(), d3.select(this).attr("cx") * 1 + window.scrollX, d3.select(this).attr("cy") * 1 + window.scrollY + margin.top);
           return hilitcolor;
         } else {
           return pointcolor;
@@ -272,6 +279,7 @@
       });
     }).on("mouseout", function (d, i) {
       d3.select(this).attr("r", r).attr("fill", pointcolor);
+      d3panels.tooltip_hide(mychart1.indtip());
       return chart1.selectAll("circle").attr("fill", pointcolor).attr("r", r);
     });
   });
