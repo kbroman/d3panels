@@ -162,6 +162,7 @@ d3panels.dotchart = (chartOpts) ->
                   .attr("cx", (d) -> d.x)
                   .attr("cy", (d) -> d.y)
 
+        tipdirection = tipdirection ? (if horizontal then "north" else "east")
         indtip = d3panels.tooltip_create(d3.select("body"), points,
                                          {tipclass:tipclass, direction: tipdirection},
                                          (d,i) -> indID[i])

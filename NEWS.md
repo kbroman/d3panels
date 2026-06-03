@@ -1,3 +1,8 @@
+## d3panels 1.9.5 (2026-06-03)
+
+- In dotchart, make default tooltip direction "north" if horizontal
+
+
 ## d3panels 1.9.4 (2026-06-02)
 
 - Adjust positioning of triangle in tool tips.
