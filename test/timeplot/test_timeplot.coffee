@@ -69,7 +69,7 @@ d3.json("data.json").then (data) ->
 
 # Example 3: linked charts
 d3.json("data.json").then (data) ->
-    pointcolor = "slateblue"
+    pointcolor = "lightblue"
     hilitcolor = "pink"
     h = 450
     w = 900
@@ -129,15 +129,25 @@ d3.json("data.json").then (data) ->
               .on "mouseover", (d,i) ->
                                    d3.select(this).attr("r", r*3)
                                                   .attr("fill", hilitcolor)
+                                   d3panels.tooltip_show(mychart2.indtip())
+                                   d3panels.tooltip_text(mychart2.indtip(),
+                                                         data2.indID[i])
                                    chart2.selectAll("circle")
                                          .attr("fill", (d2,i2) ->
-                                             if i2==i then hilitcolor else pointcolor)
+                                             if i2==i
+                                                 d3panels.tooltip_move(mychart2.indtip(),
+                                                      d3.select(this).attr("cx")*1+window.scrollX,
+                                                      d3.select(this).attr("cy")*1+window.scrollY+halfh+margin.top)
+                                                 hilitcolor
+                                             else
+                                                 pointcolor)
                                          .attr("r", (d2,i2) ->
                                              if i2==i then r*3 else r)
 
               .on "mouseout", (d,i) ->
                                    d3.select(this).attr("r", r)
                                                   .attr("fill", pointcolor)
+                                   d3panels.tooltip_hide(mychart2.indtip())
                                    chart2.selectAll("circle")
                                          .attr("fill", pointcolor)
                                          .attr("r", r)
@@ -146,15 +156,25 @@ d3.json("data.json").then (data) ->
               .on "mouseover", (d,i) ->
                                    d3.select(this).attr("r", r*3)
                                                   .attr("fill", hilitcolor)
+                                   d3panels.tooltip_show(mychart1.indtip())
+                                   d3panels.tooltip_text(mychart1.indtip(),
+                                                         data1.indID[i])
                                    chart1.selectAll("circle")
                                          .attr("fill", (d2,i2) ->
-                                             if i2==i then hilitcolor else pointcolor)
+                                             if i2==i
+                                                 d3panels.tooltip_move(mychart1.indtip(),
+                                                      d3.select(this).attr("cx")*1+window.scrollX,
+                                                      d3.select(this).attr("cy")*1+window.scrollY+margin.top)
+                                                 hilitcolor
+                                             else
+                                                 pointcolor)
                                          .attr("r", (d2,i2) ->
                                              if i2==i then r*3 else r)
 
               .on "mouseout", (d,i) ->
                                    d3.select(this).attr("r", r)
                                                   .attr("fill", pointcolor)
+                                   d3panels.tooltip_hide(mychart1.indtip())
                                    chart1.selectAll("circle")
                                          .attr("fill", pointcolor)
                                          .attr("r", r)
