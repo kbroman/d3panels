@@ -1,6 +1,6 @@
 !function() { // encapsulate d3panels functions
     var d3panels = {
-        version: "1.9.4"
+        version: "1.9.5"
     };
 "use strict";
 
@@ -3058,6 +3058,7 @@ d3panels.dotchart = function (chartOpts) {
     }).attr("cy", function (d) {
       return d.y;
     });
+    tipdirection = tipdirection != null ? tipdirection : horizontal ? "north" : "east";
     indtip = d3panels.tooltip_create(d3.select("body"), points, {
       tipclass: tipclass,
       direction: tipdirection
