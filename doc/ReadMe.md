@@ -53,6 +53,7 @@ addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]
 - [`curvechart`](curvechart.md)
 - [`histchart`](histchart.md)
 - [`trichart`](trichart.md)
+- [`timeplot`](timeplot.md)
 - [`add_curves`](add_curves.md)
 - [`add_points`](add_points.md)
 
@@ -67,6 +68,7 @@ addpts(myframe, {x:[5,10,25,50,75,90], y:[8,12,50,30,80,90], group:[1,1,1,2,2,3]
 
 - [`slider`](slider.md)
 - [`double_slider`](double_slider.md)
+- [`tooltips`](tooltips.md)
 
 ### Other panels
 
