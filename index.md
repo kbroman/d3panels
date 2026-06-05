@@ -135,7 +135,7 @@ then use the chart function created by
 that first call in place of a selection. For example:
 
 ```coffeescript
-myframe = d3panels.panelframe({xlim:[0,100],ylim:[0,100]})
+myframe = d3panels.panelframe({height:300,width:500,xlim:[0,100],ylim:[0,100]})
 myframe(d3.select("body"))
 
 addpts = d3panels.add_points()
