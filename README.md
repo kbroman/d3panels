@@ -68,14 +68,14 @@ You'll need to link to the `d3panels.js` and `d3panels.css` files (or
 to `d3panels.min.js` and `d3panels.min.css`):
 
 ```html
-<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/main/d3panels.js"></script>
-<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/main/d3panels.css">
+<script type="text/javascript" src="https://kbroman.org/d3panels/assets/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://kbroman.org/d3panels/assets/d3panels.css">
 ```
 
 You'll also want to link to [D3.js](https://d3js.org):
 
 ```html
-<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
 ```
 
 
