@@ -11,7 +11,7 @@ This function takes no data.
 ### Example
 
 ```coffeescript
-mychart = d3panels.panelframe({xlim:[0,100], ylim:[0,5]})
+mychart = d3panels.panelframe({height:300, width:500, xlim:[0,100], ylim:[0,5]})
 mychart(d3.select('body'))
 ```
 
