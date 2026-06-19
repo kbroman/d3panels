@@ -1,13 +1,11 @@
-### [d3panels](https://kbroman.org/d3panels): D3-based graphic panels
+### [d3panels](https://kbroman.org/d3panels/): D3-based graphic panels
 
 [![NPM badge](https://img.shields.io/npm/v/d3panels.svg)](https://npmjs.org/package/d3panels)
 [![zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5418277.svg)](https://doi.org/10.5281/zenodo.5418277)
 
-[Karl W Broman](https://kbroman.org)
-
 This is a set of [D3](https://d3js.org)-based graphic panels, to
 be combined into larger multi-panel charts.  They were developed for
-the [R/qtlcharts](https://kbroman.org/qtlcharts) package.
+the [R/qtlcharts](https://kbroman.org/qtlcharts/) package.
 
 Note that d3panels uses
 [D3 version 7](https://github.com/d3/d3/blob/main/API.md).
@@ -19,7 +17,7 @@ use (e.g., [C3.js](https://c3js.org)); see
 but I wanted charts that were a bit _less_ general and flexible, but
 rather more specific to my particular applications (and style).
 
-For snapshots and live tests, see <https://kbroman.org/d3panels>.
+For snapshots and live tests, see <https://kbroman.org/d3panels/>.
 
 #### Documentation
 
@@ -68,14 +66,14 @@ You'll need to link to the `d3panels.js` and `d3panels.css` files (or
 to `d3panels.min.js` and `d3panels.min.css`):
 
 ```html
-<script type="text/javascript" src="https://rawgit.com/kbroman/d3panels/main/d3panels.js"></script>
-<link rel=stylesheet type="text/css" href="https://rawgit.com/kbroman/d3panels/main/d3panels.css">
+<script type="text/javascript" src="https://kbroman.org/d3panels/assets/d3panels.js"></script>
+<link rel=stylesheet type="text/css" href="https://kbroman.org/d3panels/assets/d3panels.css">
 ```
 
 You'll also want to link to [D3.js](https://d3js.org):
 
 ```html
-<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
 ```
 
 
