@@ -3,8 +3,6 @@
 [![NPM badge](https://img.shields.io/npm/v/d3panels.svg)](https://npmjs.org/package/d3panels)
 [![zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5418277.svg)](https://doi.org/10.5281/zenodo.5418277)
 
-[Karl W Broman](https://kbroman.org)
-
 This is a set of [D3](https://d3js.org)-based graphic panels, to
 be combined into larger multi-panel charts.  They were developed for
 the [R/qtlcharts](https://kbroman.org/qtlcharts) package.
