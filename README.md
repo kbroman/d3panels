@@ -1,11 +1,11 @@
-### [d3panels](https://kbroman.org/d3panels): D3-based graphic panels
+### [d3panels](https://kbroman.org/d3panels/): D3-based graphic panels
 
 [![NPM badge](https://img.shields.io/npm/v/d3panels.svg)](https://npmjs.org/package/d3panels)
 [![zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5418277.svg)](https://doi.org/10.5281/zenodo.5418277)
 
 This is a set of [D3](https://d3js.org)-based graphic panels, to
 be combined into larger multi-panel charts.  They were developed for
-the [R/qtlcharts](https://kbroman.org/qtlcharts) package.
+the [R/qtlcharts](https://kbroman.org/qtlcharts/) package.
 
 Note that d3panels uses
 [D3 version 7](https://github.com/d3/d3/blob/main/API.md).
@@ -17,7 +17,7 @@ use (e.g., [C3.js](https://c3js.org)); see
 but I wanted charts that were a bit _less_ general and flexible, but
 rather more specific to my particular applications (and style).
 
-For snapshots and live tests, see <https://kbroman.org/d3panels>.
+For snapshots and live tests, see <https://kbroman.org/d3panels/>.
 
 #### Documentation
 

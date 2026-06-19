@@ -8,7 +8,7 @@ The key functions are `d3panels.tooltip_create()`,
 and `d3panels.tooltip_destroy()`.
 
 The key function is `tooltip_create()`. As with the other functions in
-[d3panels](http://kbroman.org/d3panels), the first argument is a
+[d3panels](https://kbroman.org/d3panels/), the first argument is a
 selection in which the tooltips will be inserted. The next argument is
 a set of objects that the tooltip will be bound to. Then a set of
 options, including `direction`, `fill`, and `fontcolor`. See below.

@@ -5,7 +5,7 @@ A slider.
 ### Inputs
 
 As with the other functions in
-[d3panels](http://kbroman.org/d3panels), the first argument is a
+[d3panels](https://kbroman.org/d3panels/), the first argument is a
 selection in which the slider will be inserted.
 
 The next arguments
